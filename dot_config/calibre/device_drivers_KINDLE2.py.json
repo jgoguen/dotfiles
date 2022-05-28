@@ -1,0 +1,25 @@
+{
+  "extra_customization": [
+    true,
+    "accurate",
+    "",
+    "",
+    true
+  ],
+  "format_map": [
+    "kfx",
+    "azw4",
+    "azw3",
+    "mobi",
+    "azw",
+    "azw1",
+    "prc",
+    "tpz",
+    "pdf",
+    "txt"
+  ],
+  "read_metadata": true,
+  "save_template": "calibre/{author_sort}/{title}",
+  "use_author_sort": false,
+  "use_subdirs": true
+}

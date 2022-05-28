@@ -1,0 +1,15 @@
+{
+	"vsnip snippet": {
+		"prefix": ["snip"],
+		"body": [
+			"\t\"${1:key}\": {",
+			"\t\t\"prefix\": [\"${2:short_text}\"],",
+			"\t\t\"description\": \"${3:description}\",",
+			"\t\t\"body\": [",
+			"\t\t\t\"${4: snippet_content}\"",
+			"\t\t]",
+			"\t}"
+		],
+		"description": "Insert a vsnip snippet definition"
+	}
+}

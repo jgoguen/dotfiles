@@ -1,0 +1,131 @@
+{
+  "compile_gpm_templates": true, 
+  "default_tweak_format": "EPUB", 
+  "doubleclick_on_library_view": "edit_metadata", 
+  "generate_cover_foot_font": null, 
+  "generate_cover_title_font": null, 
+  "gui_last_modified_display_format": "yyyy MMM dd", 
+  "gui_pubdate_display_format": "yyyy MMM", 
+  "gui_timestamp_display_format": "yyyy MMM dd", 
+  "highlight_virtual_library": "yellow", 
+  "max_content_server_tags_shown": 5, 
+  "maximum_cover_size": [
+    1200, 
+    1600
+  ], 
+  "per_language_title_sort_articles": {
+    "afr": [
+      "'n\\s+", 
+      "Die\\s+"
+    ], 
+    "deu": [
+      "Der\\s+", 
+      "Die\\s+", 
+      "Das\\s+", 
+      "Den\\s+", 
+      "Ein\\s+", 
+      "Eine\\s+", 
+      "Einen\\s+", 
+      "Dem\\s+", 
+      "Des\\s+", 
+      "Einem\\s+", 
+      "Eines\\s+"
+    ], 
+    "ell": [
+      "O\\s+", 
+      "I\\s+", 
+      "To\\s+", 
+      "Ta\\s+", 
+      "Tus\\s+", 
+      "Tis\\s+", 
+      "'Enas\\s+", 
+      "'Mia\\s+", 
+      "'Ena\\s+", 
+      "'Enan\\s+"
+    ], 
+    "eng": [
+      "A\\s+", 
+      "The\\s+", 
+      "An\\s+"
+    ], 
+    "fra": [
+      "Le\\s+", 
+      "La\\s+", 
+      "L'", 
+      "Les\\s+", 
+      "Un\\s+", 
+      "Une\\s+", 
+      "Des\\s+", 
+      "De\\s+La\\s+", 
+      "De\\s+", 
+      "D'"
+    ], 
+    "hun": [
+      "A\\s+", 
+      "Az\\s+", 
+      "Egy\\s+"
+    ], 
+    "ita": [
+      "Lo\\s+", 
+      "Il\\s+", 
+      "L'", 
+      "La\\s+", 
+      "Gli\\s+", 
+      "I\\s+", 
+      "Le\\s+"
+    ], 
+    "nld": [
+      "De\\s+", 
+      "Het\\s+", 
+      "Een\\s+", 
+      "'n\\s+", 
+      "'s\\s+", 
+      "Ene\\s+", 
+      "Ener\\s+", 
+      "Enes\\s+", 
+      "Den\\s+", 
+      "Der\\s+", 
+      "Des\\s+", 
+      "'t\\s+"
+    ], 
+    "por": [
+      "A\\s+", 
+      "O\\s+", 
+      "Os\\s+", 
+      "As\\s+", 
+      "Um\\s+", 
+      "Uns\\s+", 
+      "Uma\\s+", 
+      "Umas\\s+"
+    ], 
+    "ron": [
+      "Un\\s+", 
+      "O\\s+", 
+      "Nişte\\s+"
+    ], 
+    "spa": [
+      "El\\s+", 
+      "La\\s+", 
+      "Lo\\s+", 
+      "Los\\s+", 
+      "Las\\s+", 
+      "Un\\s+", 
+      "Una\\s+", 
+      "Unos\\s+", 
+      "Unas\\s+"
+    ], 
+    "swe": [
+      "En\\s+", 
+      "Ett\\s+", 
+      "Det\\s+", 
+      "Den\\s+", 
+      "De\\s+"
+    ], 
+    "tur": [
+      "Bir\\s+"
+    ]
+  }, 
+  "series_index_auto_increment": "first_free", 
+  "server_listen_on": "0.0.0.0", 
+  "use_new_db": true
+}

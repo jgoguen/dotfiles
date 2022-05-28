@@ -1,0 +1,46 @@
+README.md
+setup.sh
+
+{{ if eq .environment "work" -}}
+collect_files.py
+dconf.sh
+install_calibre_plugins.py
+.config/1Password
+.config/calibre/
+.config/git/config.local
+.config/hg/
+.config/onedrive
+.config/mock.cfg
+.local/share/texlive/
+.netrc
+.ssh/
+.local/bin/calibre-update
+Library/
+{{- end }}
+
+{{ if ne .chezmoi.os "linux" -}}
+dconf.sh
+.fedora.upn
+.gimp-2.8/
+.config/1Password
+.config/copr
+.config/htop
+.config/mock.cfg
+.config/onedrive
+.rpmmacros
+.local/bin/calibre-update
+{{- end }}
+
+{{ if ne .chezmoi.os "darwin" -}}
+macos_defaults.sh
+Library/
+{{- end }}
+
+{{ if eq .environment "headless" -}}
+collect_files.py
+dconf.sh
+install_calibre_plugins.py
+.config/1Password
+.config/calibre
+.local/bin/calibre-update
+{{- end }}

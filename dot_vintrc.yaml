@@ -1,0 +1,4 @@
+---
+cmdargs:
+  env:
+    neovim: yes

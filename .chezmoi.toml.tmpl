@@ -1,0 +1,17 @@
+# vim: set filetype=conf noexpandtab ts=2 sts=2 sw=2 autoindent:
+# vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
+
+[data]
+	{{ $env := promptString "Chezmoi environment" -}}
+	environment = "{{ $env }}"
+	gpgkey = "FB298ABBE1D00A1C8FA4DC1FA8B51F5E8032CCE4"
+	username = "jgoguen"
+	{{ $email := promptString "Contact email" -}}
+	email = "{{ $email }}"
+
+	[data.github]
+		email = "jgoguen@users.noreply.github.com"
+		gpgkey = "FB298ABBE1D00A1C8FA4DC1FA8B51F5E8032CCE4"
+
+[onepassword]
+	command = "/usr/local/bin/op"

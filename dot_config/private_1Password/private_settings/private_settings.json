@@ -1,0 +1,10 @@
+{
+  "$schema": "https://onepassword.s3.amazonaws.com/schema/settings.json",
+  "app.keepInTray": true,
+  "app.theme": "dark",
+  "security.clipboard.clearAfter": 60,
+  "security.autolock.minutes": 60,
+  "security.autolock.onWindowClose": false,
+  "security.autolock.onDeviceLock": true,
+  "security.authenticatedUnlock.enabled": true
+}

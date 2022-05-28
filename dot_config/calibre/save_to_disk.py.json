@@ -1,0 +1,14 @@
+{
+  "asciiize": true,
+  "formats": "all",
+  "replace_whitespace": false,
+  "save_cover": true,
+  "send_template": "calibre/{author_sort}/{title}",
+  "send_timefmt": "%Y-%m-%d",
+  "single_dir": false,
+  "template": "{author_sort}/{title}/{title} - {authors}",
+  "timefmt": "%Y-%m-%d",
+  "to_lowercase": false,
+  "update_metadata": true,
+  "write_opf": true
+}

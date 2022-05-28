@@ -1,0 +1,117 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """\
+$command_duration\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$docker_context\
+$c\
+$dotnet\
+$golang\
+$lua\
+$perl\
+$php\
+$python\
+$ruby\
+$rust\
+$sudo\
+$battery\
+$line_break\
+$status\
+$character\
+"""
+
+[username]
+show_always = true
+style_user = "bold blue"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+style = "bold green"
+format = " on [$hostname]($style)"
+
+[directory]
+truncation_length = 8
+truncate_to_repo = false
+truncation_symbol = '.../'
+style = "bold yellow"
+read_only = " "
+format = " in [$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[hg_branch]
+symbol = " "
+style = "bold purple"
+
+[git_commit]
+style = "bold cyan"
+
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+map_symbol = true
+pipestatus = true
+
+[sudo]
+disabled = false
+
+[character]
+success_symbol = "[%%](bold white)"
+error_symbol = "[%%](bold red)"
+
+[custom.hgcommit]
+command = "hg_commit.sh"
+when = "hg st"
+format = "[on](bold white) [$output]($style)"
+style = "bold purple"
+
+[custom.hgremote]
+command = "hg_remote_name.sh"
+when = "hg st"
+style = "bold cyan"
+
+[custom.hgstate]
+command = "hg_state.sh"
+when = "hg st"
+format = "[($output)]($style)"
+style = "bold yellow"
+
+[custom.hgstatus]
+command = "hg_status.sh"
+when = "hg st"
+style = "bold red"
+
+[memory_usage]
+disabled = false
+
+[c]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[package]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rust]
+symbol = " "
+

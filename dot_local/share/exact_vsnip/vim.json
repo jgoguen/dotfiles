@@ -1,0 +1,7 @@
+{
+	"Plug": {
+		"prefix": ["plug"],
+		"body": ["Plug '$0'"],
+		"description": "Install a plugin using vim-plug"
+	}
+}
