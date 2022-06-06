@@ -160,7 +160,14 @@ done
 
 NODE_PATH="${HOME}/.local/lib/node_modules:${NODE_PATH}"
 
-MANPATH="${HOME}/.local/share/man:$(manpath)"
+MANPATH="${HOME}/.local/share/man"
+MANPATH_BIN="$(command -v manpath)"
+if [ -n "${MANPATH_BIN}" ]; then
+	MANPATH="${MANPATH}:$(manpath)"
+else
+	MANPATH="${MANPATH}:$(man -w)"
+fi
+export MANPATH
 
 MY_TTY=$(/usr/bin/tty)
 if [ -n "${MY_TTY}" ]; then
