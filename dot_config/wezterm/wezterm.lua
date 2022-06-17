@@ -2,6 +2,8 @@ local wezterm = require 'wezterm'
 
 local config = {
 	bold_brightens_ansi_colors = true,
+	clean_exit_codes = {130},
+	color_scheme = "tokyonight",
 	font = wezterm.font_with_fallback({
 		"FiraCode Nerd Font Mono",
 		"FiraCode Nerd Font",
