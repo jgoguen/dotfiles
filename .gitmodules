@@ -1,3 +1,0 @@
-[submodule "dot_local/share/nvim/site/pack/packer/start/packer.nvim"]
-	path = dot_local/share/nvim/site/pack/packer/start/packer.nvim
-	url = https://github.com/wbthomason/packer.nvim
