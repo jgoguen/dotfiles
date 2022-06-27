@@ -1,0 +1,4 @@
+[submodule "dot_config/nvim"]
+	path = dot_config/nvim
+	url = https://github.com/AstroNvim/AstroNvim
+	branch = main
