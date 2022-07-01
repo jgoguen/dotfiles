@@ -3,7 +3,13 @@
 
 Host github.com
 	IdentitiesOnly yes
-	IdentityFile ~/.ssh/github
+	IdentityFile ~/.ssh/git
+	PreferredAuthentications publickey
+	User git
+
+Host codeberg.org
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/git
 	PreferredAuthentications publickey
 	User git
 
