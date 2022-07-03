@@ -75,8 +75,6 @@ let g:airline#extensions#tagbar#flags = 'fs'
 " Allow a limited number of spaces after tabs, but not between or before
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
-let g:airline_theme = 'tokyonight'
-
 " For Python files, allow any number of spaces after tabs (but not between or
 " before)
 augroup airline_user_config
