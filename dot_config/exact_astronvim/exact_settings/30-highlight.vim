@@ -4,6 +4,7 @@
 
 highlight Search ctermbg=Yellow ctermfg=Black
 highlight TagbarHighlight ctermfg=15 ctermbg=33 cterm=NONE
+
 " Show trailing whitespaces and tabs.
 highlight ExtraWhitespace ctermbg=red guibg=red
 highlight SpellBad ctermbg=red guibg=red ctermfg=black guifg=black
@@ -14,8 +15,17 @@ highlight Folded ctermfg=Black guifg=Black ctermbg=DarkGrey guibg=DarkGrey
 " The sign column has the same background as the rest of vim
 highlight clear SignColumn
 
+" Make the line numbers more visible
+highlight LineNr ctermfg=white guifg=white
+highlight CursorLineNr NONE
+highlight link CursorLineNr LineNr
+
 " Pop-up menu highlighting [[[
 highlight Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
 highlight PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
 highlight PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+" ]]]
+
+" Tokyonight theme overrides [[[
+highlight Comment ctermfg=LightGrey guifg=LightGrey
 " ]]]
