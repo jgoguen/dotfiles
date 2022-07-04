@@ -8,6 +8,7 @@ return {
 
 	{
 		'crispgm/nvim-go',
+		ft = { 'go' },
 		config = function()
 			require('go').setup({
 				auto_lint = false,
@@ -36,8 +37,15 @@ return {
 			})
 		end,
 	},
-	{ 'gpanders/editorconfig.nvim' },
+	{
+		'gpanders/editorconfig.nvim',
+		cond = function()
+			local cwd = vim.fn.getcwd()
+			return vim.fn.filereadable(cwd .. '/.editorconfig')
+		end,
+	},
 	{ 'jgoguen/tmpl.vim' },
+	{ 'junegunn/vader.vim' },
 	{
 		'kosayoda/nvim-lightbulb',
 		requires = {
@@ -62,22 +70,40 @@ return {
 		end,
 	},
 	{ 'nvim-telescope/telescope-symbols.nvim' },
-	{ 'pangloss/vim-javascript' },
-	{ 'pearofducks/ansible-vim' },
+	{
+		'pangloss/vim-javascript',
+		ft = { 'javascript' },
+	},
+	{
+		'pearofducks/ansible-vim',
+		ft = { 'ansible', 'yaml.ansible' },
+	},
 	{
 		'plasticboy/vim-markdown',
 		requires = {
 			{ 'vim-pandoc/vim-pandoc-syntax' },
 		},
+		ft = { 'markdown','pandoc.markdown' },
 	},
 	{ 'preservim/nerdcommenter' },
-	{ 'preservim/vimux' },
+	{
+		'preservim/vimux',
+		cond = function()
+			local tmux_var = vim.fn.expand('$TMUX')
+			return tmux_var ~= '$TMUX'
+		end,
+	},
 	{ 'ryanoasis/vim-devicons' },
 	{
 		's1n7ax/nvim-window-picker',
 		tag = 'v1.*',
+		after = { 'neo-tree.nvim' },
 	},
-	{ 'simrat39/symbols-outline.nvim' },
+	{
+		'simrat39/symbols-outline.nvim',
+		cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
+		keys = { '<F8>' },
+	},
 	{ 'tmux-plugins/vim-tmux' },
 	{
 		'vim-airline/vim-airline',
@@ -86,7 +112,14 @@ return {
 			{ 'vim-airline/vim-airline-themes' },
 		},
 	},
-	{ 'vim-python/python-syntax' },
+	{
+		'vim-latex/vim-latex',
+		ft = { 'latex', 'tex' }
+	},
+	{
+		'vim-python/python-syntax',
+		ft = { 'python' },
+	},
 	{
 		'weilbith/nvim-code-action-menu',
 		cmd = 'CodeActionMenu',
