@@ -202,6 +202,7 @@ local options = {
 		},
 
 		tex_flavor = "xelatex",
+		Tex_CompileRule_pdf = 'xelatex --interaction=nonstopmode $*',
 
 		tokyonight_style = "night",
 		tokyonight_sidebars = {
