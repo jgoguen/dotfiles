@@ -47,6 +47,10 @@ return {
 	{ 'jgoguen/tmpl.vim' },
 	{ 'junegunn/vader.vim' },
 	{
+		'kevinhwang91/nvim-ufo',
+		requires = 'kevinhwang91/promise-async'
+	},
+	{
 		'kosayoda/nvim-lightbulb',
 		requires = {
 			{ 'antoinemadec/FixCursorHold.nvim' },

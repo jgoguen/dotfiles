@@ -8,6 +8,11 @@ local M = {}
 
 M.capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+M.capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 M.on_attach = function(_, bufnr)

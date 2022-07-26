@@ -9,7 +9,7 @@ local options = {
 		-- Set intelligent case insensitivity when searching [[[
 		ignorecase = true,
 		smartcase = true,
-		tagcase = "followscs",
+		tagcase = 'followscs',
 		-- ]]]
 
 		-- Configure indentation handling [[[
@@ -40,14 +40,12 @@ local options = {
 		-- ]]]
 
 		-- Configure folding [[[
-		-- Fold second-level and higher folds by default
-		foldlevel = 2,
-
-		-- Fold using markers by default
-		foldmethod = "marker",
-
-		-- Dynamically determine the text shown when a region is folded
-		foldtext = "folding#CustomFoldText()",
+		-- Needed for nvim-ufo to properly manage folding
+		foldcolumn = '1',
+		foldlevel = 99,
+		foldlevelstart = 99,
+		foldenable = true,
+		foldmethod = 'manual',
 		-- ]]]
 
 		-- Configure search match highlighting [[[
@@ -87,10 +85,10 @@ local options = {
 		-- ]]]
 
 		-- Set display appropriate for dark backgrounds
-		background = "dark",
+		background = 'dark',
 
 		-- Highlight the column following 'textwidth'
-		colorcolumn = "+1",
+		colorcolumn = '+1',
 
 		-- Concealed text is hidden unless there's a custom replacement character
 		conceallevel = 2,
@@ -139,17 +137,17 @@ local options = {
 		updatetime = 100,
 
 		-- Do not write a viminfo file
-		viminfofile = "NONE",
+		viminfofile = 'NONE',
 
 		-- Allow a cursor to be placed where there's no character in Visual mode
-		virtualedit = "block",
+		virtualedit = 'block',
 
 		mouse = '',
 		number = true,
 		relativenumber = true,
 	},
 	g = {
-		mapleader = "`",
+		mapleader = '`',
 
 		-- Turn off things we don't want loaded by default [[[
 		-- Do not load default menus
@@ -184,8 +182,8 @@ local options = {
 		neo_tree_remove_legacy_commands = 1,
 		-- ]]]
 
-		html_indent_script1 = "inc",
-		html_indent_style1 = "inc",
+		html_indent_script1 = 'inc',
+		html_indent_style1 = 'inc',
 
 		-- Enable vim-javascript highlighting for JSDocs
 		javascript_plugin_jsdoc = 1,
@@ -201,10 +199,10 @@ local options = {
 			auto_preview = false,
 		},
 
-		tex_flavor = "xelatex",
+		tex_flavor = 'xelatex',
 		Tex_CompileRule_pdf = 'xelatex --interaction=nonstopmode $*',
 
-		tokyonight_style = "night",
+		tokyonight_style = 'night',
 		tokyonight_sidebars = {
 			'qf', 'vista_kind', 'terminal', 'packer', 'NvimTree', 'Fern', 'Tagbar', 'Outline',
 		},

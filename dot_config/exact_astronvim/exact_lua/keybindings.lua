@@ -23,7 +23,7 @@ local bindings = {
 		["<C-Left>"] = {'<C-w><', {silent = true}},
 		["<C-Right>"] = {'<C-w>>', {silent = true}},
 
-		["<C-t>"] = [[<CMD>lua require('FTerm').toggle()<CR>]],
+		["<C-c>"] = [[<CMD>lua require('FTerm').toggle()<CR>]],
 
 		-- Move between tabs
 		["<C-S-Right>"] = {'<CMD>tabnext<CR>', {silent = true}},
@@ -85,7 +85,10 @@ local bindings = {
 		n = 'nzzzv',
 		N = 'Nzzzv',
 		-- Mark a word as rare
-		["z?"] = {'<CMD>execute ":spellrare " .'}
+		["z?"] = {'<CMD>execute ":spellrare " .'},
+
+		['zR'] = [[require('ufo').openAllFolds]],
+		['zM'] = [[require('ufo').closeAllFolds]],
 	},
 	t = {
 		["<C-t>"] = '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>',
