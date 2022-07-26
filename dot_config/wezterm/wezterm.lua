@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm'
+local has_site, site_config = pcall(require, 'wezterm_local')
 
 local config = {
 	bold_brightens_ansi_colors = true,
@@ -8,8 +9,6 @@ local config = {
 		"FiraCode Nerd Font Mono",
 		"FiraCode Nerd Font",
 	}),
-	font_antialias = "Subpixel",
-	font_hinting = "Full",
 	harfbuzz_features = { "ss02", "ss03", "ss05", "ss07" },
 	window_close_confirmation = "NeverPrompt",
 	keys = {
@@ -28,16 +27,8 @@ local config = {
 	selection_word_boundary = " \t\n{}[]()\"'`:",
 }
 
-local config_dir = os.getenv("XDG_CONFIG_HOME")
-if config_dir == nil then
-	config_dir = os.getenv("HOME") .. "/.config"
-end
-local local_file = config_dir .. "/wezterm/wezterm.local.lua"
-
-local local_f = io.open(local_file, "r")
-if local_f ~= nil then
-	io.close(local_f)
-	dofile(local_file)
+if has_site then
+	config = site_config.update_config(config)
 end
 
 return config
