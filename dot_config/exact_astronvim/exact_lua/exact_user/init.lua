@@ -124,7 +124,7 @@ local config = {
 		end
 
 		local xdg_config = os.getenv('XDG_CONFIG_HOME')
-		if xdg_config = nil then
+		if xdg_config == nil then
 			xdg_config = os.getenv('HOME') .. '/.config'
 		end
 		print(xdg_config)
