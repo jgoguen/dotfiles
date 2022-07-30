@@ -173,3 +173,7 @@ MY_TTY=$(/usr/bin/tty)
 if [ -n "${MY_TTY}" ]; then
 	export GPG_TTY="${MY_TTY}"
 fi
+
+if [ -f "${HOME}/.zshenv.local" ]; then
+	. "${HOME}/.zshenv.local"
+fi
