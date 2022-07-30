@@ -127,7 +127,6 @@ local config = {
 		if xdg_config == nil then
 			xdg_config = os.getenv('HOME') .. '/.config'
 		end
-		print(xdg_config)
 
 		if vim.fn.filereadable(xdg_config .. '/vim-local.vim') then
 			vim.cmd('source ' .. xdg_config .. '/vim-local.vim')
