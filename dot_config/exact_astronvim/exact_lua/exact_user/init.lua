@@ -128,11 +128,11 @@ local config = {
 			xdg_config = os.getenv('HOME') .. '/.config'
 		end
 
-		if vim.fn.filereadable(xdg_config .. '/vim-local.vim') then
+		if vim.fn.filereadable(xdg_config .. '/vim-local.vim') ~= 0 then
 			vim.cmd('source ' .. xdg_config .. '/vim-local.vim')
 		end
 
-		if vim.fn.filereadable(xdg_config .. '/vim-local.lua') then
+		if vim.fn.filereadable(xdg_config .. '/vim-local.lua') ~= 0 then
 			vim.cmd('source ' .. xdg_config .. '/vim-local.lua')
 		end
 	end,
