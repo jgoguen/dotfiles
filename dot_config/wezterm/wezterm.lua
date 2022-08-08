@@ -8,6 +8,8 @@ local config = {
 	font = wezterm.font_with_fallback({
 		"FiraCode Nerd Font Mono",
 		"FiraCode Nerd Font",
+		"Fira Code",
+		"Noto Sans CJK JP",
 	}),
 	harfbuzz_features = { "ss02", "ss03", "ss05", "ss07" },
 	window_close_confirmation = "NeverPrompt",
