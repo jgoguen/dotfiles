@@ -26,9 +26,9 @@ def main() -> int:
     files = {}
 
     for op_doc in op_docs:
-        for tag in op_doc["overview"].get("tags", []):
+        for tag in op_doc.get("tags", []):
             if tag.startswith("chezmoi_file:"):
-                files[op_doc["uuid"]] = tag.split(":", 2)[1]
+                files[op_doc["id"]] = tag.split(":", 2)[1]
                 break
 
     excludes = []
