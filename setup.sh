@@ -140,13 +140,13 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 		/bin/mkdir -p "${HOME}/.ssh"
 	fi
 
-	${OP_BIN} get document g5e5zo2sgpkwum6npqbt6l7ari >"${HOME}/.ssh/github"
+	${OP_BIN} document get g5e5zo2sgpkwum6npqbt6l7ari >"${HOME}/.ssh/github"
 	/bin/chmod 0600 "${HOME}/.ssh/github"
 	/usr/bin/ssh-keygen -y -f "${HOME}/.ssh/github" >"${HOME}/.ssh/github.pub"
 	/bin/chmod -R go-rwx "${HOME}/.ssh"
 
 	/usr/local/bin/op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
-	printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:' | gpg --import-ownertrust
+	printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:\n' | gpg --import-ownertrust
 
 	$(command -v git) clone --config core.sshCommand="ssh -i ${HOME}/.ssh/github" git@github.com:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
 	cd "${HOME}/.local/share/chezmoi"
