@@ -66,8 +66,8 @@ pipestatus = true
 disabled = false
 
 [character]
-success_symbol = "[%%](bold white)"
-error_symbol = "[%%](bold red)"
+success_symbol = "[%](bold white)"
+error_symbol = "[%](bold red)"
 
 [custom.hgcommit]
 command = "hg_commit.sh"
