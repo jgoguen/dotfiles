@@ -15,10 +15,6 @@ local config = {
 		show_changelog = true,
 	},
 
-	ui = {
-		telescope_select = true,
-	},
-
 	colorscheme = 'tokyonight',
 
 	polish = function()

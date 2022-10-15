@@ -1,10 +1,13 @@
 return {
 	['akinsho/bufferline.nvim'] = { disable = true },
 	['akinsho/toggleterm.nvim'] = { disable = true },
-	['feline-nvim/feline.nvim'] = { disable = true },
 	['goolord/alpha-nvim'] = { disable = true },
 	['Shatur/neovim-session-manager'] = { disable = true },
 	['stevearc/aerial.nvim'] = { disable = true },
+
+	['mehalter/nvim-window-picker'] = {
+		after = { 'neo-tree.nvim' },
+	},
 
 	{
 		'crispgm/nvim-go',
@@ -87,7 +90,7 @@ return {
 		requires = {
 			{ 'vim-pandoc/vim-pandoc-syntax' },
 		},
-		ft = { 'markdown','pandoc.markdown' },
+		ft = { 'markdown', 'pandoc.markdown' },
 	},
 	{ 'preservim/nerdcommenter' },
 	{
@@ -98,11 +101,6 @@ return {
 		end,
 	},
 	{ 'ryanoasis/vim-devicons' },
-	{
-		's1n7ax/nvim-window-picker',
-		tag = 'v1.*',
-		after = { 'neo-tree.nvim' },
-	},
 	{
 		'simrat39/symbols-outline.nvim',
 		cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
