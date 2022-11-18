@@ -7,10 +7,10 @@
     true
   ],
   "format_map": [
-    "kfx",
     "azw4",
     "azw3",
     "mobi",
+    "kfx",
     "azw",
     "azw1",
     "prc",
