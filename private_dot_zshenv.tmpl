@@ -70,7 +70,6 @@ export CLICOLOR=1
 NVIM="$(command -v nvim)"
 if [ -n "${NVIM}" ]; then
 	export EDITOR="${NVIM}"
-	export MANPAGER="${NVIM} +Man!"
 elif [ -n "$(command -v vim)" ]; then
 	export EDITOR="$(command -v vim)"
 else
@@ -160,9 +159,9 @@ done
 
 NODE_PATH="${HOME}/.local/lib/node_modules:${NODE_PATH}"
 
-MAN_BIN="$(command -v man)"
+MAN_BIN="$(command -v manpath)"
 if [ -n "${MAN_BIN}" ]; then
-	MANPATH="${HOME}/.local/share/man:$(man -w)"
+	MANPATH="${HOME}/.local/share/man:$(manpath)"
 	export MANPATH
 fi
 
