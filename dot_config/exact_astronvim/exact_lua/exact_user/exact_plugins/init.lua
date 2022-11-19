@@ -5,10 +5,6 @@ return {
 	['Shatur/neovim-session-manager'] = { disable = true },
 	['stevearc/aerial.nvim'] = { disable = true },
 
-	['mehalter/nvim-window-picker'] = {
-		after = { 'neo-tree.nvim' },
-	},
-
 	{
 		'crispgm/nvim-go',
 		ft = { 'go' },
@@ -38,13 +34,6 @@ return {
 				auto_preview = false,
 				use_diagnostic_signs = true,
 			})
-		end,
-	},
-	{
-		'gpanders/editorconfig.nvim',
-		cond = function()
-			local cwd = vim.fn.getcwd()
-			return vim.fn.filereadable(cwd .. '/.editorconfig')
 		end,
 	},
 	{ 'jgoguen/tmpl.vim' },

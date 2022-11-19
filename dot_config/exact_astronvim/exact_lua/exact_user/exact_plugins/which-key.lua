@@ -1,5 +1,0 @@
-return {
-	plugins = {
-		marks = false,
-	},
-}
