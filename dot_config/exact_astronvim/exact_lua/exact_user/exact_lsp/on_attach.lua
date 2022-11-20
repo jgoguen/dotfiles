@@ -26,4 +26,16 @@ return function(client, bufnr)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 	buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+	if client.server_capabilities.document_formatting then
+		vim.api.nvim_create_augroup("format_on_save", { clear = true })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			desc = "Auto format before save",
+			group = "format_on_save",
+			pattern = "<buffer>",
+			callback = function()
+				vim.lsp.buf.formatting_sync { async = true }
+			end,
+		})
+	end
 end

@@ -16,7 +16,6 @@ return {
 		-- ]]]
 
 		-- Diagnostics [[[
-		null_ls.builtins.diagnostics.editorconfig_checker,
 		null_ls.builtins.diagnostics.vint,
 		null_ls.builtins.diagnostics.zsh,
 		-- ]]]
