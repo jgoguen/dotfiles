@@ -32,6 +32,9 @@ show_always = true
 style_user = "bold blue"
 format = "[$user]($style)"
 
+[[battery.display]]
+threshold = 50
+
 [hostname]
 ssh_only = true
 style = "bold green"
@@ -91,11 +94,11 @@ command = "hg_status.sh"
 when = "hg st"
 style = "bold red"
 
-[memory_usage]
-disabled = false
-
 [c]
 symbol = " "
+
+[memory_usage]
+disabled = false
 
 [golang]
 symbol = " "
