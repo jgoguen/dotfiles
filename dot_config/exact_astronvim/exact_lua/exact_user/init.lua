@@ -99,12 +99,6 @@ local config = {
 			error('Python 3 not found')
 		end
 
-		if vim.fn.has('patch-8.1.1564') then
-			vim.opt.signcolumn = "number"
-		else
-			vim.opt.signcolumn = "yes"
-		end
-
 		if vim.fn.executable("rg") then
 			vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
 			vim.opt.grepformat = "%f:%l:%c:%m"

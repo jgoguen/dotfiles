@@ -145,6 +145,7 @@ local options = {
 		mouse = '',
 		number = true,
 		relativenumber = true,
+		signcolumn = "auto:3"
 	},
 	g = {
 		mapleader = '`',
@@ -222,7 +223,8 @@ local options = {
 		vim_markdown_new_list_item_indent = 2,
 		vim_markdown_edit_url_in = 'tab',
 
-		xdg_config_home = os.getenv('XDG_CONFIG_HOME') ~= nil and os.getenv('XDG_CONFIG_HOME') or os.getenv('HOME') .. '/.config'
+		xdg_config_home = os.getenv('XDG_CONFIG_HOME') ~= nil and os.getenv('XDG_CONFIG_HOME') or
+				os.getenv('HOME') .. '/.config'
 	},
 }
 
