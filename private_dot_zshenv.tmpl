@@ -85,6 +85,8 @@ export HISTFILE="${HOME}/.cache/zsh_history"
 export HISTSIZE=250000000
 
 {{ if eq .chezmoi.os "darwin" -}}
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_GITHUB_API_TOKEN="{{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 20 "value" }}"
 export LSCOLORS=ExFxCxDxBxegedabagacad
 {{- else }}
@@ -160,7 +162,7 @@ done
 NODE_PATH="${HOME}/.local/lib/node_modules:${NODE_PATH}"
 
 MAN_BIN="$(command -v manpath)"
-if [ -n "${MAN_BIN}" ]; then
+if [ -n "${MAN_BIN}" ] && [ -z "${MANPATH}" ]; then
 	MANPATH="${HOME}/.local/share/man:$(manpath)"
 	export MANPATH
 fi
