@@ -10,7 +10,7 @@ return {
 		},
 		runtime = {
 			version = "LuaJIT",
-			path = runtime_path,
+			-- path = runtime_path,
 		},
 		diagnostics = {
 			globals = { "require", "vim" },
