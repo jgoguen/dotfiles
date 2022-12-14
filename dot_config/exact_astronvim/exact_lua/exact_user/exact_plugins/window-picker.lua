@@ -4,7 +4,7 @@ return {
   filter_rules = {
     bo = {
       -- if the file type is one of following, the window will be ignored
-      filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+      filetype = { 'neo-tree', "neo-tree-popup", "notify", "Trouble" },
       -- if the buffer type is one of following, the window will be ignored
       buftype = { 'terminal', "quickfix" },
     },
