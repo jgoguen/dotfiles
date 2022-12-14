@@ -13,11 +13,11 @@ Host codeberg.org
 	PreferredAuthentications publickey
 	User git
 
-Include "~/.ssh/config.local"
-
 Host *
 	ForwardX11 no
 	ForwardX11Trusted no
 	HashKnownHosts no
 	IdentityFile ~/.ssh/id_ed25519
 	ServerAliveInterval 30
+
+Include "~/.ssh/config.local"
