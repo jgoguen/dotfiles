@@ -3,7 +3,7 @@ local has_site, site_config = pcall(require, 'wezterm_local')
 
 local config = {
 	bold_brightens_ansi_colors = true,
-	clean_exit_codes = {130},
+	clean_exit_codes = { 130 },
 	color_scheme = "tokyonight",
 	font = wezterm.font_with_fallback({
 		"FiraCode Nerd Font Mono",
@@ -11,6 +11,7 @@ local config = {
 		"Fira Code",
 		"Noto Sans CJK JP",
 	}),
+	font_size = 13,
 	harfbuzz_features = { "ss02", "ss03", "ss05", "ss07" },
 	window_close_confirmation = "NeverPrompt",
 	keys = {
