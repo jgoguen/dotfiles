@@ -38,8 +38,15 @@ return {
       never_show = {
         ".DS_Store",
         "thumbs.db",
+        "node_modules",
+        "__pycache__",
       },
     },
     use_libuv_file_watcher = true,
+  },
+  git_status = {
+    window = {
+      position = "float",
+    },
   },
 }
