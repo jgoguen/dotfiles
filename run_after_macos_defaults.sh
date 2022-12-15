@@ -35,9 +35,6 @@ set -eux
 /usr/bin/defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true
 /usr/bin/defaults write -globalDomain WebKitDeveloperExtras -bool true
 
-/usr/bin/defaults write com.agilebits.onepassword7 KeepHelperRunning -bool true
-/usr/bin/defaults write com.agilebits.onepassword7 ShowCopyUUIDItemMenu -bool true
-
 /usr/bin/defaults write com.apple.ActivityMonitor ShowCategory -int 100
 /usr/bin/defaults write com.apple.ActivityMonitor SortColumn -string CPUUsage
 /usr/bin/defaults write com.apple.ActivityMonitor SortDirection -int 0
@@ -79,21 +76,31 @@ set -eux
 /usr/bin/defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 /usr/bin/defaults write com.apple.dock autohide -bool false
+/usr/bin/defaults write com.apple.dock autohide-delay -float 0
+/usr/bin/defaults write com.apple.dock autohide-time-modifier -int 0
+/usr/bin/defaults write com.apple.dock largesize -int 50
+/usr/bin/defaults write com.apple.dock magnification -bool true
 /usr/bin/defaults write com.apple.dock mru-spaces -bool false
+/usr/bin/defaults write com.apple.dock orientation -string left
 /usr/bin/defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 /usr/bin/defaults write com.apple.dock show-recents -bool false
+/usr/bin/defaults write com.apple.dock tilesize -int 33
 # wvous-bl-*: Bottom-left corner starts screensaver
 /usr/bin/defaults write com.apple.dock wvous-bl-corner -int 13
 /usr/bin/defaults write com.apple.dock wvous-bl-modifier -int 0
 
 /usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 /usr/bin/defaults write com.apple.finder _FXSortFoldersFirst -bool true
+/usr/bin/defaults write com.apple.finder FXArrangeGroupViewBy -string Name
+/usr/bin/defaults write com.apple.finder FXPreferredGroupBy -string Name
 /usr/bin/defaults write com.apple.finder FXPreferredViewStyle -string icnv
+/usr/bin/defaults write com.apple.finder FXRemoveOldTrashItems -bool true
 /usr/bin/defaults write com.apple.finder QLEnableTextSelection -bool true
 /usr/bin/defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
 /usr/bin/defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
 /usr/bin/defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 /usr/bin/defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+/usr/bin/defaults write com.apple.finder ShowSidebar -bool true
 
 /usr/bin/defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
 
@@ -184,5 +191,6 @@ osascript -e 'tell application "System Preferences" to quit'
 /usr/bin/sudo /usr/bin/chflags nohidden /Volumes
 
 # Keep this at the end!
-# Restart Finder
+# Restart Finder and Dock
 /usr/bin/killall Finder
+/usr/bin/killall Dock
