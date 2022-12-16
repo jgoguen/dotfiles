@@ -79,7 +79,6 @@ return {
     },
     ft = { 'markdown', 'pandoc.markdown' },
   },
-  { 'preservim/nerdcommenter' },
   {
     'preservim/vimux',
     cond = function()
