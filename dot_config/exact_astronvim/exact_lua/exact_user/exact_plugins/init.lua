@@ -2,6 +2,7 @@ return {
   ['akinsho/bufferline.nvim'] = { disable = true },
   ['akinsho/toggleterm.nvim'] = { disable = true },
   ["Darazaki/indent-o-matic"] = { disable = true },
+  ['folke/which-key.nvim'] = { disable = true },
   ['goolord/alpha-nvim'] = { disable = true },
   ['Shatur/neovim-session-manager'] = { disable = true },
   ['stevearc/aerial.nvim'] = { disable = true },
@@ -39,10 +40,6 @@ return {
   },
   { 'jgoguen/tmpl.vim' },
   { 'junegunn/vader.vim' },
-  {
-    'kevinhwang91/nvim-ufo',
-    requires = 'kevinhwang91/promise-async'
-  },
   {
     'kosayoda/nvim-lightbulb',
     requires = {
