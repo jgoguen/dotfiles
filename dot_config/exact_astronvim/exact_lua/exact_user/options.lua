@@ -1,3 +1,6 @@
+local py3_venv = vim.fn.stdpath('data') .. '/venv/bin/python3'
+local py3_path = vim.fn.resolve(vim.fn.exepath('python3'))
+
 local options = {
   opt = {
     -- Do not write backup or swap files [[[
@@ -28,6 +31,10 @@ local options = {
     shiftwidth = 2,
     softtabstop = 2,
     tabstop = 2,
+
+    -- Allow backspacing over everything in insert mode, C-w and C-u do not stop
+    -- at start of insert
+    backspace = 'indent,eol,nostop',
     -- ]]]
 
     -- Automatically read and write files appropriately [[[
@@ -40,12 +47,11 @@ local options = {
     -- ]]]
 
     -- Configure folding [[[
-    -- Needed for nvim-ufo to properly manage folding
-    foldcolumn = '1',
-    foldlevel = 99,
-    foldlevelstart = 99,
     foldenable = true,
-    foldmethod = 'manual',
+    foldmethod = 'marker',
+
+    -- Set a custom foldmarker to not conflict with templates
+    foldmarker = '[[[,]]]',
     -- ]]]
 
     -- Configure search match highlighting [[[
@@ -58,6 +64,24 @@ local options = {
 
     -- Configure list characters display (list and listchars) [[[
     list = true,
+
+    -- listchars options [[[
+    -- tab:xy - Print x, then y as many times as possible in the tab space
+    -- trail - Character to show for trailing spaces
+    -- extends - Character to show when 'wrap' is off and line extends off-screen
+    -- precedes - Character to show when line extends left off screen
+    -- nbsp - Character to show for a non-breakable space
+    -- conceal - Character to show for concealed text when conceallevel is 1
+    -- ]]]
+    listchars = {
+      tab = '▷ ',
+      trail = '•',
+      extends = '»',
+      precedes = '«',
+      nbsp = '✖',
+      conceal = '≠',
+    },
+    -- ]]]
 
     -- Configure splits [[[
     -- Open splits below the current one by default
@@ -145,7 +169,50 @@ local options = {
     mouse = '',
     number = true,
     relativenumber = true,
-    signcolumn = "auto:3"
+    signcolumn = "auto:3",
+
+    -- Influence insert-mode completion
+    completeopt = {
+      'longest',
+      'menu',
+      'menuone',
+      'preview',
+      'noinsert',
+    },
+
+    -- Set characters for filling
+    fillchars = {
+      vert = '┃',
+      fold = ' ',
+      diff = '-',
+      eob = ' ',
+      msgsep = '‾',
+    },
+
+    -- Set formatting options [[[
+    -- t: Auto-wrap text using textwidth
+    -- c: Auto-wrap comments using textwidth, and insert the comment leader
+    -- q: Allow formatting comments with `gq`
+    -- n: Recognize numbered lists when formatting
+    -- m: Break at multibyte characters above 255
+    -- M: Don't insert a space before/after multibyte characters
+    -- 1: Break a line before a one-letter word instead of after
+    -- j: Remove a comment leader when joining lines if it makes sense
+    -- ]]]
+    formatoptions = 'tcqnmM1j',
+
+    -- Use specific regional variations of English for spelling
+    spelllang = {
+      'en_us',
+      'en_ca',
+      'en_gb',
+    },
+
+    -- Set options we'll expand later
+    complete = vim.opt.complete,
+    diffopt = vim.opt.diffopt,
+    matchpairs = vim.opt.matchpairs,
+    whichwrap = vim.opt.whichwrap,
   },
   g = {
     mapleader = '`',
@@ -195,6 +262,7 @@ local options = {
 
     python_highlight_all = 1,
     python_highlight_file_headers_as_comments = 1,
+    python3_host_prog = vim.fn.filereadable(py3_venv) and py3_venv or py3_path,
 
     symbols_outline = {
       auto_preview = false,
@@ -227,5 +295,52 @@ local options = {
         os.getenv('HOME') .. '/.config'
   },
 }
+
+-- Also scan current and included files for defined name or macro
+options.opt.complete:append({
+  'd',
+})
+
+-- Shorten messages
+-- m - Use [+] instead of [modified]
+-- r - Use [RO] instead of [readonly]
+-- I - Don't give the :intro message when starting vim
+vim.opt.shortmess:append({
+  m = true,
+  r = true,
+  I = true,
+})
+
+-- Open diffs in vertical splits
+options.opt.diffopt:append({
+  'vertical',
+})
+
+-- Add matching pairs. % jumps between pairs
+options.opt.matchpairs:append({
+  '<:>',
+  '「:」',
+  '『:』',
+  '【:】',
+  '“:”',
+  '‘:’',
+  '《:》',
+  "':'",
+  '":"',
+})
+
+options.opt.whichwrap:append({
+  ['<'] = true,
+  ['>'] = true,
+  ['['] = true,
+  [']'] = true,
+})
+
+if vim.fn.executable("rg") then
+  options.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
+  options.opt.grepformat = "%f:%l:%c:%m"
+elseif vim.fn.executable("ag") then
+  vim.opt.grepprg = "ag --nogroup --nocolor"
+end
 
 return options
