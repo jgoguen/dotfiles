@@ -65,40 +65,44 @@ M.capabilities.textDocument.foldingRange = {
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 M.on_attach = function(client, bufnr)
-	local function buf_set_keymap(mode, key, cmd, opts)
+	local function buf_set_keymap(mode, key, cmd, options)
+		local opts = options and options or {}
 		opts["buffer"] = bufnr
 		vim.keymap.set(mode, key, cmd, opts)
 	end
 
-	-- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-	-- Enable completion triggered by <c-x><c-o>
-	-- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	buf_set_keymap('n', 'gD', vim.lsp.buf.declaration, {})
-	buf_set_keymap('n', 'gd', vim.lsp.buf.definition, {})
-	buf_set_keymap('n', 'sgd', vim.lsp.buf.definition, {})
-	buf_set_keymap('n', 'vgd', vim.lsp.buf.definition, {})
-	buf_set_keymap('n', 'K', vim.lsp.buf.hover, {})
-	buf_set_keymap('n', 'gi', vim.lsp.buf.implementation, {})
-	buf_set_keymap('n', 'sgi', vim.lsp.buf.implementation, {})
-	buf_set_keymap('n', 'vgi', vim.lsp.buf.implementation, {})
-	buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help, {})
-	buf_set_keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder, {})
-	buf_set_keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, {})
-	buf_set_keymap('n', '<space>wl', print(vim.inspect(vim.lsp.buf.list_workspace_folders())), {})
-	buf_set_keymap('n', '<space>D', vim.lsp.buf.type_definition, {})
-	buf_set_keymap('n', '<space>rn', vim.lsp.buf.rename, {})
-	buf_set_keymap('n', '<space>ca', vim.lsp.buf.code_action, {})
-	buf_set_keymap('n', 'gr', vim.lsp.buf.references, {})
-	buf_set_keymap('n', '<space>e', vim.diagnostic.open_float, {})
-	buf_set_keymap('n', '[d', vim.diagnostic.goto_prev, {})
-	buf_set_keymap('n', ']d', vim.diagnostic.goto_next, {})
-	buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist, {})
-	buf_set_keymap('n', '<space>f', vim.lsp.buf.format, { async = true })
-	vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP", async = true })
+	buf_set_keymap('n', 'gD', vim.lsp.buf.declaration)
+	buf_set_keymap('n', 'gd', vim.lsp.buf.definition)
+	buf_set_keymap('n', 'K', vim.lsp.buf.hover)
+	buf_set_keymap('n', 'gi', vim.lsp.buf.implementation)
+	buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
+	buf_set_keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder)
+	buf_set_keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder)
+	--buf_set_keymap('n', '<space>wl', print(vim.inspect(vim.lsp.buf.list_workspace_folders())))
+	buf_set_keymap('n', '<space>D', vim.lsp.buf.type_definition)
+	buf_set_keymap('n', '<space>rn', vim.lsp.buf.rename)
+	buf_set_keymap('n', '<space>ca', vim.lsp.buf.code_action)
+	buf_set_keymap('n', 'gr', vim.lsp.buf.references)
+	buf_set_keymap('n', '<space>e', vim.diagnostic.open_float)
+	buf_set_keymap('n', '[d', vim.diagnostic.goto_prev)
+	buf_set_keymap('n', ']d', vim.diagnostic.goto_next)
+	buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
+	buf_set_keymap('n', '<space>f', function() vim.lsp.buf.format({ async = true }) end)
+	vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, { desc = "Format file with LSP" })
+
+	if client.server_capabilities.document_formatting then
+		vim.api.nvim_create_augroup("format_on_save", { clear = true })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			desc = "Auto format before save",
+			group = "format_on_save",
+			pattern = "<buffer>",
+			callback = function()
+				vim.lsp.buf.format()
+			end,
+		})
+	end
 
 	lsp_highlight_document(client)
 end
