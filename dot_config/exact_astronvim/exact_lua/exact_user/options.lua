@@ -48,6 +48,7 @@ local options = {
 
     -- Configure folding [[[
     foldenable = true,
+    foldlevel = 1,
     foldmethod = 'marker',
 
     -- Set a custom foldmarker to not conflict with templates
