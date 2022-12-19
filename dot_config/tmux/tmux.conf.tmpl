@@ -165,14 +165,17 @@ set-option -g @plugin 'tmux-plugins/tmux-battery'
 set-option -g @plugin 'tmux-plugins/tmux-continuum'
 set-option -g @plugin 'tmux-plugins/tmux-cpu'
 set-option -g @plugin 'tmux-plugins/tmux-resurrect'
-set-option -g @plugin 'yardnsm/tmux-1password'
 
-set-option -g @1password-account {{ index (onepassword "ikmpz644kh5vugsho3wilerm7e").fields 4 "value" }}
 set-option -g @batt_remain_short true
 set-option -g @continuum-restore 'on'
 set-option -g @continuum-save-interval '5'
 set-option -g @resurrect-capture-pane-contents 'on'
 set-option -g @resurrect-dir '~/.local/share/tmux/resurrect'
+
+{{ if eq .environment "personal" -}}
+set-option -g @plugin 'yardnsm/tmux-1password'
+set-option -g @1password-account {{ index (onepassword "ikmpz644kh5vugsho3wilerm7e").fields 4 "value" }}
+{{- end }}
 
 # Keep this at the very end of the file!
 if "test ! -d ${TMUX_BASE}/plugins/tpm" \
