@@ -89,8 +89,9 @@ return {
   { 'ryanoasis/vim-devicons' },
   {
     'simrat39/symbols-outline.nvim',
-    cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
-    keys = { '<F8>' },
+    config = function()
+      require('symbols-outline').setup()
+    end,
   },
   { 'tmux-plugins/vim-tmux' },
   {
