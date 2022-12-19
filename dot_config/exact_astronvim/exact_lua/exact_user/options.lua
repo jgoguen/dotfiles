@@ -66,6 +66,10 @@ local options = {
     -- Configure list characters display (list and listchars) [[[
     list = true,
 
+    -- Persistent undo
+    undofile = true,
+    undodir = vim.fn.stdpath('data') .. '/undo',
+
     -- listchars options [[[
     -- tab:xy - Print x, then y as many times as possible in the tab space
     -- trail - Character to show for trailing spaces

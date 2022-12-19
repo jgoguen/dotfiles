@@ -1,3 +1,9 @@
+local xdg_config_home = os.getenv('XDG_CONFIG_HOME')
+local xdg_data_home = os.getenv('XDG_DATA_HOME')
+
+_G.XDG_CONFIG_HOME = xdg_config_home and xdg_config_home or os.getenv('HOME') .. '/.config'
+_G.XDG_DATA_HOME = xdg_data_home and xdg_data_home or os.getenv('HOME') .. '/.local/share'
+
 local settings_paths = {
   "settings/*.vim",
   "settings/plugins/*.vim",
