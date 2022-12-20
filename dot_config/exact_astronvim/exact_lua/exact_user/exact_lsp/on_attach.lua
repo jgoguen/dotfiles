@@ -1,1 +1,1 @@
-return require('lsputils').on_attach
+return require('jgoguen.lsputils').on_attach

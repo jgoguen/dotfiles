@@ -12,38 +12,45 @@ local bindings = {
     ["<S-Tab>"] = { '<ESC><<a', { silent = false } },
   },
   n = {
-    ["<F8>"] = '<CMD>SymbolsOutline<CR>',
+    ["<F8>"] = function() require('symbols-outline').toggle_outline() end,
 
     [";"] = { ":", { silent = false } },
 
     -- Allow ^ to act like Home in an IDE
-    ["^"] = { [[col('.') == match(getline('.'), '\\S')+1 ? '0' : '^']], { expr = true } },
+    ["^"] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
 
     -- Resize splits
     ["<C-Left>"] = '<C-w><',
     ["<C-Right>"] = '<C-w>>',
 
-    ["<C-c>"] = [[<CMD>lua require('FTerm').toggle()<CR>]],
+    ["<C-c>"] = function() require('FTerm').toggle() end,
+
+    -- Keep the cursor in the middle of the screen with <C-d> and <C-u>
+    ["<C-d>"] = '<C-d>zz',
+    ["<C-u>"] = '<C-u>zz',
 
     -- Move between tabs
-    ["<C-S-Right>"] = '<CMD>tabnext<CR>',
-    ["<C-S-Left>"] = '<CMD>tabprev<CR>',
+    ["<C-S-Right>"] = ':tabnext<CR>',
+    ["<C-S-Left>"] = ':tabprev<CR>',
 
     -- Move between buffers
-    ["<A-PageDown>"] = '<CMD>bnext<CR>',
-    ["<A-PageUp>"] = '<CMD>bprev<CR>',
-    -- macOS needs the same mappings with Command
-    ["<D-PageDown>"] = '<CMD>bnext<CR>',
-    ["<D-PageUp>"] = '<CMD>bprev<CR>',
+    ["<A-PageDown>"] = ':bnext<CR>',
+    ["<A-PageUp>"] = ':bprev<CR>',
+    -- macOS needs the same mappings with Option
+    ["<D-PageDown>"] = ':bnext<CR>',
+    ["<D-PageUp>"] = ':bprev<CR>',
 
     -- Telescope buffers
-    ["<Leader>b"] = [[<CMD>lua require('telescope.builtin').buffers()<CR>]],
+    ["<Leader>b"] = function() require('telescope.builtin').buffers() end,
 
     -- Toggle cursorcolumn (useful for aligning text)
-    ["<Leader>cl"] = '<CMD><C-U>call utils#ToggleCursorColumn()<CR>',
+    ["<Leader>cl"] = ':<C-U>call utils#ToggleCursorColumn()<CR>',
 
-    ["<Leader>f"] = '<CMD>Neotree reveal_force_cwd<CR>',
-    ["<Leader>fc"] = '<CMD>Neotree reveal_force_cwd toggle<CR>',
+    -- Delete to the void register
+    ["<Leader>d"] = '"_d',
+
+    ["<Leader>f"] = ':Neotree reveal_force_cwd<CR>',
+    ["<Leader>fc"] = ':Neotree reveal_force_cwd toggle<CR>',
 
     -- Move between splits
     ["<Leader>h"] = '<C-w>h',
@@ -51,20 +58,23 @@ local bindings = {
     ["<Leader>k"] = '<C-w>k',
     ["<Leader>l"] = '<C-w>l',
     -- Location window shortcuts
-    ["<Leader>ln"] = '<CMD>lnext<CR>',
-    ["<Leader>lp"] = '<CMD>lprevious<CR>',
-    ["<Leader>lc"] = '<CMD>lclose<CR>',
+    ["<Leader>ln"] = ':lnext<CR>zz',
+    ["<Leader>lp"] = ':lprevious<CR>zz',
+    ["<Leader>lc"] = ':lclose<CR>',
 
     -- Find merge conflict markers
-    ["<Leadr>mc"] = '/\\v^[<\\|=>]{7}( .*\\|$)<CR>',
+    ["<Leader>mc"] = '/\\v^[<\\|=>]{7}( .*\\|$)<CR>',
 
     -- Quickfix window shortcuts
-    ["<Leader>qn"] = '<CMD>cnext<CR>',
-    ["<Leader>qp"] = '<CMD>cprevious<CR>',
-    ["<Leader>qc"] = '<CMD>cclose<CR>',
+    ["<Leader>qn"] = ':cnext<CR>zz',
+    ["<Leader>qp"] = ':cprevious<CR>zz',
+    ["<Leader>qc"] = ':cclose<CR>',
+
+    -- Search/replace work under cursor
+    ["<Leader>s"] = [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 
     -- Telescope find files
-    ["<Leader>t"] = [[<CMD>lua require('telescope.builtin').find_files()<CR>]],
+    ["<Leader>t"] = function() require('telescope.builtin').find_files() end,
 
     -- Select window to jump to
     ["<Leader>w"] = function()
@@ -79,10 +89,10 @@ local bindings = {
     ["<Leader>="] = '<C-w>=',
 
     -- Clear search highlights
-    ["//"] = '<CMD>nohlsearch<CR>',
+    ["//"] = ':nohlsearch<CR>',
 
     -- Allow gf to open files that don't exist
-    gf = '<CMD>edit <cfile><CR>',
+    gf = ':edit <cfile><CR>',
 
     -- Normal movement between wrapped lines
     k = 'gk',
@@ -90,18 +100,32 @@ local bindings = {
     j = 'gj',
     ["<down>"] = 'gj',
 
+    J = 'mzJ`z',
+
     -- Going to the next/previous match will centre the line it's on
     n = 'nzzzv',
     N = 'Nzzzv',
     -- Mark a word as rare
-    ["z?"] = '<CMD>execute ":spellrare " .',
+    ["z?"] = ':execute ":spellrare " .',
   },
   t = {
-    ["<C-t>"] = '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>',
+    ["<C-t>"] = '<C-\\><C-n>:lua require("FTerm").toggle()<CR>',
   },
   v = {
+    -- Delete to the void register
+    ["<Leader>d"] = '"_d',
+
     -- Reflow selection
     Q = 'gq',
+
+    -- Allow moving selected lines up and down
+    J = ":m '>+1<CR>gv=gv",
+    K = ":m '<-2<CR>gv=gv",
+  },
+  x = {
+    -- Delete highlighted text and paste over without copying it to the paste
+    -- register
+    ["<Leader>p"] = '"_dP',
   },
 }
 

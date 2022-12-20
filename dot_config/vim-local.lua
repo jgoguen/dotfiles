@@ -7,7 +7,10 @@ if not has_lspconfig then
 	return
 end
 
-local lsputils = require("lsputils")
+local has_lsputils, lsputils = pcall(require, 'jgoguen.lsputils')
+if not has_lsputils then
+	return
+end
 local capabilities = lsputils.capabilities
 
 local servers = { "gopls", "pyright" }

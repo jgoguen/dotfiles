@@ -1,1 +1,1 @@
-return require('lsputils').capabilities
+return require('jgoguen.lsputils').capabilities

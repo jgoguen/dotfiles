@@ -29,7 +29,7 @@ local config = {
       telescope.load_extension('fzf')
     end
 
-    require("keybindings").setup()
+    require("jgoguen.keybindings").setup()
 
     for _, path in ipairs(settings_paths) do
       local settings = vim.fn.globpath(vim.o.runtimepath, path, 0, 1)
