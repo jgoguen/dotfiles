@@ -17,6 +17,22 @@ return {
       })
     end,
   },
+  {
+    'epwalsh/obsidian.nvim',
+    tag = '*',
+    config = function()
+      require('obsidian').setup({
+        dir = '~/OneDrive/Obsidian',
+        completion = {
+          nvim_cmp = true,
+        },
+        notes_subdir = "notes",
+        daily_notes = {
+          folder = "dailies",
+        },
+      })
+    end,
+  },
   { 'folke/tokyonight.nvim' },
   {
     'folke/trouble.nvim',
@@ -76,8 +92,8 @@ return {
     'plasticboy/vim-markdown',
     requires = {
       { 'vim-pandoc/vim-pandoc-syntax' },
+      { 'godlygeek/tabular' },
     },
-    ft = { 'markdown', 'pandoc.markdown' },
   },
   {
     'preservim/vimux',
