@@ -178,6 +178,7 @@ set-option -g @1password-account {{ index (onepassword "ikmpz644kh5vugsho3wilerm
 {{- end }}
 
 # Keep this at the very end of the file!
+set-environment -Fg TMUX_PLUGIN_MANAGER_PATH "${TMUX_BASE}/plugins"
 if "test ! -d ${TMUX_BASE}/plugins/tpm" \
 	"run-shell git clone https://github.com/tmux-plugins/tpm ${TMUX_BASE}/plugins/tpm && ${TMUX_BASE}/plugins/tpm/bin/install_plugins"
 run-shell "${TMUX_BASE}/plugins/tpm/tpm"

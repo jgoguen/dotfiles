@@ -4,6 +4,7 @@
 emulate -L zsh
 
 TMUX_BIN="/usr/local/bin/tmux"
+TMUX_ARGS=("-f" "${XDG_CONFIG_HOME:-${HOME}/.config}/tmux/tmux.conf")
 if [ ! -f "${TMUX_BIN}" ]; then
 	TMUX_BIN="$(command -pv tmux)"
 	if [ -z "${TMUX_BIN}" ]; then
@@ -12,7 +13,7 @@ if [ ! -f "${TMUX_BIN}" ]; then
 	fi
 fi
 if [ $# -gt 0 ]; then
-	"${TMUX_BIN}" "$@"
+	"${TMUX_BIN}" "${TMUX_ARGS[@]}" "$@"
 	return
 fi
 
@@ -34,16 +35,16 @@ if [ -z "${HOSTNAME:-""}" ]; then
 fi
 SESSION="${TMUX_SESSION_NAME:-"tmux-${HOSTNAME}"}"
 
-"${TMUX_BIN}" start-server
+"${TMUX_BIN}" "${TMUX_ARGS[@]}" start-server
 
-SESSIONLIST="$("${TMUX_BIN}" list-sessions 2>/dev/null)"
+SESSIONLIST="$("${TMUX_BIN}" "${TMUX_ARGS[@]}" list-sessions 2>/dev/null)"
 if [ -z "${SESSIONLIST}" ]; then
-	"${TMUX_BIN}" new-session -A -s "${SESSION}" -d
-	"${TMUX_BIN}" new-window -d -c "${HOME}" -n "${SESSION}"
+	"${TMUX_BIN}" "${TMUX_ARGS[@]}" new-session -A -s "${SESSION}" -d
+	"${TMUX_BIN}" "${TMUX_ARGS[@]}" new-window -d -c "${HOME}" -n "${SESSION}"
 
-	"${TMUX_BIN}" kill-window -t "${SESSION}:1"
+	"${TMUX_BIN}" "${TMUX_ARGS[@]}" kill-window -t "${SESSION}:1"
 	# I can do this because of automated window renumbering!
-	"${TMUX_BIN}" select-window -t "${SESSION}:1"
+	"${TMUX_BIN}" "${TMUX_ARGS[@]}" select-window -t "${SESSION}:1"
 fi
 
-"${TMUX_BIN}" attach-session -t "${SESSION}" -d
+"${TMUX_BIN}" "${TMUX_ARGS[@]}" attach-session -t "${SESSION}" -d
