@@ -47,9 +47,11 @@ local options = {
     -- ]]]
 
     -- Configure folding [[[
-    foldenable = true,
+    foldenable = false,
+    foldexpr = 'nvim_treesitter#foldexpr()',
     foldlevel = 1,
-    foldmethod = 'marker',
+    foldmethod = 'expr',
+    foldminlines = 3,
 
     -- Set a custom foldmarker to not conflict with templates
     foldmarker = '[[[,]]]',
