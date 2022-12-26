@@ -18,22 +18,6 @@ return {
     end,
   },
   {
-    'epwalsh/obsidian.nvim',
-    tag = '*',
-    config = function()
-      require('obsidian').setup({
-        dir = '~/OneDrive/Obsidian',
-        completion = {
-          nvim_cmp = true,
-        },
-        notes_subdir = "notes",
-        daily_notes = {
-          folder = "dailies",
-        },
-      })
-    end,
-  },
-  {
     'folke/todo-comments.nvim',
     requires = {
       { 'nvim-lua/plenary.nvim' },
