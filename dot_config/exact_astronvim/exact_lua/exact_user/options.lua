@@ -180,11 +180,12 @@ local options = {
 
     -- Influence insert-mode completion
     completeopt = {
+      'menuone',
+      'noselect',
+      'noinsert',
       'longest',
       'menu',
-      'menuone',
       'preview',
-      'noinsert',
     },
 
     -- Set characters for filling

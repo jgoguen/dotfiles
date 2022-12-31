@@ -47,6 +47,20 @@ return {
       })
     end,
   },
+  {
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    after = 'nvim-cmp',
+    config = function()
+      astronvim.add_user_cmp_source('nvim_lsp_signature_help')
+    end,
+  },
+  {
+    'hrsh7th/cmp-nvim-lua',
+    after = 'nvim-cmp',
+    config = function()
+      astronvim.add_user_cmp_source('nvim_lua')
+    end,
+  },
   { 'jgoguen/tmpl.vim' },
   { 'junegunn/vader.vim' },
   {
