@@ -61,7 +61,7 @@ return {
       astronvim.add_user_cmp_source('nvim_lua')
     end,
   },
-  { 'jgoguen/tmpl.vim' },
+  { 'https://codeberg.org/jgoguen/tmpl.vim' },
   { 'junegunn/vader.vim' },
   {
     'kosayoda/nvim-lightbulb',
