@@ -15,7 +15,8 @@ TMUX_BASE="#{d:config_files}"
 set-option -sg escape-time 0
 
 # upgrade $TERM
-set-option -g default-terminal "xterm-256color"
+set-option -g default-terminal "tmux-256color"
+set-option -sa terminal-overrides ',*:RGB'
 
 # Define colors [[[
 # TokyoNight [[[

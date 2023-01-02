@@ -10,6 +10,10 @@ for bindir in "${HOME}/.cargo/bin" "${HOME}/.local/bin" "${HOME}/bin" "${HOME}/.
 	fi
 done
 
+typeset -U terminfos
+terminfos=(${terminfos} ${XDG_DATA_HOME:-${HOME}/.local/share}/terminfo)
+export TERMINFO_DIRS=${(j|:|)terminfos}
+
 # Add Go paths
 {{- if eq .chezmoi.os "darwin" }}
 export GOPATH="${HOME}/Library/Application Support/golang"
