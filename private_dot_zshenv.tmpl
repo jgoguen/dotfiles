@@ -10,6 +10,8 @@ for bindir in "${HOME}/.cargo/bin" "${HOME}/.local/bin" "${HOME}/bin" "${HOME}/.
 	fi
 done
 
+# Need to make tmux-256color work on macOS? Follow 
+# https://gpanders.com/blog/the-definitive-guide-to-using-tmux-256color-on-macos/
 typeset -U terminfos
 terminfos=(${terminfos} ${XDG_DATA_HOME:-${HOME}/.local/share}/terminfo)
 export TERMINFO_DIRS=${(j|:|)terminfos}
