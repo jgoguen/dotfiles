@@ -37,7 +37,7 @@ local M = {
 -- Take the cmp source string or table and return a source table.
 -- See nvim-cmp documentation for the format of the source table.
 function M.get_cmp_source(source)
-	cmp_src = type(source) == 'string' and {name = source} or source
+	local cmp_src = type(source) == 'string' and {name = source} or source
 
 	local priority = M.cmp_source_priority[cmp_src.name]
 	if priority then

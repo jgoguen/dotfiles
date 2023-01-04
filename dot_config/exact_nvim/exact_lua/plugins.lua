@@ -15,7 +15,7 @@ function M.setup()
 		use('ryanoasis/vim-devicons')
 
 		-- Auto-load plugins that are submodules of 'plugins'
-		plugin_configs = vim.api.nvim_get_runtime_file('lua/plugins/*.lua', 1)
+		local plugin_configs = vim.api.nvim_get_runtime_file('lua/plugins/*.lua', 1)
 		for _, path in ipairs(plugin_configs) do
 			local mod = vim.fn.fnamemodify(path, ':t:r')
 			use(require('plugins.' .. mod))
