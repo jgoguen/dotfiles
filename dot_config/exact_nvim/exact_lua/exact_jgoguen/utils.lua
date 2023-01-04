@@ -1,6 +1,7 @@
 local M = {
 	cmp_source_priority = {
 		nvim_lsp = 1000,
+		nvim_lsp_signature_help = 900,
 		omni = 800,
 		luasnip = 750,
 		emoji = 700,

@@ -1,7 +1,6 @@
 local M = {
 	'L3MON4D3/LuaSnip',
-	wants = 'friendly-snippets',
-	module = 'luasnip',
+	after = 'friendly-snippets',
 }
 
 function M.config()

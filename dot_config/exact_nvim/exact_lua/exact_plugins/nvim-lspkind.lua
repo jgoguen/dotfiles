@@ -1,6 +1,5 @@
 local M = {
 	'onsails/lspkind.nvim',
-	module = 'lspkind',
 }
 
 function M.config()
