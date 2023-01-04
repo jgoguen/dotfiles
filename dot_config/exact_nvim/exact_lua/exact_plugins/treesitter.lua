@@ -1,6 +1,5 @@
 local M = {
 	'nvim-treesitter/nvim-treesitter',
-	module = 'nvim-treesitter',
 }
 
 function M.run()

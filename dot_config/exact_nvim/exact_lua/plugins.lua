@@ -10,7 +10,7 @@ function M.setup()
 		use('wbthomason/packer.nvim')
 		use({'b0o/SchemaStore.nvim', module = 'schemastore'})
 		use('https://codeberg.org/jgoguen/tmpl.vim')
-		use({'nvim-lua/plenary.nvim', module = 'plenary'})
+		use('nvim-lua/plenary.nvim')
 		use('nvim-telescope/telescope-symbols.nvim')
 		use('ryanoasis/vim-devicons')
 

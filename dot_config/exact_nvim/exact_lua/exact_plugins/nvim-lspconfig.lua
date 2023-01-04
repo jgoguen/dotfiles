@@ -1,6 +1,5 @@
 local M = {
 	'neovim/nvim-lspconfig',
-	module = 'lspconfig',
 }
 
 function M.config()

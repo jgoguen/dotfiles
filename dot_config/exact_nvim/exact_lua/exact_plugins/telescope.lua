@@ -1,6 +1,5 @@
 local M = {
 	'nvim-telescope/telescope.nvim',
-	module = 'telescope',
 }
 
 function M.config()
