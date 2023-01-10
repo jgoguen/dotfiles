@@ -1,9 +1,7 @@
 local M = {
 	'kosayoda/nvim-lightbulb',
-	event = 'VimEnter',
-	requires = {
-		'antoinemadec/FixCursorHold.nvim',
-	},
+	event = {'CursorHold', 'CursorHoldI'},
+	after = 'nvim-code-action-menu',
 }
 
 function M.config()

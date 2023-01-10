@@ -1,6 +1,6 @@
 local M = {
 	'lukas-reineke/indent-blankline.nvim',
-	event = 'VimEnter',
+	after = 'vim-indent-guides',
 }
 
 function M.config()

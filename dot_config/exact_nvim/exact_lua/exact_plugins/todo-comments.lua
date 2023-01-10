@@ -1,6 +1,5 @@
 local M = {
 	'folke/todo-comments.nvim',
-	event = 'VimEnter',
 	requires = {
 		'nvim-lua/plenary.nvim',
 	},

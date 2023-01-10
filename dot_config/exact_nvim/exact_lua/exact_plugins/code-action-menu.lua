@@ -1,6 +1,6 @@
 local M = {
 	'weilbith/nvim-code-action-menu',
-	event = 'VimEnter',
+	cmd = 'CodeActionMenu',
 }
 
 function M.setup()
