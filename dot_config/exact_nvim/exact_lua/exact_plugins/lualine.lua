@@ -16,6 +16,36 @@ function M.config()
 			'quickfix',
 			'symbols-outline',
 		},
+		sections = {
+			lualine_c = {
+				{
+					'filename',
+					path = 1,
+					newfile_status = true,
+				},
+			},
+			lualine_y = {},
+			lualine_z = {
+				{'progress'},
+				{'%l/%L'},
+				{'%v'},
+				{'%B'},
+			},
+		},
+		tabline = {
+			lualine_a = {
+				{
+					'buffers',
+					show_filename_only = false,
+				},
+			},
+			lualine_z = {
+				{
+					'tabs',
+					mode = 2,
+				},
+			},
+		},
 	})
 end
 
