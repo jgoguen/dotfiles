@@ -74,8 +74,6 @@ local settings = {
 		joinspaces = false,
 		-- Show a global status line
 		laststatus = 3,
-		-- Don't redraw while executing macros, commands, etc.
-		lazyredraw = true,
 		-- Configure list characters display (with listchars)
 		list = true,
 		-- listchars options
