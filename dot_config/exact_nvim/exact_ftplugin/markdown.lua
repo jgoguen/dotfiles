@@ -6,16 +6,3 @@ vim.opt_local.expandtab = true
 vim.opt_local.iskeyword:append(':')
 
 vim.cmd('call markdown#MathAndLiquid()')
-
-vim.keymap.set(
-  'n',
-  'gf',
-  function()
-    if require('obsidian').util.cursor_on_markdown_link() then
-      return "<CMD>ObsidianFollowLink<CR>"
-    else
-      return "gf"
-    end
-  end,
-  { buffer = true }
-)

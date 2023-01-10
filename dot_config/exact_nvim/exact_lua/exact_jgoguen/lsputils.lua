@@ -58,7 +58,7 @@ M.on_attach = function(client, bufnr)
 	local function buf_set_keymap(mode, key, cmd, options)
 		local opts = options and options or {}
 		opts['buffer'] = bufnr
-		vim.keymap.set(mode, key, cmd, opts)
+		require('jgoguen.utils').set_keymap(mode, key, cmd, opts)
 	end
 
 	-- Mappings.
@@ -95,6 +95,11 @@ M.on_attach = function(client, bufnr)
 	end
 
 	lsp_highlight_document(client)
+
+	local has_virtualtypes, virtualtypes = pcall(require, 'virtualtypes')
+	if has_virtualtypes then
+		virtualtypes.on_attach(client, bufnr)
+	end
 end
 
 return M

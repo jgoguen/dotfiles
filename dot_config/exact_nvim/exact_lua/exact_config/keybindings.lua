@@ -131,29 +131,21 @@ local M = {
 	},
 }
 
-local map = function(mode, key, val, opts)
-	local options = { noremap = true, silent = true }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-
-	vim.keymap.set(mode, key, val, options)
-end
-
 function M.setup()
+	local utils = require('jgoguen.utils')
 	for mode, mapppings in pairs(M.keybindings) do
 		for key, value in pairs(mapppings) do
 			if type(value) == "table" then
-				map(mode, key, value[1], value[2])
+				utils.set_keymap(mode, key, value[1], value[2])
 			else
-				map(mode, key, value)
+				utils.set_keymap(mode, key, value)
 			end
 		end
 	end
 end
 
 function M.apply(mode, key, val, opts)
-	map(mode, key, val, opts or {})
+	require('jgoguen.utils').set_keymap(mode, key, val, opts or {})
 end
 
 return M
