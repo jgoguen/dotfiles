@@ -14,6 +14,10 @@ local settings_paths = {
   "settings/post/*.vim",
 }
 
+if vim.fn.isdirectory(XDG_CONFIG_HOME .. '/vim-local') == 1 then
+	vim.opt.rtp:append(XDG_CONFIG_HOME .. '/vim-local')
+end
+
 require('config.options')
 require('plugins').setup()
 require('config.keybindings').setup()
