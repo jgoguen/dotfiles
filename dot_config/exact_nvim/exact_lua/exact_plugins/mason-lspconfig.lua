@@ -4,24 +4,15 @@ local M = {
 }
 
 function M.config()
-	require('mason-lspconfig').setup({
+	local options = {
 		automatic_installation = true,
-		ensure_installed = {
-			'ansiblels',
-			'bashls',
-			'csharp_ls',
-			'cssls',
-			'html',
-			'jsonls',
-			'prosemd_lsp',
-			'solargraph',
-			'sumneko_lua',
-			'texlab',
-			'tsserver',
-			'vimls',
-			'yamlls',
-		},
-	})
+	}
+	local has_config, config = pcall(require, 'config.mason-lspconfig')
+	if has_config then
+		options = vim.tbl_deep_extend('force', options, config)
+	end
+
+	require('mason-lspconfig').setup(options)
 end
 
 return M

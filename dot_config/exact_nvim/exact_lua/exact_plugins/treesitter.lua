@@ -7,19 +7,13 @@ function M.run()
 end
 
 function M.config()
-	require('nvim-treesitter.configs').setup({
+	local options = {
 		autotag = {
 			enable = true,
 		},
 		context_commentstring = {
 			enable = true,
 			enable_autocmd = false,
-		},
-		ensure_installed = {
-			'bash', 'c', 'c_sharp', 'comment', 'cpp', 'css', 'dockerfile', 'dot',
-			'go', 'gomod', 'html', 'http', 'javascript', 'jsdoc', 'json', 'json5',
-			'jsonc', 'latex', 'lua', 'make', 'markdown', 'php', 'python', 'ruby',
-			'scss', 'toml', 'vim', 'yaml',
 		},
 		highlight = {
 			enable = true,
@@ -43,7 +37,13 @@ function M.config()
 			extended_mode = true,
 			max_file_lines = nil,
 		},
-	})
+	}
+	local has_config, config = pcall(require, 'config.treesitter')
+	if has_config then
+		options = vim.tbl_deep_extend('force', options, config)
+	end
+
+	require('nvim-treesitter.configs').setup(options)
 end
 
 return M
