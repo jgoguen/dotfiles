@@ -3,11 +3,6 @@ local M = {
 	after = {'LuaSnip', 'lspkind.nvim'},
 }
 
-local function has_words_before()
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
-end
-
 function M.config()
 	local cmp = require('cmp')
 	local luasnip = require('luasnip')
@@ -19,6 +14,17 @@ function M.config()
 	}
 
 	cmp.setup({
+		enabled = function()
+			local ctx = require('cmp.config.context')
+
+			-- Always enabled in command mode
+			if vim.api.nvim_get_mode().mode == 'c' then
+				return true
+			end
+
+			-- Disable in comment contexts
+			return not ctx.in_treesitter_capture("comment") and not ctx.in_syntax_group("Comment")
+		end,
 		preselect = cmp.PreselectMode.None,
 		formatting = {
 			fields = {'kind', 'abbr', 'menu'},
@@ -73,8 +79,6 @@ function M.config()
 					luasnip.expand()
 				elseif luasnip.expand_or_jumpable() then
 					luasnip.expand_or_jump()
-				elseif has_words_before() then
-					cmp.complete()
 				else
 					fallback()
 				end
