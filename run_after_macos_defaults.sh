@@ -17,7 +17,6 @@ set -eux
 /usr/bin/defaults write -globalDomain AppleICUForce24HourTime -bool false
 /usr/bin/defaults write -globalDomain AppleKeyboardUIMode -int 3
 /usr/bin/defaults write -globalDomain ApplePressAndHoldEnabled -bool false
-/usr/bin/defaults write -globalDomain AppleTemperatureUnit -string Celsius
 /usr/bin/defaults write -globalDomain AppleWindowTabbingMode -string always
 /usr/bin/defaults write -globalDomain CGFontRenderingFontSmoothingDisabled -bool false
 /usr/bin/defaults write -globalDomain com.apple.mouse.tapBehavior -int 1
