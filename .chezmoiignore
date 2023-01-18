@@ -11,6 +11,7 @@ install_calibre_plugins.py
 .config/hg/
 .config/onedrive
 .config/mock.cfg
+.config/vim-local/
 .config/vim-local.lua
 .config/vim-local.vim
 .local/share/texlive/

@@ -3,16 +3,7 @@ local default_config = {
 	on_attach = lsputils.on_attach,
 	capabilities = lsputils.capabilities,
 }
-local M = {
-	'ansiblels',
-	'clangd',
-	'jsonls',
-	'prosemd_lsp',
-	'pyright',
-	'solargraph',
-	'sumneko_lua',
-	'yamlls',
-}
+local M = {}
 
 local server_setup = function(server_name)
 	local has_config, config = pcall(require, 'lsp.servers.' .. server_name)
@@ -28,7 +19,9 @@ function M.setup(server)
 	if server and server ~= '' then
 		server_setup(server)
 	else
-		for _, server_name in ipairs(M) do
+		local server_configs = vim.api.nvim_get_runtime_file('lua/lsp/servers/*.lua', 1)
+		for _, server_path in ipairs(server_configs) do
+			local server_name = vim.fn.fnamemodify(server_path, ':t:r')
 			server_setup(server_name)
 		end
 	end
