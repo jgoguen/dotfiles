@@ -5,6 +5,13 @@ local M = {
 function M.config()
 	local has_tokyonight, tokyonight = pcall(require, 'lualine.themes.tokyonight')
 	local utils = require('jgoguen.utils')
+	local lualine_x = {}
+	local has_statusline_hints, statusline_hints = pcall(require, 'statusline-action-hints')
+
+	if has_statusline_hints then
+		lualine_x = {statusline_hints.statusline}
+	end
+
 	require('lualine').setup({
 		options = {
 			theme = has_tokyonight and tokyonight or 'auto',
@@ -24,6 +31,7 @@ function M.config()
 					newfile_status = true,
 				},
 			},
+			lualine_x = lualine_x,
 			lualine_y = {},
 			lualine_z = {
 				{'progress'},
