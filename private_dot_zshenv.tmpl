@@ -4,13 +4,13 @@
 
 # Set path first, so many other things depend on it
 typeset -U path
-for bindir in "${HOME}/.cargo/bin" "${HOME}/.local/bin" "${HOME}/bin" "${HOME}/.dotnet/tools" /bin /sbin /usr/bin /usr/sbin /opt/homebrew/bin /usr/local/bin /usr/local/sbin /var/lib/snapd/snap/bin /usr/local/go/bin /usr/local/nodejs/current/bin /Library/TeX/Distributions/Programs/texbin; do
+for bindir in "${HOME}/.cargo/bin" "${HOME}/.local/bin" "${HOME}/bin" "${HOME}/.dotnet/tools" /bin /sbin /usr/bin /usr/sbin /opt/homebrew/bin /usr/local/bin /usr/local/sbin /var/lib/snapd/snap/bin /usr/local/go/bin /usr/local/nodejs/current/bin /Library/TeX/Distributions/Programs/texbin /opt/local/bin /opt/local/sbin; do
 	if [ -d "${bindir}" ]; then
 		path=(${bindir} ${path})
 	fi
 done
 
-# Need to make tmux-256color work on macOS? Follow 
+# Need to make tmux-256color work on macOS? Follow
 # https://gpanders.com/blog/the-definitive-guide-to-using-tmux-256color-on-macos/
 typeset -U terminfos
 terminfos=(${terminfos} ${XDG_DATA_HOME:-${HOME}/.local/share}/terminfo)
@@ -169,7 +169,7 @@ NODE_PATH="${HOME}/.local/lib/node_modules:${NODE_PATH}"
 
 MAN_BIN="$(command -v manpath)"
 if [ -n "${MAN_BIN}" ] && [ -z "${MANPATH}" ]; then
-	MANPATH="${HOME}/.local/share/man:$(manpath)"
+	MANPATH="${HOME}/.local/share/man:/opt/local/share/man:$(manpath)"
 	export MANPATH
 fi
 
