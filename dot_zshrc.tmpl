@@ -229,3 +229,7 @@ OP_BIN="$(command -v op)"
 if [ -n "${OP_BIN}" ]; then
 	eval $(op completion zsh)
 fi
+
+if [ -f "${HOME}/.zshrc.local" ]; then
+	. "${HOME}/.zshrc.local"
+fi
