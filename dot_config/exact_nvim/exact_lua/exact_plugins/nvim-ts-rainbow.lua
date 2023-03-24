@@ -1,5 +1,5 @@
 local M = {
-	'mrjones2014/nvim-ts-rainbow',
+	'HiPhish/nvim-ts-rainbow',
 	after = 'nvim-treesitter',
 }
 
