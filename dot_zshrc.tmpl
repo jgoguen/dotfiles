@@ -72,34 +72,12 @@ zstyle ':completion:*:warnings' format "%B$fg[red]%}---- no match for: $fg[white
 
 zstyle :compinstall filename "${USER_ZSH}/zcompdump"
 
-DATE_BIN="$(command -pv date)"
-COMPDAY="$("${DATE_BIN}" '+%j')"
 if [ -f "${HOME}/.zcompdump" ]; then
 	mv "${HOME}/.zcompdump" "${USER_ZSH}/zcompdump"
 fi
-{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "openbsd") -}}
-COMPFILE_DAY="$(if [ -f "${USER_ZSH}/zcompdump" ]; then stat -f '%Sm' -t '%j' "${USER_ZSH}/zcompdump"; else printf '0'; fi)"
-{{- else -}}
-COMPFILE_DAY="$(if [ -f "${USER_ZSH}/zcompdump" ]; then "${DATE_BIN}" -d @"$(stat -c '%Y' "${USER_ZSH}/zcompdump")" '+%j'; else printf '0'; fi)"
-{{- end }}
-if [ "${COMPDAY}" != "${COMPFILE_DAY}" ]; then
-	compinit -d "${USER_ZSH}/zcompdump"
-	touch "${USER_ZSH}/zcompdump"
-else
-	compinit -d "${USER_ZSH}/zcompdump" -C
-fi
+compinit -d "${USER_ZSH}/zcompdump"
 
-(
-	{
-		for f in "${USER_ZSH}/zcompdump" "${USER_ZSH}"/site-functions/[a-zA-Z]*; do
-			if [ ! -f "${f%%.zwc}.zwc" ] || [ "${f%%.zwc}" -nt "${f%%.zwc}.zwc" ]; then
-				zcompile "${f%%.zwc}"
-			fi
-		done
-	} &
-) >/dev/null 2>&1
-
-for f in "${USER_ZSH}"/site-functions/[a-zA-Z]*.zwc; do
+for f in "${USER_ZSH}"/site-functions/[a-zA-Z]*; do
 	autoload -U "$(basename "${f%%.zwc}")"
 done
 
