@@ -74,11 +74,7 @@
 	token = {{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 21 "value" }}
 
 [gpg]
-{{- if eq .chezmoi.os "darwin" }}
-	program = /usr/local/bin/gpg
-{{- else }}
-	program = /usr/bin/gpg
-{{- end }}
+	format = ssh
 
 [gpg "openpgp"]
 {{- if eq .chezmoi.os "darwin" }}
