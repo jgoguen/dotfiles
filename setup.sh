@@ -154,4 +154,4 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	$(command -v git-crypt) unlock
 fi
 
-${CHEZMOI_BIN} apply
+${CHEZMOI_BIN} init --apply
