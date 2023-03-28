@@ -140,15 +140,16 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 		/bin/mkdir -p "${HOME}/.ssh"
 	fi
 
-	${OP_BIN} document get g5e5zo2sgpkwum6npqbt6l7ari >"${HOME}/.ssh/git"
-	/bin/chmod 0600 "${HOME}/.ssh/git"
-	/usr/bin/ssh-keygen -y -f "${HOME}/.ssh/git" >"${HOME}/.ssh/git.pub"
-	/bin/chmod -R go-rwx "${HOME}/.ssh"
+	${OP_BIN} item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=private key' >"${HOME}/.ssh/codeberg"
+	${OP_BIN} item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
+	/bin/chmod 0700 "${HOME}/.ssh"
+	/bin/chmod 0600 "${HOME}/.ssh/*"
 
 	/usr/local/bin/op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
 	printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:\n' | gpg --import-ownertrust
 
-	$(command -v git) clone --config core.sshCommand="ssh -i ${HOME}/.ssh/git" git@codeberg.org:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
+	$(command -v git) clone --config core.sshCommand="ssh -i ${HOME}/.ssh/codeberg" git@codeberg.org:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
+	/bin/rm -f "${HOME}/.ssh/codeberg"
 	cd "${HOME}/.local/share/chezmoi"
 	$(command -v git-crypt) unlock
 fi
