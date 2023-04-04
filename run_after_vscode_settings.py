@@ -61,7 +61,7 @@ def main() -> int:
                 "editor.copyWithSyntaxHighlighting": False,
                 "editor.cursorSurroundingLines": 1,
                 "editor.fontFamily": "FiraCode Nerd Font Mono",
-                "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss05', 'ss07'",
+                "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss05', 'ss07', 'cv22', 'cv24', 'cv25', 'cv26', 'cv32'",
                 "editor.formatOnSave": True,
                 "editor.formatOnSaveMode": "modificationsIfAvailable",
                 "editor.insertSpaces": False,
