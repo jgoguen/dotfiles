@@ -10,6 +10,7 @@ local config = {
 		"FiraCode Nerd Font",
 		"Fira Code",
 		"Noto Sans CJK JP",
+		"Symbols Nerd Font Mono",
 	}),
 	font_size = 13,
 	harfbuzz_features = { "ss02", "ss03", "ss05", "ss07" },
