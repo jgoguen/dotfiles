@@ -100,4 +100,12 @@ function M.set_keymap(mode, key, val, opts)
 	vim.keymap.set(mode, key, val, options)
 end
 
+function M.invert(mapping)
+	local result = {}
+	for k, v in pairs(mapping) do
+		result[v] = k
+	end
+	return result
+end
+
 return M

@@ -3,7 +3,8 @@
 local M = {}
 
 function M.bootstrap()
-	local lazy_path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+	--local lazy_path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+	local lazy_path = vim.fn.expand('~/Code/lazy.nvim')
 	if not vim.loop.fs_stat(lazy_path) then
 		vim.fn.system({
 		'git',

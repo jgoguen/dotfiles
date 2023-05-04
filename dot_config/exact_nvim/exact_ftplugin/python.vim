@@ -10,5 +10,3 @@ if exists(':Black')
 		autocmd BufWritePre <buffer> execute ':Black'
 	augroup END
 endif
-
-lua require('utils.lsp').setup('pyright')

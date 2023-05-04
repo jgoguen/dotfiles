@@ -3,6 +3,10 @@
 return {
 	settings = {
 		Lua = {
+			IntelliSense = {
+				traceLocalSet = true,
+				traceReturn = true,
+			},
 			telemetry = {
 				enable = false,
 			},
@@ -22,6 +26,7 @@ return {
 				},
 			},
 			workspace = {
+				checkThirdParty = false,
 				library = vim.api.nvim_get_runtime_file("", true),
 			},
 		},

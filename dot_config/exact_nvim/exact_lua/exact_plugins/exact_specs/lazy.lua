@@ -2,6 +2,8 @@
 
 local M = {
 	'folke/lazy.nvim',
+	dir = vim.fn.expand('~/Code/lazy.nvim'),
+	dev = vim.fn.isdirectory(vim.fn.expand('~/Code/lazy.nvim')) == 1,
 	priority = 999,
 	version = '*',
 }

@@ -38,6 +38,15 @@ local function go_to_definition(split_cmd)
 	end
 end
 
+vim.lsp.handlers['textDocument/definition'] = vim.lsp.with(go_to_definition, { border = 'rounded' })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })
+
+-- Disable inline diagnostics, use lsp-line instead
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+	vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+)
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local has_cmp_lsp, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
@@ -45,33 +54,10 @@ if has_cmp_lsp then
 	capabilities = vim.tbl_extend('force', capabilities, cmp_lsp.default_capabilities())
 end
 
-vim.lsp.handlers['textDocument/definition'] = vim.lsp.with(go_to_definition, {border = 'rounded'})
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })
-
 local M = {}
 
 M.capabilities = capabilities
 M.capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities.textDocument.completion.completionItem.preselectSupport = true
-M.capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-M.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-M.capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-M.capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-M.capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-M.capabilities.textDocument.completion.completionItem.resolveSupport = {
-	properties = {
-		'documentation',
-		'detail',
-		'additionalTextEdits',
-	},
-}
-
-M.capabilities.textDocument.foldingRange = {
-	dynamicRegistration = false,
-	lineFoldingOnly = true,
-}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -122,12 +108,13 @@ function M.on_attach(client, bufnr)
 			virtualtypes.on_attach(client, bufnr)
 		end
 	end
-	--vim.notify(inspect(client))
+	--vim.notify(inspect(client.server_capabilities))
 end
 
 function M.config(server_name)
 	local has_config, config = pcall(require, 'config.lsp.' .. server_name)
 	config = has_config and config or {}
+	--vim.notify(inspect(M.capabilities))
 	config.on_attach = M.on_attach
 	config.capabilities = M.capabilities
 
