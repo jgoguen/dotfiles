@@ -6,7 +6,7 @@ local M = {
 	ft = {
 		'hack', 'html', 'javascript', 'markdown', 'pandoc.markdown', 'php', 'xml',
 	},
-	config = true,
+	opts = {},
 }
 
 return M

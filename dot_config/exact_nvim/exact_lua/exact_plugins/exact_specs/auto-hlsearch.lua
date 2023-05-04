@@ -3,8 +3,7 @@
 local M = {
 	'asiryk/auto-hlsearch.nvim',
 	keys = '/',
-	--event = 'VeryLazy',
-	config = true,
+	opts = {},
 }
 
 return M

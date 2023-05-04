@@ -108,4 +108,39 @@ function M.invert(mapping)
 	return result
 end
 
+-- Opens a floating window
+-- opts:
+--	- width: int (0,1]: Percentage of the editor width for the window
+--	- height: int (0,1]: Percentage of the editor height for the window
+--	- border: Window border style (none, single, double, rounded, solid, shadow)
+function M.floating_window(opts)
+	local default_config = {
+		width = 0.8,
+		height = 0.8,
+		border = 'rounded',
+	}
+	opts = vim.tbl_extend('force', default_config, opts)
+
+	local total_width = vim.api.nvim_get_option("columns")
+	local total_height = vim.api.nvim_get_option("lines")
+	local win_width = opts.width <= 1 and math.ceil(total_width * opts.width) or total_width
+	local win_height = opts.height <= 1 and math.ceil(total_height * opts.height) or total_height
+	local win_opts = {
+		relative = 'editor',
+		width = win_width,
+		height = win_height,
+		row = math.ceil((total_height - win_height) / 2 - 1),
+		col = math.ceil(total_width - win_width) / 2,
+		focusable = true,
+		style = 'minimal',
+		border = opts.border,
+	}
+	local buf = vim.api.nvim_create_buf(false, true)
+
+	vim.api.nvim_open_win(buf, true, win_opts)
+	vim.api.nvim_win_set_option(0, "wrap", true)
+
+	return buf
+end
+
 return M

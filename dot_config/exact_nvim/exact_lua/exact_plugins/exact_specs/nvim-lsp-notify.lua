@@ -3,7 +3,7 @@ local M = {
 	dependencies = {
 		'rcarriga/nvim-notify',
 	},
-	config = true,
+	opts = {},
 }
 
 return M

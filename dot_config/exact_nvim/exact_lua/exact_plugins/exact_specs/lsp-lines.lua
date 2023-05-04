@@ -6,7 +6,7 @@ local M = {
 		'neovim/nvim-lspconfig',
 	},
 	event = 'VeryLazy',
-	config = true,
+	opts = {},
 }
 
 return M

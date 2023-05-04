@@ -3,7 +3,7 @@
 local M = {
 	'folke/todo-comments.nvim',
 	event = 'VeryLazy',
-	config = true,
+	opts = {},
 }
 
 return M

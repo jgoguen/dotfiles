@@ -3,7 +3,7 @@
 local M = {
 	'NvChad/nvim-colorizer.lua',
 	event = 'VeryLazy',
-	config = true,
+	opts = {},
 }
 
 return M
