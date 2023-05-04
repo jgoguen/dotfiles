@@ -113,6 +113,9 @@ end
 --	- width: int (0,1]: Percentage of the editor width for the window
 --	- height: int (0,1]: Percentage of the editor height for the window
 --	- border: Window border style (none, single, double, rounded, solid, shadow)
+-- How to add content to the new window:
+--	local buf = floating_window(opts)
+--	vim.api.nvim_buf_set_lines(buf, 0, -1, true, <string content>)
 function M.floating_window(opts)
 	local default_config = {
 		width = 0.8,
