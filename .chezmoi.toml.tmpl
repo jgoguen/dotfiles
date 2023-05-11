@@ -1,6 +1,8 @@
 # vim: set filetype=conf noexpandtab ts=2 sts=2 sw=2 autoindent:
 # vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
 
+progress = true
+
 [data]
 	{{ $env := promptString "Chezmoi environment" -}}
 	environment = "{{ $env }}"
@@ -13,5 +15,7 @@
 		email = "jgoguen@jgoguen.ca"
 		gpgkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx"
 
-[onepassword]
-	command = "/usr/local/bin/op"
+[edit]
+	apply = true
+	hardlink = false
+	watch = true
