@@ -2,7 +2,12 @@
 
 local M = {
 	'nvim-treesitter/nvim-treesitter',
-	lazy = true,
+	dependencies = {
+		'HiPhish/nvim-ts-rainbow2',
+		'JoosepAlviste/nvim-ts-context-commentstring',
+		'nvim-treesitter/playground',
+		'windwp/nvim-ts-autotag',
+	},
 	opts = {
 		auto_install = true,
 		autotag = {
@@ -30,6 +35,9 @@ local M = {
 			enable = true,
 		},
 		parser_install_dir = vim.fn.stdpath('data') .. '/tree-sitter-parsers',
+		playground = {
+			enable = true,
+		},
 		rainbow = {
 			enable = true,
 			disable = {'html'},
