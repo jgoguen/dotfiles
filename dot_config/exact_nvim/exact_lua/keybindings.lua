@@ -87,6 +87,7 @@ local M = {
 					vim.api.nvim_set_current_win(wid)
 				end
 			end,
+			['<Leader>wcf'] = function() require('utils').close_floating_windows() end,
 
 			['<Leader>xd'] = ':TroubleToggle document_diagnostics<CR>',
 			['<Leader>xl'] = ':TroubleToggle loclist<CR>',

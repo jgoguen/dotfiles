@@ -146,4 +146,20 @@ function M.floating_window(opts)
 	return buf
 end
 
+function M.close_floating_windows()
+	local inactive_floating_windows = vim.fn.filter(
+		vim.api.nvim_list_wins(),
+		function(k, v)
+			local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(v), 'filetype')
+			return vim.api.nvim_win_get_config(v).relative ~= ''
+				and v ~= vim.api.nvim_get_current_win()
+				and ft ~= 'hydra_hint'
+		end
+	)
+
+	for _, win in ipairs(inactive_floating_windows) do
+		pcall(vim.api.nvim_win_close, w, false)
+	end
+end
+
 return M
