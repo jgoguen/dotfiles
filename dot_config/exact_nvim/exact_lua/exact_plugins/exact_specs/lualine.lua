@@ -49,11 +49,12 @@ local M = {
 }
 
 function M.config(plugin)
-	local has_tokyonight, tokyonight = pcall(require, 'lualine.themes.tokyonight')
+	local colorscheme = require('config.colorscheme')
+	local has_cs, cs = pcall(require, 'lualine.themes.' .. colorscheme.active_colorscheme)
 	local has_statusline_hints, statusline_hints = pcall(require, 'statusline-action-hints')
 
-	if has_tokyonight then
-		plugin.opts.options.theme = tokyonight
+	if has_cs then
+		plugin.opts.options.theme = cs
 	end
 
 	if has_statusline_hints then

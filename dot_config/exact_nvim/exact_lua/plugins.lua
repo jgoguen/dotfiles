@@ -20,6 +20,7 @@ function M.bootstrap()
 end
 
 function M.setup()
+	local colorscheme = require('config.colorscheme')
 	M.bootstrap()
 	require('lazy').setup(
 		'plugins.specs',
@@ -32,7 +33,7 @@ function M.setup()
 				fallback = true,
 			},
 			install = {
-				colorscheme = {'tokyonight'},
+				colorscheme = {colorscheme.active_colorscheme},
 			},
 			lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
 			performance = {
