@@ -5,7 +5,9 @@ local utils = require('utils')
 local M = {
 	's1n7ax/nvim-window-picker',
 	version = 'v1.*',
-	lazy = true,
+	keys = {
+		'<Leader>w',
+	},
 	opts = {
 		autoselect_one = true,
 		include_current = true,
