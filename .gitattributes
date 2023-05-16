@@ -5,6 +5,5 @@ dot_config/calibre/global.py.json filter=git-crypt diff=git-crypt
 dot_config/calibre/global.py.json.tmpl filter=git-crypt diff=git-crypt
 dot_config/calibre/gui.json.tmpl filter=git-crypt diff=git-crypt
 dot_config/calibre/plugins/Kobo[[:space:]]Utilities.json.tmpl filter=git-crypt diff=git-crypt
-private_dot_ssh/private_config.tmpl filter=git-crypt diff=git-crypt
 private_dot_ssh/private_config.local filter=git-crypt diff=git-crypt
 .gitattributes !filter !diff
