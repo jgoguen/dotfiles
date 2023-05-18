@@ -43,9 +43,6 @@
 [column]
 	ui = auto
 
-[commit]
-	gpgSign = {{ if eq .environment "personal" }}true{{ else }}false{{ end }}
-
 [core]
 	editor = nvim
 	eol = lf
@@ -73,22 +70,11 @@
 	user = {{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 0 "value" }}
 	token = {{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 21 "value" }}
 
-[gpg]
-	format = ssh
-
 [gpg "openpgp"]
 {{- if eq .chezmoi.os "darwin" }}
 	program = /usr/local/bin/gpg
 {{- else }}
 	program = /usr/bin/gpg2
-{{- end }}
-
-[gpg "ssh"]
-	allowedSignersFile = ~/.config/git/allowed_signers
-{{- if eq .chezmoi.os "darwin" }}
-	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-{{- else }}
-	program = /opt/1Password/op-ssh-sign
 {{- end }}
 
 [grep]
@@ -132,10 +118,6 @@
 [status]
 	showStash = true
 	submoduleSummary = true
-
-[tag]
-	forceSignAnnotated = true
-	gpgSign = true
 
 [include]
 	path = ~/.config/git/config.local
