@@ -21,8 +21,15 @@ end
 function M.setup()
 	local colorscheme = require('config.colorscheme')
 	M.bootstrap()
+	local plugin_specs = {
+		{import = 'plugins.specs.global'},
+	}
+	local local_plugins = vim.fn.expand('~/.config/vim-local/lua/plugins/specs/local')
+	if vim.loop.fs_stat(local_plugins) then
+		table.insert(plugin_specs, {import = 'plugins.specs.local'})
+	end
 	require('lazy').setup(
-		'plugins.specs',
+		plugin_specs,
 		{
 			checker = {
 				enabled = true,
