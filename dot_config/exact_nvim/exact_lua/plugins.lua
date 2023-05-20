@@ -20,7 +20,9 @@ end
 
 function M.setup()
 	local colorscheme = require('config.colorscheme')
+
 	M.bootstrap()
+
 	local plugin_specs = {
 		{import = 'plugins.specs.global'},
 	}
@@ -28,6 +30,7 @@ function M.setup()
 	if vim.loop.fs_stat(local_plugins) then
 		table.insert(plugin_specs, {import = 'plugins.specs.local'})
 	end
+
 	require('lazy').setup(
 		plugin_specs,
 		{
@@ -52,6 +55,9 @@ function M.setup()
 			},
 		}
 	)
+
+	vim.api.nvim_set_hl(0, 'LineNr', {fg = '#9eadb4'})
+	vim.api.nvim_set_hl(0, 'CursorLineNr', {fg = '#9eadb4'})
 end
 
 return M
