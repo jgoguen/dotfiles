@@ -54,34 +54,51 @@ def main() -> int:
                 "C_Cpp.default.cStandard": "c11",
                 "C_Cpp.default.cppStandard": "c++14",
                 "C_Cpp.updateChannel": "Insiders",
+                "dev.containers.copyGitConfig": False,
                 "diffEditor.ignoreTrimWhitespace": False,
                 "editor.acceptSuggestionOnEnter": "off",
                 "editor.autoIndent": "advanced",
                 "editor.bracketPairColorization.enabled": True,
+                "editor.codeLensFontFamily": "JetBrainsMono Nerd Font",
                 "editor.copyWithSyntaxHighlighting": False,
                 "editor.cursorSurroundingLines": 1,
-                "editor.fontFamily": "FiraCode Nerd Font Mono",
+                "editor.fontFamily": "JetBrainsMono Nerd Font",
                 "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss05', 'ss07', 'cv22', 'cv24', 'cv25', 'cv26', 'cv32'",
+                "editor.fontSize": 13,
+                "editor.formatOnPaste": True,
                 "editor.formatOnSave": True,
                 "editor.formatOnSaveMode": "modificationsIfAvailable",
+                "editor.guides.bracketPairs": True,
+                "editor.indentSize": "tabSize",
+                "editor.inlayHints.fontFamily": "JetBrainsMono Nerd Font",
                 "editor.insertSpaces": False,
                 "editor.linkedEditing": True,
                 "editor.minimap.enabled": False,
                 "editor.multiCursorModifier": "ctrlCmd",
                 "editor.multiCursorPaste": "full",
-                "editor.quickSuggestions": True,
+                "editor.quickSuggestions": {
+                    "comments": "on",
+                    "other": "on",
+                    "strings": "on",
+                },
                 "editor.renderControlCharacters": True,
-                "editor.renderFinalNewline": False,
+                "editor.renderFinalNewline": "off",
                 "editor.renderWhitespace": "boundary",
                 "editor.rulers": [80],
                 "editor.scrollBeyondLastLine": False,
+                "editor.showFoldingControls": "always",
                 "editor.tabCompletion": "on",
-                "explorer.openEditors.visible": 0,
+                "editor.tabSize": 2,
+                "editor.unicodeHighlight.includeComments": true,
+                "editor.wordWrap": "bounded",
+                "editor.wordWrapColumn": 80,
+                "explorer.openEditors.visible": 1,
                 "extensions.ignoreRecommendations": True,
                 "files.associations": {"*.cgi": "perl"},
                 "files.autoSave": "onFocusChange",
                 "files.eol": "\n",
                 "files.insertFinalNewline": True,
+                "files.readonlyFromPermissions": true,
                 "files.trimFinalNewlines": True,
                 "files.trimTrailingWhitespace": True,
                 "files.watcherExclude": {
@@ -95,7 +112,11 @@ def main() -> int:
                 "git.autoStash": True,
                 "git.autofetch": True,
                 "git.defaultCloneDirectory": "",
+                "git.enableCommitSigning": True,
+                "git.enableSmartCommit": True,
                 "git.fetchOnPull": True,
+                "git.mergeEditor": True,
+                "github.gitProtocol": "ssh",
                 "go.autocompleteUnimportedPackages": True,
                 "go.enableCodeLens": {"references": False, "runtest": True},
                 "go.formatTool": "goimports",
@@ -109,13 +130,14 @@ def main() -> int:
                 "go.useLanguageServer": True,
                 "keyboard.dispatch": "keyCode",
                 "markdown.extension.orderedList.marker": "one",
-                "markdown.preview.fontFamily": "Fira Code Retina, ",
+                "markdown.preview.fontFamily": "JetBrainsMono Nerd Font",
                 "markdown.preview.linkify": True,
                 "markdown.preview.openMarkdownLinks": "inEditor",
                 "markdownlint.run": "onSave",
-                "projectManager.git.baseFolders": ["~/Code"],
-                "projectManager.hg.baseFolders": ["~/Code"],
+                "merge-conflict.autoNavigateNextConflict.enabled": True,
+                "python.analysis.autoImportCompletions": True,
                 "python.analysis.completeFunctionParens": True,
+                "python.analysis.importFormat": "relative",
                 "python.analysis.typeCheckingMode": "strict",
                 "python.autoComplete.addBrackets": True,
                 "python.formatting.blackPath": "/usr/local/bin/black"
@@ -142,26 +164,34 @@ def main() -> int:
                 "remote.SSH.lockfilesInTmp": True,
                 "remote.SSH.remoteServerListenOnSocket": True,
                 "remote.SSH.showLoginTerminal": True,
+                "rewrap.autoWrap.enabled": True,
+                "rewrap.reformat": True,
                 "scm.alwaysShowRepositories": True,
+                "scss.format.spaceAroundSelectorSeparator": True,
                 "search.showLineNumbers": True,
                 "search.smartCase": True,
                 "shellcheck.customArgs": ["-x"],
                 "shellcheck.run": "onSave",
                 "telemetry.telemetryLevel": "off",
                 "terminal.integrated.copyOnSelection": True,
+                "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
                 "terminal.integrated.fontSize": 15,
                 "terminal.integrated.lineHeight": 1.1,
                 "vsicons.dontShowNewVersionMessage": True,
+                "window.autoDetectColorScheme": True,
                 "window.newWindowDimensions": "inherit",
                 "window.restoreWindows": "all",
                 "window.zoomLevel": 0,
-                "workbench.colorTheme": "Monokai",
+                "workbench.colorTheme": "Default Light Modern",
                 "workbench.editor.enablePreview": False,
                 "workbench.editor.enablePreviewFromQuickOpen": False,
                 "workbench.editor.highlightModifiedTabs": True,
+                "workbench.editor.sharedViewState": True,
                 "workbench.fontAliasing": "auto",
                 "workbench.iconTheme": "material-icon-theme",
+                "workbench.list.horizontalScrolling": True,
                 "workbench.list.openMode": "doubleClick",
+                "workbench.preferredDarkColorTheme": "Everblush",
                 "workbench.quickOpen.closeOnFocusLost": False,
                 "workbench.sideBar.location": "left",
                 "workbench.startupEditor": "none",
@@ -175,7 +205,7 @@ def main() -> int:
                 ],
                 "yaml.format.printWidth": 120,
                 "yaml.format.proseWrap": "always",
-                "yaml.format.singleQuote": False,
+                "yaml.format.singleQuote": True,
                 "yaml.schemaStore.enable": True,
                 "yaml.schemas": {
                     "https://json.schemastore.org/github-workflow": "/.github/workflows/*.y{a,}ml"
@@ -192,11 +222,10 @@ def main() -> int:
                         "strings": True,
                     },
                     "editor.rulers": [120],
-                    "editor.tabSize": 2,
                     "editor.wordWrapColumn": 120,
                     "files.insertFinalNewline": False,
                 },
-                "[markdown]": {"editor.insertSpaces": True},
+                "[markdown]": {"editor.insertSpaces": False},
                 "[python]": {
                     "editor.formatOnPaste": False,
                     "editor.insertSpaces": True,
@@ -204,11 +233,9 @@ def main() -> int:
                     "editor.tabSize": 4,
                     "editor.wordWrapColumn": 88,
                 },
-                "[ruby]": {"editor.insertSpaces": True, "editor.tabSize": 2},
                 "[yaml]": {
                     "editor.insertSpaces": True,
                     "editor.rulers": [120],
-                    "editor.tabSize": 2,
                     "files.insertFinalNewline": False,
                 },
             }
@@ -224,9 +251,17 @@ def main() -> int:
         markdown_font = [
             f.strip() for f in data.get("markdown.preview.fontFamily", "").split(",")
         ]
-        if "Fira Code Retina" not in markdown_font:
-            markdown_font.insert(0, "Fira Code Retina")
+        if "JetBrainsMono Nerd Font" not in markdown_font:
+            markdown_font.insert(0, "JetBrainsMono Nerd Font")
         data["markdown.preview.fontFamily"] = ", ".join(markdown_font)
+
+        python_complete_paths = [
+            f.strip() for f in data.get("python.autoComplete.extraPaths", "").split(",")
+        ]
+        calibre_dir = os.path.expanduser("~/Code/calibre")
+        if os.path.isdirectory(calibre_dir) and calibre_dir not in python_complete_paths:
+            python_complete_paths.append(calibre_dir)
+        data["python.autoComplete.extraPaths"] = ",".join(python_complete_paths)
 
         with open(fname, "w") as f:
             json.dump(data, f, indent=4)
