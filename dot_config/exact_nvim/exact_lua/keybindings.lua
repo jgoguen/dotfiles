@@ -82,13 +82,8 @@ local M = {
 			['<Leader>t'] = function() require('telescope.builtin').find_files() end,
 
 			-- Select window to jump to
-			['<Leader>w'] = function()
-				local has_picker, picker = pcall(require, 'window-picker')
-				if has_picker then
-					local wid = picker.pick_window() or vim.api.nvim_get_current_win()
-					vim.api.nvim_set_current_win(wid)
-				end
-			end,
+			-- <Leader>w is defined in lua/plugins/specs/global/window-picker.lua
+			-- to allow lazy-loading the plugin
 			['<Leader>wcf'] = function() require('utils').close_floating_windows() end,
 
 			['<Leader>xd'] = ':TroubleToggle document_diagnostics<CR>',

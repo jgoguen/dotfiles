@@ -2,11 +2,19 @@
 
 local utils = require('utils')
 
+local function pick_window()
+	local has_picker, picker = pcall(require, 'window-picker')
+	if has_picker then
+		local wid = picker.pick_window() or vim.api.nvim_get_current_win()
+		vim.api.nvim_set_current_win(wid)
+	end
+end
+
 local M = {
 	's1n7ax/nvim-window-picker',
 	version = 'v1.*',
 	keys = {
-		'<Leader>w',
+		{'<Leader>w', pick_window},
 	},
 	opts = {
 		autoselect_one = true,
