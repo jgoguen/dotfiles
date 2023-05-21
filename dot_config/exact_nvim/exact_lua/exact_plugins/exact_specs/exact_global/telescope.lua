@@ -2,6 +2,14 @@
 
 local M = {
 	'nvim-telescope/telescope.nvim',
+	dependencies = {
+		'nvim-telescope/telescope-symbols.nvim',
+		{
+			'nvim-telescope/telescope-fzf-native.nvim',
+			build = 'make',
+			cond = function() return vim.fn.executable('make') ~= 0 end,
+		},
+	},
 	lazy = true,
 	cmd = {
 		'Telescope',
@@ -73,6 +81,11 @@ function M.config()
 	local has_notify, _ = pcall(require, 'notify')
 	if has_notify then
 		telescope.load_extension('notify')
+	end
+
+	local has_fzf, _ = pcall(require, 'telescope._extensions.fzf')
+	if has_fzf then
+		telescope.load_extension('fzf')
 	end
 end
 
