@@ -89,7 +89,7 @@ def main() -> int:
                 "editor.showFoldingControls": "always",
                 "editor.tabCompletion": "on",
                 "editor.tabSize": 2,
-                "editor.unicodeHighlight.includeComments": true,
+                "editor.unicodeHighlight.includeComments": True,
                 "editor.wordWrap": "bounded",
                 "editor.wordWrapColumn": 80,
                 "explorer.openEditors.visible": 1,
@@ -98,7 +98,7 @@ def main() -> int:
                 "files.autoSave": "onFocusChange",
                 "files.eol": "\n",
                 "files.insertFinalNewline": True,
-                "files.readonlyFromPermissions": true,
+                "files.readonlyFromPermissions": True,
                 "files.trimFinalNewlines": True,
                 "files.trimTrailingWhitespace": True,
                 "files.watcherExclude": {
@@ -259,7 +259,7 @@ def main() -> int:
             f.strip() for f in data.get("python.autoComplete.extraPaths", "").split(",")
         ]
         calibre_dir = os.path.expanduser("~/Code/calibre")
-        if os.path.isdirectory(calibre_dir) and calibre_dir not in python_complete_paths:
+        if os.path.isdir(calibre_dir) and calibre_dir not in python_complete_paths:
             python_complete_paths.append(calibre_dir)
         data["python.autoComplete.extraPaths"] = ",".join(python_complete_paths)
 
