@@ -58,6 +58,8 @@ function M.setup()
 
 	vim.api.nvim_set_hl(0, 'LineNr', {fg = '#9eadb4'})
 	vim.api.nvim_set_hl(0, 'CursorLineNr', {fg = '#9eadb4'})
+	vim.api.nvim_set_hl(0, 'Comment', {fg = '#afb7b9', italic = true})
+	vim.api.nvim_set_hl(0, '@comment', {fg = '#afb7b9', italic = true})
 end
 
 return M
