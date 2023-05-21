@@ -52,6 +52,8 @@ local M = {
 			-- Delete to the void register
 			['<Leader>d'] = '"_d',
 
+			['<Leader>ecb'] = ':EditCodeBlock',
+
 			['<Leader>f'] = ':Neotree reveal_force_cwd<CR>',
 			['<Leader>fc'] = ':Neotree reveal_force_cwd toggle<CR>',
 
