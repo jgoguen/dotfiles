@@ -8,7 +8,10 @@ import subprocess
 import sys
 
 
-OP_BIN = "/usr/local/bin/op"
+OP_BIN_PATHS = ["/usr/local/bin/op", "/usr/bin/op"]
+OP_BIN = [
+    p for p in OP_BIN_PATHS if os.path.exists(p)
+][0]
 
 
 def main() -> int:
