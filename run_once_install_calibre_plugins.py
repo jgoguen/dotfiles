@@ -34,6 +34,7 @@ BASE_URL = "https://code.calibre-ebook.com/plugins/"
 PLUGIN_INDEX = f"{BASE_URL}/plugins.json.bz2"
 PLUGIN_KEYS = {
     "Barnes & Noble",
+    "DeACSM",
     "EpubMerge",
     "EpubSplit",
     "FanFicFare",
