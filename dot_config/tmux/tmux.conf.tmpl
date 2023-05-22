@@ -175,7 +175,7 @@ set-option -g @resurrect-dir '~/.local/share/tmux/resurrect'
 
 {{ if eq .environment "personal" -}}
 set-option -g @plugin 'yardnsm/tmux-1password'
-set-option -g @1password-account {{ index (onepassword "ikmpz644kh5vugsho3wilerm7e").fields 4 "value" }}
+set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e").UserID.value }}
 {{- end }}
 
 # Keep this at the very end of the file!

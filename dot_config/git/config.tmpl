@@ -67,8 +67,8 @@
 	auto = 1
 
 [github]
-	user = {{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 0 "value" }}
-	token = {{ index (onepassword "yaim2h545jdgdfvlepphtyql3i").fields 21 "value" }}
+	user = {{ (onepasswordDetailsFields "yaim2h545jdgdfvlepphtyql3i").username.value }}
+	token = {{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i").jgoguen.value }}
 
 [gpg "openpgp"]
 {{- if eq .chezmoi.os "darwin" }}
