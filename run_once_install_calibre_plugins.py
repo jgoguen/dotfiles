@@ -66,8 +66,7 @@ def main() -> int:
     )
     cafile = os.path.join(resources_proc.stdout.strip(), "calibre-ebook-root-CA.crt")
 
-    ctx = ssl.SSLContext()
-    ctx.load_verify_locations(cafile)
+    ctx = ssl.create_default_context(cafile = cafile)
 
     plugins = {}
     with urlopen(PLUGIN_INDEX, context=ctx) as resp:
@@ -76,13 +75,12 @@ def main() -> int:
     for plugin in PLUGIN_KEYS:
         if plugin not in plugins:
             raise Exception(plugin)
-        plugin_remote_file = plugins.get(plugin, {}).get("file", None)
+        plugin_remote_file = plugins.get(plugin, {}).get("original_url", None)
         if plugin_remote_file is None:
             continue
 
         print(f"Installing plugin: {plugin}")
-        plugin_url = f"{BASE_URL}/{plugin_remote_file}"
-        with urlopen(plugin_url, context=ctx) as resp:
+        with urlopen(plugin_remote_file) as resp:
             with NamedTemporaryFile() as tmp_file:
                 shutil.copyfileobj(resp, tmp_file)
                 proc = subprocess.run(
@@ -91,7 +89,9 @@ def main() -> int:
                     encoding="UTF-8",
                 )
                 if proc.returncode != 0:
-                    print(f"Failed: {proc.stderr}")
+                    print(
+                        f"Failed to install plugin from {plugin_remote_file}:\n{proc.stderr}"
+                    )
 
     return 0
 
