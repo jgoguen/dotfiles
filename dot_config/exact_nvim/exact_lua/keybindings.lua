@@ -105,10 +105,10 @@ local M = {
 			gR = ':TroubleToggle lsp_references<CR>',
 
 			-- Normal movement between wrapped lines
-			k = 'gk',
-			['<up>'] = 'gk',
-			j = 'gj',
-			['<down>'] = 'gj',
+			k = {[[v:count ==  0 ? 'gk' : 'k']], {expr = true}},
+			['<up>'] = {[[v:count ==  0 ? 'gk' : 'k']], {expr = true}},
+			j = {[[v:count ==  0 ? 'gj' : 'j']], {expr = true}},
+			['<down>'] = {[[v:count ==  0 ? 'gj' : 'j']], {expr = true}},
 
 			J = 'mzJ`z',
 
