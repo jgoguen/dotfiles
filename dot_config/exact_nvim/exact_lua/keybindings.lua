@@ -23,14 +23,22 @@ local M = {
 			['^'] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
 
 			-- Resize splits
-			['<C-Left>'] = '<C-w><',
-			['<C-Right>'] = '<C-w>>',
+			['<C-Up>'] = ':resize +2<CR>',
+			['<C-Down>'] = ':resize -2<CR>',
+			['<C-Left>'] = ':vertical resize -2<CR>',
+			['<C-Right>'] = ':vertical resize +2<CR>',
 
 			['<C-c>'] = function() require('FTerm').toggle() end,
 
 			-- Keep the cursor in the middle of the screen with <C-d> and <C-u>
 			['<C-d>'] = '<C-d>zz',
 			['<C-u>'] = '<C-u>zz',
+
+			-- Move between splits
+			['<C-h>'] = '<C-w>h',
+			['<C-j>'] = '<C-w>j',
+			['<C-k>'] = '<C-w>k',
+			['<C-l>'] = '<C-w>l',
 
 			-- Move between tabs
 			['<C-S-Right>'] = ':tabnext<CR>',
@@ -57,11 +65,6 @@ local M = {
 			['<Leader>f'] = ':Neotree reveal_force_cwd<CR>',
 			['<Leader>fc'] = ':Neotree reveal_force_cwd toggle<CR>',
 
-			-- Move between splits
-			['<Leader>h'] = '<C-w>h',
-			['<Leader>j'] = '<C-w>j',
-			['<Leader>k'] = '<C-w>k',
-			['<Leader>l'] = '<C-w>l',
 			-- Location window shortcuts
 			['<Leader>ln'] = ':lnext<CR>zz',
 			['<Leader>lp'] = ':lprevious<CR>zz',
