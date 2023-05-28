@@ -5,7 +5,7 @@ local config = {
 	automatically_reload_config = true,
 	bold_brightens_ansi_colors = true,
 	clean_exit_codes = { 130 },
-	color_scheme = 'tokyonight',
+	color_scheme = 'tokyonight_day',
 	font = wezterm.font_with_fallback({
 		'JetBrainsMono Nerd Font',
 		'FiraCode Nerd Font',

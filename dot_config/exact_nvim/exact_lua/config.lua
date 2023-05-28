@@ -12,6 +12,7 @@ local M = {
 			autoread = true,
 			-- Write modified buffers when the buffer becomes hidden
 			autowriteall = true,
+			background = 'light',
 			-- Don't stop backspace at insert, C-w and C-u do not stop
 			-- at start of insert
 			backspace = vim.opt.backspace + {'nostop'},
