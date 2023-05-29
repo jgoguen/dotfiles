@@ -17,14 +17,14 @@ local M = {
 }
 
 function M.config()
-	local telescope = require('telescope')
-	local actions = require('telescope.actions')
-	local utils = require('utils')
+	local Telescope = require('telescope')
+	local TelescopeActions = require('telescope.actions')
+	local Utils = require('utils')
 
-	telescope.setup({
+	Telescope.setup({
 		defaults = {
-			prompt_prefix = string.format('%s ', utils.get_icon('Search')),
-			selection_caret = string.format('%s ', utils.get_icon('Selected')),
+			prompt_prefix = string.format('%s ', Utils.get_icon('Search')),
+			selection_caret = string.format('%s ', Utils.get_icon('Selected')),
 			path_display = {
 				'truncate',
 			},
@@ -45,19 +45,19 @@ function M.config()
 
 			mappings = {
 				i = {
-					['<esc>'] = actions.close,
-					['<C-i>'] = actions.select_horizontal,
-					['<C-j>'] = actions.move_selection_next,
-					['<C-k>'] = actions.move_selection_previous,
-					['<C-n>'] = actions.cycle_history_next,
-					['<C-p>'] = actions.cycle_history_prev,
-					['<C-s>'] = actions.select_vertical,
+					['<esc>'] = TelescopeActions.close,
+					['<C-i>'] = TelescopeActions.select_horizontal,
+					['<C-j>'] = TelescopeActions.move_selection_next,
+					['<C-k>'] = TelescopeActions.move_selection_previous,
+					['<C-n>'] = TelescopeActions.cycle_history_next,
+					['<C-p>'] = TelescopeActions.cycle_history_prev,
+					['<C-s>'] = TelescopeActions.select_vertical,
 				},
 				n = {
-					['i'] = actions.select_horizontal,
-					['q'] = actions.close,
-					['s'] = actions.select_vertical,
-					['t'] = actions.select_tab,
+					['i'] = TelescopeActions.select_horizontal,
+					['q'] = TelescopeActions.close,
+					['s'] = TelescopeActions.select_vertical,
+					['t'] = TelescopeActions.select_tab,
 				},
 			},
 			vimgrep_arguments = {
@@ -80,12 +80,12 @@ function M.config()
 
 	local has_notify, _ = pcall(require, 'notify')
 	if has_notify then
-		telescope.load_extension('notify')
+		Telescope.load_extension('notify')
 	end
 
 	local has_fzf, _ = pcall(require, 'telescope._extensions.fzf')
 	if has_fzf then
-		telescope.load_extension('fzf')
+		Telescope.load_extension('fzf')
 	end
 end
 

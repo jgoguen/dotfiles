@@ -40,23 +40,22 @@ local M = {
 }
 
 function M.config(plugin)
-	local cmp = require('cmp')
-	local utils = require('utils')
+	local Cmp = require('cmp')
+	local Utils = require('utils')
 
 	-- Base nvim-cmp
-	cmp.setup({
+	Cmp.setup({
 		enabled = function()
-			local ctx = require('cmp.config.context')
-
 			-- Always disabled in command mode
 			if vim.api.nvim_get_mode().mode == 'c' then
 				return false
 			end
 
 			-- Disable in comment contexts
-			return not ctx.in_treesitter_capture("comment") and not ctx.in_syntax_group("Comment")
+			local Ctx = require('cmp.config.context')
+			return not Ctx.in_treesitter_capture("comment") and not Ctx.in_syntax_group("Comment")
 		end,
-		preselect = cmp.PreselectMode.None,
+		preselect = Cmp.PreselectMode.None,
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },
 			format = require('lspkind').cmp_format(require('utils').lspkind_opts()),
@@ -72,46 +71,46 @@ function M.config(plugin)
 			path = 1,
 		},
 		confirm_opts = {
-			behavior = cmp.ConfirmBehavior.Replace,
+			behavior = Cmp.ConfirmBehavior.Replace,
 			select = false,
 		},
 		window = {
-			completion = cmp.config.window.bordered(border_opts),
-			documentation = cmp.config.window.bordered(border_opts),
+			completion = Cmp.config.window.bordered(border_opts),
+			documentation = Cmp.config.window.bordered(border_opts),
 		},
 		mapping = {
-			['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-			['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-			['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
-			['<C-e>'] = cmp.mapping {
-				i = cmp.mapping.abort(),
-				c = cmp.mapping.close(),
+			['<C-Space>'] = Cmp.mapping(Cmp.mapping.complete(), { 'i', 'c' }),
+			['<C-b>'] = Cmp.mapping(Cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+			['<C-d>'] = Cmp.mapping(Cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
+			['<C-e>'] = Cmp.mapping {
+				i = Cmp.mapping.abort(),
+				c = Cmp.mapping.close(),
 			},
-			['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-			['<C-j>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-			['<C-k>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-			['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-			['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-			['<C-y>'] = cmp.config.disable,
-			['<Esc>'] = cmp.mapping({
-				i = cmp.mapping.abort(),
-				c = cmp.mapping.close(),
+			['<C-f>'] = Cmp.mapping(Cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+			['<C-j>'] = Cmp.mapping.select_next_item { behavior = Cmp.SelectBehavior.Insert },
+			['<C-k>'] = Cmp.mapping.select_prev_item { behavior = Cmp.SelectBehavior.Insert },
+			['<C-n>'] = Cmp.mapping.select_next_item { behavior = Cmp.SelectBehavior.Insert },
+			['<C-p>'] = Cmp.mapping.select_prev_item { behavior = Cmp.SelectBehavior.Insert },
+			['<C-y>'] = Cmp.config.disable,
+			['<Esc>'] = Cmp.mapping({
+				i = Cmp.mapping.abort(),
+				c = Cmp.mapping.close(),
 			}),
-			['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-			['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-			['<CR>'] = cmp.mapping.confirm({
-				behavior = cmp.ConfirmBehavior.Replace,
+			['<Up>'] = Cmp.mapping.select_prev_item { behavior = Cmp.SelectBehavior.Select },
+			['<Down>'] = Cmp.mapping.select_next_item { behavior = Cmp.SelectBehavior.Select },
+			['<CR>'] = Cmp.mapping.confirm({
+				behavior = Cmp.ConfirmBehavior.Replace,
 				select = false,
 			}),
 			['<Tab>'] = require('cmp').mapping(function(fallback)
-				local cmp = require('cmp')
-				local luasnip = require('luasnip')
-				if cmp.visible() then
-					cmp.select_next_item()
-				elseif luasnip.expandable() then
-					luasnip.expand()
-				elseif luasnip.expand_or_jumpable() then
-					luasnip.expand_or_jump()
+				local Cmp = require('cmp')
+				local Luasnip = require('luasnip')
+				if Cmp.visible() then
+					Cmp.select_next_item()
+				elseif Luasnip.expandable() then
+					Luasnip.expand()
+				elseif Luasnip.expand_or_jumpable() then
+					Luasnip.expand_or_jump()
 				else
 					fallback()
 				end
@@ -120,12 +119,12 @@ function M.config(plugin)
 				's',
 			}),
 			['<S-Tab>'] = require('cmp').mapping(function(fallback)
-				local cmp = require('cmp')
-				local luasnip = require('luasnip')
-				if cmp.visible() then
-					cmp.select_prev_item()
-				elseif luasnip.jumpable(-1) then
-					luasnip.jump(-1)
+				local Cmp = require('cmp')
+				local Luasnip = require('luasnip')
+				if Cmp.visible() then
+					Cmp.select_prev_item()
+				elseif Luasnip.jumpable(-1) then
+					Luasnip.jump(-1)
 				else
 					fallback()
 				end
@@ -137,17 +136,17 @@ function M.config(plugin)
 	})
 
 	-- Begin autopairs
-	local autopairs = require('nvim-autopairs')
-	local autopair_cmp = require('nvim-autopairs.completion.cmp')
-	local autopair_rule = require('nvim-autopairs.rule')
-	local autopair_cond = require('nvim-autopairs.conds')
-	local handlers = require('nvim-autopairs.completion.handlers')
-	autopairs.setup(plugin.opts.autopairs)
+	local Autopairs = require('nvim-autopairs')
+	local AutopairCmp = require('nvim-autopairs.completion.cmp')
+	local AutopairRule = require('nvim-autopairs.rule')
+	local AutopairCond = require('nvim-autopairs.conds')
+	local AutopairHandlers = require('nvim-autopairs.completion.handlers')
+	Autopairs.setup(plugin.opts.autopairs)
 
 	for _, p in ipairs({',', ';'}) do
-		autopairs.add_rules({
+		Autopairs.add_rules({
 			-- Move past comma and semi-colon
-			autopair_rule('', p)
+			AutopairRule('', p)
 				:with_move(function(opts) return opts.char == p end)
 				:with_pair(function() return false end)
 				:with_del(function() return false end)
@@ -156,10 +155,10 @@ function M.config(plugin)
 		})
 	end
 
-	autopairs.add_rules({
+	Autopairs.add_rules({
 		-- Add space before equals
-		autopair_rule('=', '')
-			:with_pair(autopair_cond.not_inside_quote())
+		AutopairRule('=', '')
+			:with_pair(AutopairCond.not_inside_quote())
 			:with_pair(function(opts)
 				local last_char = opts.line:sub(opts.col - 1, opts.col - 1)
 				if last_char:match('[%w%=%s]') then
@@ -185,21 +184,21 @@ function M.config(plugin)
 				return ''
 			end)
 			:set_end_pair_length(0)
-			:with_move(autopair_cond.none())
-			:with_del(autopair_cond.none())
+			:with_move(AutopairCond.none())
+			:with_del(AutopairCond.none())
 	})
 
-	cmp.event:on(
+	Cmp.event:on(
 		'confirm_done',
-		autopair_cmp.on_confirm_done({
+		AutopairCmp.on_confirm_done({
 			filetypes = {
 				['*'] = {
 					['('] = {
 						kind = {
-							cmp.lsp.CompletionItemKind.Function,
-							cmp.lsp.CompletionItemKind.Method,
+							Cmp.lsp.CompletionItemKind.Function,
+							Cmp.lsp.CompletionItemKind.Method,
 						},
-						handler = handlers["*"]
+						handler = AutopairHandlers["*"]
 					},
 				},
 				latex = false,
@@ -218,7 +217,7 @@ function M.config(plugin)
 		'path',
 	}
 	for _, source in ipairs(sources) do
-		utils.add_cmp_source(utils.get_cmp_source(source))
+		Utils.add_cmp_source(Utils.get_cmp_source(source))
 	end
 end
 

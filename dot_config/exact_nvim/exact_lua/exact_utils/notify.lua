@@ -2,10 +2,13 @@
 
 local M = {}
 
+---@param msg string
+---@param title? string
+---@param level? integer
 function M.notify(msg, title, level)
 	if vim.in_fast_event() then
 		return vim.schedule(function()
-			M.notify(msg, opts)
+			M.notify(msg, title, level)
 		end)
 	end
 
@@ -14,6 +17,8 @@ function M.notify(msg, title, level)
 	})
 end
 
+---@param msg
+---@param title? string
 function M.debug(msg, title)
 	-- debug() may be useful for directly sending variables to for, well,
 	-- debugging!
@@ -23,14 +28,20 @@ function M.debug(msg, title)
 	M.notify(msg, title, vim.log.levels.DEBUG)
 end
 
+---@param msg string
+---@param title? string
 function M.info(msg, title)
 	M.notify(msg, title, vim.log.levels.INFO)
 end
 
+---@param msg string
+---@param title? string
 function M.warn(msg, title)
 	M.notify(msg, title, vim.log.levels.WARN)
 end
 
+---@param msg string
+---@param title? string
 function M.error(msg, title)
 	M.notify(msg, title, vim.log.levels.ERROR)
 end

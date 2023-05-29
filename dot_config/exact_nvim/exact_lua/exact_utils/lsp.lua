@@ -49,9 +49,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local has_cmp_lsp, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
+local has_cmp_lsp, CmpLsp = pcall(require, 'cmp_nvim_lsp')
 if has_cmp_lsp then
-	capabilities = vim.tbl_extend('force', capabilities, cmp_lsp.default_capabilities())
+	capabilities = vim.tbl_extend('force', capabilities, CmpLsp.default_capabilities())
 end
 
 local M = {}
@@ -103,17 +103,18 @@ function M.on_attach(client, bufnr)
 	lsp_highlight_document(client)
 
 	if client.server_capabilities.codeLensProvider then
-		local has_virtualtypes, virtualtypes = pcall(require, 'virtualtypes')
+		local has_virtualtypes, VirtualTypes = pcall(require, 'virtualtypes')
 		if has_virtualtypes then
-			virtualtypes.on_attach(client, bufnr)
+			VirtualTypes.on_attach(client, bufnr)
 		end
 	end
 	--vim.notify(vim.inspect(client.server_capabilities))
 end
 
+---@param server_name string
 function M.config(server_name)
-	local has_config, config = pcall(require, 'config.lsp.' .. server_name)
-	config = has_config and config or {}
+	local has_config, Config = pcall(require, 'config.lsp.' .. server_name)
+	config = has_config and Config or {}
 	--vim.notify(vim.inspect(M.capabilities))
 	config.on_attach = M.on_attach
 	config.capabilities = M.capabilities
@@ -121,6 +122,7 @@ function M.config(server_name)
 	return config
 end
 
+---@param servers string|string[]
 function M.setup(servers)
 	servers = type(servers) == 'string' and { servers } or servers
 

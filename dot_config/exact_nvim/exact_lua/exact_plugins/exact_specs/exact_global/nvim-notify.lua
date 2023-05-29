@@ -11,11 +11,11 @@ local M = {
 }
 
 function M.config(plugin)
-	local notify = require('notify')
+	local Notify = require('notify')
 
-	notify.setup(plugin.opts)
+	Notify.setup(plugin.opts)
 
-	vim.notify = notify
+	vim.notify = Notify
 end
 
 return M

@@ -9,13 +9,13 @@ local M = {
 }
 
 function M.config()
-	local has_registry, registry = pcall(require, 'mason-registry')
+	local has_registry, Registry = pcall(require, 'mason-registry')
 	if not has_registry then
 		return
 	end
 	local server_mappings = require('utils.lsp.mapping').package_to_lspconfig
 
-	for _, package_name in ipairs(registry.get_installed_package_names()) do
+	for _, package_name in ipairs(Registry.get_installed_package_names()) do
 		require('utils.lsp').setup(server_mappings[package_name])
 	end
 end

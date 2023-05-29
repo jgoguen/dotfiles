@@ -49,16 +49,16 @@ local M = {
 }
 
 function M.config(plugin)
-	local colorscheme = require('config.colorscheme')
-	local has_cs, cs = pcall(require, 'lualine.themes.' .. colorscheme.active_colorscheme)
-	local has_statusline_hints, statusline_hints = pcall(require, 'statusline-action-hints')
+	local Colorscheme = require('config.colorscheme')
+	local has_cs, cs = pcall(require, 'lualine.themes.' .. Colorscheme.active_colorscheme)
+	local has_statusline_hints, StatuslineHints = pcall(require, 'statusline-action-hints')
 
 	if has_cs then
 		plugin.opts.options.theme = cs
 	end
 
 	if has_statusline_hints then
-		plugin.opts.sections.lualine_x = {statusline_hints.statusline}
+		plugin.opts.sections.lualine_x = {StatuslineHints.statusline}
 	end
 
 	require('lualine').setup(plugin.opts)

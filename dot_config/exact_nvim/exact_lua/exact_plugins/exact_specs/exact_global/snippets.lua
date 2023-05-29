@@ -10,8 +10,8 @@ local M = {
 
 function M.config()
 	for _, load_type in ipairs { 'vscode', 'snipmate', 'lua' } do
-		local loader = require('luasnip.loaders.from_' .. load_type)
-		loader.lazy_load()
+		local Loader = require('luasnip.loaders.from_' .. load_type)
+		Loader.lazy_load()
 	end
 end
 

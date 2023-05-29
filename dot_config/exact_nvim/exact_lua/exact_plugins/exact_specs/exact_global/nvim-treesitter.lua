@@ -53,9 +53,9 @@ end
 
 function M.config(plugin)
 	local options = plugin.opts
-	local has_config, config = pcall(require, 'config.treesitter')
+	local has_config, Config = pcall(require, 'config.treesitter')
 	if has_config then
-		options = vim.tbl_deep_extend('force', options, config)
+		options = vim.tbl_deep_extend('force', options, Config)
 	end
 
 	require('nvim-treesitter.configs').setup(options)

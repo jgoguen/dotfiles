@@ -42,6 +42,8 @@ local M = {
 
 -- Take the cmp source string or table and return a source table.
 -- See nvim-cmp documentation for the format of the source table.
+---@param source string|table
+---@return table
 function M.get_cmp_source(source)
 	local cmp_src = type(source) == 'string' and {name = source} or source
 
@@ -54,21 +56,29 @@ function M.get_cmp_source(source)
 end
 
 -- Takes a cmp source table and adds it to nvim-cmp
+---@param source table
 function M.add_cmp_source(source)
-	local has_cmp, cmp = pcall(require, 'cmp')
+	local has_cmp, Cmp = pcall(require, 'cmp')
 	if not has_cmp then return end
 
-	local config = cmp.get_config()
+	local config = Cmp.get_config()
 	table.insert(config.sources, source)
 
-	cmp.setup(config)
+	Cmp.setup(config)
 end
 
+---@param name string
+---@return string
 function M.get_icon(name)
-	local icons = require('config.icons')
-	return icons[name] or ''
+	local Icons = require('config.icons')
+	return Icons[name] or ''
 end
 
+---@class LspkindOpts
+---@field mode string
+---@field symbol_map table
+
+---@return LspkindOpts
 function M.lspkind_opts()
 	return {
 		mode = 'symbol_text',
@@ -94,6 +104,10 @@ function M.lspkind_opts()
 	}
 end
 
+---@param mode string
+---@param key string
+---@param val string
+---@param opts table
 function M.set_keymap(mode, key, val, opts)
 	local options = {noremap = true, silent = true}
 	if opts then
@@ -103,6 +117,8 @@ function M.set_keymap(mode, key, val, opts)
 	vim.keymap.set(mode, key, val, options)
 end
 
+---@param mapping table
+---@return table
 function M.invert(mapping)
 	local result = {}
 	for k, v in pairs(mapping) do
@@ -110,6 +126,11 @@ function M.invert(mapping)
 	end
 	return result
 end
+
+---@class FloatingWindowOptions
+---@field width number The width as percentage or absolute width
+---@field height number The height as percentage or absolute height
+---@field border string The border style
 
 -- Opens a floating window
 -- opts:
@@ -119,6 +140,7 @@ end
 -- How to add content to the new window:
 --	local buf = floating_window(opts)
 --	vim.api.nvim_buf_set_lines(buf, 0, -1, true, <string content>)
+--- @param opts FloatingWindowOptions
 function M.floating_window(opts)
 	local default_config = {
 		width = 0.8,
@@ -165,6 +187,9 @@ function M.close_floating_windows()
 	end
 end
 
+---@param opt string
+---@param silent? boolean
+---@param values? {[1]:any, [2]:any}
 function M.toggle(opt, silent, values)
 	if values then
 		if vim.opt_local[opt]:get() == values[1] then
@@ -176,6 +201,7 @@ function M.toggle(opt, silent, values)
 		if not silent then
 			Notify.info(string.format('Set %s to %s', opt, vim.opt_local[opt]:get()), 'Option')
 		end
+		return
 	end
 
 	vim.opt_local[opt] = not vim.opt_local[opt]:get()
