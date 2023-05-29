@@ -36,3 +36,10 @@ augroup whitespace
 
 	autocmd BufWritePre * call utils#StripTrailingWhitespaces()
 augroup END
+
+augroup cursorline
+	autocmd!
+
+	autocmd InsertLeave,WinEnter * set cursorline
+	autocmd WinLeave * set nocursorline
+augroup END
