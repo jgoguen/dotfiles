@@ -124,6 +124,10 @@ local M = {
 			['<C-t>'] = '<C-\\><C-n>:lua require("FTerm").toggle()<CR>',
 		},
 		v = {
+			-- Better indentation
+			['<'] = '<gv',
+			['>'] = '>gv',
+
 			-- Delete to the void register
 			['<Leader>d'] = '"_d',
 
