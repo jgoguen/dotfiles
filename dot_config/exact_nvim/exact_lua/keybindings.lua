@@ -45,11 +45,10 @@ local M = {
 			['<C-S-Left>'] = ':tabprev<CR>',
 
 			-- Move between buffers
-			['<A-PageDown>'] = ':bnext<CR>',
-			['<A-PageUp>'] = ':bprev<CR>',
-			-- macOS needs the same mappings with Option
-			['<D-PageDown>'] = ':bnext<CR>',
-			['<D-PageUp>'] = ':bprev<CR>',
+			['<S-h>'] = ':bprevious<CR>',
+			['[b'] = ':bprevious<CR>',
+			['<S-l>'] = ':bnext<CR>',
+			[']b'] = ':bnext<CR>',
 
 			-- Telescope buffers
 			['<Leader>b'] = function() require('telescope.builtin').buffers() end,
