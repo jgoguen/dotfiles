@@ -64,6 +64,8 @@ local M = {
 			['<Leader>f'] = ':Neotree reveal_force_cwd<CR>',
 			['<Leader>fc'] = ':Neotree reveal_force_cwd toggle<CR>',
 
+			['<LocalLeader>l'] = ':nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR>:redraw!<CR>',
+
 			-- Location window shortcuts
 			['<Leader>ln'] = ':lnext<CR>zz',
 			['<Leader>lp'] = ':lprevious<CR>zz',
