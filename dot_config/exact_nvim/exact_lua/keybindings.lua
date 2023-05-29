@@ -107,16 +107,16 @@ local M = {
 			gR = ':TroubleToggle lsp_references<CR>',
 
 			-- Normal movement between wrapped lines
-			k = {[[v:count ==  0 ? 'gk' : 'k']], {expr = true}},
-			['<up>'] = {[[v:count ==  0 ? 'gk' : 'k']], {expr = true}},
-			j = {[[v:count ==  0 ? 'gj' : 'j']], {expr = true}},
-			['<down>'] = {[[v:count ==  0 ? 'gj' : 'j']], {expr = true}},
+			k = {[[v:count == 0 ? 'gk' : 'k']], {expr = true}},
+			['<up>'] = {[[v:count == 0 ? 'gk' : 'k']], {expr = true}},
+			j = {[[v:count == 0 ? 'gj' : 'j']], {expr = true}},
+			['<down>'] = {[[v:count == 0 ? 'gj' : 'j']], {expr = true}},
 
 			J = 'mzJ`z',
 
 			-- Going to the next/previous match will centre the line it's on
-			n = 'nzzzv',
-			N = 'Nzzzv',
+			n = {"'Nn'[v:searchforward]|zzzv", {expr = true}},
+			N = {"'nN'[v:searchforward]|zzzv", {expr = true}},
 			-- Mark a word as rare
 			['z?'] = ':execute ":spellrare " .. expand("<cWORD>")<CR>',
 		},
