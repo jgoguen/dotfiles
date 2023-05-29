@@ -8,6 +8,7 @@ local border_opts = {
 local M = {
 	'hrsh7th/nvim-cmp',
 	dependencies = {
+		'evesdropper/luasnip-latex-snippets.nvim',
 		'hrsh7th/cmp-buffer',
 		'hrsh7th/cmp-emoji',
 		'hrsh7th/cmp-nvim-lsp',
@@ -157,7 +158,7 @@ function M.config(plugin)
 
 	Autopairs.add_rules({
 		-- Add space before equals
-		AutopairRule('=', '')
+		AutopairRule('=', '', {'-html', '-xhtml', '-xml'})
 			:with_pair(AutopairCond.not_inside_quote())
 			:with_pair(function(opts)
 				local last_char = opts.line:sub(opts.col - 1, opts.col - 1)
