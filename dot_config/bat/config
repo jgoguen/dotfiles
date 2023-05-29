@@ -1,2 +1,3 @@
 --pager 'less -FrX'
---style="plain"
+--style "plain"
+--theme "tokyonight_day"
