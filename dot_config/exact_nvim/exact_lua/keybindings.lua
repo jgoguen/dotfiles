@@ -13,6 +13,13 @@ local M = {
 		},
 		i = {
 			['<S-Tab>'] = { '<ESC><<a', { silent = false } },
+
+			-- Add undo breakpoints
+			[','] = ',<C-g>u',
+			['.'] = '.<C-g>u',
+			[';'] = ';<C-g>u',
+			['('] = '(<C-g>u',
+			[')'] = ')<C-g>u',
 		},
 		n = {
 			['<F8>'] = function() require('symbols-outline').toggle_outline() end,
