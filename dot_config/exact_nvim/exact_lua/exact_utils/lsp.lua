@@ -77,7 +77,7 @@ function M.on_attach(client, bufnr)
 	buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
 	buf_set_keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder)
 	buf_set_keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder)
-	buf_set_keymap('n', '<space>wl', function() print(inspect(vim.lsp.buf.list_workspace_folders())) end)
+	buf_set_keymap('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
 	buf_set_keymap('n', '<space>D', vim.lsp.buf.type_definition)
 	buf_set_keymap('n', '<space>rn', vim.lsp.buf.rename)
 	buf_set_keymap('n', '<space>ca', vim.lsp.buf.code_action)
@@ -108,13 +108,13 @@ function M.on_attach(client, bufnr)
 			virtualtypes.on_attach(client, bufnr)
 		end
 	end
-	--vim.notify(inspect(client.server_capabilities))
+	--vim.notify(vim.inspect(client.server_capabilities))
 end
 
 function M.config(server_name)
 	local has_config, config = pcall(require, 'config.lsp.' .. server_name)
 	config = has_config and config or {}
-	--vim.notify(inspect(M.capabilities))
+	--vim.notify(vim.inspect(M.capabilities))
 	config.on_attach = M.on_attach
 	config.capabilities = M.capabilities
 

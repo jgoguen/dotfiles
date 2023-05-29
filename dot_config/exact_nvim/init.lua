@@ -22,11 +22,6 @@ if vim.fn.isdirectory(XDG_CONFIG_HOME .. '/vim-local') == 1 then
 	vim.opt.rtp:append(XDG_CONFIG_HOME .. '/vim-local')
 end
 
-local has_inspect, inspect = pcall(require, 'inspect')
-if has_inspect then
-	_G.inspect = inspect
-end
-
 for _, glob in ipairs(settings_paths) do
 	local settings = vim.fn.globpath(vim.o.runtimepath, glob, 0, 1)
 	for _, f in ipairs(settings) do
