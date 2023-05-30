@@ -15,7 +15,7 @@ return {
 			},
 			diagnostics = {
 				globals = {
-					'vim', 'require', 'pcall', '_G', 'os', 'ipairs',
+					'nvim', 'vim', 'require', 'pcall', '_G', 'os', 'ipairs',
 				},
 			},
 			format = {

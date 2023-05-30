@@ -45,13 +45,14 @@ local M = {
 ---@param source string|table
 ---@return table
 function M.get_cmp_source(source)
-	local cmp_src = type(source) == 'string' and {name = source} or source
+	local cmp_src = type(source) == 'string' and { name = source } or source
 
 	local priority = M.cmp_source_priority[cmp_src.name]
 	if priority then
 		cmp_src.priority = priority
 	end
 
+	---@cast cmp_src table
 	return cmp_src
 end
 
@@ -74,11 +75,12 @@ function M.get_icon(name)
 	return Icons[name] or ''
 end
 
----@class LspkindOpts
----@field mode string
----@field symbol_map table
-
----@return LspkindOpts
+---@alias LSPKindMode
+--| '"text"'
+--| '"text_symbol"'
+--| '"symbol_text"'
+--| '"symbol"'
+---@return {mode: LSPKindMode, symbol_map: table<string, string>}
 function M.lspkind_opts()
 	return {
 		mode = 'symbol_text',
@@ -106,10 +108,10 @@ end
 
 ---@param mode string
 ---@param key string
----@param val string
----@param opts table
+---@param val string|fun()
+---@param opts? table
 function M.set_keymap(mode, key, val, opts)
-	local options = {noremap = true, silent = true}
+	local options = { noremap = true, silent = true }
 	if opts then
 		options = vim.tbl_extend('force', options, opts)
 	end
@@ -127,11 +129,6 @@ function M.invert(mapping)
 	return result
 end
 
----@class FloatingWindowOptions
----@field width number The width as percentage or absolute width
----@field height number The height as percentage or absolute height
----@field border string The border style
-
 -- Opens a floating window
 -- opts:
 --	- width: int (0,1]: Percentage of the editor width for the window
@@ -140,7 +137,7 @@ end
 -- How to add content to the new window:
 --	local buf = floating_window(opts)
 --	vim.api.nvim_buf_set_lines(buf, 0, -1, true, <string content>)
---- @param opts FloatingWindowOptions
+--- @param opts {width?: number, height?: number, border?: string}
 function M.floating_window(opts)
 	local default_config = {
 		width = 0.8,
@@ -174,16 +171,16 @@ end
 function M.close_floating_windows()
 	local inactive_floating_windows = vim.fn.filter(
 		vim.api.nvim_list_wins(),
-		function(k, v)
+		function(_, v)
 			local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(v), 'filetype')
 			return vim.api.nvim_win_get_config(v).relative ~= ''
-				and v ~= vim.api.nvim_get_current_win()
-				and ft ~= 'hydra_hint'
+					and v ~= vim.api.nvim_get_current_win()
+					and ft ~= 'hydra_hint'
 		end
 	)
 
 	for _, win in ipairs(inactive_floating_windows) do
-		pcall(vim.api.nvim_win_close, w, false)
+		pcall(vim.api.nvim_win_close, win, false)
 	end
 end
 

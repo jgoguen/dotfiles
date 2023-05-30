@@ -17,7 +17,7 @@ function M.notify(msg, title, level)
 	})
 end
 
----@param msg
+---@param msg any
 ---@param title? string
 function M.debug(msg, title)
 	-- debug() may be useful for directly sending variables to for, well,

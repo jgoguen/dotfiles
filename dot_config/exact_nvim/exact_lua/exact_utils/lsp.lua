@@ -17,7 +17,7 @@ local function lsp_highlight_document(client)
 end
 
 local function go_to_definition(split_cmd)
-	return function(_, result, ctx)
+	return function(_, result, _)
 		if result == nil or vim.tbl_isempty(result) then
 			return nil
 		end
@@ -114,7 +114,7 @@ end
 ---@param server_name string
 function M.config(server_name)
 	local has_config, Config = pcall(require, 'config.lsp.' .. server_name)
-	config = has_config and Config or {}
+	local config = has_config and Config or {}
 	--vim.notify(vim.inspect(M.capabilities))
 	config.on_attach = M.on_attach
 	config.capabilities = M.capabilities
@@ -126,6 +126,7 @@ end
 function M.setup(servers)
 	servers = type(servers) == 'string' and { servers } or servers
 
+	---@cast servers string[]
 	for _, server_name in ipairs(servers) do
 		require('lspconfig')[server_name].setup(M.config(server_name))
 	end
