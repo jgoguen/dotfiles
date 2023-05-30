@@ -60,6 +60,8 @@ local M = {
 			-- Telescope buffers
 			['<Leader>b'] = function() require('telescope.builtin').buffers() end,
 
+			['<Leader>cd'] = vim.diagnostic.open_float,
+
 			-- Toggle cursorcolumn (useful for aligning text)
 			['<Leader>cl'] = ':<C-U>call utils#ToggleCursorColumn()<CR>',
 
@@ -121,6 +123,7 @@ local M = {
 			j = {[[v:count == 0 ? 'gj' : 'j']], {expr = true}},
 			['<down>'] = {[[v:count == 0 ? 'gj' : 'j']], {expr = true}},
 
+			-- Mark z, join [count] lines, jump back to mark z
 			J = 'mzJ`z',
 
 			-- Going to the next/previous match will centre the line it's on
