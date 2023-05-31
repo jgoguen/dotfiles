@@ -2,7 +2,7 @@
 
 local M = {
 	'nvim-tree/nvim-web-devicons',
-	event = 'VeryLazy',
+	lazy = true,
 }
 
 function M.config()
