@@ -3,3 +3,5 @@
 setlocal expandtab
 setlocal nospell
 setlocal textwidth=120
+
+compiler yamllint
