@@ -4,7 +4,19 @@ local Utils = require('utils')
 
 local M = {
 	'simrat39/symbols-outline.nvim',
-	lazy = true,
+	cmd = {
+		'SymbolsOutline',
+		'SymbolsOutlineClose',
+		'SymbolsOutlineOpen',
+	},
+	keys = {
+		{
+			'<F8>',
+			function()
+				require('symbols-outline').toggle_outline()
+			end
+		},
+	},
 	opts = {
 		symbols = {
 			File = {icon = Utils.get_icon('DefaultFile')},
