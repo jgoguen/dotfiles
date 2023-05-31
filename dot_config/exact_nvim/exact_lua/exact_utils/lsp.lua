@@ -124,7 +124,7 @@ end
 
 ---@param servers string|string[]
 function M.setup(servers)
-	servers = type(servers) == 'string' and { servers } or servers
+	servers = type(servers) == 'table' and servers or { servers }
 
 	---@cast servers string[]
 	for _, server_name in ipairs(servers) do
