@@ -34,6 +34,7 @@ function M.setup()
 	require('lazy').setup(
 		plugin_specs,
 		{
+			concurrency = 5,
 			checker = {
 				enabled = true,
 			},
