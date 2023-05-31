@@ -10,10 +10,10 @@ local M = {
 	},
 }
 
-function M.config(plugin)
+function M.config(_, opts)
 	local Notify = require('notify')
 
-	Notify.setup(plugin.opts)
+	Notify.setup(opts)
 
 	vim.notify = Notify
 end

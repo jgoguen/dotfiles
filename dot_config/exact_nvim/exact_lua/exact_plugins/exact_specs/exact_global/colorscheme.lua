@@ -10,9 +10,9 @@ local M = {
 	opts = Colorscheme.themes[Colorscheme.active_colorscheme].opts,
 }
 
-function M.config(plugin)
+function M.config(_, opts)
 	local Colorscheme = require('config.colorscheme')
-	require(Colorscheme.active_colorscheme).setup(plugin.opts)
+	require(Colorscheme.active_colorscheme).setup(opts)
 
 	vim.cmd('colorscheme ' .. Colorscheme.active_colorscheme)
 end

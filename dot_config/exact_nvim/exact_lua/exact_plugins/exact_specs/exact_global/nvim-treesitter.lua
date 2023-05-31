@@ -51,8 +51,8 @@ function M.build()
 	require('nvim-treesitter.install').update({with_sync = true})
 end
 
-function M.config(plugin)
-	local options = plugin.opts
+function M.config(_, opts)
+	local options = opts
 	local has_config, Config = pcall(require, 'config.treesitter')
 	if has_config then
 		options = vim.tbl_deep_extend('force', options, Config)

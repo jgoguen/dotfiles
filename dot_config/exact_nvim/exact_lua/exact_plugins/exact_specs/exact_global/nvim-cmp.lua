@@ -40,7 +40,7 @@ local M = {
 	},
 }
 
-function M.config(plugin)
+function M.config(_, opts)
 	local Cmp = require('cmp')
 	local Utils = require('utils')
 
@@ -142,7 +142,7 @@ function M.config(plugin)
 	local AutopairRule = require('nvim-autopairs.rule')
 	local AutopairCond = require('nvim-autopairs.conds')
 	local AutopairHandlers = require('nvim-autopairs.completion.handlers')
-	Autopairs.setup(plugin.opts.autopairs)
+	Autopairs.setup(opts.autopairs)
 
 	for _, p in ipairs({',', ';'}) do
 		Autopairs.add_rules({

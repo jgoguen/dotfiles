@@ -9,8 +9,8 @@ local M = {
 	opts = Utils.lspkind_opts(),
 }
 
-function M.config(plugin)
-	require('lspkind').init(plugin.opts)
+function M.config(_, opts)
+	require('lspkind').init(opts)
 end
 
 return M
