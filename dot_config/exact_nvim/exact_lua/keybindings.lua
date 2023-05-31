@@ -22,7 +22,7 @@ local M = {
 			[')'] = ')<C-g>u',
 		},
 		n = {
-			-- <F8> is defined in plugins/specs/global/symbols-outline.lua to allow
+			-- <F8> is defined in plugins/specs/global/aerial.lua to allow
 			-- lazy-loading by keypress
 
 			[';'] = { ':', { silent = false } },
