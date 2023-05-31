@@ -15,7 +15,7 @@ local M = {
 			background = 'light',
 			-- Don't stop backspace at insert, C-w and C-u do not stop
 			-- at start of insert
-			backspace = vim.opt.backspace + {'nostop'},
+			backspace = vim.opt.backspace + { 'nostop' },
 			-- Do not use backup files
 			backup = false,
 			-- Use 2 lines for the command area at the bottom of the screen
@@ -23,7 +23,7 @@ local M = {
 			-- Highlight the column after 'textwidth'
 			colorcolumn = '+1',
 			-- Include current and included files for completion
-			complete = vim.opt.complete + {'d'},
+			complete = vim.opt.complete + { 'd' },
 			-- Influence insert-mode completion
 			completeopt = {
 				'menuone',
@@ -40,7 +40,7 @@ local M = {
 			-- Highlight the line with the cursor
 			cursorline = true,
 			-- Open diffs in vertical splits
-			diffopt = vim.opt.diffopt + {'vertical'},
+			diffopt = vim.opt.diffopt + { 'vertical' },
 			-- Set characters for filling
 			fillchars = {
 				vert = '┃',
@@ -149,7 +149,7 @@ local M = {
 			-- Set a spell file
 			spellfile = vim.fn.stdpath('data') .. '/spell.utf8.add',
 			-- Use regional variations of English
-			spelllang = {'en_us', 'en_ca'},
+			spelllang = { 'en_us', 'en_ca' },
 			-- Open new splits below the current one
 			splitbelow = true,
 			-- Open splits to the right of the current one
@@ -241,4 +241,3 @@ function M.setup()
 end
 
 return M
-

@@ -27,10 +27,10 @@ local M = {
 			lualine_x = {},
 			lualine_y = {},
 			lualine_z = {
-				{'progress'},
-				{'%l/%L'},
-				{'%v'},
-				{'%B'},
+				{ 'progress' },
+				{ '%l/%L' },
+				{ '%v' },
+				{ '%B' },
 			},
 		},
 		tabline = {
@@ -63,7 +63,7 @@ function M.config(_, opts)
 	end
 
 	if has_statusline_hints then
-		opts.sections.lualine_x = {StatuslineHints.statusline}
+		opts.sections.lualine_x = { StatuslineHints.statusline }
 	end
 
 	require('lualine').setup(opts)

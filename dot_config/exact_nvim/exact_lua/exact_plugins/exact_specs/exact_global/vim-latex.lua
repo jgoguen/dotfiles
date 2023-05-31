@@ -2,7 +2,7 @@
 
 local M = {
 	'vim-latex/vim-latex',
-	ft = {'latex', 'tex'},
+	ft = { 'latex', 'tex' },
 }
 
 function M.init()

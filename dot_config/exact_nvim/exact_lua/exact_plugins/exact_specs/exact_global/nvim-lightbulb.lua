@@ -2,7 +2,7 @@
 
 local M = {
 	'kosayoda/nvim-lightbulb',
-	event = {'CursorHold', 'CursorHoldI'},
+	event = { 'CursorHold', 'CursorHoldI' },
 	opts = {
 		autocmd = {
 			enabled = true,

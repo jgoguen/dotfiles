@@ -6,13 +6,13 @@ function M.bootstrap()
 	local lazy_path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 	if not vim.loop.fs_stat(lazy_path) then
 		vim.fn.system({
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'--depth=1',
-		'https://github.com/folke/lazy.nvim.git',
-		lazy_path,
-	})
+			'git',
+			'clone',
+			'--filter=blob:none',
+			'--depth=1',
+			'https://github.com/folke/lazy.nvim.git',
+			lazy_path,
+		})
 	end
 
 	vim.opt.rtp:prepend(lazy_path)
@@ -24,11 +24,11 @@ function M.setup()
 	M.bootstrap()
 
 	local plugin_specs = {
-		{import = 'plugins.specs.global'},
+		{ import = 'plugins.specs.global' },
 	}
 	local local_plugins = vim.fn.expand('~/.config/vim-local/lua/plugins/specs/local')
 	if vim.loop.fs_stat(local_plugins) then
-		table.insert(plugin_specs, {import = 'plugins.specs.local'})
+		table.insert(plugin_specs, { import = 'plugins.specs.local' })
 	end
 
 	require('lazy').setup(
@@ -43,7 +43,7 @@ function M.setup()
 				fallback = true,
 			},
 			install = {
-				colorscheme = {colorscheme.active_colorscheme},
+				colorscheme = { colorscheme.active_colorscheme },
 			},
 			lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
 			performance = {
@@ -57,10 +57,10 @@ function M.setup()
 		}
 	)
 
-	vim.api.nvim_set_hl(0, 'LineNr', {fg = '#4b547d'})
-	vim.api.nvim_set_hl(0, 'CursorLineNr', {fg = '#4b547d'})
-	vim.api.nvim_set_hl(0, 'Comment', {fg = '#899497', italic = true})
-	vim.api.nvim_set_hl(0, '@comment', {fg = '#899497', italic = true})
+	vim.api.nvim_set_hl(0, 'LineNr', { fg = '#4b547d' })
+	vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#4b547d' })
+	vim.api.nvim_set_hl(0, 'Comment', { fg = '#899497', italic = true })
+	vim.api.nvim_set_hl(0, '@comment', { fg = '#899497', italic = true })
 end
 
 return M

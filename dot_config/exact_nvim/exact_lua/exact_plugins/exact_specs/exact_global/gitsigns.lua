@@ -25,7 +25,7 @@ local M = {
 					vim.schedule(function() gs.next_hunk() end)
 					return '<Ignore>'
 				end,
-				{expr=true}
+				{ expr = true }
 			)
 			buf_set_keymap(
 				'n',
@@ -35,11 +35,11 @@ local M = {
 					vim.schedule(function() gs.prev_hunk() end)
 					return '<Ignore>'
 				end,
-				{expr=true}
+				{ expr = true }
 			)
 
 			buf_set_keymap('n', '<LocalLeader>hs', gs.stage_hunk)
-			buf_set_keymap('n', '<LocalLeader>hb', function() gs.blame_line({full=true}) end)
+			buf_set_keymap('n', '<LocalLeader>hb', function() gs.blame_line({ full = true }) end)
 			buf_set_keymap('n', '<LocalLeader>hS', gs.stage_buffer)
 			buf_set_keymap('n', '<LocalLeader>hu', gs.undo_stage_hunk)
 			buf_set_keymap('n', '<LocalLeader>hR', gs.reset_buffer)
@@ -49,7 +49,7 @@ local M = {
 			buf_set_keymap('n', '<LocalLeader>hD', function() gs.diffthis('~') end)
 			buf_set_keymap('n', '<LocalLeader>td', gs.toggle_deleted)
 			-- Text object
-			buf_set_keymap({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+			buf_set_keymap({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 		end,
 	},
 }

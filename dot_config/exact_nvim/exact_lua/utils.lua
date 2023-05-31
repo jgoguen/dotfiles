@@ -76,10 +76,10 @@ function M.get_icon(name)
 end
 
 ---@alias LSPKindMode
---| '"text"'
---| '"text_symbol"'
---| '"symbol_text"'
---| '"symbol"'
+---| '"text"'
+---| '"text_symbol"'
+---| '"symbol_text"'
+---| '"symbol"'
 ---@return {mode: LSPKindMode, symbol_map: table<string, string>}
 function M.lspkind_opts()
 	return {

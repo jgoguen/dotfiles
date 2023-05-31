@@ -1,6 +1,6 @@
 local M = {
 	'pearofducks/ansible-vim',
-	ft = {'ansible', 'yaml.ansible'},
+	ft = { 'ansible', 'yaml.ansible' },
 }
 
 function M.init()

@@ -27,7 +27,7 @@ local M = {
 			},
 			fast_wrap = {
 				map = '<M-e>',
-				chars = {'{', '[', '(', '"', "'"},
+				chars = { '{', '[', '(', '"', "'" },
 				pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
 				offset = 0,
 				end_key = '$',
@@ -144,49 +144,49 @@ function M.config(_, opts)
 	local AutopairHandlers = require('nvim-autopairs.completion.handlers')
 	Autopairs.setup(opts.autopairs)
 
-	for _, p in ipairs({',', ';'}) do
+	for _, p in ipairs({ ',', ';' }) do
 		Autopairs.add_rules({
 			-- Move past comma and semi-colon
 			AutopairRule('', p)
-				:with_move(function(opts) return opts.char == p end)
-				:with_pair(function() return false end)
-				:with_del(function() return false end)
-				:with_cr(function() return false end)
-				:use_key(p)
+					:with_move(function(rule_opts) return rule_opts.char == p end)
+					:with_pair(function() return false end)
+					:with_del(function() return false end)
+					:with_cr(function() return false end)
+					:use_key(p)
 		})
 	end
 
 	Autopairs.add_rules({
 		-- Add space before equals
-		AutopairRule('=', '', {'-html', '-xhtml', '-xml'})
-			:with_pair(AutopairCond.not_inside_quote())
-			:with_pair(function(opts)
-				local last_char = opts.line:sub(opts.col - 1, opts.col - 1)
-				if last_char:match('[%w%=%s]') then
-					return true
-				end
-				return false
-			end)
-			:replace_endpair(function(opts)
-				local prev_chars = opts.line:sub(opts.col - 2, opts.col - 1)
-				local next_char = opts.line:sub(opts.col, opts.col)
-				next_char = next_char == ' ' and '' or ' '
+		AutopairRule('=', '', { '-html', '-xhtml', '-xml' })
+				:with_pair(AutopairCond.not_inside_quote())
+				:with_pair(function(rule_opts)
+					local last_char = rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1)
+					if last_char:match('[%w%=%s]') then
+						return true
+					end
+					return false
+				end)
+				:replace_endpair(function(opts)
+					local prev_chars = opts.line:sub(opts.col - 2, opts.col - 1)
+					local next_char = opts.line:sub(opts.col, opts.col)
+					next_char = next_char == ' ' and '' or ' '
 
-				if prev_chars:match('%w$') then
-					return '<BS> =' .. next_char
-				end
-				if prev_chars:match('%=$') then
-					return next_char
-				end
-				if prev_chars:match('=') then
-					return '<BS><BS>=' .. next_char
-				end
+					if prev_chars:match('%w$') then
+						return '<BS> =' .. next_char
+					end
+					if prev_chars:match('%=$') then
+						return next_char
+					end
+					if prev_chars:match('=') then
+						return '<BS><BS>=' .. next_char
+					end
 
-				return ''
-			end)
-			:set_end_pair_length(0)
-			:with_move(AutopairCond.none())
-			:with_del(AutopairCond.none())
+					return ''
+				end)
+				:set_end_pair_length(0)
+				:with_move(AutopairCond.none())
+				:with_del(AutopairCond.none())
 	})
 
 	Cmp.event:on(

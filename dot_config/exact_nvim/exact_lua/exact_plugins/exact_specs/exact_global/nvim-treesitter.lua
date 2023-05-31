@@ -17,10 +17,10 @@ local M = {
 			enable = true,
 			enable_autocmd = false,
 		},
-		ensure_installed = {'lua', 'vim'},
+		ensure_installed = { 'lua', 'vim' },
 		highlight = {
 			enable = true,
-			additional_vim_regex_highlighting = {'markdown', 'pandoc.markdown'},
+			additional_vim_regex_highlighting = { 'markdown', 'pandoc.markdown' },
 		},
 		incremental_selection = {
 			enable = true,
@@ -40,7 +40,7 @@ local M = {
 		},
 		rainbow = {
 			enable = true,
-			disable = {'html'},
+			disable = { 'html' },
 			extended_mode = true,
 			max_file_lines = nil,
 		},
@@ -48,7 +48,7 @@ local M = {
 }
 
 function M.build()
-	require('nvim-treesitter.install').update({with_sync = true})
+	require('nvim-treesitter.install').update({ with_sync = true })
 end
 
 function M.config(_, opts)

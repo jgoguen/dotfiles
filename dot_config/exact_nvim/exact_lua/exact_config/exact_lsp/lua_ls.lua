@@ -17,6 +17,9 @@ return {
 				globals = {
 					'nvim', 'vim', 'require', 'pcall', '_G', 'os', 'ipairs',
 				},
+				neededFileStatus = {
+					['codestyle-check'] = 'Any',
+				},
 			},
 			format = {
 				enable = true,
