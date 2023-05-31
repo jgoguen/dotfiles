@@ -12,7 +12,9 @@ local M = {
 		extensions = {
 			'neo-tree',
 			'quickfix',
-			'symbols-outline',
+			'trouble',
+			'aerial',
+			'lazy',
 		},
 		sections = {
 			lualine_c = {
@@ -41,6 +43,9 @@ local M = {
 			lualine_z = {
 				{
 					'tabs',
+					-- 0: Tab number only
+					-- 1: Tab name only
+					-- 2: Show tab number and name
 					mode = 2,
 				},
 			},
