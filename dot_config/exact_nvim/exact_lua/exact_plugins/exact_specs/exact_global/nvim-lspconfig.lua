@@ -16,7 +16,10 @@ function M.config()
 	local server_mappings = require('utils.lsp.mapping').package_to_lspconfig
 
 	for _, package_name in ipairs(Registry.get_installed_package_names()) do
-		require('utils.lsp').setup(server_mappings[package_name])
+		local server_name = server_mappings[package_name]
+		if server_name ~= nil then
+			require('utils.lsp').setup(server_name)
+		end
 	end
 end
 
