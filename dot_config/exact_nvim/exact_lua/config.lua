@@ -49,10 +49,12 @@ local M = {
 				eob = ' ',
 				msgsep = '‾',
 			},
+			foldexpr = 'nvim_treesitter#foldexpr()',
 			-- Folds of a higher level will be closed when opening a file
 			foldlevel = 2,
 			-- Set custom fold markers
 			foldmarker = '[[[,]]]',
+			foldmethod = 'expr',
 			-- A fold must have at least this many lines
 			foldminlines = 3,
 			-- Set formatting options
