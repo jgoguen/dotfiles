@@ -104,7 +104,6 @@ function M.config(_, opts)
 				select = false,
 			}),
 			['<Tab>'] = require('cmp').mapping(function(fallback)
-				local Cmp = require('cmp')
 				local Luasnip = require('luasnip')
 				if Cmp.visible() then
 					Cmp.select_next_item()
@@ -120,7 +119,6 @@ function M.config(_, opts)
 				's',
 			}),
 			['<S-Tab>'] = require('cmp').mapping(function(fallback)
-				local Cmp = require('cmp')
 				local Luasnip = require('luasnip')
 				if Cmp.visible() then
 					Cmp.select_prev_item()
@@ -167,9 +165,9 @@ function M.config(_, opts)
 					end
 					return false
 				end)
-				:replace_endpair(function(opts)
-					local prev_chars = opts.line:sub(opts.col - 2, opts.col - 1)
-					local next_char = opts.line:sub(opts.col, opts.col)
+				:replace_endpair(function(rule_opts)
+					local prev_chars = rule_opts.line:sub(rule_opts.col - 2, rule_opts.col - 1)
+					local next_char = rule_opts.line:sub(rule_opts.col, rule_opts.col)
 					next_char = next_char == ' ' and '' or ' '
 
 					if prev_chars:match('%w$') then
