@@ -12,6 +12,7 @@ local M = {
 			['w!!'] = 'w !sudo tee % >/dev/null',
 		},
 		i = {
+			['<C-BS>'] = '<Esc>cvb',
 			['<S-Tab>'] = { '<ESC><<a', { silent = false } },
 
 			-- Add undo breakpoints
