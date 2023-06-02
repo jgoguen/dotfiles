@@ -4,7 +4,6 @@ local Utils = require('utils')
 
 local M = {
 	'williamboman/mason.nvim',
-	enabled = false,
 	build = ':MasonUpdate',
 	opts = {
 		ui = {
