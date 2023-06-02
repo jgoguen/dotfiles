@@ -26,7 +26,7 @@ local M = {
 			-- <F8> is defined in plugins/specs/global/aerial.lua to allow
 			-- lazy-loading by keypress
 
-			[';'] = { ':', { silent = false } },
+			[';'] = function() require('telescope.builtin').resume() end,
 
 			-- Allow ^ to act like Home in an IDE
 			['^'] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
@@ -145,12 +145,15 @@ local M = {
 			-- Delete to the void register
 			['<Leader>d'] = '"_d',
 
+			-- Allow moving selected lines up and down
+			J = ":m '>+1<CR>gv==kgvo<Esc>=kgvo",
+			K = ":m '<-2<CR>gv==jgvo<Esc>=jgvo",
+
 			-- Reflow selection
 			Q = 'gq',
 
-			-- Allow moving selected lines up and down
-			J = ':m ">+1<CR>gv=gv',
-			K = ':m "<-2<CR>gv=gv',
+			-- Don't jump the cursor back where it was after yanking
+			y = 'ygv<Esc>',
 		},
 		x = {
 			-- Delete highlighted text and paste over without copying it to the paste
