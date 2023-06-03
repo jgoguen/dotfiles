@@ -14,6 +14,7 @@ local M = {
 		'TroubleRefresh',
 	},
 	opts = {
+		icons = true,
 		fold_closed = Utils.get_icon('FoldClosed'),
 		fold_open = Utils.get_icon('FoldOpen'),
 		open_split = { '<C-x>', 's' },
@@ -21,8 +22,14 @@ local M = {
 		open_tab = { '<C-t>', 't' },
 		auto_open = true,
 		auto_close = true,
-		auto_preview = false,
+		auto_preview = true,
 		use_diagnostic_signs = true,
+		signs = {
+			error = Utils.get_icon('DiagnosticError'),
+			warning = Utils.get_icon('DiagnosticWarn'),
+			hint = Utils.get_icon('DiagnosticHint'),
+			information = Utils.get_icon('DiagnosticInfo'),
+		},
 	},
 }
 
