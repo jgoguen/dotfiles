@@ -158,6 +158,14 @@ function M.config(_, opts)
 		-- Add space before equals
 		AutopairRule('=', '', { '-html', '-xhtml', '-xml' })
 				:with_pair(AutopairCond.not_inside_quote())
+				:with_pair(AutopairCond.not_filetypes({
+					'html',
+					'sh',
+					'TelescopePrompt',
+					'tmux',
+					'xhtml',
+					'zsh',
+				}))
 				:with_pair(function(rule_opts)
 					local last_char = rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1)
 					if last_char:match('[%w%=%s]') then
