@@ -223,4 +223,10 @@ function M.toggle_diagnostics()
 	end
 end
 
+---@param tool string
+---@return boolean
+function M.has_tool(tool)
+	return vim.fn.executable(tool) ~= 0
+end
+
 return M
