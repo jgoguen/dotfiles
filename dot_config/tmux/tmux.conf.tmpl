@@ -128,8 +128,9 @@ bind-key -r > resize-pane -R 3
 bind-key -r + resize-pane -U 1
 bind-key -r = resize-pane -D 1
 
-bind-key -n M-H previous-window
-bind-key -n M-L next-window
+bind-key a last-window
+bind-key C-p previous-window
+bind-key C-n next-window
 
 bind-key , command-prompt -p "Rename window to:" "rename-window %1"
 set-option -g allow-rename off
