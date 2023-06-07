@@ -6,6 +6,7 @@ local M = {
 		'HiPhish/nvim-ts-rainbow2',
 		'JoosepAlviste/nvim-ts-context-commentstring',
 		'nvim-treesitter/playground',
+		'RRethy/nvim-treesitter-endwise',
 		'windwp/nvim-ts-autotag',
 	},
 	opts = {
@@ -16,6 +17,9 @@ local M = {
 		context_commentstring = {
 			enable = true,
 			enable_autocmd = false,
+		},
+		endwise = {
+			enabled = true,
 		},
 		ensure_installed = { 'lua', 'vim' },
 		highlight = {
