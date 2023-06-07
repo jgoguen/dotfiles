@@ -156,7 +156,7 @@ function M.config(_, opts)
 
 	Autopairs.add_rules({
 		-- Add space before equals
-		AutopairRule('=', '', { '-html', '-xhtml', '-xml' })
+		AutopairRule('=', '')
 				:with_pair(AutopairCond.not_inside_quote())
 				:with_pair(AutopairCond.not_filetypes({
 					'html',
@@ -164,6 +164,7 @@ function M.config(_, opts)
 					'TelescopePrompt',
 					'tmux',
 					'xhtml',
+					'xml',
 					'zsh',
 				}))
 				:with_pair(function(rule_opts)
@@ -192,7 +193,7 @@ function M.config(_, opts)
 				end)
 				:set_end_pair_length(0)
 				:with_move(AutopairCond.none())
-				:with_del(AutopairCond.none())
+				:with_del(AutopairCond.none()),
 	})
 
 	Cmp.event:on(
