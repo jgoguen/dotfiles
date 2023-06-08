@@ -75,6 +75,10 @@ function M.get_icon(name)
 	return Icons[name] or ''
 end
 
+-- Disable the next diagnostic here for editing in chezmoi. In chezmoi both this file and the file in ~/.config/nvim
+-- get loaded, which makes the LSP believe there's a duplicate alias when technically it's the same alias being loaded
+-- twice.
+---@diagnostic disable-next-line: duplicate-doc-alias
 ---@alias LSPKindMode
 ---| '"text"'
 ---| '"text_symbol"'
