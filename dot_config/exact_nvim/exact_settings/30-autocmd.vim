@@ -7,17 +7,6 @@ augroup matching
 	autocmd BufWinEnter,BufWinLeave,InsertLeave * call clearmatches()
 augroup END
 
-augroup resizing
-	autocmd!
-
-	" Resize windows on terminal size change
-	autocmd VimResized * wincmd =
-
-	" Close quickfix if it's the last window open
-	autocmd WinEnter * if winnr('$') == 1 && &buftype == "quickfix" | q | endif
-	autocmd WinEnter * if winnr('$') == 1 && &buftype == "nofile" | q | endif
-augroup END
-
 augroup syn_highlight
 	autocmd!
 
@@ -29,12 +18,6 @@ augroup encodings
 	autocmd!
 
 	autocmd BufRead * if &fileencoding != 'utf-8' | unsilent echomsg 'File not in UTF-8 format!' | endif
-augroup END
-
-augroup whitespace
-	autocmd!
-
-	autocmd BufWritePre * call utils#StripTrailingWhitespaces()
 augroup END
 
 augroup cursorline

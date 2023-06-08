@@ -233,4 +233,9 @@ function M.has_tool(tool)
 	return vim.fn.executable(tool) ~= 0
 end
 
+---@param name string
+function M.augroup(name)
+	return vim.api.nvim_create_augroup("jgoguen_" .. name, { clear = true })
+end
+
 return M

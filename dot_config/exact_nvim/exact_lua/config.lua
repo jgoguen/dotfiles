@@ -238,6 +238,8 @@ function M.setup()
 			vim[scope][setting] = value
 		end
 	end
+
+	require('config.autocmd').setup()
 end
 
 return M
