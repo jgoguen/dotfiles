@@ -238,4 +238,23 @@ function M.augroup(name)
 	return vim.api.nvim_create_augroup("jgoguen_" .. name, { clear = true })
 end
 
+---@return string
+function M.comment_string()
+	local has_ts_comment, ts_comment = pcall(require, 'ts_context_commentstring.internal')
+	if not has_ts_comment then
+		return ''
+	end
+
+	local elems = vim.split(
+		ts_comment.calculate_commentstring({}) or '',
+		'%s',
+		{}
+	)
+	if #elems == 0 then
+		return ''
+	end
+
+	return elems[1]
+end
+
 return M

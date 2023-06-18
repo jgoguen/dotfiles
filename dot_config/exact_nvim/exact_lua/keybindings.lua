@@ -15,6 +15,9 @@ local M = {
 			['<C-BS>'] = '<Esc>cvb',
 			['<S-Tab>'] = { '<ESC><<a', { silent = false } },
 
+			['<C-n>'] = '<Plug>luasnip-next-choice',
+			['<C-p>'] = '<Plug>luasnip-prev-choice',
+
 			-- Add undo breakpoints
 			[','] = ',<C-g>u',
 			['.'] = '.<C-g>u',
