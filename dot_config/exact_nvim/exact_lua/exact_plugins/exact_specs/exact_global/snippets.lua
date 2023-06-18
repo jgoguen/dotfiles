@@ -167,8 +167,10 @@ function M.config(_, opts)
 				:with_pair(AutopairCond.not_filetypes({
 					'html',
 					'sh',
+					'snippets',
 					'TelescopePrompt',
 					'tmux',
+					'vim',
 					'xhtml',
 					'xml',
 					'zsh',
@@ -224,7 +226,7 @@ function M.config(_, opts)
 
 	-- Luasnip sources
 	local Luasnip = require('luasnip')
-	for _, lang in ipairs({ 'go', 'lua', 'python', 'all' }) do
+	for _, lang in ipairs({ 'chef', 'editorconfig', 'go', 'python', 'sh', 'all' }) do
 		Luasnip.add_snippets(lang, require('config.snippets.' .. lang), { key = lang })
 	end
 

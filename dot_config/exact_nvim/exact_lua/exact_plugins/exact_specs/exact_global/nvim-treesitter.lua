@@ -16,7 +16,6 @@ local M = {
 		},
 		context_commentstring = {
 			enable = true,
-			enable_autocmd = false,
 		},
 		endwise = {
 			enabled = true,
