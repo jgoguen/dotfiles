@@ -11,6 +11,7 @@ local M = {
 		},
 		'williamboman/mason-lspconfig.nvim',
 		'hrsh7th/cmp-nvim-lsp',
+		'KostkaBrukowa/definition-or-references.nvim',
 	},
 	opts = {
 		mason = {

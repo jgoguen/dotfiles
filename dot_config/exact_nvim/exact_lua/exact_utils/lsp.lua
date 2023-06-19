@@ -67,11 +67,16 @@ function M.on_attach(client, bufnr)
 		opts['buffer'] = bufnr
 		require('utils').set_keymap(mode, key, cmd, opts)
 	end
+	local has_def_or_ref, def_or_ref = pcall(require, 'definition-or-references')
 
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap('n', 'gD', vim.lsp.buf.declaration)
-	buf_set_keymap('n', 'gd', vim.lsp.buf.definition)
+	if has_def_or_ref then
+		buf_set_keymap('n', 'gd', def_or_ref.definition_or_references)
+	else
+		buf_set_keymap('n', 'gd', vim.lsp.buf.definition)
+	end
 	buf_set_keymap('n', 'K', vim.lsp.buf.hover)
 	buf_set_keymap('n', 'gi', vim.lsp.buf.implementation)
 	buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
