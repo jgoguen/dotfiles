@@ -77,6 +77,7 @@ local M = {
 
 			['<Leader>f'] = ':Neotree reveal_force_cwd<CR>',
 			['<Leader>fc'] = ':Neotree reveal_force_cwd toggle<CR>',
+			['<Leader>fml'] = ':CellularAutomaton game_of_life<CR>',
 
 			['<LocalLeader>l'] = ':nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR>:redraw!<CR>',
 
