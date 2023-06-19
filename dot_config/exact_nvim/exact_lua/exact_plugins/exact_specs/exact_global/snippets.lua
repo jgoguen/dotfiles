@@ -165,6 +165,7 @@ function M.config(_, opts)
 		AutopairRule('=', '')
 				:with_pair(AutopairCond.not_inside_quote())
 				:with_pair(AutopairCond.not_filetypes({
+					'conf',
 					'html',
 					'sh',
 					'snippets',
