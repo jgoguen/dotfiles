@@ -240,17 +240,18 @@ end
 
 ---@return string
 function M.comment_string()
+	local commentstr = ''
 	local has_ts_comment, ts_comment = pcall(require, 'ts_context_commentstring.internal')
-	if not has_ts_comment then
-		return ''
+	if has_ts_comment then
+		commentstr = ts_comment.calculate_commentstring({}) or ''
 	end
 
-	local elems = vim.split(
-		ts_comment.calculate_commentstring({}) or '',
-		'%s',
-		{}
-	)
-	if #elems == 0 then
+	if commentstr == '' then
+		commentstr = vim.opt_local.commentstring:get()
+	end
+
+	local elems = vim.split(commentstr, '%s', {})
+	if #elems == 0 or elems[1] == '' then
 		return ''
 	end
 
