@@ -65,6 +65,35 @@ local M = {
 				position = 'float',
 			},
 		},
+		renderers = {
+			directory = {
+				{ 'indent' },
+				{ 'icon' },
+				{ 'current_filter' },
+				{ 'name' },
+				{ 'clipboard' },
+				{
+					'diagnostics',
+					errors_only = true,
+					hide_when_expanded = true,
+				},
+				{ 'git_status' },
+			},
+			file = {
+				{ 'indent' },
+				{ 'icon' },
+				{
+					'name',
+					use_git_status_colors = true,
+					zindex = 10,
+				},
+				{ 'clipboard' },
+				{ 'bufnr' },
+				{ 'modified' },
+				{ 'diagnostics' },
+				{ 'git_status' },
+			},
+		},
 	},
 }
 
