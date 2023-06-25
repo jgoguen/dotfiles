@@ -9,6 +9,9 @@ local M = {
 			Q = 'gwap',
 		},
 		c = {
+			['<S-Enter>'] = function()
+				require('noice').redirect(vim.fn.getcmdline())
+			end,
 			['w!!'] = 'w !sudo tee % >/dev/null',
 		},
 		i = {
