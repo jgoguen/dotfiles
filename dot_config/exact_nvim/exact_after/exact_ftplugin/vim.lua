@@ -3,7 +3,7 @@
 local MasonUtils = require('utils.mason')
 local TSUtils = require('utils.treesitter')
 
-vim.cmd('compiler tidy')
+vim.opt_local.spell = false
 
-TSUtils.ensure_installed({ 'css', 'html' })
-MasonUtils.ensure_installed({ 'cssls', 'html' })
+TSUtils.ensure_installed('vim')
+MasonUtils.ensure_installed('vimls')

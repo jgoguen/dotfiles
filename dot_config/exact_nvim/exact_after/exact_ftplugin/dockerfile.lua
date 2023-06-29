@@ -3,7 +3,5 @@
 local MasonUtils = require('utils.mason')
 local TSUtils = require('utils.treesitter')
 
-vim.cmd('compiler tidy')
-
-TSUtils.ensure_installed({ 'css', 'html' })
-MasonUtils.ensure_installed({ 'cssls', 'html' })
+TSUtils.ensure_installed('dockerfile')
+MasonUtils.ensure_installed({ 'dockerls', 'docker_compose_language_service' })

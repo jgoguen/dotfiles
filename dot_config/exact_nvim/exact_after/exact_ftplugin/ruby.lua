@@ -3,7 +3,9 @@
 local MasonUtils = require('utils.mason')
 local TSUtils = require('utils.treesitter')
 
-vim.cmd('compiler tidy')
+vim.cmd('compiler ruby')
 
-TSUtils.ensure_installed({ 'css', 'html' })
-MasonUtils.ensure_installed({ 'cssls', 'html' })
+vim.opt_local.expandtab = true
+
+TSUtils.ensure_installed('ruby')
+MasonUtils.ensure_installed('solargraph')

@@ -21,7 +21,6 @@ local M = {
 function M.config()
 	local Telescope = require('telescope')
 	local TelescopeActions = require('telescope.actions')
-	local Utils = require('utils')
 
 	Telescope.setup({
 		defaults = {

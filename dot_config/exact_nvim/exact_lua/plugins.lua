@@ -50,6 +50,7 @@ function M.setup()
 				rtp = {
 					paths = {
 						XDG_CONFIG_HOME .. '/vim-local',
+						XDG_CONFIG_HOME .. '/vim-local/after',
 						vim.fn.stdpath('data') .. '/tree-sitter-parsers',
 					},
 				},

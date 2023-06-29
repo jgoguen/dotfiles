@@ -3,7 +3,5 @@
 local MasonUtils = require('utils.mason')
 local TSUtils = require('utils.treesitter')
 
-vim.cmd('compiler tidy')
-
-TSUtils.ensure_installed({ 'css', 'html' })
-MasonUtils.ensure_installed({ 'cssls', 'html' })
+TSUtils.ensure_installed({ 'lua', 'luadoc', 'luap' })
+MasonUtils.ensure_installed('lua_ls')
