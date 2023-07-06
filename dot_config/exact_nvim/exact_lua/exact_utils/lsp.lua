@@ -80,18 +80,48 @@ function M.on_attach(client, bufnr)
 	buf_set_keymap('n', 'K', vim.lsp.buf.hover)
 	buf_set_keymap('n', 'gi', vim.lsp.buf.implementation)
 	buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
-	buf_set_keymap('n', '<space>wa', vim.lsp.buf.add_workspace_folder)
-	buf_set_keymap('n', '<space>wr', vim.lsp.buf.remove_workspace_folder)
-	buf_set_keymap('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-	buf_set_keymap('n', '<space>D', vim.lsp.buf.type_definition)
-	buf_set_keymap('n', '<space>rn', vim.lsp.buf.rename)
-	buf_set_keymap('n', '<space>ca', vim.lsp.buf.code_action)
+	buf_set_keymap('n', '<LocalLeader>wa', vim.lsp.buf.add_workspace_folder)
+	buf_set_keymap('n', '<LocalLeader>wr', vim.lsp.buf.remove_workspace_folder)
+	buf_set_keymap('n', '<LocalLeader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+	buf_set_keymap('n', '<LocalLeader>D', vim.lsp.buf.type_definition)
+	buf_set_keymap('n', '<LocalLeader>rn', vim.lsp.buf.rename)
+	buf_set_keymap('n', '<LocalLeader>ca', vim.lsp.buf.code_action)
 	buf_set_keymap('n', 'gr', vim.lsp.buf.references)
-	buf_set_keymap('n', '<space>e', vim.diagnostic.open_float)
-	buf_set_keymap('n', '[d', vim.diagnostic.goto_prev)
-	buf_set_keymap('n', ']d', vim.diagnostic.goto_next)
-	buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
-	buf_set_keymap('n', '<space>f', function() vim.lsp.buf.format({ async = true }) end)
+	buf_set_keymap('n', '<LocalLeader>e', vim.diagnostic.open_float)
+	buf_set_keymap(
+		'n',
+		'[d',
+		function()
+			vim.diagnostic.goto_prev()
+			vim.api.nvim_feedkeys('zz', 'n', false)
+		end
+	)
+	buf_set_keymap(
+		'n',
+		']d',
+		function()
+			vim.diagnostic.goto_next()
+			vim.api.nvim_feedkeys('zz', 'n', false)
+		end
+	)
+	buf_set_keymap(
+		'n',
+		'[e',
+		function()
+			vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+			vim.api.nvim_feedkeys('zz', 'n', false)
+		end
+	)
+	buf_set_keymap(
+		'n',
+		']e',
+		function()
+			vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+			vim.api.nvim_feedkeys('zz', 'n', false)
+		end
+	)
+	buf_set_keymap('n', '<LocalLeader>q', vim.diagnostic.setloclist)
+	buf_set_keymap('n', '<LocalLeader>f', function() vim.lsp.buf.format({ async = true }) end)
 
 	if client.server_capabilities.documentFormattingProvider then
 		vim.api.nvim_create_augroup('format_on_save', { clear = true })

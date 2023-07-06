@@ -49,12 +49,6 @@ local M = {
 			['<C-d>'] = '<C-d>zz',
 			['<C-u>'] = '<C-u>zz',
 
-			-- Move between splits
-			['<C-h>'] = '<C-w>h',
-			['<C-j>'] = '<C-w>j',
-			['<C-k>'] = '<C-w>k',
-			['<C-l>'] = '<C-w>l',
-
 			-- Move between tabs
 			['<C-S-Right>'] = ':tabnext<CR>',
 			['<C-S-Left>'] = ':tabprev<CR>',
