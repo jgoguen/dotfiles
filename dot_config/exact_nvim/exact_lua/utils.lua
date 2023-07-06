@@ -15,6 +15,13 @@ local M = {
 		path = 500,
 		buffer = 250,
 	},
+	cmp_source_config = {
+		buffer = {
+			get_bufnrs = function()
+				return vim.api.nvim_list_bufs()
+			end,
+		},
+	},
 	excluded_filetypes = {
 		'dashboard',
 		'neogitstatus',
@@ -50,6 +57,11 @@ function M.get_cmp_source(source)
 	local priority = M.cmp_source_priority[cmp_src.name]
 	if priority then
 		cmp_src.priority = priority
+	end
+
+	local opts = M.cmp_source_config[cmp_src.name]
+	if opts then
+		cmp_src.option = opts
 	end
 
 	---@cast cmp_src table
