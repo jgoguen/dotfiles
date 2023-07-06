@@ -70,6 +70,19 @@ function M.config(_, opts)
 		snippet = {
 			expand = function(args) require('luasnip').lsp_expand(args.body) end,
 		},
+		sorting = {
+			comparators = {
+				Cmp.config.compare.sort_text,
+				Cmp.config.compare.offset,
+				Cmp.config.compare.exact,
+				Cmp.config.compare.score,
+				Cmp.config.compare.recently_used,
+				Cmp.config.compare.locality,
+				Cmp.config.compare.kind,
+				Cmp.config.compare.length,
+				Cmp.config.compare.order,
+			},
+		},
 		duplicates = {
 			nvim_lsp = 1,
 			luasnip = 1,
