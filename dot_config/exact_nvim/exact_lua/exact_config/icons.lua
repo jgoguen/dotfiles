@@ -14,6 +14,8 @@ local M = {
 	BufferClose = '󰅖',
 	Build = '',
 	Check = '✓',
+	Class = '󰌗',
+	Constructor = '',
 	Cut = '',
 	DEB = '',
 	DefaultFile = '󰈙',
@@ -23,7 +25,8 @@ local M = {
 	DiagnosticInfo = '󰋼',
 	DiagnosticWarn = '',
 	Ellipsis = '…',
-	Enum = 'ℰ',
+	Enum = '',
+	Field = '',
 	FileModified = '',
 	FoldClosed = '▸',
 	FoldOpen = '▾',
@@ -41,7 +44,7 @@ local M = {
 	GitIgnored = '◌',
 	GitUntracked = '★',
 	GreaterThanDot = '⋗',
-	Interface = '󰜰',
+	Interface = '',
 	Key = '󰌆',
 	Lambda = 'λ',
 	Link = '',
@@ -54,6 +57,7 @@ local M = {
 	LSPLoading3 = '',
 	MacroRecording = '',
 	MacOS = '',
+	Module = '',
 	MP3 = '󰎆',
 	MP4 = '',
 	Network = '󰌗',
@@ -69,17 +73,18 @@ local M = {
 	Spellcheck = '󰓆',
 	Struct = '𝓢',
 	TabClose = '󰅙',
+	Text = '',
 	TypeParameter = '󰊄',
 	Windows = '',
 	X = '✗',
 }
 
 -- Set up some alias names
-M.Class = M.Network
 M.Darwin = M.MacOS
 M.FileReadOnly = M.Lock
 M.GitRenamed = M.ArrowRight
 M.GitStaged = M.Check
 M.GitUnstaged = M.X
+M.Variable = M.Field
 
 return M
