@@ -159,6 +159,7 @@ function M.config(_, opts)
 	local AutopairRule = require('nvim-autopairs.rule')
 	local AutopairCond = require('nvim-autopairs.conds')
 	local AutopairHandlers = require('nvim-autopairs.completion.handlers')
+	local TSUtils = require('utils.treesitter')
 	Autopairs.setup(opts.autopairs)
 
 	for _, p in ipairs({ ',', ';' }) do
@@ -189,6 +190,10 @@ function M.config(_, opts)
 					'xml',
 					'zsh',
 				}))
+				:with_pair(TSUtils.node_or_parent_is_not({
+					'argument_list',
+					'keyword_argument',
+				}))
 				:with_pair(function(rule_opts)
 					local last_char = rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1)
 					if last_char:match('[%w%=%s]') then
@@ -216,6 +221,12 @@ function M.config(_, opts)
 				:set_end_pair_length(0)
 				:with_move(AutopairCond.none())
 				:with_del(AutopairCond.none()),
+		AutopairRule('<', '>')
+				:with_pair(AutopairCond.before_regex('%a+'))
+		---@diagnostic disable-next-line: redefined-local
+				:with_move(function(opts)
+					return opts.char == '>'
+				end),
 	})
 
 	Cmp.event:on(

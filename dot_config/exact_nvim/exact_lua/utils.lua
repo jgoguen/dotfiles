@@ -270,4 +270,19 @@ function M.comment_string()
 	return elems[1]
 end
 
+---@return boolean
+function M.table_contains(haystack, needle)
+	if type(haystack) ~= 'table' then
+		return false
+	end
+
+	for _, value in ipairs(haystack) do
+		if value == needle then
+			return true
+		end
+	end
+
+	return false
+end
+
 return M
