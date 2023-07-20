@@ -10,8 +10,8 @@ setopt always_to_end auto_cd auto_pushd complete_aliases complete_in_word
 setopt correct extended_glob extended_history hash_list_all hist_find_no_dups
 setopt hist_ignore_dups hist_ignore_space hist_no_store hist_reduce_blanks
 setopt hist_save_no_dups hist_verify inc_append_history no_beep no_bg_nice
-setopt no_hist_beep nomatch notify prompt_subst pushd_ignore_dups pushd_silent
-setopt transient_rprompt
+setopt no_flow_control no_hist_beep nomatch notify prompt_subst
+setopt pushd_ignore_dups pushd_silent transient_rprompt
 
 zmodload zsh/complete
 zmodload zsh/complist
