@@ -29,6 +29,7 @@ local M = {
 			[')'] = ')<C-g>u',
 		},
 		n = {
+			['<Esc>'] = function() require("notify").dismiss() end,
 			-- <F8> is defined in plugins/specs/global/aerial.lua to allow
 			-- lazy-loading by keypress
 
