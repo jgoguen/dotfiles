@@ -33,6 +33,7 @@ test -d /usr/local/share/zsh-completions && fpath=(/usr/local/share/zsh-completi
 fpath=("${USER_ZSH}" "${USER_ZSH}/site-functions" ${fpath})
 
 zstyle ':completion:*' ambiguous true
+zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand_alias _expand _complete _correct _approximate _ignored
 zstyle ':completion:*' completions true
 zstyle ':completion:*' expand prefix suffix
