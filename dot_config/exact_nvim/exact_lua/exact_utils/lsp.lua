@@ -69,6 +69,22 @@ function M.on_attach(client, bufnr)
 	end
 	local has_def_or_ref, def_or_ref = pcall(require, 'definition-or-references')
 
+	-- Support toggling inlay hints
+	vim.g.inlay_hints_visible = false
+	local function toggle_inlay_hints()
+		if vim.g.inlay_hints_visible then
+			vim.g.inlay_hints_visible = false
+			vim.lsp.inlay_hint(bufnr, false)
+		else
+			if client.server_capabilities.inlayHintProvider then
+				vim.g.inlay_hints_visible = true
+				vim.lsp.inlay_hint(bufnr, true)
+			else
+				print('No inlay hints available')
+			end
+		end
+	end
+
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap('n', 'gD', vim.lsp.buf.declaration)
@@ -122,6 +138,8 @@ function M.on_attach(client, bufnr)
 	)
 	buf_set_keymap('n', '<LocalLeader>q', vim.diagnostic.setloclist)
 	buf_set_keymap('n', '<LocalLeader>f', function() vim.lsp.buf.format({ async = true }) end)
+	buf_set_keymap('n', '<LocalLeader>ih', toggle_inlay_hints)
+	buf_set_keymap('n', '<LocalLeader>ca', '<CMD>CodeActionMenu<CR>')
 
 	if client.server_capabilities.documentFormattingProvider then
 		vim.api.nvim_create_augroup('format_on_save', { clear = true })
