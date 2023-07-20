@@ -84,6 +84,11 @@ function M.config()
 		Telescope.load_extension('notify')
 	end
 
+	local has_aerial, _ = pcall(require, 'aerial')
+	if has_aerial then
+		Telescope.load_extension('aerial')
+	end
+
 	local has_fzf, _ = pcall(require, 'telescope._extensions.fzf')
 	if has_fzf then
 		Telescope.load_extension('fzf')
