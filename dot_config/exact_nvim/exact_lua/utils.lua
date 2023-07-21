@@ -285,4 +285,15 @@ function M.table_contains(haystack, needle)
 	return false
 end
 
+---@param mode string
+---@param key string
+---@param cmd string|function
+---@param options? table
+---@param bufnr? integer
+function M.buf_set_keymap(mode, key, cmd, options, bufnr)
+	options = options or {}
+	options['buffer'] = bufnr or 0
+	M.set_keymap(mode, key, cmd, options)
+end
+
 return M
