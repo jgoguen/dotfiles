@@ -169,6 +169,10 @@ local M = {
 			textwidth = 80,
 			-- Wait less time for multi-character mappings
 			timeoutlen = 500,
+			-- Set window manager title
+			title = true,
+			titlelen = 0,
+			titlestring = '%{expand(\"%:t\")}',
 			-- Milliseconds until CursorHold is triggered
 			updatetime = 100,
 			-- Persistent undo
