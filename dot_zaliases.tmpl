@@ -42,6 +42,12 @@ alias update='/usr/bin/sudo /usr/bin/pacman -Syyu --noconfirm; test -x /usr/bin/
 {{- end }}
 {{- end }}
 
+PYTHON_BIN="$(command -v python3)"
+if [ -n "${PYTHON_BIN}" ]; then
+	alias urldecode='python3 -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))"'
+	alias urlencode='python3 -c "import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))"'
+fi
+
 {{ if eq .chezmoi.os "linux" -}}
 GIO_BIN="$(command -pv gio)"
 if [ -n "${GIO_BIN}" ]; then

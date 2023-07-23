@@ -184,6 +184,7 @@ function M.config(_, opts)
 					'sh',
 					'snippets',
 					'TelescopePrompt',
+					'template',
 					'tmux',
 					'vim',
 					'xhtml',
