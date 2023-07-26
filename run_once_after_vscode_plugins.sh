@@ -6,7 +6,7 @@ set -ux
 
 CODE_BIN="$(command -v code)"
 CODE_INSIDERS_BIN="$(command -v code-insiders)"
-EXTENSIONS="bungcip.better-toml
+EXTENSIONS="tamasfe.even-better-toml
 	chrislajoie.vscode-modelines
 	coolbear.systemd-unit-file DavidAnson.vscode-markdownlint
 	esphome.esphome-vscode
