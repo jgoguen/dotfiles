@@ -70,6 +70,7 @@ local M = {
 
 			-- Delete to the void register
 			['<Leader>d'] = '"_d',
+			['<Leader>dbh'] = function() require('close_buffers').delete({ type = 'hidden' }) end,
 
 			['<Leader>ecb'] = ':EditCodeBlock',
 
