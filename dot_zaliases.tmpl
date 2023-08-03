@@ -94,3 +94,7 @@ else
 	alias ls="$(command -pv ls) -Fh"
 {{- end }}
 fi
+
+if [ -f "${HOME}/.zaliases.local" ]; then
+	. "${HOME}/.zaliases.local"
+fi
