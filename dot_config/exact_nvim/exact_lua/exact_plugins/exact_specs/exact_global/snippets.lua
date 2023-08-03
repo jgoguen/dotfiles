@@ -58,9 +58,20 @@ function M.config(_, opts)
 				return false
 			end
 
+			-- Disable in prompts
+			local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+			if buftype == 'prompt' or buftype == 'TelescopePrompt' then
+				return false
+			end
+
 			-- Disable in comment contexts
 			local Ctx = require('cmp.config.context')
-			return not Ctx.in_treesitter_capture("comment") and not Ctx.in_syntax_group("Comment")
+			if Ctx.in_treesitter_capture('comment') or Ctx.in_syntax_group('Comment') then
+				return false
+			end
+
+			-- If we get here, it must be OK
+			return true
 		end,
 		preselect = Cmp.PreselectMode.None,
 		formatting = {
