@@ -97,7 +97,18 @@ local M = {
 			['<Leader>s'] = [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 
 			-- Telescope find files
-			['<Leader>t'] = function() require('telescope.builtin').find_files() end,
+			['<Leader>t'] = function()
+				local has_file_browser, TelescopeFileBrowser = pcall(require, 'telescope._extensions.file_browser.picker')
+				if has_file_browser then
+					TelescopeFileBrowser({
+						path = '%:p:h',
+					})
+				else
+					require('telescope.builtin').find_files({
+						cwd = '%:p:h',
+					})
+				end
+			end,
 
 			-- Select window to jump to
 			-- <Leader>w is defined in lua/plugins/specs/global/window-picker.lua

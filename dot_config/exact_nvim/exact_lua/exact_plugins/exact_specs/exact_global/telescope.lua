@@ -11,6 +11,7 @@ local M = {
 			build = 'make',
 			enabled = Utils.has_tool('make'),
 		},
+		'nvim-telescope/telescope-file-browser.nvim',
 	},
 	lazy = true,
 	cmd = {
@@ -67,7 +68,7 @@ function M.config()
 			},
 			pickers = {
 				find_files = {
-					find_command = { 'fd', '--type', 'f', '--strip-cwd-prefix' },
+					find_command = { 'fd', '--type', 'f', '--strip-cwd-prefix', '--color', 'never' },
 					hidden = true,
 				},
 			},
@@ -75,6 +76,16 @@ function M.config()
 				project = {
 					hidden_files = true,
 				},
+			},
+		},
+		extensions = {
+			file_browser = {
+				display_stat = false,
+				grouped = true,
+				hidden = true,
+				hijack_netrw = true,
+				path = '%:p:h',
+				select_buffer = true,
 			},
 		},
 	})
@@ -92,6 +103,11 @@ function M.config()
 	local has_fzf, _ = pcall(require, 'telescope._extensions.fzf')
 	if has_fzf then
 		Telescope.load_extension('fzf')
+	end
+
+	local has_filebrowser, _ = pcall(require, 'telescope._extensions.file_browser')
+	if has_filebrowser then
+		Telescope.load_extension('file_browser')
 	end
 end
 
