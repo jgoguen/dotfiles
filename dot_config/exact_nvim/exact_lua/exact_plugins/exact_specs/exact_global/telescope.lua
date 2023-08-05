@@ -21,6 +21,7 @@ local M = {
 function M.config()
 	local Telescope = require('telescope')
 	local TelescopeActions = require('telescope.actions')
+	local TelescopeActionSet = require('telescope.actions.set')
 
 	Telescope.setup({
 		defaults = {
@@ -47,12 +48,16 @@ function M.config()
 			mappings = {
 				i = {
 					['<esc>'] = TelescopeActions.close,
+					['<C-b>'] = function(prompt_bufnr) TelescopeActionSet.shift_selection(prompt_bufnr, -5) end,
+					['<C-d>'] = TelescopeActions.preview_scrolling_down,
+					['<C-f>'] = function(prompt_bufnr) TelescopeActionSet.shift_selection(prompt_bufnr, 5) end,
 					['<C-i>'] = TelescopeActions.select_horizontal,
 					['<C-j>'] = TelescopeActions.move_selection_next,
 					['<C-k>'] = TelescopeActions.move_selection_previous,
 					['<C-n>'] = TelescopeActions.cycle_history_next,
 					['<C-p>'] = TelescopeActions.cycle_history_prev,
 					['<C-s>'] = TelescopeActions.select_vertical,
+					['<C-u>'] = TelescopeActions.preview_scrolling_up,
 				},
 				n = {
 					['i'] = TelescopeActions.select_horizontal,
