@@ -5,6 +5,17 @@ local M = {}
 function M.setup()
 	local Utils = require('utils')
 
+	-- Highlight on yank
+	vim.api.nvim_create_autocmd(
+		'TextYankPost',
+		{
+			group = Utils.augroup('text_yank_post'),
+			callback = function()
+				vim.highlight.on_yank()
+			end,
+		}
+	)
+
 	-- Handle terminal resizing
 	vim.api.nvim_create_autocmd(
 		'VimResized',
