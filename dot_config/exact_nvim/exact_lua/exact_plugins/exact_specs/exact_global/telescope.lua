@@ -5,7 +5,6 @@ local Utils = require('utils')
 local M = {
 	'nvim-telescope/telescope.nvim',
 	dependencies = {
-		'nvim-telescope/telescope-symbols.nvim',
 		{
 			'nvim-telescope/telescope-fzf-native.nvim',
 			build = 'make',
