@@ -30,6 +30,7 @@ local M = {
 			hint = Utils.get_icon('DiagnosticHint'),
 			information = Utils.get_icon('DiagnosticInfo'),
 		},
+		severity = vim.diagnostic.severity.WARN,
 	},
 }
 
