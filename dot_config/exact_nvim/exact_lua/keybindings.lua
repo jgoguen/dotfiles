@@ -6,7 +6,7 @@ local M = {
 			q = { '<Nop>', { noremap = false } },
 
 			-- Reflow paragraph
-			Q = 'gwap',
+			Q = { 'gwap', { desc = 'Reflow paragraph' } },
 		},
 		c = {
 			['<S-Enter>'] = function()
@@ -29,7 +29,7 @@ local M = {
 			[')'] = ')<C-g>u',
 		},
 		n = {
-			['<Esc>'] = function() require("notify").dismiss() end,
+			-- BEGIN single-key mappings
 			-- <F8> is defined in plugins/specs/global/aerial.lua to allow
 			-- lazy-loading by keypress
 
@@ -56,82 +56,7 @@ local M = {
 
 			-- Move between buffers
 			['<S-h>'] = ':bprevious<CR>',
-			['[b'] = ':bprevious<CR>',
 			['<S-l>'] = ':bnext<CR>',
-			[']b'] = ':bnext<CR>',
-
-			-- Telescope buffers
-			['<Leader>b'] = function() require('telescope.builtin').buffers() end,
-
-			['<Leader>cd'] = vim.diagnostic.open_float,
-
-			-- Toggle cursorcolumn (useful for aligning text)
-			['<Leader>cl'] = ':<C-U>call utils#ToggleCursorColumn()<CR>',
-
-			-- Delete to the void register
-			['<Leader>d'] = '"_d',
-			['<Leader>dbh'] = function() require('close_buffers').delete({ type = 'hidden' }) end,
-
-			['<Leader>ecb'] = ':EditCodeBlock',
-
-			['<Leader>f'] = ':Neotree reveal_force_cwd<CR>',
-			['<Leader>fc'] = ':Neotree reveal_force_cwd toggle<CR>',
-			['<Leader>fml'] = ':CellularAutomaton game_of_life<CR>',
-
-			['<LocalLeader>l'] = ':nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR>:redraw!<CR>',
-
-			-- Location window shortcuts
-			['<Leader>ln'] = ':lnext<CR>zz',
-			['<Leader>lp'] = ':lprevious<CR>zz',
-			['<Leader>lc'] = ':lclose<CR>',
-
-			-- Find merge conflict markers
-			['<Leader>mc'] = '/\\v^[<\\|=>]{7}( .*\\|$)<CR>',
-
-			-- Quickfix window shortcuts
-			['<Leader>qn'] = ':cnext<CR>zz',
-			['<Leader>qp'] = ':cprevious<CR>zz',
-			['<Leader>qc'] = ':cclose<CR>',
-
-			-- Search/replace word under cursor
-			['<Leader>s'] = [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-
-			-- Telescope find files
-			['<Leader>t'] = function()
-				local has_file_browser, TelescopeFileBrowser = pcall(require, 'telescope._extensions.file_browser.picker')
-				if has_file_browser then
-					TelescopeFileBrowser({
-						path = '%:p:h',
-					})
-				else
-					require('telescope.builtin').find_files({
-						cwd = '%:p:h',
-					})
-				end
-			end,
-
-			-- Select window to jump to
-			-- <Leader>w is defined in lua/plugins/specs/global/window-picker.lua
-			-- to allow lazy-loading the plugin
-			['<Leader>wcf'] = function() require('utils').close_floating_windows() end,
-
-			['<Leader>xd'] = ':TroubleToggle document_diagnostics<CR>',
-			['<Leader>xl'] = ':TroubleToggle loclist<CR>',
-			['<Leader>xq'] = ':TroubleToggle quickfix<CR>',
-			['<Leader>xw'] = ':TroubleToggle workspace_diagnostics<CR>',
-			['<Leader>xx'] = ':TroubleToggle<CR>',
-
-			-- Normalize split size
-			['<Leader>='] = '<C-w>=',
-
-			-- Clear search highlights
-			['//'] = ':nohlsearch<CR>',
-
-			-- Allow gf to open files that don't exist
-			gf = ':edit <cfile><CR>',
-
-			-- LSP references in Trouble
-			gR = ':TroubleToggle lsp_references<CR>',
 
 			-- Normal movement between wrapped lines
 			k = { [[v:count == 0 ? 'gk' : 'k']], { expr = true } },
@@ -145,29 +70,125 @@ local M = {
 			-- Going to the next/previous match will centre the line it's on
 			n = { [['Nn'[v:searchforward]|zzzv]], { expr = true } },
 			N = { [['nN'[v:searchforward]|zzzv]], { expr = true } },
+			-- END single-key mappings
+
+			-- Buffer keymaps
+			-- Telescope buffers
+			['<Leader>bf'] = { function() require('telescope.builtin').buffers() end, { desc = 'Telescope buffer selector' } },
+			-- Buffer movement
+			['[b'] = { ':bprevious<CR>', { desc = 'Previous buffer' } },
+			[']b'] = { ':bnext<CR>', { desc = 'Next buffer' } },
+			-- Delete buffers
+			['<Leader>bdh'] = {
+				function() require('close_buffers').delete({ type = 'hidden' }) end,
+				{ desc = 'Delete hidden buffers', },
+			},
+
+			-- Editing mappings
+			['<Leader>ecb'] = { ':EditCodeBlock', { desc = 'Edit Code Block' } },
+
+			-- File keymaps
+			-- Allow gf to open files that don't exist
+			gf = { ':edit <cfile><CR>', { desc = 'Go to file' } },
+			['<Leader>fb'] = {
+				function()
+					local has_file_browser, TelescopeFileBrowser = pcall(require, 'telescope._extensions.file_browser.picker')
+					if has_file_browser then
+						TelescopeFileBrowser({
+							path = '%:p:h',
+						})
+					end
+				end,
+				{ desc = 'File browser' }
+			},
+			['<Leader>fc'] = { ':Neotree reveal_force_cwd toggle<CR>', { desc = 'NeoTree Toggle' } },
+			['<Leader>ff'] = {
+				function()
+					require('telescope.builtin').find_files({
+						cwd = '%:p:h',
+					})
+				end,
+				{ desc = 'Find files' }
+			},
+			['<Leader>ft'] = { ':Neotree reveal_force_cwd<CR>', { desc = 'Open NeoTree' } },
+
+			-- Location window shortcuts
+			['<Leader>ln'] = { ':lnext<CR>zz', { desc = 'Next location window entry' } },
+			['<Leader>lp'] = { ':lprevious<CR>zz', { desc = 'Previous location window entry' } },
+			['<Leader>lc'] = { ':lclose<CR>', { desc = 'Close location window' } },
+
+			-- Quickfix window shortcuts
+			['<Leader>qn'] = { ':cnext<CR>zz', { desc = 'Next quickfix entry' } },
+			['<Leader>qp'] = { ':cprevious<CR>zz', { desc = 'Previous quickfix entry' } },
+			['<Leader>qc'] = { ':cclose<CR>', { desc = 'Close quickfix window' } },
+
+			-- Window keymaps
+			-- Select window to jump to
+			-- <Leader>w is defined in lua/plugins/specs/global/window-picker.lua
+			-- to allow lazy-loading the plugin
+			['<Leader>wcf'] = {
+				function() require('utils').close_floating_windows() end,
+				{ desc = 'Close floating windows' }
+			},
+			-- Normalize split size
+			['<Leader>='] = '<C-w>=',
+
+			-- Trouble.nivm keymaps
+			['<Leader>xd'] = { ':TroubleToggle document_diagnostics<CR>', { desc = 'Trouble document diagnostics' } },
+			['<Leader>xl'] = { ':TroubleToggle loclist<CR>', { desc = 'Trouble loclist' } },
+			['<Leader>xq'] = { ':TroubleToggle quickfix<CR>', { desc = 'Trouble quickfix' } },
+			['<Leader>xR'] = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
+			['<Leader>xw'] = { ':TroubleToggle workspace_diagnostics<CR>', { desc = 'Trouble workspace diagnostics' } },
+			['<Leader>xx'] = { ':TroubleToggle<CR>', { desc = 'Toggle Trouble.nvim' } },
+			-- LSP references in Trouble
+			gR = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
+
+			-- Misc keymaps
+			-- Clear search highlights
+			['//'] = ':nohlsearch<CR>',
+			['<Leader>rs'] = {
+				':nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR>:redraw!<CR>',
+				{ desc = 'Refresh screen' }
+			},
+			-- Find merge conflict markers
+			['<Leader>mc'] = { '/\\v^[<\\|=>]{7}( .*\\|$)<CR>', { desc = 'Merge conflict marker search' } },
+			-- Search/replace word under cursor
+			['<Leader>s'] = {
+				[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+				{ desc = 'Search/Replace word under cursor' }
+			},
 			-- Mark a word as rare
 			['z?'] = ':execute ":spellrare " .. expand("<cWORD>")<CR>',
+
+			-- TO SORT
+			['<Leader>cd'] = { vim.diagnostic.open_float, { desc = 'Open diagnostic float' } },
+			-- Toggle cursorcolumn (useful for aligning text)
+			['<Leader>cl'] = { ':<C-U>call utils#ToggleCursorColumn()<CR>', { desc = 'Toggle cursor column' } },
+			-- Delete to the void register
+			['<Leader>d'] = { '"_d', { desc = 'Delete to void register' } },
 		},
 		t = {
 			['<C-t>'] = '<C-\\><C-n>:lua require("FTerm").toggle()<CR>',
 		},
 		v = {
+			-- BEGIN Single-key mappings
 			-- Better indentation
 			['<'] = '<gv',
 			['>'] = '>gv',
 
-			-- Delete to the void register
-			['<Leader>d'] = '"_d',
+			-- Reflow selection
+			Q = 'gq',
 
 			-- Allow moving selected lines up and down
 			J = ":m '>+1<CR>gv==kgvo<Esc>=kgvo",
 			K = ":m '<-2<CR>gv==jgvo<Esc>=jgvo",
 
-			-- Reflow selection
-			Q = 'gq',
-
 			-- Don't jump the cursor back where it was after yanking
 			y = 'ygv<Esc>',
+			-- END single-key mappings
+
+			-- Delete to the void register
+			['<Leader>d'] = '"_d',
 		},
 		x = {
 			-- Delete highlighted text and paste over without copying it to the paste
