@@ -102,22 +102,6 @@ if test -S ${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent ; then
 fi
 {{- end }}
 
-# Only look in local shell history when using up or down arrows (otherwise
-# sometimes history will be mixed with other open terminals)
-_up-line-or-local-history() {
-	zle set-local-history 1
-	zle up-line-or-history
-	zle set-local-history 0
-}
-zle -N up-line-or-history _up-line-or-local-history
-
-_down-line-or-local-history() {
-	zle set-local-history 1
-	zle down-line-or-history
-	zle set-local-history 0
-}
-zle -N down-line-or-history _down-line-or-local-history
-
 # History search with globs.
 autoload -Uz narrow-to-region
 _history-incremental-preserving-pattern-search-backward() {
