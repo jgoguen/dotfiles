@@ -7,8 +7,11 @@ set-option -g prefix C-a
 bind-key C-a send-prefix # For nested sessions
 # ]]]
 
-# NOTE: This assumes you have only one config file in use
-TMUX_BASE="#{d:config_files}"
+# Fetch this from https://github.com/folke/tokyonight.nvim/blob/main/extras/tmux/tokyonight_day.tmux
+if-shell "test ! -f ~/.config/tmux/tokyonight_day.tmux" {
+	run-shell "curl https://github.com/folke/tokyonight.nvim/raw/main/extras/tmux/tokyonight_day.tmux >~/.config/tmux/tokyonight_day.tmux"
+}
+source-file -Fq "~/.config/tmux/tokyonight_day.tmux"
 
 # General options [[[
 # Do not wait for function or key sequence after <Esc>
@@ -20,34 +23,6 @@ set-option -g mouse on
 # upgrade $TERM
 set-option -g default-terminal "tmux-256color"
 set-option -sa terminal-overrides ',*256col*:RGB'
-
-# Define colors [[[
-# TokyoNight [[[
-TOKYONIGHT_NIGHT_BLACK='#1d202f'
-TOKYONIGHT_NIGHT_BLUE='#7aa2f7'
-TOKYONIGHT_NIGHT_YELLOW='#e0af68'
-TOKYONIGHT_NIGHT_RED='#f7768e'
-TOKYONIGHT_NIGHT_WHITE='#a9b1d6'
-TOKYONIGHT_NIGHT_GREEN='#9ece6a'
-TOKYONIGHT_NIGHT_GRAY='#3b4261'
-# ]]]
-
-# TokyoNight Day [[[
-TOKYONIGHT_DAY_BLACK='#e9e9ed'
-TOKYONIGHT_DAY_BLUE='#2e7de9'
-TOKYONIGHT_DAY_YELLOW='#8c6c3e'
-TOKYONIGHT_DAY_RED='#f52a65'
-TOKYONIGHT_DAY_WHITE='#ffffff'
-TOKYONIGHT_DAY_GREEN='#587539'
-TOKYONIGHT_DAY_GRAY='#666666'
-# ]]]
-# ]]]
-
-set-option -g mode-style "fg=${TOKYONIGHT_DAY_BLUE},bg=${TOKYONIGHT_DAY_GRAY}"
-set-option -g message-command-style "fg=${TOKYONIGHT_DAY_BLUE},bg=${TOKYONIGHT_DAY_GRAY}"
-
-# Default statusbar colours
-set-option -g status-style "fg=${TOKYONIGHT_DAY_BLUE},bg=#1f2335"
 
 # Undercurl support
 set-option -sa terminal-overrides ',*:Smulx=\E[4::%p1%dm'
@@ -93,7 +68,7 @@ set-window-option -g status-keys vi
 bind-key : command-prompt
 
 # Reload settings
-bind-key r source-file ~/.config/tmux/tmux.conf \; display-message "tmux config reloaded"
+bind-key r source-file -F "~/.config/tmux/tmux.conf" \; display-message "tmux config reloaded"
 
 # Detach
 bind-key d detach
@@ -103,7 +78,7 @@ bind-key C-d detach
 bind-key p display-panes
 
 # Quick pane switching (requires sainnhe/tmux-fzf plugin)
-bind-key w run-shell "${TMUX_BASE}/plugins/tmux-fzf/scripts/pane.sh switch"
+bind-key w run-shell "~/.config/tmux/plugins/tmux-fzf/scripts/pane.sh switch"
 # No pane previews
 set-environment -g TMUX_FZF_PREVIEW 0
 
@@ -162,19 +137,9 @@ set-option -g status-interval 5
 set-window-option -g clock-mode-colour green #green
 set-window-option -g clock-mode-style 12
 
-set-option -g pane-active-border-style "fg=${TOKYONIGHT_DAY_BLUE}"
-set-option -g pane-border-style "fg=${TOKYONIGHT_DAY_GRAY}"
-set-option -g message-style "bg=${TOKYONIGHT_DAY_GRAY},fg=${TOKYONIGHT_DAY_BLUE}"
-set-option -g status-style "bg=${TOKYONIGHT_DAY_GRAY},fg=${TOKYONIGHT_DAY_BLUE}"
-
 # Status bar format
-set-option -g status "on"
-set-option -g status-justify "left"
-set-option -g status-left "#[bg=${TOKYONIGHT_DAY_BLUE},fg=${TOKYONIGHT_DAY_BLACK}] #{tmux_mode_indicator} "
-set-option -g status-right "#[fg=${TOKYONIGHT_DAY_BLACK},bg=${TOKYONIGHT_DAY_BLUE},nobold] [ #{host_short} ] [ CPU: #{cpu_percentage} ] [ RAM: #{ram_percentage} ] [ Batt: #{battery_percentage} #{battery_remain} ]"
-set-option -g status-right-length 100
-set-window-option -g window-status-current-format "#[fg=${TOKYONIGHT_DAY_BLACK},bold,bg=${TOKYONIGHT_DAY_WHITE}] [ #{window_index} #{window_name} ] "
-set-window-option -g window-status-format "#[fg=${TOKYONIGHT_DAY_WHITE},nobold,bg=${TOKYONIGHT_DAY_GRAY}] #{window_index} #{window_name} "
+set-option -g status-left " #{tmux_mode_indicator} "
+set-option -g status-right "#[fg=#2e7de9,bg=#e9e9ec,nobold,nounderscore,noitalics]#[fg=#e9e9ed,bg=#2e7de9] #{host_short} #[fg=#a8aecb,bg=#2e7de9,nobold, nounderscore,noitalics]#[fg=#2e7de9,bg=#a8aecb] CPU: #{cpu_percentage} #[fg=#2e7de9,bg=#a8aecb,nobold,nounderscore,noitalics]#[fg=#e9e9ed,bg=#2e7de9] RAM: #{ram_percentage} #[fg=#a8aecb,bg=#2e7de9,nobold,nounderscore,noitalics]#[fg=#2e7de9,bg=#a8aecb] Batt: #{battery_percentage} #{battery_remain}"
 # ]]]
 
 # Plugins [[[
@@ -199,8 +164,8 @@ set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wi
 {{- end }}
 
 # Keep this at the very end of the file!
-set-environment -Fg TMUX_PLUGIN_MANAGER_PATH "${TMUX_BASE}/plugins"
-if "test ! -d ${TMUX_BASE}/plugins/tpm" \
-	"run-shell git clone https://github.com/tmux-plugins/tpm ${TMUX_BASE}/plugins/tpm && ${TMUX_BASE}/plugins/tpm/bin/install_plugins"
-run-shell "${TMUX_BASE}/plugins/tpm/tpm"
+set-environment -Fg TMUX_PLUGIN_MANAGER_PATH "~/.config/tmux/plugins"
+if-shell "test ! -d ~/.config/tmux/plugins/tpm" \
+	"run-shell git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm && ~/.config/tmux/plugins/tpm/bin/install_plugins"
+run-shell "~/.config/tmux/plugins/tpm/tpm"
 # ]]]
