@@ -84,6 +84,17 @@ local M = {
 				{ desc = 'Delete hidden buffers', },
 			},
 
+			-- Code mappings
+			['<Leader>ca'] = {
+				function()
+					local has_actions_preview, ActionsPreview = pcall(require, 'actions-preview')
+					if has_actions_preview then
+						ActionsPreview.code_actions()
+					end
+				end,
+				{ desc = 'Preview code actions' }
+			},
+
 			-- Editing mappings
 			['<Leader>ecb'] = { ':EditCodeBlock', { desc = 'Edit Code Block' } },
 
