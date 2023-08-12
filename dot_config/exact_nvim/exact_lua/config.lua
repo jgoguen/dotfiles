@@ -6,18 +6,12 @@ local py3_path = vim.fn.resolve(vim.fn.exepath('python3'))
 local M = {
 	settings = {
 		opt = {
-			-- Use current line's indendation when starting a new line
-			autoindent = true,
-			-- Automatically read a file if it's changed outside vim
-			autoread = true,
 			-- Write modified buffers when the buffer becomes hidden
 			autowriteall = true,
 			background = 'light',
 			-- Don't stop backspace at insert, C-w and C-u do not stop
 			-- at start of insert
 			backspace = vim.opt.backspace + { 'nostop' },
-			-- Do not use backup files
-			backup = false,
 			-- Use 2 lines for the command area at the bottom of the screen
 			cmdheight = 2,
 			-- Highlight the column after 'textwidth'
@@ -67,16 +61,8 @@ local M = {
 			-- 1: Break a line before a one-letter word instead of after
 			-- j: Remove a comment leader when joining lines if it makes sense
 			formatoptions = 'tcqnmM1j',
-			-- Hide unloaded buffers instead of trying to close them
-			hidden = true,
-			-- Highlight all search matches
-			hlsearch = true,
 			-- By defaut, ignore case when searching
 			ignorecase = true,
-			-- Highlight search matches while typing
-			incsearch = true,
-			-- Do not insert two spaces after punctuation when joining lines
-			joinspaces = false,
 			-- Show a global status line
 			laststatus = 3,
 			-- Configure list characters display (with listchars)
@@ -118,6 +104,8 @@ local M = {
 			relativenumber = true,
 			-- Number of lines above and below the cursor to keep visible
 			scrolloff = 3,
+			-- Do not write a shada/viminfo file
+			shadafile = 'NONE',
 			-- Make >, <, >>, and << round to a multiple of shiftwidth
 			shiftround = true,
 			-- Number of spaces to use for autoindent
@@ -142,8 +130,6 @@ local M = {
 			smartcase = true,
 			-- Make autoindent more intelligent
 			smartindent = true,
-			-- Allow backspace and tab to intelligently treat expanded tabs like tabs
-			smarttab = true,
 			-- Number of spaces a tab counts as when expanding tabs
 			softtabstop = 2,
 			-- Set a spell file
@@ -154,8 +140,6 @@ local M = {
 			splitbelow = true,
 			-- Open splits to the right of the current one
 			splitright = true,
-			-- Keep the cursor in the current column if possible
-			startofline = false,
 			-- Do not use swap files
 			swapfile = false,
 			-- Number of spaces to display a tab character as
@@ -175,11 +159,7 @@ local M = {
 			titlestring = '%{expand(\"%:t\")}',
 			-- Milliseconds until CursorHold is triggered
 			updatetime = 100,
-			-- Persistent undo
-			undodir = vim.fn.stdpath('state') .. '/undo',
 			undofile = true,
-			-- Do not write a viminfo file
-			viminfofile = 'NONE',
 			whichwrap = vim.opt.whichwrap + {
 				['<'] = true,
 				['>'] = true,
@@ -229,10 +209,10 @@ local M = {
 	},
 }
 
-if vim.fn.executable("rg") then
+if vim.fn.executable("rg") == 1 then
 	M.settings.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
 	M.settings.opt.grepformat = "%f:%l:%c:%m"
-elseif vim.fn.executable("ag") then
+elseif vim.fn.executable("ag") == 1 then
 	M.settings.opt.grepprg = "ag --nogroup --nocolor"
 end
 
