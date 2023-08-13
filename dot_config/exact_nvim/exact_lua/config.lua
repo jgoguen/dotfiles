@@ -205,6 +205,12 @@ local M = {
 			python_highlight_file_headers_as_comments = true,
 			python3_host_prog = vim.fn.filereadable(py3_venv) == 1 and py3_venv or py3_path,
 			python_version = 'python3',
+			['rainbow-delimiters'] = {
+				enable = true,
+				disable = { 'html' },
+				extended_mode = true,
+				max_file_lines = nil,
+			},
 		},
 	},
 }

@@ -3,7 +3,7 @@
 local M = {
 	'nvim-treesitter/nvim-treesitter',
 	dependencies = {
-		'HiPhish/nvim-ts-rainbow2',
+		{ url = 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim' },
 		'JoosepAlviste/nvim-ts-context-commentstring',
 		'nvim-treesitter/playground',
 		'RRethy/nvim-treesitter-endwise',
@@ -40,12 +40,6 @@ local M = {
 		parser_install_dir = vim.fn.stdpath('data') .. '/tree-sitter-parsers',
 		playground = {
 			enable = true,
-		},
-		rainbow = {
-			enable = true,
-			disable = { 'html' },
-			extended_mode = true,
-			max_file_lines = nil,
 		},
 	},
 }
