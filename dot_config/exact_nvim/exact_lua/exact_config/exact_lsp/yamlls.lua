@@ -10,6 +10,7 @@ return {
 		yaml = {
 			customTags = {
 				'!include_dir_named',
+				'!input scalar',
 				'!lambda scalar',
 				'!secret scalar',
 			},
