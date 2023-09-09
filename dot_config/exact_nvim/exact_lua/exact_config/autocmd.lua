@@ -64,6 +64,8 @@ function M.setup()
 				'lspinfo',
 				'man',
 				'notify',
+				'null-ls-info',
+				'PlenaryTestPopup',
 				'qf',
 				'startuptime',
 				'Trouble',
