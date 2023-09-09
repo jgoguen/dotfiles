@@ -3,7 +3,6 @@
 local M = {
 	'nvim-treesitter/nvim-treesitter',
 	dependencies = {
-		{ url = 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim' },
 		'JoosepAlviste/nvim-ts-context-commentstring',
 		'nvim-treesitter/playground',
 		'RRethy/nvim-treesitter-endwise',
