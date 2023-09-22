@@ -140,10 +140,10 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 		/bin/mkdir -p "${HOME}/.ssh"
 	fi
 
-	${OP_BIN} item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=private key' >"${HOME}/.ssh/codeberg"
+	${OP_BIN} item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=private key' --reveal | sed '/"/d' | tr -d '\r' >"${HOME}/.ssh/codeberg"
 	${OP_BIN} item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
 	/bin/chmod 0700 "${HOME}/.ssh"
-	/bin/chmod 0600 "${HOME}/.ssh/*"
+	/bin/chmod 0600 "${HOME}"/.ssh/*
 
 	/usr/local/bin/op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
 	printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:\n' | gpg --import-ownertrust
