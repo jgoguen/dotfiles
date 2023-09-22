@@ -87,11 +87,6 @@ done
 
 colors
 
-if [ -n "$ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR" ]; then
-	if [ -f "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}/../zsh-syntax-highlighting.zsh" ]; then
-		source "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}/../zsh-syntax-highlighting.zsh"
-	fi
-fi
 
 # Import aliases
 test -f ${HOME}/.zaliases && source ${HOME}/.zaliases
@@ -198,3 +193,15 @@ if [ -n "${SED_BIN}" ]; then
 	PATH=$(printf "%s" "${PATH}" | /usr/bin/awk -F ':' '{ for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); } }' | "${SED_BIN}" 's/.$//')
 fi
 export PATH
+
+BREW_BIN="$(command -v brew)"
+if [ -n "${BREW_BIN}" ]; then
+	BREW_PREFIX="$(brew --prefix)"
+	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+		source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	fi
+
+	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+		source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+	fi
+fi
