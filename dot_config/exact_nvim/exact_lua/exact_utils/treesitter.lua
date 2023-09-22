@@ -35,10 +35,7 @@ function M.node_or_parent_is(node_types)
 			return false
 		end
 
-		local Notify = require('utils.notify')
-		Notify.debug(types)
 		repeat
-			Notify.debug(node:type())
 			if Utils.table_contains(types, node:type()) then
 				return true
 			end
@@ -52,7 +49,9 @@ end
 
 ---@param node_types string|string[]
 function M.node_or_parent_is_not(node_types)
-	return function() return not M.node_or_parent_is(node_types)() end
+	return function()
+		return not M.node_or_parent_is(node_types)()
+	end
 end
 
 return M
