@@ -19,7 +19,7 @@ local M = {
 		endwise = {
 			enabled = true,
 		},
-		ensure_installed = { 'comment', 'markdown_inline', 'query', 'regex' },
+		ensure_installed = { 'bash', 'comment', 'markdown_inline', 'query', 'regex' },
 		highlight = {
 			enable = true,
 			additional_vim_regex_highlighting = { 'markdown', 'pandoc.markdown' },
