@@ -3,6 +3,7 @@
 local M = {
 	'nvim-lualine/lualine.nvim',
 	opts = function(_, opts)
+		opts.options.disabled_filetypes = require('utils').excluded_filetypes
 		opts.sections.lualine_y = {
 			{ 'progress', separator = ' ', padding = { left = 1, right = 0 } },
 			{ '%l/%L' },

@@ -27,6 +27,7 @@ local M = {
 				buftype = Utils.excluded_buftypes,
 			},
 		},
+		show_prompt = false,
 	},
 }
 
