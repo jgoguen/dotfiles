@@ -158,7 +158,7 @@ set-option -g @continuum-save-interval '5'
 set-option -g @resurrect-capture-pane-contents 'on'
 set-option -g @resurrect-dir '~/.local/share/tmux/resurrect'
 
-{{ if eq .environment "personal" -}}
+{{ if or (eq .environment "personal") (eq .environment "headless") -}}
 set-option -g @plugin 'yardnsm/tmux-1password'
 set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e").UserID.value }}
 {{- end }}
