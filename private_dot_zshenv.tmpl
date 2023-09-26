@@ -134,7 +134,7 @@ if [ "${SSH_AGENT_PID:-0}" = 0 ]; then
 	ssh-add -q "${HOME}"/.ssh/* 2>/dev/null
 fi
 
-if [ -f "${HOME}/.1password/agent.sock" ]; then
+if [ -S "${HOME}/.1password/agent.sock" ]; then
 	export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 fi
 
