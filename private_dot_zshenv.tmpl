@@ -53,6 +53,11 @@ fi
 
 export PATH
 
+BREW_BIN="$(command -v brew)"
+if [ -n "${BREW_BIN}" ]; then
+	BREW_PREFIX="$(brew --prefix)"
+fi
+
 {{ if eq .chezmoi.os "darwin" -}}
 # Set XDG variables for UNIX apps on Darwin. Use Linux-standard paths because
 # chezmoi can't deploy to a different location per OS.
@@ -148,7 +153,9 @@ export XMODIFIERS="@im=ibus"
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 {{- if eq .chezmoi.os "darwin" }}
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="/usr/local/share/zsh-syntax-highlighting/highlighters"
+if [ -n "${BREW_PREFIX}" ]; then
+	export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="${BREW_PREFIX}/share/zsh-syntax-highlighting/highlighters"
+fi
 {{- else }}
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="/usr/share/zsh-syntax-highlighting/highlighters"
 {{- end }}
