@@ -184,9 +184,12 @@ if [ -n "${MAN_BIN}" ] && [ -z "${MANPATH}" ]; then
 	export MANPATH
 fi
 
-MY_TTY=$(/usr/bin/tty)
-if [ -n "${MY_TTY}" ]; then
-	export GPG_TTY="${MY_TTY}"
+TTY_BIN="$(command -pv tty)"
+if [ -n "${TTY_BIN}" ]; then
+	MY_TTY=$(/usr/bin/tty)
+	if [ -n "${MY_TTY}" ]; then
+		export GPG_TTY="${MY_TTY}"
+	fi
 fi
 
 if [ -f "${HOME}/.zshenv.local" ]; then
