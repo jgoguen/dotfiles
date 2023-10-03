@@ -242,11 +242,16 @@ def main() -> int:
         )
 
         gopath_var = data.get("go.gopath", "").split(":")
-        gopath = [os.path.expanduser("~/.local/share/gopaths")]
-        for d in gopath_var:
-            if d not in gopath:
+        gopath_local = [
+            os.path.expanduser("~/.local/share/gopaths"),
+            os.path.expanduser("~/Library/Application Support/golang"),
+        ]
+        gopath = []
+        for d in gopath_var + gopath_local:
+            if d not in gopath and os.path.isdir(d):
                 gopath.append(d)
-        data["go.gopath"] = ":".join(gopath)
+        if len(gopath) > 0:
+            data["go.gopath"] = ":".join(gopath)
 
         markdown_font = [
             f.strip() for f in data.get("markdown.preview.fontFamily", "").split(",")
