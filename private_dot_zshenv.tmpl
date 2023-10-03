@@ -192,6 +192,9 @@ if [ -n "${TTY_BIN}" ]; then
 	fi
 fi
 
+# According to proxy.golang.org, this needs to be 'direct' to disable proxying
+export GOPROXY="direct"
+
 if [ -f "${HOME}/.zshenv.local" ]; then
 	. "${HOME}/.zshenv.local"
 fi
