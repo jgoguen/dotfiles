@@ -118,6 +118,9 @@ local settings = {
 		-- Set a spell file
 		spellfile = vim.fn.stdpath('data') .. '/spell.utf8.add',
 
+		-- Properly spell check camelCase words
+		spelloptions = vim.opt.spelloptions + { 'camel' },
+
 		-- Do not use swap files
 		swapfile = false,
 
