@@ -5,6 +5,8 @@ local M = {
 	opts = function(_, opts)
 		opts.options.disabled_filetypes = require('utils').excluded_filetypes
 
+		table.remove(opts.sections.lualine_c, 2)
+
 		table.insert(opts.sections.lualine_x, { 'filetype' })
 
 		opts.sections.lualine_y = {
