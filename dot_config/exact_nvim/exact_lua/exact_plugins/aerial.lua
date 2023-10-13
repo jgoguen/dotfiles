@@ -1,15 +1,5 @@
 local M = {
 	'stevearc/aerial.nvim',
-	dependencies = {
-		'nvim-treesitter/nvim-treesitter',
-		'nvim-tree/nvim-web-devicons',
-	},
-	cmd = {
-		'AerialToggle',
-		'AerialOpen',
-		'AerialNavToggle',
-		'AerialNavOpen',
-	},
 	keys = {
 		{ '<F8>', ':AerialToggle!<CR>', silent = true },
 	},
