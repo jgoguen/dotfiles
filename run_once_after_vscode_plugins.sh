@@ -2,7 +2,9 @@
 # vim: set noexpandtab tabstop=2 shiftwidth=2 autoindent:
 # vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
 
-set -ux
+set -eu
+
+. "${HOME}/.local/share/chezmoi/helpers.sh"
 
 CODE_BIN="$(command -v code)"
 CODE_INSIDERS_BIN="$(command -v code-insiders)"
@@ -19,12 +21,14 @@ EXTENSIONS="tamasfe.even-better-toml
 
 if [ -n "${CODE_BIN}" ]; then
 	for ext in ${EXTENSIONS}; do
+		log "Installing VS Code extension: ${ext}" "INFO"
 		${CODE_BIN} --install-extension "${ext}" --force
 	done
 fi
 
 if [ -n "${CODE_INSIDERS_BIN}" ]; then
 	for ext in ${EXTENSIONS}; do
+		log "Installing VS Code Insiders extension: ${ext}" "INFO"
 		${CODE_INSIDERS_BIN} --install-extension "${ext}" --force
 	done
 fi

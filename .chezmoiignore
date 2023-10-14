@@ -1,4 +1,6 @@
+Brewfile
 README.md
+helpers.sh
 setup.sh
 
 {{ if eq .environment "work" -}}

@@ -2,15 +2,16 @@
 # vim: set noexpandtab tabstop=2 shiftwidth=2 autoindent:
 # vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
 
-set -eux
+set -eu
 
-os=$(command -p uname)
-if [ x"${os}" != x"Darwin" ]; then
-	exit 0
-fi
+."${HOME}/.local/share/chezmoi/helpers.sh"
 
-set -eux
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+log "Closing System Preferences before writing defaults" "INFO"
+osascript -e 'tell application "System Preferences" to quit'
 
+log "Writing globalDomain settings" "INFO"
 /usr/bin/defaults write -globalDomain AppleActionOnDoubleClick -string Minimize
 /usr/bin/defaults write -globalDomain AppleEnableSwipeNavigateWithScrolls -bool true
 /usr/bin/defaults write -globalDomain AppleFontSmoothing -int 1
@@ -34,10 +35,12 @@ set -eux
 /usr/bin/defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true
 /usr/bin/defaults write -globalDomain WebKitDeveloperExtras -bool true
 
+log "Writing ActivityMonitor settings" "INFO"
 /usr/bin/defaults write com.apple.ActivityMonitor ShowCategory -int 100
 /usr/bin/defaults write com.apple.ActivityMonitor SortColumn -string CPUUsage
 /usr/bin/defaults write com.apple.ActivityMonitor SortDirection -int 0
 
+log "Writing AppleMultitouchTrackpad settings" "INFO"
 /usr/bin/defaults write com.apple.AppleMultitouchTrackpad ActuateDetents -int 1
 /usr/bin/defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 /usr/bin/defaults write com.apple.AppleMultitouchTrackpad Dragging -int 1
@@ -52,6 +55,7 @@ set -eux
 /usr/bin/defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerDoubleTapGesture -int 1
 /usr/bin/defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
 
+log "Writing AppleBluetoothMultitouch.trackpad settings" "INFO"
 /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -int 1
 /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFiveFingerPinchGesture -int 2
@@ -64,16 +68,21 @@ set -eux
 /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -int 1
 /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
 
+log "Writing BluetoothAudioAgent settings" "INFO"
 /usr/bin/defaults write com.apple.BluetoothAudioAgent 'Apple Bitpool Min (editable)' -int 40
 
+log "Writing commerce settings" "INFO"
 /usr/bin/defaults write com.apple.commerce AutoUpdate -bool true
 
+log "Writing controlstrip settings" "INFO"
 /usr/bin/defaults write com.apple.controlstrip FullCustomized -array com.apple.system.group.brightness com.apple.system.group.keyboard-brightness com.apple.system.airplay com.apple.system.group.media com.apple.system.screen-lock com.apple.system.group.volume com.apple.system.siri
 /usr/bin/defaults write com.apple.controlstrip MiniCustomized -array com.apple.system.brightness com.apple.system.volume com.apple.system.mute com.apple.system.screen-lock
 
+log "Writing desktopservices settings" "INFO"
 /usr/bin/defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 /usr/bin/defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+log "Writing dock settings" "INFO"
 /usr/bin/defaults write com.apple.dock autohide -bool false
 /usr/bin/defaults write com.apple.dock autohide-delay -float 0
 /usr/bin/defaults write com.apple.dock autohide-time-modifier -int 0
@@ -88,6 +97,7 @@ set -eux
 /usr/bin/defaults write com.apple.dock wvous-bl-corner -int 13
 /usr/bin/defaults write com.apple.dock wvous-bl-modifier -int 0
 
+log "Writing finder settings" "INFO"
 /usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 /usr/bin/defaults write com.apple.finder _FXSortFoldersFirst -bool true
 /usr/bin/defaults write com.apple.finder FXArrangeGroupViewBy -string Name
@@ -101,95 +111,119 @@ set -eux
 /usr/bin/defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 /usr/bin/defaults write com.apple.finder ShowSidebar -bool true
 
+log "Writing mail settings" "INFO"
 /usr/bin/defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
 
+log "Writing battery menu settings" "INFO"
 /usr/bin/defaults write com.apple.menuextra.battery ShowPercent -string YES
 
+log "Writing clock menu settings" "INFO"
 /usr/bin/defaults write com.apple.menuextra.clock DateFormat -string 'EEE MMM d h:mm:ss'
 /usr/bin/defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
 /usr/bin/defaults write com.apple.menuextra.clock IsAnalog -bool false
 
+log "Writing printing prefs settings" "INFO"
 /usr/bin/defaults write com.apple.print.PrintingPrefs 'Quit When Finished' -bool true
 
+log "Writing Safari settings" "INFO"
 /usr/bin/defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 /usr/bin/defaults write com.apple.Safari IncludeDevelopMenu -bool true
 /usr/bin/defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 /usr/bin/defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 
+log "Writing screensaver settings" "INFO"
 /usr/bin/defaults write com.apple.screensaver askForPassword -int 1
 /usr/bin/defaults write com.apple.screensaver askForPasswordDelay -int 0
 
+log "Writing SoftwareUpdate settings" "INFO"
 /usr/bin/defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
 /usr/bin/defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 /usr/bin/defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
+log "Writing Terminal settings" "INFO"
 /usr/bin/defaults write com.apple.Terminal SecureKeyboardEntry -bool true
 
+log "Writing TextEdit settings" "INFO"
 /usr/bin/defaults write com.apple.TextEdit PlainTextEncoding -int 4
 /usr/bin/defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 /usr/bin/defaults write com.apple.TextEdit RichText -int 0
 
+log "Writing Chrome settings" "INFO"
 /usr/bin/defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
 
+log "Writing iterm2 settings" "INFO"
 /usr/bin/defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 /usr/bin/defaults write com.googlecode.iterm2 'Secure Input' -bool true
 
-# Close any open System Preferences panes, to prevent them from overriding
-# settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
+# Set date format strings
+log "Writing date format string settings" "INFO"
+/usr/bin/defaults write NSGlobalDomain AppleICUDateFormatStrings -dict 1 "y-MM-dd" 2 "d MMM y" 3 "d MMMM y" 4 "EEEE, d MMMM y"
+
+# Enable snap-to-grid for icons on the desktop and in other icon views
+log "Setting finder settings via PlistBuddy" "INFO"
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+
+# Show the ~/Library folder
+log "Ensuring ${HOME}/Library is not hidden" "INFO"
+/usr/bin/chflags nohidden ~/Library
+
+log "sudo is required for settings, enter your password if prompted" "WARN"
 
 # Disable the sound effects on boot
+log "Disabling startup sound" "INFO"
 /usr/bin/sudo /usr/sbin/nvram SystemAudioVolume=" "
 /usr/bin/sudo /usr/sbin/nvram StartupMute=%01
 
-# Set date format strings
-/usr/bin/defaults write NSGlobalDomain AppleICUDateFormatStrings -dict 1 "y-MM-dd" 2 "d MMM y" 3 "d MMMM y" 4 "EEEE, d MMMM y"
-
 # Never sleep
+log "Disabling sleep" "INFO"
 /usr/bin/sudo /usr/sbin/systemsetup -setcomputersleep never
 
 # Disable remote events
+log "Disabling remote events" "INFO"
 /usr/bin/sudo /usr/sbin/systemsetup -setremoteappleevents off
 
 # Restart automatically if the computer freezes
+log "Set automatic restart on freeze" "INFO"
 /usr/bin/sudo /usr/sbin/systemsetup -setrestartfreeze on
 
 # Disable wake on network access
+log "Disable wake for network access" "INFO"
 /usr/bin/sudo /usr/sbin/systemsetup -setwakeonnetworkaccess off
 
 # Disable Sudden Motion Sensor (who doesn't have SSDs these days?!)
+log "Disable Sudden Motion Sensor" "INFO"
 /usr/bin/sudo /usr/bin/pmset -a sms 0
 
 # Enable lid wakeup
+log "Enable lid wakeup" "INFO"
 /usr/bin/sudo /usr/bin/pmset -a lidwake 1
 
 # Disable machine sleep while charging
+log "Disable sleep while charging" "INFO"
 /usr/bin/sudo /usr/bin/pmset -c sleep 0
 
 # Set machine sleep to 10 minutes on battery
+log "Enable sleep after 10 minutes on battery" "INFO"
 /usr/bin/sudo /usr/bin/pmset -b sleep 10
 
 # Set standby delay to 24 hours (default is 1 hour)
+log "Set standby delay to 24 hours" "INFO"
 /usr/bin/sudo /usr/bin/pmset -a standbydelay 86400
 
 # Hibernation mode
 # 0: Disable hibernation (speeds up entering sleep mode)
 # 3: Copy RAM to disk so the system state can still be restored in case of a
 #    power failure.
+log "Set safer hibernation mode" "INFO"
 /usr/bin/sudo /usr/bin/pmset -a hibernatemode 3
-
-# Enable snap-to-grid for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-
-# Show the ~/Library folder
-/usr/bin/chflags nohidden ~/Library
-
 # Show the /Volumes folder
+log "Show /Volumes in Finder" "INFO"
 /usr/bin/sudo /usr/bin/chflags nohidden /Volumes
 
 # Keep this at the end!
 # Restart Finder and Dock
+log "Restarting Finder and Dock" "INFO"
 /usr/bin/killall Finder
 /usr/bin/killall Dock
