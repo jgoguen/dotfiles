@@ -2,6 +2,7 @@ Brewfile
 README.md
 helpers.sh
 setup.sh
+.config/nvim/lazyvim.json
 
 {{ if eq .environment "work" -}}
 collect_files.py
