@@ -6,8 +6,6 @@ set -eu
 
 . "${HOME}/.local/share/chezmoi/helpers.sh"
 
-CODE_BIN="$(command -v code)"
-CODE_INSIDERS_BIN="$(command -v code-insiders)"
 EXTENSIONS="tamasfe.even-better-toml
 	chrislajoie.vscode-modelines
 	coolbear.systemd-unit-file DavidAnson.vscode-markdownlint
@@ -19,16 +17,16 @@ EXTENSIONS="tamasfe.even-better-toml
 	RoscoP.ActiveFileInStatusBar stkb.rewrap timonwong.shellcheck
 	yzhang.markdown-all-in-one"
 
-if [ -n "${CODE_BIN}" ]; then
+if command -v code; then
 	for ext in ${EXTENSIONS}; do
 		log "Installing VS Code extension: ${ext}" "INFO"
-		${CODE_BIN} --install-extension "${ext}" --force
+		code --install-extension "${ext}" --force
 	done
 fi
 
-if [ -n "${CODE_INSIDERS_BIN}" ]; then
+if command -v code-insiders; then
 	for ext in ${EXTENSIONS}; do
 		log "Installing VS Code Insiders extension: ${ext}" "INFO"
-		${CODE_INSIDERS_BIN} --install-extension "${ext}" --force
+		code-insiders --install-extension "${ext}" --force
 	done
 fi
