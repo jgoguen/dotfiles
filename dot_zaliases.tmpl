@@ -83,6 +83,10 @@ if [ -n "${BAT_BIN}" ]; then
 	alias cat='bat'
 fi
 
+if command -v procs >/dev/null 2>&1; then
+	eval $(procs --gen-completion-out zsh)
+fi
+
 if command -v lsd >/dev/null 2>&1; then
 	alias ls='lsd'
 	if ! command -v tree >/dev/null 2>&1; then
