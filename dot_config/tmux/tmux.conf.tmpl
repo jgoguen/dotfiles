@@ -7,11 +7,14 @@ set-option -g prefix C-a
 bind-key C-a send-prefix # For nested sessions
 # ]]]
 
-# Fetch this from https://github.com/folke/tokyonight.nvim/blob/main/extras/tmux/tokyonight_day.tmux
+# Fetch this from https://github.com/folke/tokyonight.nvim/blob/main/extras/tmux/tokyonight_moon.tmux
+if-shell "test ! -f ~/.config/tmux/tokyonight_moon.tmux" {
+	run-shell "curl https://github.com/folke/tokyonight.nvim/raw/main/extras/tmux/tokyonight_moon.tmux >~/.config/tmux/tokyonight_moon.tmux"
+}
 if-shell "test ! -f ~/.config/tmux/tokyonight_day.tmux" {
 	run-shell "curl https://github.com/folke/tokyonight.nvim/raw/main/extras/tmux/tokyonight_day.tmux >~/.config/tmux/tokyonight_day.tmux"
 }
-source-file -Fq "~/.config/tmux/tokyonight_day.tmux"
+source-file -Fq "~/.config/tmux/tokyonight_moon.tmux"
 
 # General options [[[
 # Do not wait for function or key sequence after <Esc>

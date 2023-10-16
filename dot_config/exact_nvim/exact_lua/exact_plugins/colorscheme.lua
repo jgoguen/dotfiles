@@ -4,7 +4,7 @@ return {
 	{
 		'folke/tokyonight.nvim',
 		opts = {
-			style = 'day',
+			style = 'moon',
 			styles = {
 				comments = {
 					italic = false,
