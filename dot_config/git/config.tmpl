@@ -4,6 +4,7 @@
 [alias]
 	amend = commit --amend -a --no-edit
 	branches = branch -a
+	delete-local = !git branch --merged | egrep -v \"(^\\*|master|main)\" | xargs git branch -d
 	discard = reset --hard HEAD
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	remotes = remote -v
