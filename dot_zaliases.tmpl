@@ -83,15 +83,16 @@ if [ -n "${BAT_BIN}" ]; then
 	alias cat='bat'
 fi
 
-EXA_BIN="$(command -v exa)"
-if [ -n "${EXA_BIN}" ]; then
-	alias ls='exa --icons --git'
-	alias tree="exa --icons --git -a --tree -s type -I '.git|node_modules|bower_components'"
+if command -v lsd >/dev/null 2>&1; then
+	alias ls='lsd'
+	if ! command -v tree >/dev/null 2>&1; then
+		alias tree="lsd --tree"
+	fi
 else
-{{ if eq .chezmoi.os "linux" -}}
-	alias ls="$(command -pv ls) --color=auto -Fh"
+{{- if eq .chezmoi.os "linux" }}
+	alias ls="ls --color=auto -Fh"
 {{- else }}
-	alias ls="$(command -pv ls) -Fh"
+	alias ls="ls -Fh"
 {{- end }}
 fi
 
