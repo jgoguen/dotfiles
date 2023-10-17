@@ -164,8 +164,6 @@ def main() -> int:
                 "remote.SSH.lockfilesInTmp": True,
                 "remote.SSH.remoteServerListenOnSocket": True,
                 "remote.SSH.showLoginTerminal": True,
-                "rewrap.autoWrap.enabled": True,
-                "rewrap.reformat": True,
                 "scm.alwaysShowRepositories": True,
                 "scss.format.spaceAroundSelectorSeparator": True,
                 "search.showLineNumbers": True,

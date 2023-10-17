@@ -14,7 +14,7 @@ EXTENSIONS="tamasfe.even-better-toml
 	GitHub.vscode-pull-request-github golang.go
 	mechatroner.rainbow-csv ms-python.python
 	PKief.material-icon-theme redhat.vscode-yaml
-	RoscoP.ActiveFileInStatusBar stkb.rewrap timonwong.shellcheck
+	RoscoP.ActiveFileInStatusBar timonwong.shellcheck
 	yzhang.markdown-all-in-one"
 
 if command -v code >/dev/null 2>&1; then
