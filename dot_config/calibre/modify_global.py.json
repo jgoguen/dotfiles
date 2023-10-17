@@ -1,0 +1,2 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- fromJson .chezmoi.stdin | setValueAtPath "library_path" "{{ .chezmoi.homeDir }}/OneDrive/Documents/Calibre Library" | toPrettyJson -}}

@@ -1,0 +1,7 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- fromJson .chezmoi.stdin |
+	setValueAtPath "action-layout-toolbar" (list "FanFicFare" "Choose Library" "Save To Disk" "Connect Share" "Preferences" "Obok DeDRM" "WordDumb" "Remove Books") |
+	setValueAtPath "action-layout-toolbar-device" (list "Send To Device" "Location Manager" "FanFicFare" "Choose Library" "Save To Disk" "Connect Share" "KoboUtilities" "Preferences" "Obok DeDRM" "WordDumb" "Remove Books") |
+	setValueAtPath "questions_to_auto_skip" (list "auto_convert_before_send") |
+	setValueAtPath "quick_start_guide_added" true |
+	toPrettyJson -}}
