@@ -182,7 +182,6 @@ def main() -> int:
                 "window.newWindowDimensions": "inherit",
                 "window.restoreWindows": "all",
                 "window.zoomLevel": 0,
-                "workbench.colorTheme": "Default Light Modern",
                 "workbench.editor.enablePreview": False,
                 "workbench.editor.enablePreviewFromQuickOpen": False,
                 "workbench.editor.highlightModifiedTabs": True,
