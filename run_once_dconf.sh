@@ -6,8 +6,7 @@ set -eu
 
 . "${HOME}/.local/share/chezmoi/helpers.sh"
 
-DCONF_BIN="$(command -pv dconf)"
-if [ -z "${DCONF_BIN}" ]; then
+if ! command -v dconf >/dev/null 2>&1; then
 	log "dconf not found, skipping dconf settings" "WARN"
 	exit 0
 fi
@@ -168,8 +167,7 @@ dconf write /org/gnome/shell/window-switcher/current-workspace-only "true"
 
 dconf write /system/locale/region "'en_US.UTF-8'"
 
-GSETTINGS_BIN="$(command -pv gsettings)"
-if [ -z "${GSETTINGS_BIN}" ]; then
+if ! command -v gsettings >/dev/null 2>&1; then
 	log "Could not find gsettings, skipping gsettings" "WARN"
 	exit 0
 fi
