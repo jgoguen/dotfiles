@@ -17,14 +17,14 @@ EXTENSIONS="tamasfe.even-better-toml
 	RoscoP.ActiveFileInStatusBar stkb.rewrap timonwong.shellcheck
 	yzhang.markdown-all-in-one"
 
-if command -v code; then
+if command -v code >/dev/null 2>&1; then
 	for ext in ${EXTENSIONS}; do
 		log "Installing VS Code extension: ${ext}" "INFO"
 		code --install-extension "${ext}" --force
 	done
 fi
 
-if command -v code-insiders; then
+if command -v code-insiders >/dev/null 2>&1; then
 	for ext in ${EXTENSIONS}; do
 		log "Installing VS Code Insiders extension: ${ext}" "INFO"
 		code-insiders --install-extension "${ext}" --force
