@@ -1,0 +1,30 @@
+# vim: set filetype=toml:
+{{ $nerdFontVersion := "3.0.2" }}
+{{ $basedir := ".local/share/fonts" }}
+{{ if eq .chezmoi.os "darwin" }}
+{{ $basedir = "Library/Fonts" }}
+{{ end }}
+["{{ $basedir }}/FiraCode"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
+	exclude = ["readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
+
+["{{ $basedir }}/Hack"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/Hack.zip"
+	exclude = ["readme.md", "LICENSE.md", "*Propo-*"]
+
+["{{ $basedir }}/JetBrainsMono"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/JetBrainsMono.zip"
+	exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*"]
+
+["{{ $basedir }}/Symbols"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/NerdFontsSymbolsOnly.zip"
+	exclude = ["readme.md", "LICENSE"]
+
+["{{ $basedir }}/Fontin"]
+	type = "archive"
+	url = "http://www.exljbris.com/dl/fontin2_pc.zip"
+	exclude = ["ReadMe.txt"]
