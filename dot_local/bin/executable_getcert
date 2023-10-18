@@ -1,0 +1,12 @@
+#!/bin/sh
+
+host="${1}"
+port="${2:-443}"
+
+if [ -z "${host}" ]; then
+	printf 'You must give a hostname\n' >&2
+	exit 1
+fi
+
+openssl s_client -connect "${host}:${port}" -servername "${host}" </dev/null \
+	2>/dev/null | sed -ne '/-BEGIN CERT/,/-END CERT/p'

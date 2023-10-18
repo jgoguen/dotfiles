@@ -1,0 +1,3 @@
+#!/bin/sh
+
+getcert "$@" | openssl x509 -noout -text
