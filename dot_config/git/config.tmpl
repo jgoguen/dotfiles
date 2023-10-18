@@ -7,7 +7,7 @@
 	delete-local = !git branch --merged | egrep -v \"(^\\*|master|main)\" | xargs git branch -d
 	discard = reset --hard HEAD
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	qup = !git checkout $(git for-each-ref --sort=-committerdate refs/heads/ --format=\"%(objectname:short) %(HEAD)%(refname:short)\" | egrep -v '\\*|\\s(main|master)$' | fzf --select-1 | awk '{print $2}')
+	qup = !git switch $(git for-each-ref --sort=-committerdate refs/heads/ --format=\"%(objectname:short) %(HEAD)%(refname:short)\" | egrep -v '\\*|\\s(main|master)$' | fzf --select-1 | awk '{print $2}')
 	remotes = remote -v
 	smartlog = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''            %C(white)%s%C(reset) %C(dim white)- %an <%aE>%C(reset)'
 	sl = smartlog
