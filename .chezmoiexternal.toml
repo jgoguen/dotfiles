@@ -5,26 +5,38 @@
 {{ $basedir = "Library/Fonts" }}
 {{ end }}
 ["{{ $basedir }}/FiraCode"]
-	type = "archive"
-	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
-	exclude = ["readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
+type = "archive"
+url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
+exclude = ["readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
+refreshPeriod = "672h"
 
 ["{{ $basedir }}/Hack"]
-	type = "archive"
-	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/Hack.zip"
-	exclude = ["readme.md", "LICENSE.md", "*Propo-*"]
+type = "archive"
+url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/Hack.zip"
+exclude = ["readme.md", "LICENSE.md", "*Propo-*"]
+refreshPeriod = "672h"
 
 ["{{ $basedir }}/JetBrainsMono"]
-	type = "archive"
-	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/JetBrainsMono.zip"
-	exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*"]
+type = "archive"
+url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/JetBrainsMono.zip"
+exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*"]
+refreshPeriod = "672h"
 
 ["{{ $basedir }}/Symbols"]
-	type = "archive"
-	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/NerdFontsSymbolsOnly.zip"
-	exclude = ["readme.md", "LICENSE"]
+type = "archive"
+url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/NerdFontsSymbolsOnly.zip"
+exclude = ["readme.md", "LICENSE"]
+refreshPeriod = "672h"
 
 ["{{ $basedir }}/Fontin"]
-	type = "archive"
-	url = "http://www.exljbris.com/dl/fontin2_pc.zip"
-	exclude = ["ReadMe.txt"]
+type = "archive"
+url = "http://www.exljbris.com/dl/fontin2_pc.zip"
+exclude = ["ReadMe.txt"]
+refreshPeriod = "672h"
+
+[".config/tmux/plugins/tpm"]
+type = "archive"
+url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.zip"
+stripComponents = 1
+exact = true
+refreshPeriod = "672h"
