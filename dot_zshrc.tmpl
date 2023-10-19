@@ -191,14 +191,3 @@ if [ -n "${SED_BIN}" ]; then
 	PATH=$(printf "%s" "${PATH}" | /usr/bin/awk -F ':' '{ for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); } }' | "${SED_BIN}" 's/.$//')
 fi
 export PATH
-
-if command -v brew >/dev/null 2>&1; then
-	BREW_PREFIX="$(brew --prefix)"
-	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-		source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-	fi
-
-	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-		source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-	fi
-fi
