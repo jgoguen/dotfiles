@@ -1,5 +1,4 @@
-# vim: set filetype=conf noexpandtab ts=2 sts=2 sw=2 autoindent:
-# vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
+# vim: set filetype=toml:
 
 progress = true
 
@@ -12,8 +11,10 @@ progress = true
 	email = "{{ $email }}"
 
 	[data.github]
-		email = "jgoguen@jgoguen.ca"
-		gpgkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx"
+		{{ $ghEmail := promptStringOnce . "github.email" "GitHub email" "jgoguen@jgoguen.ca" -}}
+		email = "{{ $ghEmail }}"
+		{{ $ghSigningKey := promptStringOnce . "github.gpgkey" "GitHub signing key" "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx" -}}
+		gpgkey = "{{ $ghSigningKey }}"
 
 [age]
 	args = ["--armor"]
