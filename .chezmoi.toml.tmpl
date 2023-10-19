@@ -2,6 +2,9 @@
 
 progress = true
 
+[cd]
+	args = ["-l"]
+
 [data]
 	{{ $env := promptStringOnce .	"environment" "Chezmoi environment" -}}
 	environment = "{{ $env }}"
