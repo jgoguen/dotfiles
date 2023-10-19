@@ -185,9 +185,3 @@ if [ -f "${HOME}/.zshrc.local" ]; then
 	. "${HOME}/.zshrc.local"
 fi
 
-# De-dup $PATH
-SED_BIN="$(command -pv sed)"
-if [ -n "${SED_BIN}" ]; then
-	PATH=$(printf "%s" "${PATH}" | /usr/bin/awk -F ':' '{ for (i=1;i<=NF;i++) { if (!x[$i]++) printf("%s:",$i); } }' | "${SED_BIN}" 's/.$//')
-fi
-export PATH
