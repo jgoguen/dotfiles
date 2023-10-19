@@ -6,7 +6,6 @@ progress = true
 	{{ $env := promptStringOnce .	"environment" "Chezmoi environment" -}}
 	environment = "{{ $env }}"
 	gpgkey = "FB298ABBE1D00A1C8FA4DC1FA8B51F5E8032CCE4"
-	username = "jgoguen"
 	{{ $email := promptStringOnce . "email" "Contact email" -}}
 	email = "{{ $email }}"
 
