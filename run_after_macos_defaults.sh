@@ -222,6 +222,13 @@ log "Set safer hibernation mode" "INFO"
 log "Show /Volumes in Finder" "INFO"
 /usr/bin/sudo /usr/bin/chflags nohidden /Volumes
 
+ntp_server="$(/usr/bin/sudo /usr/sbin/systemsetup -getnetworktimeserver | awk '{print $4}')"
+if [ "${ntp_server}" != "time.facebook.com" ]; then
+	log "Setting NTP to time.facebook.com" "INFO"
+	/usr/bin/sudo /usr/sbin/systemsetup -setusingnetworktime on
+	/usr/bin/sudo /usr/sbin/systemsetup -setnetworktimeserver time.facebook.com
+fi
+
 # Keep this at the end!
 # Restart Finder and Dock
 log "Restarting Finder and Dock" "INFO"
