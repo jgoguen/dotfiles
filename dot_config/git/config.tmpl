@@ -6,6 +6,7 @@
 	branches = branch -a -l
 	delete-local = !git branch --merged | egrep -v \"(^\\*|master|main)\" | xargs git branch -d
 	discard = reset --hard HEAD
+	latest = !git checkout master && git pull origin master && git submodule update --recursive
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	outdated = !git-rebase-needed
 	qup = !git switch $(git for-each-ref --sort=-committerdate refs/heads/ --format=\"%(objectname:short) %(HEAD)%(refname:short)\" | egrep -v '\\*|\\s(main|master)$' | fzf --select-1 | awk '{print $2}')
@@ -46,6 +47,9 @@
 [column]
 	ui = auto
 
+[commit]
+	gpgsign = true
+
 [core]
 	editor = nvim
 	eol = lf
@@ -72,11 +76,21 @@
 	user = {{ (onepasswordDetailsFields "yaim2h545jdgdfvlepphtyql3i").username.value }}
 	token = {{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i").jgoguen.value }}
 
+[gpg]
+	format = ssh
+
 [gpg "openpgp"]
 {{- if eq .chezmoi.os "darwin" }}
-	program = /usr/local/bin/gpg
+	program = {{ if eq .chezmoi.arch "arm64" }}/opt/homebrew{{ else }}/usr/local{{ end }}/bin/gpg
 {{- else }}
 	program = /usr/bin/gpg2
+{{- end }}
+
+[gpg "ssh"]
+{{- if eq .chezmoi.os "darwin" }}
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+{{- else }}
+	program = /opt/1Password/op-ssh-sign
 {{- end }}
 
 [grep]
