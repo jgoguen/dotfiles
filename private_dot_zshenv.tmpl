@@ -111,7 +111,6 @@ export SNAP_USER_COMMON="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
 export SNAP_USER_DATA="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
 {{- end }}
 
-GPGCONF_BIN="$(command -v gpgconf)"
 if command -v gpgconf >/dev/null 2>&1; then
 	gpgconf --launch gpg-agent
 	export GPG_AGENT_INFO="$(gpgconf --list-dirs agent-socket)"
