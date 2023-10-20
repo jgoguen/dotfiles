@@ -67,7 +67,6 @@ def main() -> int:
                 "editor.fontSize": 13,
                 "editor.formatOnPaste": True,
                 "editor.formatOnSave": True,
-                "editor.formatOnSaveMode": "modificationsIfAvailable",
                 "editor.guides.bracketPairs": True,
                 "editor.indentSize": "tabSize",
                 "editor.inlayHints.fontFamily": "JetBrainsMono Nerd Font",
