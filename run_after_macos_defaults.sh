@@ -110,6 +110,7 @@ log "Writing finder settings" "INFO"
 /usr/bin/defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 /usr/bin/defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 /usr/bin/defaults write com.apple.finder ShowSidebar -bool true
+/usr/bin/defaults write com.apple.finder ShowStatusBar -bool true
 
 log "Writing mail settings" "INFO"
 /usr/bin/defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
