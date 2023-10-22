@@ -43,3 +43,24 @@ mas "Baking Soda", id: 1601151613
 mas "Hand Mirror", id: 1502839586
 mas "OneDrive", id: 823766827
 mas "Vinegar", id: 1591303229
+
+vscode "chrislajoie.vscode-modelines"
+vscode "coolbear.systemd-unit-file"
+vscode "DavidAnson.vscode-markdownlint"
+vscode "EditorConfig.EditorConfig"
+vscode "esphome.esphome-vscode"
+vscode "formulahendry.auto-close-tag"
+vscode "GitHub.vscode-pull-request-github"
+vscode "golang.go"
+vscode "mechatroner.rainbow-csv"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-python.black-formatter"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode-remote.remote-ssh"
+vscode "PKief.material-icon-theme"
+vscode "redhat.vscode-yaml"
+vscode "tamasfe.even-better-toml"
+vscode "timonwong.shellcheck"
+vscode "yzhang.markdown-all-in-one"
