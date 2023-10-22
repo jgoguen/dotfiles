@@ -62,14 +62,13 @@ def main() -> int:
                 "editor.codeLensFontFamily": "JetBrainsMono Nerd Font",
                 "editor.copyWithSyntaxHighlighting": False,
                 "editor.cursorSurroundingLines": 1,
-                "editor.fontFamily": "JetBrainsMono Nerd Font",
+                "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
                 "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss05', 'ss07', 'cv22', 'cv24', 'cv25', 'cv26', 'cv32'",
                 "editor.fontSize": 13,
                 "editor.formatOnPaste": True,
                 "editor.formatOnSave": True,
                 "editor.guides.bracketPairs": True,
                 "editor.indentSize": "tabSize",
-                "editor.inlayHints.fontFamily": "JetBrainsMono Nerd Font",
                 "editor.insertSpaces": False,
                 "editor.linkedEditing": True,
                 "editor.minimap.enabled": False,
@@ -89,7 +88,7 @@ def main() -> int:
                 "editor.tabCompletion": "on",
                 "editor.tabSize": 2,
                 "editor.unicodeHighlight.includeComments": True,
-                "editor.wordWrap": "bounded",
+                "editor.wordWrap": "on",
                 "editor.wordWrapColumn": 80,
                 "explorer.openEditors.visible": 1,
                 "extensions.ignoreRecommendations": True,
@@ -116,15 +115,10 @@ def main() -> int:
                 "git.fetchOnPull": True,
                 "git.mergeEditor": True,
                 "github.gitProtocol": "ssh",
-                "go.autocompleteUnimportedPackages": True,
-                "go.enableCodeLens": {"references": False, "runtest": True},
-                "go.formatTool": "goimports",
-                "go.gotoSymbol.includeGoroot": True,
-                "go.gotoSymbol.includeImports": True,
+                "go.formatTool": "gofumpt",
                 "go.inferGopath": False,
                 "go.installDependenciesWhenBuilding": True,
                 "go.lintOnSave": "workspace",
-                "go.liveErrors": {"enabled": True, "delay": 500},
                 "go.toolsManagement.autoUpdate": True,
                 "go.useLanguageServer": True,
                 "keyboard.dispatch": "keyCode",
@@ -138,25 +132,6 @@ def main() -> int:
                 "python.analysis.completeFunctionParens": True,
                 "python.analysis.importFormat": "relative",
                 "python.analysis.typeCheckingMode": "strict",
-                "python.autoComplete.addBrackets": True,
-                "python.formatting.blackPath": "/usr/local/bin/black"
-                if sys.platform == "darwin"
-                else "/usr/bin/black",
-                "python.formatting.provider": "black",
-                "python.insidersChannel": "weekly",
-                "python.linting.flake8Args": ["--max-line-length=88"],
-                "python.linting.flake8Enabled": True,
-                "python.linting.flake8Path": "/usr/local/bin/flake8"
-                if sys.platform == "darwin"
-                else "/usr/bin/flake8-3",
-                "python.linting.mypyEnabled": False,
-                "python.linting.pep8Enabled": False,
-                "python.linting.pycodestyleEnabled": False,
-                "python.linting.pylamaEnabled": False,
-                "python.linting.pylintEnabled": False,
-                "python.pythonPath": "/usr/local/bin/python3"
-                if sys.platform == "darwin"
-                else "/usr/bin/python3",
                 "redhat.telemetry.enabled": False,
                 "remote.SSH.enableX11Forwarding": False,
                 "remote.SSH.localServerDownload": "off",
@@ -174,7 +149,6 @@ def main() -> int:
                 "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
                 "terminal.integrated.fontSize": 15,
                 "terminal.integrated.lineHeight": 1.1,
-                "vsicons.dontShowNewVersionMessage": True,
                 "window.autoDetectColorScheme": True,
                 "window.newWindowDimensions": "inherit",
                 "window.restoreWindows": "all",
@@ -187,7 +161,7 @@ def main() -> int:
                 "workbench.iconTheme": "material-icon-theme",
                 "workbench.list.horizontalScrolling": True,
                 "workbench.list.openMode": "doubleClick",
-                "workbench.preferredDarkColorTheme": "Everblush",
+                "workbench.preferredDarkColorTheme": "Visual Studio Dark",
                 "workbench.quickOpen.closeOnFocusLost": False,
                 "workbench.sideBar.location": "left",
                 "workbench.startupEditor": "none",
@@ -249,20 +223,11 @@ def main() -> int:
         if len(gopath) > 0:
             data["go.gopath"] = ":".join(gopath)
 
-        markdown_font = [
-            f.strip() for f in data.get("markdown.preview.fontFamily", "").split(",")
-        ]
-        if "JetBrainsMono Nerd Font" not in markdown_font:
-            markdown_font.insert(0, "JetBrainsMono Nerd Font")
-        data["markdown.preview.fontFamily"] = ", ".join(markdown_font)
-
-        python_complete_paths = [
-            f.strip() for f in data.get("python.autoComplete.extraPaths", "").split(",")
-        ]
+        python_complete_paths = data.get("python.autoComplete.extraPaths", [])
         calibre_dir = os.path.expanduser("~/Code/calibre")
         if os.path.isdir(calibre_dir) and calibre_dir not in python_complete_paths:
             python_complete_paths.append(calibre_dir)
-        data["python.autoComplete.extraPaths"] = ",".join(python_complete_paths)
+        data["python.autoComplete.extraPaths"] = python_complete_paths
 
         with open(fname, "w") as f:
             json.dump(data, f, indent=4)
