@@ -175,7 +175,6 @@ def main() -> int:
                 ],
                 "yaml.format.printWidth": 120,
                 "yaml.format.proseWrap": "always",
-                "yaml.format.singleQuote": True,
                 "yaml.schemaStore.enable": True,
                 "yaml.schemas": {
                     "https://json.schemastore.org/github-workflow": "/.github/workflows/*.y{a,}ml"
