@@ -85,6 +85,7 @@ export HISTFILE="${HOME}/.cache/zsh_history"
 export HISTSIZE=250000000
 
 {{ if eq .chezmoi.os "darwin" -}}
+export HOMEBREW_BUNDLE_NO_LOCK=1
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_GITHUB_API_TOKEN={{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i").homebrew.value | quote }}
