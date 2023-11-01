@@ -1,0 +1,28 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- fromJson .chezmoi.stdin
+	| setValueAtPath "dateFormat" "YYYY-MM-DD"
+	| setValueAtPath "locale" "en_US"
+	| setValueAtPath "newNoteFocus" "title"
+	| setValueAtPath "noteVisiblePanes" (list "editor" "viewer")
+	| setValueAtPath "timeFormat" "h:mm A"
+	| setValueAtPath (list "clipperServer.autoStart") true
+	| setValueAtPath (list "export.pdfPageSize") "Letter"
+	| setValueAtPath (list "markdown.plugin.abbr") true
+	| setValueAtPath (list "markdown.plugin.deflist") true
+	| setValueAtPath (list "markdown.plugin.emoji") true
+	| setValueAtPath (list "markdown.plugin.fountain") true
+	| setValueAtPath (list "markdown.plugin.insert") true
+	| setValueAtPath (list "markdown.plugin.multitable") true
+	| setValueAtPath (list "markdown.plugin.softbreaks") false
+	| setValueAtPath (list "markdown.plugin.sub") true
+	| setValueAtPath (list "markdown.plugin.sup") true
+	| setValueAtPath (list "markdown.plugin.typographer") true
+	| setValueAtPath (list "notes.sortOrder.field") "title"
+	| setValueAtPath (list "notes.sortOrder.reverse") false
+	| setValueAtPath (list "spellChecker.languages") (list "en-US")
+	| setValueAtPath (list "style.editor.fontFamily") "JetBrainsMono Nerd Font Mono"
+	| setValueAtPath (list "style.editor.monospaceFontFamily") "JetBrainsMono Nerd Font Mono"
+	| setValueAtPath (list "sync.target") 9
+	| setValueAtPath (list "sync.9.path") (index (onepassword "qndq73ff2vacdb46qfwboth3hi").urls 0).href
+	| setValueAtPath (list "sync.9.username") (onepasswordDetailsFields "qndq73ff2vacdb46qfwboth3hi").username.value
+	| toPrettyJson -}}
