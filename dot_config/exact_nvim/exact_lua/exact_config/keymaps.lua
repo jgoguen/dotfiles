@@ -45,6 +45,28 @@ local keybindings = {
 		['<up>'] = { [[v:count == 0 ? 'gk' : 'k']], { expr = true } },
 		['<down>'] = { [[v:count == 0 ? 'gj' : 'j']], { expr = true } },
 
+		-- Autoindent like VS Code when inserting on blank line
+		a = {
+			function()
+				if #vim.fn.getline('.') == 0 then
+					return [["_cc]]
+				else
+					return 'a'
+				end
+			end,
+			{ expr = true, desc = 'Properly indent on empty line on insert-after' },
+		},
+		i = {
+			function()
+				if #vim.fn.getline('.') == 0 then
+					return [["_cc]]
+				else
+					return 'i'
+				end
+			end,
+			{ expr = true, desc = 'Properly indent on empty line on insert' },
+		},
+
 		-- Mark z, join [count] lines, jump back to mark z
 		J = 'mzJ`z',
 
