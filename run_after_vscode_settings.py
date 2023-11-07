@@ -51,9 +51,6 @@ def main() -> int:
         data.update(
             {
                 "breadcrumbs.enabled": True,
-                "C_Cpp.default.cStandard": "c11",
-                "C_Cpp.default.cppStandard": "c++14",
-                "C_Cpp.updateChannel": "Insiders",
                 "dev.containers.copyGitConfig": False,
                 "diffEditor.ignoreTrimWhitespace": False,
                 "editor.acceptSuggestionOnEnter": "off",
