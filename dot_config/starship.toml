@@ -6,22 +6,20 @@ $username\
 $hostname\
 $directory\
 $git_branch\
-$git_commit\
+${custom.stgit} \
 $git_state\
 $git_status\
-$hg_branch\
-$docker_context\
 $c\
 $dotnet\
 $golang\
 $lua\
-$perl\
-$php\
 $python\
 $ruby\
+$perl\
+$php\
 $rust\
-$sudo\
 $battery\
+$time \
 $line_break\
 $status\
 $character\
@@ -41,9 +39,9 @@ style = "bold green"
 format = " on [$hostname]($style)"
 
 [directory]
-truncation_length = 8
-truncate_to_repo = false
-truncation_symbol = '.../'
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = '…/'
 style = "bold yellow"
 read_only = " "
 format = " in [$path]($style)[$read_only]($read_only_style) "
@@ -66,6 +64,9 @@ map_symbol = true
 pipestatus = true
 
 [sudo]
+disabled = false
+
+[time]
 disabled = false
 
 [character]
@@ -94,6 +95,14 @@ command = "hg_status.sh"
 when = "hg st"
 style = "bold red"
 
+[custom.stgit]
+command = "stg series --short=0 -P"
+require_repo = true
+when = """ test -n "$(stg series)" """
+description = "show stacked-git patch"
+symbol = " "
+format = "[$symbol$output]($style)"
+
 [c]
 symbol = " "
 
@@ -117,4 +126,3 @@ symbol = " "
 
 [rust]
 symbol = " "
-
