@@ -95,10 +95,11 @@ command = "hg_status.sh"
 when = "hg st"
 style = "bold red"
 
+# Adds 200-500ms to the prompt
 [custom.stgit]
 command = "stg series --short=0 -P"
 require_repo = true
-when = """ test -n "$(stg series)" """
+when = "stg series"
 description = "show stacked-git patch"
 symbol = " "
 format = "[$symbol$output]($style)"
