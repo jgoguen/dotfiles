@@ -35,6 +35,7 @@ zle -N _tmux_copy_mode
 
 if command -v starship >/dev/null 2>&1; then
 	eval $(starship init zsh)
+	eval $(starship completions zsh)
 fi
 
 if command -v op >/dev/null 2>&1; then
