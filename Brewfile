@@ -9,6 +9,7 @@ brew "git"
 brew "git-crypt"
 brew "gnupg"
 brew "go"
+brew "imagemagick"
 brew "jq"
 brew "lazygit"
 brew "lsd"
@@ -29,13 +30,13 @@ brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 
-# Use `greedy: true` to update to the latest version even when already installed
-cask "1password", greedy: true
-cask "1password-cli", greedy: true
-cask "discord", greedy: true
-cask "firefox", greedy: true
-cask "visual-studio-code", greedy: true
-cask "wezterm", greedy: true
+cask "1password"
+cask "1password-cli"
+cask "calibre"
+cask "discord"
+cask "firefox"
+cask "visual-studio-code"
+cask "wezterm"
 
 # App Store installs, find the ID and string to use with `mas list`
 mas "1Password for Safari", id: 1569813296
