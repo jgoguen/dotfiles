@@ -113,7 +113,7 @@ log "Writing finder settings" "INFO"
 /usr/bin/defaults write com.apple.finder ShowStatusBar -bool true
 
 log "Writing mail settings" "INFO"
-/usr/bin/defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
+/usr/bin/defaults write com.apple.mail DisableInlineAttachmentViewing -bool false
 
 log "Writing battery menu settings" "INFO"
 /usr/bin/defaults write com.apple.menuextra.battery ShowPercent -string YES
