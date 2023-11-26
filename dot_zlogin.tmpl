@@ -51,7 +51,19 @@ if command -v brew >/dev/null 2>&1; then
 	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
 		source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 	fi
+
+	for f in "${BREW_PREFIX}/"Cellar/fzf/*/shell/key-bindings.zsh; do
+		if [ -f "${f}" ]; then
+			source "${f}"
+		fi
+	done
 fi
+
+for f in /usr/local/share/fzf/shell/key-bindings.zsh /usr/share/fzf/shell/key-bindings.zsh; do
+	if [ -f "${f}" ]; then
+		source "${f}"
+	fi
+done
 
 # Print out some stuff before the terminal prompt
 uptime
