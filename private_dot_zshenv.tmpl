@@ -175,6 +175,18 @@ fi
 # According to proxy.golang.org, this needs to be 'direct' to disable proxying
 export GOPROXY="direct"
 
+# Detect CPU count
+CPU_COUNT=0
+if command -v nproc >/dev/null 2>&1 ; then
+	CPU_COUNT="$(nproc)"
+elif sysctl -n hw.ncpu >/dev/null 2>&1 ; then
+	CPU_COUNT="$(sysctl -n hw.ncpu)"
+fi
+if [ "${CPU_COUNT}" -gt 1 ]; then
+	export MAKEFLAGS="-j$(( CPU_COUNT - 1 ))"
+fi
+
+
 if [ -f "${HOME}/.zshenv.local" ]; then
 	. "${HOME}/.zshenv.local"
 fi
