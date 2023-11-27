@@ -32,9 +32,11 @@ brew "zsh-syntax-highlighting"
 
 cask "1password"
 cask "1password-cli"
+cask "alfred"
 cask "calibre"
 cask "discord"
 cask "firefox"
+cask "joplin"
 cask "visual-studio-code"
 cask "wezterm"
 
