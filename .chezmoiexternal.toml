@@ -9,30 +9,35 @@
 type = "archive"
 url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
 exclude = ["readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
+exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Hack"]
 type = "archive"
 url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/Hack.zip"
 exclude = ["readme.md", "LICENSE.md", "*Propo-*"]
+exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/JetBrainsMono"]
 type = "archive"
 url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/JetBrainsMono.zip"
 exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*"]
+exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Symbols"]
 type = "archive"
 url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/NerdFontsSymbolsOnly.zip"
 exclude = ["readme.md", "LICENSE"]
+exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Fontin"]
 type = "archive"
 url = "http://www.exljbris.com/dl/fontin2_pc.zip"
 exclude = ["ReadMe.txt"]
+exact = true
 refreshPeriod = "672h"
 
 [".config/tmux/plugins/tpm"]
