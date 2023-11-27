@@ -1,9 +1,10 @@
-# vim: set filetype=toml:
-{{ $nerdFontVersion := "3.0.2" }}
+
+{{ $nerdFontVersion := "3.1.1" }}
 {{ $basedir := ".local/share/fonts" }}
 {{ if eq .chezmoi.os "darwin" }}
 {{ $basedir = "Library/Fonts" }}
 {{ end }}
+# vim: set filetype=toml:
 ["{{ $basedir }}/FiraCode"]
 type = "archive"
 url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
