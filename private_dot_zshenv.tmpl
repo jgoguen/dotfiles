@@ -186,6 +186,7 @@ if [ "${CPU_COUNT}" -gt 1 ]; then
 	export MAKEFLAGS="-j$(( CPU_COUNT - 1 ))"
 fi
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#909090,standout"
 
 if [ -f "${HOME}/.zshenv.local" ]; then
 	. "${HOME}/.zshenv.local"
