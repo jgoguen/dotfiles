@@ -3,6 +3,21 @@ local has_site, site_config = pcall(require, "wezterm_local")
 
 local config = {}
 
+local function get_appearance()
+	if wezterm.gui then
+		return wezterm.gui.get_appearance()
+	end
+	return "Dark"
+end
+
+local function scheme_for_appearance(appearance)
+	if appearance:find("Dark") then
+		return "tokyonight_moon"
+	else
+		return "tokyonight_day"
+	end
+end
+
 -- In newer versions of wezterm, use the config builder for better errors
 if wezterm.config_builder then
 	config = wezterm.config_builder()
@@ -11,7 +26,7 @@ end
 config.automatically_reload_config = true
 config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
-config.color_scheme = "tokyonight_moon"
+config.color_scheme = scheme_for_appearance(get_appearance())
 config.font = wezterm.font_with_fallback({
 	"JetBrainsMono Nerd Font",
 	"FiraCode Nerd Font",
