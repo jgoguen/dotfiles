@@ -1,0 +1,33 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- .chezmoi.stdin | replaceAllRegex "^$" "{}" | fromJson
+	| setValueAtPath "BookmarkOptions.backgroundJob" true
+	| setValueAtPath "BookmarkOptions.clearIfUnread" true
+	| setValueAtPath "BookmarkOptions.doNotStoreIfReopened" true
+	| setValueAtPath "BookmarkOptions.promptToStore" false
+	| setValueAtPath "BookmarkOptions.rating" false
+	| setValueAtPath "BookmarkOptions.readingStatus" true
+	| setValueAtPath "BookmarkOptions.setDateToNow" true
+	| setValueAtPath "BookmarkOptions.storeBookmarks" true
+	| setValueAtPath "BookmarkOptions.storeIfMoreRecent" true
+	| setValueAtPath "BookmarkOptions.profileName" "Default"
+	| setValueAtPath "BookmarkOptions.currentReadingLocationColumn" "#readinglocation"
+	| setValueAtPath "BookmarkOptions.lastReadColumn" "#lastread"
+	| setValueAtPath "BookmarkOptions.percentReadColumn" "#percentread"
+	| setValueAtPath "BookmarkOptions.ratingColumn" "rating"
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.active" true
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.location_code" "main"
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.name" "Kobo Libra H2O"
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.type" "Kobo Libra H2O"
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.uuid" "fe95d2da-0895-4c6b-a110-22ce4d1538d4"
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.serial_no" (onepasswordItemFields "owir6vo66vd2vca6bjdsaw2ctu").Serial.value
+	| setValueAtPath "MetadataOptions.author" true
+	| setValueAtPath "MetadataOptions.description" true
+	| setValueAtPath "MetadataOptions.rating" false
+	| setValueAtPath "MetadataOptions.series" true
+	| setValueAtPath "MetadataOptions.subtitle" true
+	| setValueAtPath "MetadataOptions.title" true
+	| setValueAtPath "MetadataOptions.update_KoboEpubs" true
+	| setValueAtPath "backupOptionsStore.backupDestDirectory" (joinPath .chezmoi.homeDir "OneDrive/Backups/KoboReader")
+	| setValueAtPath "backupOptionsStore.backupEachCOnnection" true
+	| setValueAtPath "backupOptionsStore.backupZipDatabase" true
+	| toPrettyJson -}}
