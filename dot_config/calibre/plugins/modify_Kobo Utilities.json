@@ -2,7 +2,7 @@
 {{- .chezmoi.stdin | replaceAllRegex "^$" "{}" | fromJson
 	| setValueAtPath "BookmarkOptions.backgroundJob" true
 	| setValueAtPath "BookmarkOptions.clearIfUnread" true
-	| setValueAtPath "BookmarkOptions.doNotStoreIfReopened" true
+	| setValueAtPath "BookmarkOptions.doNotStoreIfReopened" false
 	| setValueAtPath "BookmarkOptions.promptToStore" false
 	| setValueAtPath "BookmarkOptions.rating" false
 	| setValueAtPath "BookmarkOptions.readingStatus" true
