@@ -1,2 +1,4 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- .chezmoi.stdin | replaceAllRegex "^$""{}" | fromJson | setValueAtPath "library_path" (joinPath .chezmoi.homeDir "OneDrive/Documents/Calibre Library") | toPrettyJson -}}
+{{- .chezmoi.stdin | default "{}" | fromJson
+	| setValueAtPath "library_path" (joinPath .chezmoi.homeDir "OneDrive/Documents/Calibre Library")
+	| toPrettyJson -}}

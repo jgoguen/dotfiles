@@ -1,5 +1,5 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- .chezmoi.stdin | replaceAllRegex "^$" "{}" | fromJson
+{{- .chezmoi.stdin | default "{}" | fromJson
 	| setValueAtPath "BookmarkOptions.backgroundJob" true
 	| setValueAtPath "BookmarkOptions.clearIfUnread" true
 	| setValueAtPath "BookmarkOptions.doNotStoreIfReopened" false

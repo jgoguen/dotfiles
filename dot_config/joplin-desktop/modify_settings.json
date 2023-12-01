@@ -1,5 +1,5 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- .chezmoi.stdin | replaceAllRegex "^$""{}" | fromJson
+{{- .chezmoi.stdin | default "{}" | fromJson
 	| setValueAtPath "dateFormat" "YYYY-MM-DD"
 	| setValueAtPath "locale" "en_US"
 	| setValueAtPath "newNoteFocus" "title"
