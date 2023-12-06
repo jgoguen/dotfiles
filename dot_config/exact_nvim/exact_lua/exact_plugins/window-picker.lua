@@ -14,7 +14,7 @@ local M = {
 	's1n7ax/nvim-window-picker',
 	version = 'v1.*',
 	keys = {
-		{ '<Leader>w', pick_window },
+		{ '<Leader>wp', pick_window, desc = 'Pick window' },
 	},
 	opts = {
 		autoselect_one = true,
