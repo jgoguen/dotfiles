@@ -3,6 +3,14 @@
 local M = {
 	'folke/noice.nvim',
 	opts = {
+		messages = {
+			view_history = 'popup',
+		},
+		commands = {
+			history = {
+				view = 'popup',
+			},
+		},
 		presets = {
 			lsp_doc_border = false,
 		},
