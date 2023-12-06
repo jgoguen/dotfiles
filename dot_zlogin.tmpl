@@ -65,9 +65,12 @@ for f in /usr/local/share/fzf/shell/key-bindings.zsh /usr/share/fzf/shell/key-bi
 	fi
 done
 
-# Print out some stuff before the terminal prompt
-uptime
-printf "\n"
-if command -v fortune >/dev/null 2>&1; then
-	fortune -n 512 -s
+# Print out some stuff before the terminal prompt unless this is a chezmoi
+# subshell
+if [ -z "${CHEZMOI:-}" ]; then
+	uptime
+	printf "\n"
+	if command -v fortune >/dev/null 2>&1; then
+		fortune -n 512 -s
+	fi
 fi
