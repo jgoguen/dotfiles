@@ -6,6 +6,31 @@ local M = {
 		presets = {
 			lsp_doc_border = false,
 		},
+		lsp = {
+			signature = {
+				auto_open = {
+					enabled = false,
+				},
+			},
+		},
+		status = {
+			lsp_progress = {
+				event = 'lsp',
+				kind = 'progress',
+			},
+		},
+		routes = {
+			-- Don't show LSP progress in the default view
+			{
+				filter = {
+					event = 'lsp',
+					kind = 'progress',
+				},
+				opts = {
+					skip = true,
+				},
+			},
+		},
 	},
 }
 

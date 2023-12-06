@@ -6,6 +6,19 @@ local M = {
 		opts.options.disabled_filetypes = require('utils').excluded_filetypes
 
 		table.remove(opts.sections.lualine_c, 2)
+		table.insert(opts.sections.lualine_c, {
+			function()
+				return require('noice').api.status.lsp_progress.get_hl()
+			end,
+			cond = function()
+				local has_noice, noice = pcall(require, 'noice')
+				if not has_noice then
+					return false
+				end
+
+				return noice.api.status.lsp_progress.has()
+			end,
+		})
 
 		table.insert(opts.sections.lualine_x, { 'filetype' })
 
