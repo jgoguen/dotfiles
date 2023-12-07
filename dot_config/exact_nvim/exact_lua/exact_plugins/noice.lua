@@ -44,6 +44,7 @@ local M = {
 				filter = {
 					cmdline = 'make',
 					find = ' tee ',
+					error = false,
 				},
 				opts = {
 					skip = true,
