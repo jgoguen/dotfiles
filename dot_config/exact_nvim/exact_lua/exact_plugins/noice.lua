@@ -38,6 +38,17 @@ local M = {
 					skip = true,
 				},
 			},
+			-- Don't show :make messages
+			-- Assumes the default value for shellpipe
+			{
+				filter = {
+					cmdline = 'make',
+					find = ' tee ',
+				},
+				opts = {
+					skip = true,
+				},
+			},
 		},
 	},
 }
