@@ -43,9 +43,6 @@ local settings = {
 
 		foldexpr = 'nvim_treesitter#foldexpr()',
 
-		-- Folds of a higher level will be closed when opening a file
-		foldlevel = 2,
-
 		foldmethod = 'expr',
 
 		-- A fold must have at least this many lines
