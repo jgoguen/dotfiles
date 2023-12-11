@@ -28,11 +28,10 @@ config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
 config.color_scheme = scheme_for_appearance(get_appearance())
 config.font = wezterm.font_with_fallback({
-	"JetBrainsMono Nerd Font",
-	"FiraCode Nerd Font",
-	"Fira Code",
+	"JetBrainsMono Nerd Font Mono",
+	"FiraCode Nerd Font Mono",
 	"Noto Sans CJK JP",
-	"Symbols Nerd Font",
+	"Symbols Nerd Font Mono",
 })
 config.font_size = 13
 config.harfbuzz_features = { "ss02", "ss03", "ss05", "ss07", "cv22", "cv24", "cv25", "cv26", "cv32" }
