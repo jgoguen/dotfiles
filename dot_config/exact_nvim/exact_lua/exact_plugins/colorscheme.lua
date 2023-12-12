@@ -4,7 +4,7 @@ return {
 	{
 		'folke/tokyonight.nvim',
 		opts = {
-			style = 'moon',
+			style = vim.opt.background:get() == 'dark' and 'moon' or 'day',
 			styles = {
 				comments = {
 					italic = false,
