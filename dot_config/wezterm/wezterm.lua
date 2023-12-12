@@ -27,6 +27,7 @@ config.automatically_reload_config = true
 config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
 config.color_scheme = scheme_for_appearance(get_appearance())
+config.default_cwd = wezterm.home_dir
 config.font = wezterm.font_with_fallback({
 	"JetBrainsMono Nerd Font Mono",
 	"FiraCode Nerd Font Mono",
@@ -47,6 +48,8 @@ config.keys = {
 	{ key = "LeftArrow", mods = "CMD", action = wezterm.action({ ActivateTabRelative = -1 }) },
 	{ key = "PageDown", mods = "CTRL", action = wezterm.action({ ActivateTabRelative = 1 }) },
 	{ key = "RightArrow", mods = "CMD", action = wezterm.action({ ActivateTabRelative = 1 }) },
+	{ key = "t", mods = "CMD", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
+	{ key = "t", mods = "SHIFT|CTRL", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
 	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 }
