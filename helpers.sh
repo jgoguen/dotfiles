@@ -1,3 +1,5 @@
+#!/bin/sh
+
 __ESCAPE="\e"
 __BLUE=34
 __GREEN=32

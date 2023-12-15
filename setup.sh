@@ -1,6 +1,4 @@
 #!/bin/sh
-# vim: set noexpandtab tabstop=2 shiftwidth=2 autoindent:
-# vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
 
 set -eu
 
@@ -8,7 +6,7 @@ MYDIR="$(dirname -- "${0}")"
 
 . "${MYDIR}/helpers.sh"
 
-# Define cleanup on script exit or termination [[[
+# Define cleanup on script exit or termination
 cleanup() {
 	if [ -n "${TEMPDIR}" ] && [ -d "${TEMPDIR}" ]; then
 		log "Removing temporary directory: ${TEMPDIR}" "DEBUG"
@@ -18,10 +16,9 @@ cleanup() {
 	trap - EXIT
 }
 trap cleanup EXIT INT TERM HUP
-# ]]]
 
-# Determine machine architecture and OS type [[[
-OSTYPE="$(uname | tr 'A-Z' 'a-z')"
+# Determine machine architecture and OS type
+OSTYPE="$(uname | tr '[:upper:]' '[:lower:]')"
 if [ "${OSTYPE}" = "openbsd" ]; then
 	SUDO_CMD=/usr/bin/doas
 else
@@ -47,9 +44,10 @@ aarch64)
 	HOMEBREW_BIN="/opt/homebrew/bin/brew"
 	;;
 esac
-# ]]]
 
-# Install packages required for setup [[[
+log "Running setup for OS ${OSTYPE} ${MACHINE}" "INFO"
+
+# Install packages required for setup
 if [ "${OSTYPE}" = "darwin" ]; then
 	log "Checking if XCode tools are ready" "DEBUG"
 	if ! xcode-select --print-path >/dev/null 2>&1; then
@@ -78,36 +76,34 @@ if [ "${OSTYPE}" = "darwin" ]; then
 
 	log "Installing Homebrew packages" "INFO"
 	${HOMEBREW_BIN} bundle --no-lock --file "${MYDIR}/Brewfile"
+	PATH="${PATH}:$(dirname -- "${HOMEBREW_BIN}")"
+	export PATH
 elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} dnf install --refresh -y curl git-core git-crypt gnupg2 \
-		jq libxml2 lsb unzip
+	${SUDO_CMD} dnf install --refresh -y curl git-core git-crypt gnupg2 jq libxml2 lsb unzip
 elif [ -f /etc/debian_version ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} apt install -y curl git git-crypt gnupg2 jq \
-		libxml2-utils lsb-release unzip
+	${SUDO_CMD} apt install -y curl git git-crypt gnupg2 jq libxml2-utils lsb-release unzip
 elif [ "${OSTYPE}" = "openbsd" ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq \
-		libxml unzip--
+	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq libxml unzip--
 fi
-# ]]]
 
 TEMPDIR="$(mktemp -d)"
 log "Created temporary directory: ${TEMPDIR}" "DEBUG"
 
-# Install the OpenBSD ports tree if needed [[[
+# Install the OpenBSD ports tree if needed
 if [ "${OSTYPE}" = "openbsd" ] && [ ! -d /usr/ports ]; then
 	log "Installing OpenBSD ports tree" "INFO"
 	curl "https://cdn.openbsd.org/pub/OpenBSD/$(uname -r)/ports.tar.gz" | ${SUDO_CMD} tar zxphf - -C /usr
 fi
-# ]]]
 
 if [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ] || [ -f /etc/centos-release ]; then
 	log "Installing 1Password for RPM systems" "INFO"
 	log "Installing 1Password GPG key" "DEBUG"
 	${SUDO_CMD} rpm --import https://downloads.1password.com/linux/keys/1password.asc
 	log "Installing 1Password repo file" "DEBUG"
+	# shellcheck disable=SC2016
 	${SUDO_CMD} sh -c 'printf "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" >/etc/yum.repos.d/1password.repo'
 	${SUDO_CMD} dnf install -y 1password-cli
 	if [ -n "${DISPLAY}" ]; then
@@ -115,7 +111,7 @@ if [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ] || [ -f /etc/centos-
 	fi
 fi
 
-# Fetch the op CLI from upstream and install it if needed [[[
+# Fetch the op CLI from upstream and install it if needed
 # This is janky as fuck screen-scraping to get the package URL, here's hoping
 # AgileBits doesn't decide to make minor changes to the page!
 if ! which op >/dev/null 2>&1; then
@@ -127,12 +123,9 @@ if ! which op >/dev/null 2>&1; then
 	log "Installing ${TEMPDIR}/op to /usr/local/bin/op" "DEBUG"
 	${SUDO_CMD} install -m 0755 -u root -g "$(id -g root)" -s -S "${TEMPDIR}/op" /usr/local/bin/op
 fi
-# ]]]
 
 if ! which chezmoi >/dev/null 2>&1; then
 	log "chezmoi does not exist, fetching chezmoi for ${OSTYPE}_${MACHINE}" "INFO"
-	# This is janky as fuck screen-scraping to get the package URL, here's hoping
-	# the webpage doesn't change!
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${TEMPDIR}"
 	log "Installing ${TEMPDIR}/chezmoi to /usr/local/bin/chezmoi" "DEBUG"
 	${SUDO_CMD} install -m 0755 -u root -g "$(id -g root)" -s -S "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
@@ -149,7 +142,7 @@ if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ]; then
 			1password
 		fi
 		printf 'Press Return when 1Password is configured'
-		read -r empty
+		read -r
 		log "Setting SSH_AUTH_SOCK=${HOME}/.1password/agent.sock" "DEBUG"
 		export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 	fi
