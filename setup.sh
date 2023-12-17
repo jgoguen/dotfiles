@@ -58,10 +58,6 @@ if [ "${OSTYPE}" = "darwin" ]; then
 		until xcode-select --print-path >/dev/null 2>&1; do
 			sleep 2
 		done
-
-		# Prompt to agree to license
-		log "Running xcodebuild to agree to the license, please enter your password if prompted" "INFO"
-		${SUDO_CMD} xcodebuild --license
 	fi
 
 	log "Checking if Homebrew is installed at ${HOMEBREW_BIN}" "DEBUG"
@@ -69,15 +65,19 @@ if [ "${OSTYPE}" = "darwin" ]; then
 		log "Installing Homebrew, please enter your password if prompted" "INFO"
 		OLD_POSIXLY_CORRECT="${POSIXLY_CORRECT}"
 		unset POSIXLY_CORRECT
-		/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		POSIXLY_CORRECT="${OLD_POSIXLY_CORRECT}"
 		unset OLD_POSIXLY_CORRECT
 	fi
 
-	log "Installing Homebrew packages" "INFO"
+	log "Installing Homebrew packages from ${MYDIR}/Brewfile" "INFO"
 	${HOMEBREW_BIN} bundle --no-lock --file "${MYDIR}/Brewfile"
 	PATH="${PATH}:$(dirname -- "${HOMEBREW_BIN}")"
 	export PATH
+
+	log "Grant Full Disk Access to WezTerm.app. Press Return when ready." "WARN"
+	open /System/Library/PreferencePanes/Security.prefPane
+	read -r
 elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} dnf install --refresh -y curl git-core git-crypt gnupg2 jq libxml2 lsb unzip
