@@ -179,6 +179,9 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	log "Unlocking dotfiles repo in ${HOME}/.local/share/chezmoi" "DEBUG"
 	cd "${HOME}/.local/share/chezmoi"
 	git-crypt unlock
+
+	log "Setting Codeberg key for git signing" "DEBUG"
+	git config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILjeyx439ef47Ra12ipQ58UKcadM3Q7RnJyeSsYhhrb4'
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
