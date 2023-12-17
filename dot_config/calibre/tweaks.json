@@ -4,9 +4,8 @@
   "doubleclick_on_library_view": "edit_metadata",
   "generate_cover_foot_font": null,
   "generate_cover_title_font": null,
-  "gui_last_modified_display_format": "yyyy MMM dd",
-  "gui_pubdate_display_format": "yyyy MMM",
-  "gui_timestamp_display_format": "yyyy MMM dd",
+  "gui_last_modified_display_format": "yyyy-MM-dd",
+  "gui_timestamp_display_format": "yyyy-MM-dd",
   "highlight_virtual_library": "yellow",
   "max_content_server_tags_shown": 5,
   "maximum_cover_size": [

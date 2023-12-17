@@ -3,6 +3,7 @@
   "formats": "all",
   "replace_whitespace": false,
   "save_cover": true,
+  "save_extra_files": true,
   "send_template": "calibre/{author_sort}/{title}",
   "send_timefmt": "%Y-%m-%d",
   "single_dir": false,
