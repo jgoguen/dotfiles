@@ -80,10 +80,11 @@ if [ "${OSTYPE}" = "darwin" ]; then
 	read -r
 elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} dnf install --refresh -y curl git-core git-crypt gnupg2 jq libxml2 lsb unzip
-elif [ -f /etc/debian_version ]; then
-	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} apt install -y curl git git-crypt gnupg2 jq libxml2-utils lsb-release unzip
+	${SUDO_CMD} dnf install --refresh -y bat curl dnf-plugins-core git-core git-crypt gnupg2 jq libxml2 lsb unzip
+
+	log "Installing bottom from COPR" "INFO"
+	sudo dnf copr enable -y atim/bottom
+	sudo dnf install -y bottom
 elif [ "${OSTYPE}" = "openbsd" ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq libxml unzip--
