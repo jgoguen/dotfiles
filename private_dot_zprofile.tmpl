@@ -3,7 +3,7 @@
 
 # Set path first, so many other things depend on it
 typeset -U path
-for bindir in "${HOME}/.cargo/bin" "${HOME}/bin" "${HOME}/.dotnet/tools" /bin /sbin /usr/bin /usr/sbin /opt/homebrew/bin /usr/local/bin /usr/local/sbin /var/lib/snapd/snap/bin /usr/local/go/bin /usr/local/nodejs/current/bin /Library/TeX/Distributions/Programs/texbin /opt/local/bin /opt/local/sbin "${HOME}/.local/bin"; do
+for bindir in /bin /sbin /usr/bin /usr/sbin /System/Cryptexes/App/usr/bin /usr/local/bin /usr/local/sbin /var/lib/snapd/snap/bin /usr/local/go/bin /usr/local/nodejs/current/bin /Library/TeX/Distributions/Programs/texbin /opt/local/bin /opt/local/sbin /opt/homebrew/bin "${HOME}/.cargo/bin" "${HOME}/.dotnet/tools" "${HOME}/bin" "${HOME}/.local/bin"; do
 	if [ -d "${bindir}" ]; then
 		path=(${bindir} ${path})
 	fi
@@ -27,7 +27,7 @@ if [ -d /etc/paths.d ]; then
 	while IFS=$'\n' read -r pathfile; do
 		while IFS=$'\n' read -r bindir; do
 			if [ -n "${bindir}" ] && [ -d "${bindir}" ]; then
-				path=(${bindir} ${path})
+				path=(${path} ${bindir})
 			fi
 		done <"${pathfile}"
 	done < <(/usr/bin/find -L /etc/paths.d -type f)
@@ -44,10 +44,6 @@ fi
 {{- end }}
 
 export PATH
-
-if command -v brew >/dev/null 2>&1; then
-	BREW_PREFIX="$(brew --prefix)"
-fi
 
 {{ if eq .chezmoi.os "darwin" -}}
 # Set XDG variables for UNIX apps on Darwin. Use Linux-standard paths because
@@ -117,9 +113,11 @@ if command -v gpgconf >/dev/null 2>&1; then
 	export GPG_AGENT_INFO="$(gpgconf --list-dirs agent-socket)"
 fi
 
+{{ if eq .environment "personal" -}}
 if [ -S "${HOME}/.1password/agent.sock" ]; then
 	export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 fi
+{{- end }}
 
 export TEXMFCONFIG="${HOME}/.config/texlive"
 export TEXMFHOME="${HOME}/.local/share/texlive/texmf"
@@ -188,6 +186,6 @@ fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#909090,standout"
 
-if [ -f "${HOME}/.zshenv.local" ]; then
-	. "${HOME}/.zshenv.local"
+if [ -f "${HOME}/.zprofile.local" ]; then
+	. "${HOME}/.zprofile.local"
 fi
