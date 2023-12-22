@@ -106,6 +106,9 @@ export SAVEHIST=${HISTSIZE}
 {{- if eq .chezmoi.os "linux" }}
 export SNAP_USER_COMMON="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
 export SNAP_USER_DATA="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
+
+# Force 1Password CLI to use app integration
+export OP_BIOMETRIC_UNLOCK_ENABLED=true
 {{- end }}
 
 if command -v gpgconf >/dev/null 2>&1; then
