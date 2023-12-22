@@ -1,0 +1,6 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- .chezmoi.stdin | default "{}" | fromJson
+	| setValueAtPath "use_roman_numerals_for_series_number" false
+	| setValueAtPath "delete_news_from_library_on_upload" true
+	| setValueAtPath "show_avg_rating" false
+	| toPrettyJson -}}

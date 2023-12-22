@@ -1,0 +1,5 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- .chezmoi.stdin | default "{}" | fromJson
+	| setValueAtPath "ignore_fields" (list "rating" "pubdate" "tags" "publisher" "languages")
+	| setValueAtPath "user_default_ignore_fields" (list "rating" "pubdate" "tags" "publisher" "languages")
+	| toPrettyJson -}}
