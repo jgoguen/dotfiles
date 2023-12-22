@@ -43,6 +43,7 @@ man-db
 man-pages
 neovim
 npm
+power-profiles-daemon
 pre-commit
 procs
 python-pynvim
@@ -54,6 +55,8 @@ starship
 unace
 unrar
 unzip
+usbutils
+webp-pixbuf-loader
 wezterm
 wezterm-terminfo
 wget
