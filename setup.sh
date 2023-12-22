@@ -45,6 +45,9 @@ aarch64)
 	;;
 esac
 
+TEMPDIR="$(mktemp -d)"
+log "Created temporary directory: ${TEMPDIR}" "DEBUG"
+
 log "Running setup for OS ${OSTYPE} ${MACHINE}" "INFO"
 
 # Install packages required for setup
@@ -85,13 +88,23 @@ elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
 	log "Installing bottom from COPR" "INFO"
 	sudo dnf copr enable -y atim/bottom
 	sudo dnf install -y bottom
+elif [ -f /etc/arch-release ]; then
+	log "Installing needed packages, please enter your password if prompted" "INFO"
+	${SUDO_CMD} pacman -S --noconfirm --needed $(cat "${MYDIR}/.package-lists/arch")
+
+	if ! command -v yay >/dev/null 2>&1 ; then
+		curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
+		tar zxf "${TMPDIR}/yay.tar.gz" -C "${TMPDIR}"
+		cd "${TMPDIR}/yay"
+		makepkg -sCci
+		cd -
+	fi
+
+	yay --answerclean NotInstalled --answerdiff None --removemake --cleanafter --norebuild -S --needed $(cat "${MYDIR}/.package-lists/arch-aur")
 elif [ "${OSTYPE}" = "openbsd" ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq libxml unzip--
 fi
-
-TEMPDIR="$(mktemp -d)"
-log "Created temporary directory: ${TEMPDIR}" "DEBUG"
 
 # Install the OpenBSD ports tree if needed
 if [ "${OSTYPE}" = "openbsd" ] && [ ! -d /usr/ports ]; then
@@ -132,15 +145,16 @@ if ! which chezmoi >/dev/null 2>&1; then
 	${SUDO_CMD} install -m 0755 -u root -g "$(id -g root)" -s -S "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
 fi
 
-if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ]; then
+if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ] || [ -n "${WAYLAND_DISPLAY}" ]; then
 	if [ "${SSH_AUTH_SOCK}" != "${HOME}/.1password/agent.sock" ]; then
 		log "Opening 1Password for configuration, set it up and enable both CLI integration and SSH agent" "INFO"
-		if which open >/dev/null 2>&1; then
+		if [ "${OSTYPE}" = "darwin" ]; then
 			open /Applications/1Password.app
 			log "Creating compatibility symlink: ${HOME}/.1password -> ${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t" "DEBUG"
 			ln -sf "${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t" "${HOME}/.1password"
 		else
-			1password
+			1password >/dev/null 2>&1 &
+			disown
 		fi
 		printf 'Press Return when 1Password is configured'
 		read -r
@@ -167,7 +181,7 @@ log "Fetching codeberg SSH keys from 1Password" "DEBUG"
 op item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
 
 log "Fetching dotfiles GPG key from 1Password" "DEBUG"
-/usr/local/bin/op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
+op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
 log "Setting ultimate ownertrust for dotfiles GPG key" "DEBUG"
 printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:\n' | gpg --import-ownertrust
 
@@ -186,4 +200,4 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
-chezmoi init --apply
+OP_BIOMETRIC_UNLOCK_ENABLED=true chezmoi init --apply
