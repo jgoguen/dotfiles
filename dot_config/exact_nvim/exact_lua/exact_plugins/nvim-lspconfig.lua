@@ -4,6 +4,33 @@ local M = {
 	'neovim/nvim-lspconfig',
 	opts = {
 		servers = {
+			gopls = {
+				settings = {
+					gopls = {
+						codelenses = {
+							gc_details = false,
+							generate = false,
+							regenerate_cgo = false,
+							test = false,
+							tidy = false,
+							upgrade_dependency = false,
+							vendor = false,
+						},
+						directoryFilters = {
+							'-bazel-bin',
+							'-bazel-out',
+							'-bazel-testlogs',
+							'-bazel-gosre',
+							'-bazel-genfiles',
+							'-.git',
+							'-.vscode',
+							'-.idea',
+							'-.vscode-test',
+							'-node_modules',
+						},
+					},
+				},
+			},
 			jsonls = {
 				settings = {
 					schemas = require('schemastore').json.schemas(),
