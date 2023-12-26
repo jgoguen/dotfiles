@@ -9,7 +9,6 @@ local M = {
 	opts = function(_, opts)
 		opts.highlight.additional_vim_regex_highlighting = { 'markdown', 'pandoc.markdown' }
 		opts.autotag = { enable = true }
-		opts.context_commentstring = { enable = true }
 		opts.endwise = { enable = true }
 		for _, p in ipairs({ 'comment' }) do
 			table.insert(opts.ensure_installed, p)
