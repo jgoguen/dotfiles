@@ -17,12 +17,8 @@ local M = {
 							vendor = false,
 						},
 						directoryFilters = {
-							'-bazel-bin',
-							'-bazel-out',
-							'-bazel-testlogs',
-							'-bazel-gosre',
-							'-bazel-genfiles',
 							'-.git',
+							'-.hg',
 							'-.vscode',
 							'-.idea',
 							'-.vscode-test',
