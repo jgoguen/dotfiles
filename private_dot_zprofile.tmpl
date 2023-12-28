@@ -11,37 +11,15 @@ done
 
 # Add Go paths
 {{ if eq .chezmoi.os "darwin" -}}
-export GOPATH="${HOME}/Library/Application Support/golang"
+export GOPATH="${HOME}/Library/Application Support/go"
 {{- else }}
-export GOPATH="${HOME}/.local/share/gopaths"
+export GOPATH="${HOME}/.local/share/go"
 {{- end }}
 while read -d ':' pathname; do
 	if [ -n "${pathname}" ] && [ -d "${pathname}" ]; then
 		path=(${pathname}/bin ${path})
 	fi
 done < <(printf '%s' "${GOPATH}")
-
-{{ if ne .chezmoi.os "darwin" -}}
-# Get anything from /etc/paths.d
-if [ -d /etc/paths.d ]; then
-	while IFS=$'\n' read -r pathfile; do
-		while IFS=$'\n' read -r bindir; do
-			if [ -n "${bindir}" ] && [ -d "${bindir}" ]; then
-				path=(${path} ${bindir})
-			fi
-		done <"${pathfile}"
-	done < <(/usr/bin/find -L /etc/paths.d -type f)
-fi
-{{- end }}
-{{ if eq .chezmoi.os "darwin" -}}
-if [ -d "${HOME}/Library/Python" ]; then
-	while IFS=$'\n' read -r bindir; do
-		if [ -n "${bindir}" ]; then
-			path=(${path} ${bindir})
-		fi
-	done < <(/usr/bin/find -L "${HOME}/Library/Python" -type d -maxdepth 2 -name bin)
-fi
-{{- end }}
 
 export PATH
 
@@ -74,7 +52,6 @@ else
 fi
 
 export FZF_DEFAULT_OPTS="--height 40% --reverse --border"
-export GO111MODULE=on
 
 export GTK_IM_MODULE="ibus"
 export HISTFILE="${HOME}/.cache/zsh_history"
@@ -172,9 +149,6 @@ MY_TTY=$(/usr/bin/tty)
 if [ -n "${MY_TTY}" ]; then
 	export GPG_TTY="${MY_TTY}"
 fi
-
-# According to proxy.golang.org, this needs to be 'direct' to disable proxying
-export GOPROXY="direct"
 
 # Detect CPU count
 CPU_COUNT=0
