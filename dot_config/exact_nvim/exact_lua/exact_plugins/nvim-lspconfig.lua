@@ -2,119 +2,26 @@
 
 local M = {
 	'neovim/nvim-lspconfig',
-	opts = {
-		servers = {
-			gopls = {
-				settings = {
-					gopls = {
-						codelenses = {
-							gc_details = false,
-							generate = false,
-							regenerate_cgo = false,
-							test = false,
-							tidy = false,
-							upgrade_dependency = false,
-							vendor = false,
-						},
-						directoryFilters = {
-							'-.git',
-							'-.hg',
-							'-.vscode',
-							'-.idea',
-							'-.vscode-test',
-							'-node_modules',
-						},
-					},
-				},
-			},
-			jsonls = {
-				settings = {
-					schemas = require('schemastore').json.schemas(),
-					validate = {
-						enable = true,
-					},
-				},
-			},
-			lua_ls = {
-				settings = {
-					Lua = {
-						IntelliSense = {
-							traceLocalSet = true,
-							traceReturn = true,
-						},
-						telemetry = {
-							enable = false,
-						},
-						runtime = {
-							version = 'LuaJIT',
-						},
-						diagnostics = {
-							globals = {
-								'nvim',
-								'vim',
-								'require',
-								'pcall',
-								'_G',
-								'os',
-								'ipairs',
-							},
-							--neededFileStatus = {
-							--	['codestyle-check'] = 'Any',
-							--},
-						},
-						workspace = {
-							checkThirdParty = false,
-							library = vim.api.nvim_get_runtime_file('', true),
-						},
-					},
-				},
-			},
-			prosemd_lsp = {
-				filetypes = {
-					'markdown',
-					'pandoc.markdown',
-				},
-			},
-			pyright = {
-				settings = {
-					python = {
-						analysis = {
-							autoImportCompletions = true,
-							autoSearchPaths = true,
-							diagnosticMode = 'workspace',
-							useLibraryCodeForTypes = true,
-						},
-					},
-				},
-			},
-			yamlls = {
-				settings = {
-					redhat = {
-						telemetry = {
-							enabled = false,
-						},
-					},
-					yaml = {
-						customTags = {
-							'!include_dir_named',
-							'!input scalar',
-							'!lambda scalar',
-							'!secret scalar',
-						},
-						format = {
-							printWidth = 120,
-							singleQuote = true,
-						},
-						schemas = {
-							['http://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
-							['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
-							['http://json.schemastore.org/ansible-stable-2.9'] = 'roles/tasks/*.{yml,yaml},',
-						},
-					},
-				},
-			},
-		},
-	},
+	init = function()
+		local keys = require('lazyvim.plugins.lsp.keymaps').get()
+
+		keys[#keys + 1] = {
+			'sgd',
+			function()
+				require('telescope.builtin').lsp_definitions({ reuse_win = true, jump_type = 'vsplit' })
+			end,
+			desc = 'Goto Definition (vsplit)',
+			has = 'definition',
+		}
+		keys[#keys + 1] = {
+			'igd',
+			function()
+				require('telescope.builtin').lsp_definitions({ reuse_win = true, jump_type = 'split' })
+			end,
+			desc = 'Goto Definition (split)',
+			has = 'definition',
+		}
+	end,
 }
 
 return M
