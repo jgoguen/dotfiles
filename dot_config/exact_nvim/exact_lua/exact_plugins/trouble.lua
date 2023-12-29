@@ -3,6 +3,7 @@
 local M = {
 	'folke/trouble.nvim',
 	opts = {
+		mode = 'document_diagnostics',
 		open_split = { '<C-x>', 's' },
 		open_vsplit = { '<C-v>', 'i', 'v' },
 		open_tab = { '<C-t>', 't' },
