@@ -1,1 +1,2 @@
 monitor_interval = "120"
+skip_file = "~*|.~*|*.tmp|*.db-*"
