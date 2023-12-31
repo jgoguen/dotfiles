@@ -45,10 +45,6 @@ Library/
 {{- end }}
 
 {{ if eq .environment "headless" -}}
-collect_files.py
 dconf.sh
-install_calibre_plugins.py
 .config/1Password
-.config/calibre
-.local/bin/calibre-update
 {{- end }}
