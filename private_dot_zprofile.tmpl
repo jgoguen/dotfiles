@@ -84,8 +84,10 @@ export SAVEHIST=${HISTSIZE}
 export SNAP_USER_COMMON="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
 export SNAP_USER_DATA="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
 
+{{- if ne .environment "headless" }}
 # Force 1Password CLI to use app integration
 export OP_BIOMETRIC_UNLOCK_ENABLED=true
+{{- end }}
 {{- end }}
 
 if command -v gpgconf >/dev/null 2>&1; then
