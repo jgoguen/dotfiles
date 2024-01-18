@@ -135,14 +135,14 @@ if ! which op >/dev/null 2>&1; then
 	curl -fsSL "${OP_URL}" >"${TEMPDIR}/op.zip"
 	unzip "${TEMPDIR}/op.zip" "${TEMPDIR}/op"
 	log "Installing ${TEMPDIR}/op to /usr/local/bin/op" "DEBUG"
-	${SUDO_CMD} install -m 0755 -u root -g "$(id -g root)" -s -S "${TEMPDIR}/op" /usr/local/bin/op
+	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "${TEMPDIR}/op" /usr/local/bin/op
 fi
 
 if ! which chezmoi >/dev/null 2>&1; then
 	log "chezmoi does not exist, fetching chezmoi for ${OSTYPE}_${MACHINE}" "INFO"
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${TEMPDIR}"
 	log "Installing ${TEMPDIR}/chezmoi to /usr/local/bin/chezmoi" "DEBUG"
-	${SUDO_CMD} install -m 0755 -u root -g "$(id -g root)" -s -S "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
+	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
 fi
 
 if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ] || [ -n "${WAYLAND_DISPLAY}" ]; then

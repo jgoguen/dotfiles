@@ -173,8 +173,6 @@ if ! command -v gsettings >/dev/null 2>&1; then
 fi
 
 if ! which wezterm >/dev/null 2>&1; then
-	gsettings set org.cinnamon.desktop.default-applications.terminal exec "${WEZTERM_BIN}"
-	gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg '--'
-	gsettings set org.gnome.desktop.default-applications.terminal exec "${WEZTERM_BIN}"
+	gsettings set org.gnome.desktop.default-applications.terminal exec "$(command -v wezterm)"
 	gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 fi
