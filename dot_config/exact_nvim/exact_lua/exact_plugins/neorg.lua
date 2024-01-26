@@ -15,7 +15,7 @@ local M = {
 			['core.dirman'] = {
 				config = {
 					workspaces = {
-						notes = '~/Google Drive/My Drive/Notes',
+						notes = '~/OneDrive/Notes',
 					},
 				},
 			},
