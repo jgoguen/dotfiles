@@ -26,6 +26,9 @@ local settings = {
 		-- Include current and included files for completion
 		complete = vim.opt.complete + { 'd' },
 
+		-- Keep concealing in normal and command editing mode
+		concealcursor = 'nc',
+
 		-- Open diffs in vertical splits
 		diffopt = vim.opt.diffopt + { 'vertical' },
 
