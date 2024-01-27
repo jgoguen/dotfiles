@@ -2,6 +2,9 @@
 
 progress = true
 
+[age]
+	args = ["--armor"]
+
 [cd]
 	args = ["-l"]
 
@@ -18,8 +21,8 @@ progress = true
 		{{ $ghSigningKey := promptStringOnce . "github.gpgkey" "GitHub signing key" "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx" -}}
 		gpgkey = "{{ $ghSigningKey }}"
 
-[age]
-	args = ["--armor"]
+[diff]
+	exclude = ["scripts"]
 
 [edit]
 	apply = true
