@@ -1,0 +1,74 @@
+---
+packages:
+  darwin:
+    brew:
+      - bat
+      - bottom
+      - chezmoi
+      - coreutils
+      - fd
+      - fortune
+      - fzf
+      - git
+      - git-crypt
+      - gnupg
+      - go
+      - imagemagick
+      - jq
+      - lazygit
+      - lsd
+      - lunchy
+      - mas
+      - neovim
+      - npm
+      - pinentry-mac
+      - pre-commit
+      - procs
+      - pstree
+      - python3
+      - rename
+      - ripgrep
+      - sd
+      - starship
+      - thefuck
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    cask:
+      - 1password
+      - 1password-cli
+      - alfred
+      - calibre
+      - discord
+      - firefox
+      - google-chrome
+      - joplin
+      - visual-studio-code
+      - wezterm
+    # App Store installs, find the ID and string to use with `mas list`
+    mas:
+      - name: 1Password for Safari
+        id: 1569813296
+      - name: Baking Soda
+        id: 1601151613
+      - name: Hand Mirror
+        id: 1502839586
+      - name: OneDrive
+        id: 823766827
+      - name: Vinegar
+        id: 1591303229
+  fedora:
+    dnf:
+      - ffmpeg
+      - golang-bin
+      - onedrive
+    flatpak:
+      - name: org.gnome.Evolution
+        remote: fedora
+      - name: org.mozilla.Firefox
+        remote: fedora
+      - name: org.wezfurlong.wezterm
+        remote: flathub
+    removal:
+      - firefox
+      - libswscale-free

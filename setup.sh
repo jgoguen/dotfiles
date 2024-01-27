@@ -73,8 +73,8 @@ if [ "${OSTYPE}" = "darwin" ]; then
 		unset OLD_POSIXLY_CORRECT
 	fi
 
-	log "Installing Homebrew packages from ${MYDIR}/Brewfile" "INFO"
-	${HOMEBREW_BIN} bundle --no-lock --file "${MYDIR}/Brewfile"
+	log "Installing Homebrew packages for setup" "INFO"
+	${HOMEBREW_BIN} install git git-crypt gnupg
 	PATH="${PATH}:$(dirname -- "${HOMEBREW_BIN}")"
 	export PATH
 
@@ -92,7 +92,7 @@ elif [ -f /etc/arch-release ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} pacman -S --noconfirm --needed $(cat "${MYDIR}/.package-lists/arch")
 
-	if ! command -v yay >/dev/null 2>&1 ; then
+	if ! command -v yay >/dev/null 2>&1; then
 		curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
 		tar zxf "${TMPDIR}/yay.tar.gz" -C "${TMPDIR}"
 		cd "${TMPDIR}/yay"
