@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-# vim: set expandtab shiftwidth=4 tabstop=4 softtabstop=4 foldmethod=indent:
-# vim: set syntax=python:
+# vim: set filetype=python syntax=python:
 
 import bz2
 import json
@@ -66,7 +65,7 @@ def main() -> int:
     )
     cafile = os.path.join(resources_proc.stdout.strip(), "calibre-ebook-root-CA.crt")
 
-    ctx = ssl.create_default_context(cafile = cafile)
+    ctx = ssl.create_default_context(cafile=cafile)
 
     plugins = {}
     with urlopen(PLUGIN_INDEX, context=ctx) as resp:

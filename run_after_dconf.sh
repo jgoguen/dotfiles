@@ -72,7 +72,7 @@ dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape', 'grp:w
 dconf write /org/gnome/desktop/interface/clock-show-seconds "true"
 dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
 dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
-dconf write /org/gnome/desktop/interface/monospace-font-name "'Source Code Pro Medium 11'"
+dconf write /org/gnome/desktop/interface/monospace-font-name "'JetBrainsMono Nerd Font Mono 11'"
 dconf write /org/gnome/desktop/interface/show-battery-percentage "true"
 
 dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll "true"
@@ -105,7 +105,7 @@ dconf write /org/gnome/seahorse/nautilus/armor-mode "true"
 
 dconf write /org/gnome/settings-daemon/peripherals/keyboard/numlock-state "'on'"
 
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
+dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "false"
 dconf write /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic "true"
 
 dconf write /org/gnome/settings-daemon/plugins/media-keys/area-screenshot "'<Shift><Alt>dollar'"
@@ -115,7 +115,7 @@ dconf write /org/gnome/settings-daemon/plugins/power/power-button-action "'nothi
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout "3600"
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'nothing'"
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery "'suspend'"
-dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout "900"
+dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout "600"
 dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type "'suspend'"
 
 dconf write /org/gnome/settings-daemon/plugins/xsettings/antialiasing "'rgba'"
