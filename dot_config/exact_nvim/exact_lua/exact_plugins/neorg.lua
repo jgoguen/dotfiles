@@ -19,6 +19,11 @@ local M = {
 					},
 				},
 			},
+			['core.esupports.metagen'] = {
+				config = {
+					timezone = 'implicit-local',
+				},
+			},
 			['external.context'] = {},
 		},
 	},
