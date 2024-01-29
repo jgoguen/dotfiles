@@ -38,7 +38,6 @@ packages:
       - 1password
       - 1password-cli
       - alfred
-      - calibre
       - discord
       - firefox
       - google-chrome
@@ -57,6 +56,19 @@ packages:
         id: 823766827
       - name: Vinegar
         id: 1591303229
+    personal:
+      brew: []
+      cask:
+        - calibre
+      mas: []
+    work:
+      brew: []
+      cask: []
+      mas: []
+    headless:
+      brew: []
+      cask: []
+      mas: []
   fedora:
     dnf:
       - ffmpeg
