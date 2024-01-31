@@ -12,29 +12,31 @@ install_calibre_plugins.py
 .config/calibre/
 .config/git/config.local
 .config/hg/
-.config/onedrive
 .config/mock.cfg
+.config/onedrive
 .config/vim-local/
 .config/vim-local.lua
 .config/vim-local.vim
+.local/bin/calibre-update
 .local/share/texlive/
 .netrc
 .ssh/
-.local/bin/calibre-update
+.var/app/com.calibre_ebook.calibre/
 Library/
 {{- end }}
 
 {{ if ne .chezmoi.os "linux" -}}
 dconf.sh
-.fedora.upn
-.gimp-2.8/
 .config/1Password
 .config/copr
 .config/htop
 .config/mock.cfg
 .config/onedrive
-.rpmmacros
+.fedora.upn
+.gimp-2.8/
 .local/bin/calibre-update
+.rpmmacros
+.var/app/com.calibre_ebook.calibre/
 {{- end }}
 
 {{ if ne .chezmoi.os "darwin" -}}
