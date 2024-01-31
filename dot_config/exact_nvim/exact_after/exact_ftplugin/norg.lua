@@ -2,4 +2,3 @@
 
 vim.opt_local.concealcursor = ''
 vim.opt_local.colorcolumn = tostring(vim.opt_local.textwidth:get() + 1)
-vim.opt_local.textwidth = 0
