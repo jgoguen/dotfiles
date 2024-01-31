@@ -1,6 +1,7 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
+local has_LazyvimUtils, LazyvimUtils = pcall(require, 'lazyvim.util')
 local Utils = require('utils')
 
 local keybindings = {
@@ -36,6 +37,17 @@ local keybindings = {
 
 		-- Allow ^ to act like Home in an IDE
 		['^'] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
+
+		['<C-/>'] = {
+			function()
+				if not has_LazyvimUtils then
+					return
+				end
+
+				LazyvimUtils.terminal({ vim.o.shell, '-l' }, { cwd = LazyvimUtils.root(), border = 'rounded' })
+			end,
+			{ desc = 'Terminal (root dir)' },
+		},
 
 		-- Keep the cursor in the middle of the screen with <C-d> and <C-u>
 		['<C-d>'] = '<C-d>zz',
