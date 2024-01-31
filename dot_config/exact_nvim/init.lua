@@ -8,6 +8,10 @@ vim.g.xdg_data_home = XDG_DATA_HOME
 require('config.lazy')
 
 local settings = vim.fn.globpath(vim.o.runtimepath, 'settings/*.vim', 0, 1)
-for _, f in ipairs(settings) do
-	vim.cmd('source ' .. f)
+if settings ~= nil then
+	for _, f in ipairs(settings) do
+		vim.cmd('source ' .. f)
+	end
 end
+
+vim.cmd('helptags ALL')
