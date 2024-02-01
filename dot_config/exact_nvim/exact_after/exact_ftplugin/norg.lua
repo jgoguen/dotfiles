@@ -2,3 +2,8 @@
 
 vim.opt_local.concealcursor = ''
 vim.opt_local.colorcolumn = tostring(vim.opt_local.textwidth:get() + 1)
+
+if vim.api.nvim_buf_line_count(0) == 1 and vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] == '' then
+	vim.cmd('Neorg inject-metadata')
+	vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(0), 0 })
+end
