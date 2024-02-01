@@ -1,4 +1,3 @@
-
 {{ $nerdFontVersion := "3.1.1" }}
 {{ $basedir := ".local/share/fonts" }}
 {{ if eq .chezmoi.os "darwin" }}
@@ -46,3 +45,8 @@ url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.zip"
 stripComponents = 1
 exact = true
 refreshPeriod = "672h"
+
+[".config/nvim/lua/neorg/modules/external/context/module.lua"]
+type = "file"
+url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
+refreshPeriod = "168h"
