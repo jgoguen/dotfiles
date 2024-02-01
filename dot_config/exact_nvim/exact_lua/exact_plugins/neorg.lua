@@ -19,6 +19,7 @@ local M = {
 					},
 				},
 			},
+			['core.esupports.indent'] = {},
 			['core.esupports.metagen'] = {
 				config = {
 					timezone = 'implicit-local',
