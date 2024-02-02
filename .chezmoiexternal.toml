@@ -50,3 +50,43 @@ refreshPeriod = "672h"
 type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
 refreshPeriod = "168h"
+
+[".config/bat/themes/Catppuccin-macchiato.tmTheme"]
+type = "file"
+url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-macchiato.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/Catppuccin-mocha.tmTheme"]
+type = "file"
+url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-mocha.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/Catppuccin-latte.tmTheme"]
+type = "file"
+url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-latte.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/Catppuccin-frappe.tmTheme"]
+type = "file"
+url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-frappe.tmTheme"
+refreshPeriod = "672h"
+
+[".local/share/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
+refreshPeriod = "672h"
+
+[".local/share/zsh/catppuccin_latte-zsh-syntax-highlighting.zsh"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_latte-zsh-syntax-highlighting.zsh"
+refreshPeriod = "672h"
+
+[".local/share/zsh/catppuccin_frappe-zsh-syntax-highlighting.zsh"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_frappe-zsh-syntax-highlighting.zsh"
+refreshPeriod = "672h"
+
+[".local/share/zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
+refreshPeriod = "672h"

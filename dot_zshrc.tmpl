@@ -185,3 +185,9 @@ if [ -f "${HOME}/.zshrc.local" ]; then
 	. "${HOME}/.zshrc.local"
 fi
 
+if [ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}" ] && [ -d "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}" ]; then
+	if [ -f "${USER_ZSH}/catppuccin_macchiato-zsh-syntax-highlighting.zsh" ]; then
+		source "${USER_ZSH}/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
+	fi
+	source "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}/../zsh-syntax-highlighting.zsh"
+fi

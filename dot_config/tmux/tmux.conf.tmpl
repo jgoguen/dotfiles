@@ -142,11 +142,12 @@ set-window-option -g clock-mode-style 12
 
 # Status bar format
 set-option -g status-left " #{tmux_mode_indicator} "
-set-option -g status-right "#[fg=#2e7de9,bg=#e9e9ec,nobold,nounderscore,noitalics]#[fg=#e9e9ed,bg=#2e7de9] #{host_short} #[fg=#a8aecb,bg=#2e7de9,nobold, nounderscore,noitalics]#[fg=#2e7de9,bg=#a8aecb] CPU: #{cpu_percentage} #[fg=#2e7de9,bg=#a8aecb,nobold,nounderscore,noitalics]#[fg=#e9e9ed,bg=#2e7de9] RAM: #{ram_percentage} #[fg=#a8aecb,bg=#2e7de9,nobold,nounderscore,noitalics]#[fg=#2e7de9,bg=#a8aecb] Batt: #{battery_percentage} #{battery_remain}"
+set-option -g status-right "[ #{host_short} ][ CPU: #{cpu_percentage} ][ RAM: #{ram_percentage}][ Batt: #{battery_percentage} #{battery_remain} ]"
 # ]]]
 
 # Plugins [[[
 set-option -g @plugin 'tmux-plugins/tpm'
+set-option -g @plugin 'catppuccin/tmux'
 set-option -g @plugin 'MunifTanjim/tmux-mode-indicator'
 set-option -g @plugin 'sainnhe/tmux-fzf'
 set-option -g @plugin 'tmux-plugins/tmux-battery'
@@ -156,6 +157,7 @@ set-option -g @plugin 'tmux-plugins/tmux-resurrect'
 set-option -g @plugin 'wfxr/tmux-fzf-url'
 
 set-option -g @batt_remain_short true
+set-option -g @catppuccin_flavour 'mocha'
 set-option -g @continuum-restore 'on'
 set-option -g @continuum-save-interval '5'
 set-option -g @resurrect-capture-pane-contents 'on'

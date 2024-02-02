@@ -3,6 +3,8 @@
 local M = {
 	'nvim-lualine/lualine.nvim',
 	opts = function(_, opts)
+		opts.theme = 'catppuccin'
+
 		opts.options.disabled_filetypes = require('utils').excluded_filetypes
 
 		table.remove(opts.sections.lualine_c, 2)

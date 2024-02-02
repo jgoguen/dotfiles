@@ -23,6 +23,10 @@ brew {{ .name | quote }}, id: {{ .id }}
 EOF
 {{ else if eq .chezmoi.os "linux" -}}
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
+{{ range .packages.fedora.copr -}}
+sudo dnf copr enable -y {{ . | quote }}
+{{ end -}}
+
 if ! rpm -qi rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1 ; then
 	sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi

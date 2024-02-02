@@ -22,9 +22,32 @@ return {
 		},
 	},
 	{
+		'catppuccin/nvim',
+		name = 'catppuccin',
+		priority = 1000,
+		opts = {
+			flavour = 'mocha',
+			background = {
+				light = 'latte',
+				dark = 'mocha',
+			},
+			integrations = {
+				aerial = true,
+				lsp_trouble = true,
+				mason = true,
+				neotree = true,
+				noice = true,
+				notify = true,
+				treesitter_context = true,
+				which_key = true,
+				window_picker = true,
+			},
+		},
+	},
+	{
 		'LazyVim/LazyVim',
 		opts = {
-			colorscheme = 'tokyonight',
+			colorscheme = vim.opt.background:get() == 'dark' and 'catppuccin-mocha' or 'catppuccin-latte',
 		},
 	},
 }

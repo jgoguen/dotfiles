@@ -70,10 +70,17 @@ packages:
       cask: []
       mas: []
   fedora:
+    copr:
+      - atim/bottom
+      - atim/lazygit
+      - atim/starship
     dnf:
+      - bottom
       - ffmpeg
       - golang-bin
+      - lazygit
       - onedrive
+      - starship
     flatpak:
       - name: org.gnome.Evolution
         remote: fedora
