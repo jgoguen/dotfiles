@@ -1,7 +1,14 @@
 local M = {
 	'stevearc/aerial.nvim',
 	keys = {
-		{ '<F8>', ':AerialToggle!<CR>', silent = true },
+		{
+			'<F8>',
+			function()
+				require('telescope').extensions.aerial.aerial()
+			end,
+			silent = true,
+		},
+		{ '<S-F8>', ':AerialToggle!<CR>', silent = true },
 	},
 	opts = {
 		layout = {
