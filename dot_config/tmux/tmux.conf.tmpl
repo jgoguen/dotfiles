@@ -26,6 +26,7 @@ set-option -g mouse on
 # upgrade $TERM
 set-option -g default-terminal "tmux-256color"
 set-option -sa terminal-overrides ',*256col*:RGB'
+set-option -sa terminal-overrides ',xterm*:Tc'
 
 # Undercurl support
 set-option -sa terminal-overrides ',*:Smulx=\E[4::%p1%dm'
