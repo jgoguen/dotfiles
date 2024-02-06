@@ -21,7 +21,7 @@ local M = {
 			-- edge or window
 			-- edge: open on the far edge
 			-- window: open a new window in the given direction
-			placement = 'edge',
+			placement = 'window',
 			preserve_equality = true,
 		},
 		attach_mode = 'global',
