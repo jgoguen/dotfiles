@@ -9,5 +9,3 @@ command! -bang WA wa<bang>
 command! -bang Q q<bang>
 command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
-
-command! BufClose silent! b# | silent! bd#
