@@ -17,6 +17,7 @@ local M = {
 					workspaces = {
 						notes = '~/OneDrive/Notes',
 					},
+					default_workspace = 'notes',
 				},
 			},
 			['core.esupports.indent'] = {},
