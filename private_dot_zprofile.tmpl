@@ -83,6 +83,8 @@ if command -v dircolors >/dev/null 2>&1; then
 fi
 {{- end }}
 
+export LG_CONFIG_FILE="${XDG_CONFIG_HOME}/lazygit/config.yml,${XDG_CONFIG_HOME}/lazygit/catppuccin-mocha-mauve.yaml"
+
 export MAILCHECK=0
 export PAGER="less -FRXd"
 export PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
