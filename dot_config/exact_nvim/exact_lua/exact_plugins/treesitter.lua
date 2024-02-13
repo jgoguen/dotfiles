@@ -7,7 +7,7 @@ local M = {
 		'windwp/nvim-ts-autotag',
 	},
 	opts = function(_, opts)
-		opts.highlight.additional_vim_regex_highlighting = { 'markdown', 'pandoc.markdown' }
+		opts.highlight.additional_vim_regex_highlighting = { 'markdown', 'markdown.pandoc' }
 		opts.autotag = { enable = true }
 		opts.endwise = { enable = true }
 		for _, p in ipairs({ 'comment' }) do

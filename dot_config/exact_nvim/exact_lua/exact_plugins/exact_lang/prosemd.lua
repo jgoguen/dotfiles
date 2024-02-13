@@ -6,7 +6,7 @@ local M = {
 		opts['servers']['prosemd_lsp'] = {
 			filetypes = {
 				'markdown',
-				'pandoc.markdown',
+				'markdown.pandoc',
 			},
 		}
 	end,
