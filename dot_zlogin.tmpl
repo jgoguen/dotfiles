@@ -42,6 +42,7 @@ if command -v op >/dev/null 2>&1; then
 	eval "$(op completion zsh)"
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
 if command -v brew >/dev/null 2>&1; then
 	BREW_PREFIX="$(brew --prefix)"
 	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
@@ -58,6 +59,13 @@ if command -v brew >/dev/null 2>&1; then
 		fi
 	done
 fi
+{{ else -}}
+for PREFIX in /usr/local /usr; do
+	if [ -f "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+		source "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	fi
+done
+{{- end }}
 
 for f in /usr/local/share/fzf/shell/key-bindings.zsh /usr/share/fzf/shell/key-bindings.zsh; do
 	if [ -f "${f}" ]; then
