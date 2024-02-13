@@ -5,6 +5,8 @@ local M = {
 	lazy = false,
 	init = function()
 		vim.g['pandoc#filetypes#pandoc_markdown'] = 0
+
+		vim.treesitter.language.register('markdown', { 'markdown.pandoc' })
 	end,
 }
 
