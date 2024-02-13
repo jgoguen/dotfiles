@@ -147,6 +147,8 @@ local settings = {
 		writebackup = false,
 	},
 	g = {
+		BufClose_AltBuffer = '#',
+
 		mapleader = '`',
 		maplocalleader = '\\',
 
