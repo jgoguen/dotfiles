@@ -5,6 +5,7 @@
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
 	delete-merged = !git branch --merged | egrep -v \"(^\\*|master|main)\" | xargs git branch -d
+	dft = difftool
 	discard = reset --hard HEAD
 	dm = delete-merged
 	irebase = !f() { git rebase -i HEAD~$1; }; f
@@ -54,6 +55,7 @@
 
 [commit]
 	gpgsign = true
+	verbose = true
 
 [core]
 	editor = nvim
@@ -64,8 +66,17 @@
 
 [diff]
 	algorithm = patience
+	external = difft
 	noprefix = true
 	renames = copies
+	submodule = log
+	tool = difftastic
+
+[difftool]
+	prompt = false
+
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
 
 [fetch]
 	prune = true
@@ -73,6 +84,9 @@
 
 [format]
 	graph = true
+
+[http]
+	followRedirects = true
 
 [gc]
 	auto = 1
@@ -124,7 +138,11 @@
 	status = true
 	summary = true
 
+[pager]
+	difftool = true
+
 [pull]
+	ff = only
 	rebase = true
 
 [push]
@@ -137,6 +155,9 @@
 	autostash = true
 	updateRefs = true
 
+[rerere]
+	enabled = true
+
 [stash]
 	showPatch = true
 
@@ -147,6 +168,9 @@
 [stgit]
   autostash = grue
   keepoptimized = true
+
+[submodule]
+	recurse = true
 
 [tag]
 	forceSignAnnotated = true
