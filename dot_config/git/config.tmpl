@@ -4,7 +4,6 @@
 [alias]
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
-	delete-merged = !git branch --merged | egrep -v \"(^\\*|master|main)\" | xargs git branch -d
 	dft = difftool
 	discard = reset --hard HEAD
 	dm = delete-merged
@@ -90,6 +89,9 @@
 
 [gc]
 	auto = 1
+
+[git-extras "get"]
+	clone-path = {{ .chezmoi.homeDir }}/Code
 
 [github]
 	user = {{ (onepasswordDetailsFields "yaim2h545jdgdfvlepphtyql3i").username.value }}
