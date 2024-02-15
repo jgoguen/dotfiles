@@ -155,6 +155,9 @@ local settings = {
 		latex_to_unicode_auto = 1,
 		markdown_recommended_style = 0,
 
+		loaded_node_provider = 0,
+		loaded_perl_provider = 0,
+
 		neo_tree_remove_legacy_commands = true,
 
 		-- Python3 or bust
