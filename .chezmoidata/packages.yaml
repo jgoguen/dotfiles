@@ -11,7 +11,9 @@ packages:
       - fortune
       - fzf
       - git
+      - git-absorb
       - git-crypt
+      - git-extras
       - gnupg
       - go
       - imagemagick
@@ -31,7 +33,6 @@ packages:
       - ripgrep
       - sd
       - starship
-      - thefuck
       - zsh
       - zsh-autosuggestions
       - zsh-syntax-highlighting
@@ -76,14 +77,40 @@ packages:
       - atim/lazygit
       - atim/starship
     dnf:
+      - bat
       - bottom
       - difftastic
+      - fd-find
       - ffmpeg
+      - fortune-mod
+      - fzf
+      - git
+      - git-absorb
+      - git-crypt
+      - git-extras
+      - gnupg2
       - golang-bin
+      - ImageMagick
+      - jq
       - lazygit
+      - lsd
+      - neovim
+      - nodejs-npm
       - onedrive
+      - pre-commit
+      - python3-neovim
+      - python3-pip
+      - ripgrep
+      - sd
       - starship
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
     flatpak:
+      - name: com.discordapp.Discord
+        remote: flathub
+      - name: net.cozic.joplin_desktop
+        remote: flathub
       - name: org.gnome.Evolution
         remote: fedora
       - name: org.mozilla.Firefox
