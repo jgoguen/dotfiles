@@ -59,6 +59,7 @@ local M = {
 						'html',
 						'sh',
 						'snippets',
+						'sshconfig',
 						'TelescopePrompt',
 						'template',
 						'tmux',
