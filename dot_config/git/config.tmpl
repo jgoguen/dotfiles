@@ -4,6 +4,7 @@
 [alias]
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
+	delete-merged = !git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" { print $1 }' | xargs -r git branch -D
 	dft = difftool
 	discard = reset --hard HEAD
 	dm = delete-merged
@@ -11,7 +12,7 @@
 	latest = !git checkout master && git pull origin master && git submodule update --recursive
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	outdated = !git-rebase-needed
-	qup = !git switch $(git for-each-ref --sort=-committerdate refs/heads/ --format=\"%(objectname:short) %(HEAD)%(refname:short)\" | egrep -v '\\*|\\s(main|master)$' | fzf --layout=reverse-list --select-1 | awk '{print $2}')
+	qup = !git switch $(git for-each-ref --sort=-committerdate refs/heads/ --format='%(objectname:short) %(HEAD)%(refname:short)' | egrep -v '\\*|\\s(main|master)$' | fzf --layout=reverse-list --select-1 | awk '{print $2}')
 	remotes = remote -v
 	shelve = stash save
 	sl = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''            %C(white)%s%C(reset) %C(dim white)- %an <%aE>%C(reset)'
