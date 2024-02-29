@@ -62,4 +62,17 @@ if has_site then
 	config = site_config.update_config(config)
 end
 
+wezterm.on("format-tab-title", function(tab)
+	local pane_title = tab.active_pane.title
+	local user_title = tab.active_pane.user_vars.panetitle
+
+	if user_title ~= nil and #user_title > 0 then
+		pane_title = user_title
+	end
+
+	return {
+		{ Text = " " .. tab.tab_index .. ": " .. pane_title .. " " },
+	}
+end)
+
 return config
