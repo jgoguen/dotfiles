@@ -25,6 +25,7 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+config.audible_bell = "Disabled"
 config.automatically_reload_config = true
 config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
@@ -38,13 +39,9 @@ config.font = wezterm.font_with_fallback({
 })
 config.font_size = 13
 config.harfbuzz_features = { "ss02", "ss03", "ss05", "ss07", "cv22", "cv24", "cv25", "cv26", "cv32" }
-config.hyperlink_rules = {
-	-- Include the default since we're overriding
-	{
-		regex = "\\b\\w+://(?:[\\w.-]+)\\.[a-z]{2,15}\\S*\\b",
-		format = "$0",
-	},
-}
+-- Explicitly set the defaults here since this might be appended to in site config and we don't want to override the
+-- default set of rules.
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
 config.keys = {
 	{ key = "PageUp", mods = "CTRL", action = wezterm.action({ ActivateTabRelative = -1 }) },
 	{ key = "LeftArrow", mods = "CMD", action = wezterm.action({ ActivateTabRelative = -1 }) },
@@ -55,8 +52,16 @@ config.keys = {
 	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 }
+config.native_macos_fullscreen_mode = true
+config.quote_dropped_files = "Posix"
 config.selection_word_boundary = " \t\n{}[]()\"'`:"
+config.visual_bell = {
+	fade_in_duration_ms = 75,
+	fade_out_duration_ms = 75,
+	target = "CursorColor",
+}
 config.window_close_confirmation = "NeverPrompt"
+config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
 
 if has_site then
 	config = site_config.update_config(config)
@@ -71,7 +76,7 @@ wezterm.on("format-tab-title", function(tab)
 	end
 
 	return {
-		{ Text = " " .. tab.tab_index .. ": " .. pane_title .. " " },
+		{ Text = " " .. pane_title .. " " },
 	}
 end)
 
