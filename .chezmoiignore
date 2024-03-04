@@ -1,6 +1,7 @@
 README.md
 helpers.sh
 setup.sh
+setup.ps1
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
 
@@ -48,4 +49,7 @@ Library/
 {{ if eq .environment "headless" -}}
 dconf.sh
 .config/1Password
+{{- end }}
+
+{{ if eq .chezmoi.os "windows" -}}
 {{- end }}
