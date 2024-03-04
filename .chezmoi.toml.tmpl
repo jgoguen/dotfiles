@@ -1,9 +1,11 @@
 # vim: set filetype=toml:
 
+encryption = "age"
 progress = true
 
 [age]
-	args = ["--armor"]
+	identity = "{{ .chezmoi.homeDir }}/.config/age-chezmoi.txt"
+	recipient = "age1gtldz4zwpt4280gamq5quy8sxy6rlkra4pt7wrfrq2fph4xwwcwq4jpj9s"
 
 [cd]
 	args = ["-l"]
