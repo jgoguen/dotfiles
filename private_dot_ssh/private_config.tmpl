@@ -24,4 +24,6 @@ Host *
 	{{- end }}
 	IdentityFile ~/.ssh/id_ed25519.pub
 	ServerAliveInterval 30
-
+	{{- if eq .chezmoi.os "windows" }}
+	User jgoguen
+	{{- end }}

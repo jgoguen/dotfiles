@@ -2,6 +2,8 @@
 {{ $basedir := ".local/share/fonts" }}
 {{ if eq .chezmoi.os "darwin" }}
 {{ $basedir = "Library/Fonts" }}
+{{ else if eq .chezmoi.os "windows" }}
+{{ $basedir = "AppData/Local/Microsoft/Windows/Fonts" }}
 {{ end }}
 # vim: set filetype=toml:
 ["{{ $basedir }}/FiraCode"]

@@ -58,9 +58,13 @@
 	verbose = true
 
 [core]
+	autocrlf = input
 	editor = nvim
 	eol = lf
 	quotePath = true
+	{{- if eq .chezmoi.os "windows" }}
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+	{{- end }}
 	untrackedCache = true
 	whitespace = fix,-cr-at-eol,-indent-with-non-tab,space-before-tab,-tab-in-indent,trailing-space
 
