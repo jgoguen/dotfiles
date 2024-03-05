@@ -8,7 +8,12 @@ progress = true
 	recipient = "age1gtldz4zwpt4280gamq5quy8sxy6rlkra4pt7wrfrq2fph4xwwcwq4jpj9s"
 
 [cd]
+	{{- if eq .chezmoi.os "windows" }}
+	command = "pwsh.exe"
+	args = ["-NoLogo"]
+	{{- else }}
 	args = ["-l"]
+	{{- end }}
 
 [data]
 	{{ $env := promptStringOnce .	"environment" "Chezmoi environment" -}}
