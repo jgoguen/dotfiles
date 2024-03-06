@@ -51,5 +51,8 @@ dconf.sh
 .config/1Password
 {{- end }}
 
+{{ if ne .chezmoi.os "windows" -}}
+.local/share/nvim-data
+{{- end }}
 {{ if eq .chezmoi.os "windows" -}}
 {{- end }}
