@@ -181,9 +181,8 @@ log "Fetching codeberg SSH keys from 1Password" "DEBUG"
 op item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
 
 log "Fetching dotfiles GPG key from 1Password" "DEBUG"
-op document get qukaq3aej2hftq6t2ojuwvpm6m | gpg --import
-log "Setting ultimate ownertrust for dotfiles GPG key" "DEBUG"
-printf '75E259BA34917C792560A53AE9F9F8EA7E062F78:6:\n' | gpg --import-ownertrust
+op document get oylhnlt5t6eoypifnfpjo7uzcm --out-file "${HOME}/.config/age-chezmoi.txt"
+chmod 0600 "${HOME}/.config/age-chezmoi.txt"
 
 if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	log "Dotfiles not present, cloning" "INFO"
