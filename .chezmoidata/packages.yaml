@@ -120,3 +120,38 @@ packages:
     removal:
       - firefox
       - libswscale-free
+  windows:
+    winget:
+      - AgileBits.1Password
+      - Discord.Discord
+      - EpicGames.EpicGamesLauncher
+      - GIMP.GIMP
+      - Microsoft.PowerShell
+      - Microsoft.PowerToys
+      - Mozilla.Firefox
+      - Mozilla.Thunderbird
+      - Roblox.Roblox
+      - wez.wezterm
+    msstore:
+      - 9PMMSR1CGPWG # HEIF extensions
+    scoop:
+      buckets:
+        - extras
+      packages:
+        - 1password-cli
+        - age
+        - chezmoi
+        - difftastic
+        - fzf
+        - gcc
+        - git
+        - go
+        - gsudo
+        - lazygit
+        - neovim
+        - nodejs
+        - python
+        - ripgrep
+        - rust
+        - starship
+        - vcredist2022

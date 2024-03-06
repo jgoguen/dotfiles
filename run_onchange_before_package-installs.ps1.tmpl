@@ -1,0 +1,22 @@
+trap {
+	Write-Warning ($_.ScriptStackTrace | Out-String)
+}
+
+# Save all output, just in case! Thanks to @vexx32
+$PSDefaultParameterValues['Out-Default:OutVariable'] = '__'
+
+{{ range .packages.windows.winget -}}
+winget install --source winget --accept-package-agreements --uninstall-previous {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.windows.msstore -}}
+winget install --source msstore --accept-package-agreements --uninstall-previous {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.windows.scoop.buckets -}}
+scoop bucket add {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.windows.scoop.packages -}}
+scoop install {{ .  | quote }}
+{{ end -}}

@@ -52,12 +52,14 @@ dconf.sh
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
+package-installs.ps1
 .local/share/nvim-data
 AppData/
 {{- end }}
 
 {{- if eq .chezmoi.os "windows" }}
 install_calibre_plugins.py
+package-installs.sh
 *.sh
 .clang-format
 .config/bat

@@ -29,24 +29,8 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 @(
 	"AgileBits.1Password"
-	"calibre.calibre"
-	"Discord.Discord"
-	"EpicGames.EpicGamesLauncher"
-	"GIMP.GIMP"
-	"Microsoft.PowerShell"
-	"Microsoft.PowerToys"
-	"Mozilla.Firefox"
-	"Mozilla.Thunderbird"
-	"Roblox.Roblox"
-	"wez.wezterm"
 ) | ForEach-Object {
 	winget install $_ --source winget
-}
-
-@(
-	"9PMMSR1CGPWG" # HEIF extensions
-) | ForEach-Object {
-	winget install $_ --source msstore
 }
 
 scoop bucket add extras
@@ -54,19 +38,9 @@ scoop bucket add extras
 	"1password-cli"
 	"age"
 	"chezmoi"
-	"difftastic"
-	"gcc"
 	"git"
-	"go"
 	"gsudo"
-	"lazygit"
-	"neovim"
-	"nodejs"
 	"python"
-	"ripgrep"
-	"rust"
-	"starship"
-	"vcredist2022"
 ) | ForEach-Object {
 	scoop install $_
 }
