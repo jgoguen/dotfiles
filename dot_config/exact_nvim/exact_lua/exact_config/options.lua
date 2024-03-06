@@ -2,6 +2,7 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+local Utils = require('utils')
 local py3_venv = vim.fn.stdpath('data') .. '/venv/bin/python3'
 local py3_path = vim.fn.resolve(vim.fn.exepath('python3'))
 
@@ -174,6 +175,10 @@ local settings = {
 		},
 	},
 }
+
+if vim.fn.has('win32') then
+	settings['opt']['shell'] = Utils.has_tool('pwsh.exe') and 'pwsh.exe' or 'powershell.exe'
+end
 
 for scope, opts in pairs(settings) do
 	for setting, value in pairs(opts) do
