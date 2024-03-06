@@ -5,7 +5,7 @@ setup.ps1
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
 
-{{ if eq .environment "work" -}}
+{{- if eq .environment "work" }}
 collect_files.py
 dconf.sh
 install_calibre_plugins.py
@@ -26,7 +26,7 @@ install_calibre_plugins.py
 Library/
 {{- end }}
 
-{{ if ne .chezmoi.os "linux" -}}
+{{- if ne .chezmoi.os "linux" }}
 dconf.sh
 .config/1Password
 .config/copr
@@ -40,19 +40,41 @@ dconf.sh
 .var/
 {{- end }}
 
-{{ if ne .chezmoi.os "darwin" -}}
+{{- if ne .chezmoi.os "darwin" }}
 macos_defaults.sh
 macos_pam_tid.sh
 Library/
 {{- end }}
 
-{{ if eq .environment "headless" -}}
+{{- if eq .environment "headless" }}
 dconf.sh
 .config/1Password
 {{- end }}
 
-{{ if ne .chezmoi.os "windows" -}}
+{{- if ne .chezmoi.os "windows" }}
 .local/share/nvim-data
+AppData/
 {{- end }}
-{{ if eq .chezmoi.os "windows" -}}
+
+{{- if eq .chezmoi.os "windows" }}
+install_calibre_plugins.py
+*.sh
+.clang-format
+.config/bat
+.config/bottom
+.config/calibre
+.config/tmux
+.ctags
+.curlrc
+.inputrc
+.local/bin
+.local/share/texlive
+.local/share/zsh
+.ssh/known_hosts
+.vintrc.yaml
+.wgetrc
+.zaliases
+.zlogin
+.zprofile
+.zshrc
 {{- end }}

@@ -5,14 +5,12 @@
 import json
 import logging
 import os
+import shutil
 import subprocess
 import sys
 
 
-OP_BIN_PATHS = ["/opt/homebrew/bin/op", "/usr/local/bin/op", "/usr/bin/op"]
-OP_BIN = [
-    p for p in OP_BIN_PATHS if os.path.exists(p)
-][0]
+OP_BIN = shutil.which("op")
 
 
 def main() -> int:

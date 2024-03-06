@@ -41,6 +41,22 @@ exclude = ["ReadMe.txt"]
 exact = true
 refreshPeriod = "672h"
 
+[".config/nvim/lua/neorg/modules/external/context/module.lua"]
+type = "file"
+url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
+refreshPeriod = "168h"
+
+[".config/nvim/plugin/BufClose.vim"]
+type = "file"
+url = "https://www.vim.org/scripts/download_script.php?src_id=1729"
+refreshPeriod = "672h"
+
+[".config/lazygit/catppuccin-mocha-mauve.yaml"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/lazygit/main/themes-mergable/mocha/mauve.yml"
+refreshPeriod = "672h"
+
+{{ if ne .chezmoi.os "windows" -}}
 [".config/tmux/plugins/tpm"]
 type = "archive"
 url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.zip"
@@ -48,29 +64,24 @@ stripComponents = 1
 exact = true
 refreshPeriod = "672h"
 
-[".config/nvim/lua/neorg/modules/external/context/module.lua"]
-type = "file"
-url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
-refreshPeriod = "168h"
-
 [".config/bat/themes/Catppuccin-macchiato.tmTheme"]
 type = "file"
-url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-macchiato.tmTheme"
+url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme"
 refreshPeriod = "672h"
 
 [".config/bat/themes/Catppuccin-mocha.tmTheme"]
 type = "file"
-url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-mocha.tmTheme"
+url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme"
 refreshPeriod = "672h"
 
 [".config/bat/themes/Catppuccin-latte.tmTheme"]
 type = "file"
-url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-latte.tmTheme"
+url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme"
 refreshPeriod = "672h"
 
 [".config/bat/themes/Catppuccin-frappe.tmTheme"]
 type = "file"
-url = "https://github.com/catppuccin/bat/raw/main/Catppuccin-frappe.tmTheme"
+url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme"
 refreshPeriod = "672h"
 
 [".local/share/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"]
@@ -92,13 +103,4 @@ refreshPeriod = "672h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
 refreshPeriod = "672h"
-
-[".config/nvim/plugin/BufClose.vim"]
-type = "file"
-url = "https://www.vim.org/scripts/download_script.php?src_id=1729"
-refreshPeriod = "672h"
-
-[".config/lazygit/catppuccin-mocha-mauve.yaml"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/lazygit/main/themes-mergable/mocha/mauve.yml"
-refreshPeriod = "672h"
+{{- end }}

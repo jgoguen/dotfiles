@@ -20,6 +20,14 @@ local function scheme_for_appearance(appearance)
 	end
 end
 
+-- Check for Windows
+local is_windows_11 = false
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+	local success, stdout, stderr = wezterm.run_child_process { 'cmd.exe', 'ver' }
+	local major, minor, build, rev = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
+	is_windows_11 = tonumber(build) >= 22000
+end
+
 -- In newer versions of wezterm, use the config builder for better errors
 if wezterm.config_builder then
 	config = wezterm.config_builder()
@@ -52,8 +60,15 @@ config.keys = {
 	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 }
+config.mouse_bindings = {
+	{
+		event = { Down = { streak = 3, button = "Left" } },
+		action = wezterm.action.SelectTextAtMouseCursor("SemanticZone"),
+		mods = "NONE",
+	},
+}
 config.native_macos_fullscreen_mode = true
-config.quote_dropped_files = "Posix"
+config.quote_dropped_files = is_windows_11 and "Windows" or "Posix"
 config.selection_word_boundary = " \t\n{}[]()\"'`:"
 config.visual_bell = {
 	fade_in_duration_ms = 75,
@@ -62,6 +77,10 @@ config.visual_bell = {
 }
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
+
+if is_windows_11 then
+	config.default_prog = { 'pwsh.exe', '-NoLogo' }
+end
 
 if has_site then
 	config = site_config.update_config(config)
