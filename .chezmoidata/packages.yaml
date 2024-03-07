@@ -121,6 +121,10 @@ packages:
       - firefox
       - libswscale-free
   windows:
+    powershell:
+      - CredentialManager
+      - Microsoft.PowerShell.SecretManagement
+      - Microsoft.PowerShell.SecretStore
     winget:
       - AgileBits.1Password
       - Discord.Discord
