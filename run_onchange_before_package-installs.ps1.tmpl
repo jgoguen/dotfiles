@@ -6,7 +6,7 @@ trap {
 $PSDefaultParameterValues['Out-Default:OutVariable'] = '__'
 
 {{ range .packages.windows.powershell -}}
-Install-Module {{ . | quote }}
+Install-Module {{ . | quote }} -Scope CurrentUser
 {{ end -}}
 
 {{ range .packages.windows.winget -}}
