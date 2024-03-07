@@ -122,7 +122,7 @@ packages:
       - libswscale-free
   windows:
     powershell:
-      - CredentialManager
+      - AdvancedHistory
       - Microsoft.PowerShell.SecretManagement
       - Microsoft.PowerShell.SecretStore
     winget:
