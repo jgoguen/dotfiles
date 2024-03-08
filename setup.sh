@@ -193,8 +193,8 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
-$useBioUnlock="false"
+useBioUnlock="false"
 if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
-	$useBioUnlock="true"
+	useBioUnlock="true"
 fi
 OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi init --apply
