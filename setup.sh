@@ -120,7 +120,7 @@ if [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ] || [ -f /etc/centos-
 	# shellcheck disable=SC2016
 	${SUDO_CMD} sh -c 'printf "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" >/etc/yum.repos.d/1password.repo'
 	${SUDO_CMD} dnf install -y 1password-cli
-	if [ -n "${DISPLAY}" ]; then
+	if [ -n "${DISPLAY:-}" ]; then
 		${SUDO_CMD} dnf install -y 1password
 	fi
 fi
@@ -142,10 +142,10 @@ if ! which chezmoi >/dev/null 2>&1; then
 	log "chezmoi does not exist, fetching chezmoi for ${OSTYPE}_${MACHINE}" "INFO"
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${TEMPDIR}"
 	log "Installing ${TEMPDIR}/chezmoi to /usr/local/bin/chezmoi" "DEBUG"
-	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
+	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "" "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
 fi
 
-if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ] || [ -n "${WAYLAND_DISPLAY}" ]; then
+if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
 	if [ "${SSH_AUTH_SOCK}" != "${HOME}/.1password/agent.sock" ]; then
 		log "Opening 1Password for configuration, set it up and enable both CLI integration and SSH agent" "INFO"
 		if [ "${OSTYPE}" = "darwin" ]; then
@@ -163,7 +163,7 @@ if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY}" ] || [ -n "${WAYLAND_DISPLAY}
 	fi
 else
 	log "Signing in to the 1Password CLI, enter your 1Password email, secret key, and password when prompted" "INFO"
-	eval "$(op signin --address my.1password.com)"
+	eval "$(op signin)"
 fi
 
 if [ ! -d "${HOME}/.local/share" ]; then
@@ -177,26 +177,24 @@ if [ ! -d "${HOME}/.ssh" ]; then
 fi
 
 log "Fetching codeberg SSH keys from 1Password" "DEBUG"
-#op item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=private key' --reveal | sed '/"/d' | tr -d '\r' >"${HOME}/.ssh/codeberg"
-op item get x44krs7dwxr7qhgzjed2fvnh3m --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
+op item get yhriphcxvz4pewyxhtjoxgjv6m --fields 'label=public key' >"${HOME}/.ssh/git.pub"
 
-log "Fetching dotfiles GPG key from 1Password" "DEBUG"
+log "Fetching dotfiles Age key from 1Password" "DEBUG"
 op document get oylhnlt5t6eoypifnfpjo7uzcm --out-file "${HOME}/.config/age-chezmoi.txt"
 chmod 0600 "${HOME}/.config/age-chezmoi.txt"
 
 if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	log "Dotfiles not present, cloning" "INFO"
 
-	git clone git@codeberg.org:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
-	#/bin/rm -f "${HOME}/.ssh/codeberg"
+	git clone git@github.com:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
 
-	log "Unlocking dotfiles repo in ${HOME}/.local/share/chezmoi" "DEBUG"
-	cd "${HOME}/.local/share/chezmoi"
-	git-crypt unlock
-
-	log "Setting Codeberg key for git signing" "DEBUG"
-	git config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILjeyx439ef47Ra12ipQ58UKcadM3Q7RnJyeSsYhhrb4'
+	log "Setting Github key for git signing" "DEBUG"
+	git config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
-OP_BIOMETRIC_UNLOCK_ENABLED=true chezmoi init --apply
+$useBioUnlock="false"
+if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+	$useBioUnlock="true"
+fi
+OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi init --apply
