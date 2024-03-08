@@ -132,6 +132,7 @@ packages:
       - GIMP.GIMP
       - Microsoft.PowerShell
       - Microsoft.PowerToys
+      - Microsoft.VisualStudioCode
       - Mozilla.Firefox
       - Mozilla.Thunderbird
       - Roblox.Roblox
