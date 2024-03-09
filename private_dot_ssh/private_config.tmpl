@@ -19,8 +19,10 @@ Host *
 	ForwardX11 no
 	ForwardX11Trusted no
 	HashKnownHosts no
+	{{- if ne .environment "headless" }}
 	{{- if ne .chezmoi.os "windows" }}
 	IdentityAgent {{ if eq .chezmoi.os "linux" }}~/.1password/agent.sock{{ else }}"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"{{ end }}
+	{{- end }}
 	{{- end }}
 	IdentityFile ~/.ssh/id_ed25519.pub
 	ServerAliveInterval 30
