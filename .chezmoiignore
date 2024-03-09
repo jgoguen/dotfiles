@@ -64,7 +64,6 @@ package-installs.sh
 .clang-format
 .config/bat
 .config/bottom
-.config/calibre
 .config/tmux
 .ctags
 .curlrc
