@@ -176,7 +176,7 @@ local settings = {
 	},
 }
 
-if vim.fn.has('win32') then
+if vim.fn.has('win32') == 1 then
 	settings['opt']['shell'] = Utils.has_tool('pwsh.exe') and 'pwsh.exe' or 'powershell.exe'
 end
 
