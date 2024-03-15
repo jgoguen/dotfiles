@@ -21,11 +21,19 @@ local function scheme_for_appearance(appearance)
 end
 
 -- Check for Windows
+local font_set = {
+	"JetBrainsMono Nerd Font Mono",
+	"FiraCode Nerd Font Mono",
+	"Noto Sans CJK JP",
+	"Symbols Nerd Font Mono",
+}
 local is_windows_11 = false
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 	local success, stdout, stderr = wezterm.run_child_process { 'cmd.exe', 'ver' }
 	local major, minor, build, rev = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
 	is_windows_11 = tonumber(build) >= 22000
+
+	font_set[1] = "JetBrainsMono NFM"
 end
 
 -- In newer versions of wezterm, use the config builder for better errors
@@ -39,12 +47,7 @@ config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
 config.color_scheme = scheme_for_appearance(get_appearance())
 config.default_cwd = wezterm.home_dir
-config.font = wezterm.font_with_fallback({
-	"JetBrainsMono Nerd Font Mono",
-	"FiraCode Nerd Font Mono",
-	"Noto Sans CJK JP",
-	"Symbols Nerd Font Mono",
-})
+config.font = wezterm.font_with_fallback(font_set)
 config.font_size = 13
 config.harfbuzz_features = { "ss02", "ss03", "ss05", "ss07", "cv22", "cv24", "cv25", "cv26", "cv32" }
 -- Explicitly set the defaults here since this might be appended to in site config and we don't want to override the
