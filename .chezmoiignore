@@ -52,7 +52,7 @@ dconf.sh
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
-package-installs.ps1
+*.ps1
 .local/share/nvim-data
 AppData/
 {{- end }}
