@@ -136,7 +136,6 @@ packages:
       - Mozilla.Firefox
       - Mozilla.Thunderbird
       - Roblox.Roblox
-      - wez.wezterm
     msstore:
       - 9PMMSR1CGPWG # HEIF extensions
     scoop:
@@ -160,3 +159,4 @@ packages:
         - rust
         - starship
         - vcredist2022
+        - wezterm
