@@ -136,6 +136,7 @@ packages:
       - Mozilla.Firefox
       - Mozilla.Thunderbird
       - Roblox.Roblox
+      - Valve.Steam
     msstore:
       - 9PMMSR1CGPWG # HEIF extensions
     scoop:
