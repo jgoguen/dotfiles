@@ -34,6 +34,7 @@ progress = true
 [edit]
 	apply = true
 	{{- if eq .chezmoi.os "windows" }}
+	args = ["--wait"]
 	command = "code"
 	{{- end }}
 	hardlink = false
