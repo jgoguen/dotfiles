@@ -57,6 +57,7 @@ local M = {
 					:with_pair(AutopairCond.not_filetypes({
 						'conf',
 						'html',
+						'ldif',
 						'sh',
 						'snippets',
 						'sshconfig',
