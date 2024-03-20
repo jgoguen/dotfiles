@@ -9,3 +9,8 @@ vim.opt_local.spell = false
 vim.opt_local.textwidth = 120
 
 MasonUtils.ensure_installed('yamlls')
+
+local HasLocalConfig, LocalConfig = pcall(require, 'local.ftplugin.yaml')
+if HasLocalConfig then
+	LocalConfig.setup()
+end
