@@ -28,9 +28,9 @@ local font_set = {
 	"Symbols Nerd Font Mono",
 }
 local is_windows_11 = false
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-	local success, stdout, stderr = wezterm.run_child_process { 'cmd.exe', 'ver' }
-	local major, minor, build, rev = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	local _, stdout, _ = wezterm.run_child_process({ "cmd.exe", "ver" })
+	local _, _, build, _ = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
 	is_windows_11 = tonumber(build) >= 22000
 
 	font_set[1] = "JetBrainsMono NFM"
@@ -62,6 +62,7 @@ config.keys = {
 	{ key = "t", mods = "SHIFT|CTRL", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
 	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+	{ key = "r", mods = "CTRL", action = wezterm.action.EmitEvent("do-resize-window") },
 }
 config.mouse_bindings = {
 	{
@@ -82,7 +83,7 @@ config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
 
 if is_windows_11 then
-	config.default_prog = { 'pwsh.exe', '-NoLogo' }
+	config.default_prog = { "pwsh.exe", "-NoLogo" }
 end
 
 if has_site then
@@ -100,6 +101,23 @@ wezterm.on("format-tab-title", function(tab)
 	return {
 		{ Text = " " .. pane_title .. " " },
 	}
+end)
+
+local reset_window_size = function(gui_window)
+	local screen = wezterm.gui.screens()["active"]
+
+	-- Set default WezTerm size to a good chunk of the screen
+	gui_window:set_inner_size(screen.width / 1.5, screen.height / 1.5)
+	gui_window:set_position(screen.width / 6, screen.height / 9)
+end
+
+wezterm.on("gui-startup", function(cmd)
+	local _, _, window = wezterm.mux.spawn_window(cmd or {})
+	reset_window_size(window:gui_window())
+end)
+
+wezterm.on("do-resize-window", function(window)
+	reset_window_size(window)
 end)
 
 return config
