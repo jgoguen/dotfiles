@@ -14,7 +14,7 @@ local M = {
 				jsonnet_ls = {
 					settings = {
 						formatting = {
-							Indent = 4,
+							Indent = 2,
 						},
 					},
 				},
