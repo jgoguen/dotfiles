@@ -62,7 +62,7 @@ config.keys = {
 	{ key = "t", mods = "SHIFT|CTRL", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
 	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-	{ key = "r", mods = "CTRL", action = wezterm.action.EmitEvent("do-resize-window") },
+	{ key = "r", mods = "SHIFT|CTRL", action = wezterm.action.EmitEvent("do-resize-window") },
 }
 config.mouse_bindings = {
 	{
