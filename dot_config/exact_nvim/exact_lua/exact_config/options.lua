@@ -161,6 +161,8 @@ local settings = {
 
 		neo_tree_remove_legacy_commands = true,
 
+		lazyvim_python_lsp = 'basedpyright',
+
 		-- Python3 or bust
 		python_highlight_all = true,
 		python_highlight_file_headers_as_comments = true,
