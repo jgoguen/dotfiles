@@ -21,6 +21,14 @@ local keybindings = {
 		['<C-n>'] = '<Plug>luasnip-next-choice',
 		['<C-p>'] = '<Plug>luasnip-prev-choice',
 
+		-- Insert link
+		['<C-i>'] = {
+			function()
+				require('utils.forms').insert_link_with_text()
+			end,
+			{ desc = 'Insert link and text' },
+		},
+
 		-- Add undo breakpoints
 		['('] = '(<C-g>u',
 		[')'] = ')<C-g>u',
@@ -52,6 +60,14 @@ local keybindings = {
 		-- Keep the cursor in the middle of the screen with <C-d> and <C-u>
 		['<C-d>'] = '<C-d>zz',
 		['<C-u>'] = '<C-u>zz',
+
+		-- Insert link
+		['<C-i>'] = {
+			function()
+				require('utils.forms').insert_link_with_text()
+			end,
+			{ desc = 'Insert link and text' },
+		},
 
 		-- Normal movement between wrapped lines
 		['<up>'] = { [[v:count == 0 ? 'gk' : 'k']], { expr = true } },
