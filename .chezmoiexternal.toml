@@ -1,4 +1,4 @@
-{{ $nerdFontVersion := "3.1.1" }}
+{{ $nerdFontVersion := "3.2.0" }}
 {{ $basedir := ".local/share/fonts" }}
 {{ if eq .chezmoi.os "darwin" }}
 {{ $basedir = "Library/Fonts" }}
