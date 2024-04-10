@@ -147,24 +147,28 @@ set-option -g status-right "[ #{host_short} ][ CPU: #{cpu_percentage} ][ RAM: #{
 # ]]]
 
 # Plugins [[[
+# Tmux Plugin Manager
 set-option -g @plugin 'tmux-plugins/tpm'
+# Catppuccin theme for tmux
 set-option -g @plugin 'catppuccin/tmux'
+# Show tmux mode with #{tmux_mode_indicator}
 set-option -g @plugin 'MunifTanjim/tmux-mode-indicator'
+# fzf for tmux management
 set-option -g @plugin 'sainnhe/tmux-fzf'
+# Enable battery format strings in status-right:
+# https://github.com/tmux-plugins/tmux-battery?tab=readme-ov-file#supported-format-strings
 set-option -g @plugin 'tmux-plugins/tmux-battery'
-set-option -g @plugin 'tmux-plugins/tmux-continuum'
+# Enable CPU and GPU format strings in status-right:
+# https://github.com/tmux-plugins/tmux-cpu?tab=readme-ov-file#supported-options
 set-option -g @plugin 'tmux-plugins/tmux-cpu'
-set-option -g @plugin 'tmux-plugins/tmux-resurrect'
+# Use fzf to open URLs shown in tmux without mouse action
 set-option -g @plugin 'wfxr/tmux-fzf-url'
 
 set-option -g @batt_remain_short true
 set-option -g @catppuccin_flavour 'mocha'
-set-option -g @continuum-restore 'on'
-set-option -g @continuum-save-interval '5'
-set-option -g @resurrect-capture-pane-contents 'on'
-set-option -g @resurrect-dir '~/.local/share/tmux/resurrect'
 
 {{ if or (eq .environment "personal") (eq .environment "headless") -}}
+# Access 1Password login items via CLI in tmux
 set-option -g @plugin 'yardnsm/tmux-1password'
 set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e").UserID.value }}
 {{- end }}
