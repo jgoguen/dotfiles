@@ -189,7 +189,7 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	git clone git@github.com:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
 
 	log "Setting Github key for git signing" "DEBUG"
-	git config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
+	git -C "${HOME}/.local/share/chezmoi" config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
