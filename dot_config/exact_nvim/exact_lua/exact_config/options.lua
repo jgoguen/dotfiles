@@ -64,7 +64,8 @@ local settings = {
 		-- l: Do not format lines longer before inserting
 		formatoptions = 'tcqnmM1jl',
 
-		grepprg = 'rg --vimgrep --no-heading --smart-case',
+		grepformat = '%f:%l:%c:%m',
+		grepprg = 'rg --vimgrep --no-heading --smart-case --hidden',
 
 		-- Show a global status line
 		laststatus = 3,
