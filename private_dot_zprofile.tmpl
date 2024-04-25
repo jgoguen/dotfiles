@@ -92,12 +92,13 @@ export LG_CONFIG_FILE="${XDG_CONFIG_HOME}/lazygit/config.yml,${XDG_CONFIG_HOME}/
 export MAILCHECK=0
 export PAGER="less -FRXd"
 export PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep.conf"
 export QT_IM_MODULE="ibus"
 export SAVEHIST=${HISTSIZE}
 
 {{- if eq .chezmoi.os "linux" }}
-export SNAP_USER_COMMON="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
-export SNAP_USER_DATA="${XDG_CONFIG_HOME:-${HOME}/.config}/snaps"
+export SNAP_USER_COMMON="${XDG_CONFIG_HOME}/snaps"
+export SNAP_USER_DATA="${XDG_CONFIG_HOME}/snaps"
 
 {{- if ne .environment "headless" }}
 # Force 1Password CLI to use app integration
