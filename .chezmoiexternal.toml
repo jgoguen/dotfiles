@@ -1,4 +1,3 @@
-{{ $nerdFontVersion := "3.2.1" }}
 {{ $basedir := ".local/share/fonts" }}
 {{ if eq .chezmoi.os "darwin" }}
 {{ $basedir = "Library/Fonts" }}
@@ -8,28 +7,28 @@
 # vim: set filetype=toml:
 ["{{ $basedir }}/FiraCode"]
 type = "archive"
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/FiraCode.zip"
+url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}"
 exclude = ["README.md", "readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Hack"]
 type = "archive"
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/Hack.zip"
+url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}"
 exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/JetBrainsMono"]
 type = "archive"
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/JetBrainsMono.zip"
+url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}"
 exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*", "README.md"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Symbols"]
 type = "archive"
-url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ $nerdFontVersion }}/NerdFontsSymbolsOnly.zip"
+url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}"
 exclude = ["readme.md", "LICENSE", "README.md"]
 exact = true
 refreshPeriod = "672h"
