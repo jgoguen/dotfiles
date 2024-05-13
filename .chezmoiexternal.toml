@@ -45,11 +45,6 @@ type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
 refreshPeriod = "168h"
 
-[".config/nvim/plugin/BufClose.vim"]
-type = "file"
-url = "https://www.vim.org/scripts/download_script.php?src_id=1729"
-refreshPeriod = "672h"
-
 [".config/lazygit/catppuccin-mocha-mauve.yaml"]
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/lazygit/main/themes-mergable/mocha/mauve.yml"
