@@ -146,21 +146,19 @@ if ! which chezmoi >/dev/null 2>&1; then
 fi
 
 if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
-	if [ "${SSH_AUTH_SOCK}" != "${HOME}/.1password/agent.sock" ]; then
-		log "Opening 1Password for configuration, set it up and enable both CLI integration and SSH agent" "INFO"
-		if [ "${OSTYPE}" = "darwin" ]; then
-			open /Applications/1Password.app
-			log "Creating compatibility symlink: ${HOME}/.1password -> ${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t" "DEBUG"
-			ln -sf "${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t" "${HOME}/.1password"
-		else
-			1password >/dev/null 2>&1 &
-			disown
-		fi
-		printf 'Press Return when 1Password is configured'
-		read -r
-		log "Setting SSH_AUTH_SOCK=${HOME}/.1password/agent.sock" "DEBUG"
+	log "Opening 1Password for configuration, set it up and enable both CLI integration and SSH agent" "INFO"
+	if [ "${OSTYPE}" = "darwin" ]; then
+		open /Applications/1Password.app
+		export SSH_AUTH_SOCK="${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+	else
+		1password >/dev/null 2>&1 &
+		disown
 		export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 	fi
+	printf 'Press Return when 1Password is configured'
+	read -r
+	log "Setting SSH_AUTH_SOCK=${SSH_AUTH_SOCK}" "DEBUG"
+	export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 else
 	log "Signing in to the 1Password CLI, enter your 1Password email, secret key, and password when prompted" "INFO"
 	eval "$(op signin)"
@@ -176,7 +174,7 @@ if [ ! -d "${HOME}/.ssh" ]; then
 	install -d -m 0700 "${HOME}/.ssh"
 fi
 
-log "Fetching codeberg SSH keys from 1Password" "DEBUG"
+log "Fetching GitHub SSH keys from 1Password" "DEBUG"
 op item get yhriphcxvz4pewyxhtjoxgjv6m --fields 'label=public key' >"${HOME}/.ssh/git.pub"
 
 log "Fetching dotfiles Age key from 1Password" "DEBUG"
