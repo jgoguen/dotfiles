@@ -33,6 +33,7 @@ packages:
       - ripgrep
       - sd
       - starship
+      - yq
       - zsh
       - zsh-autosuggestions
       - zsh-syntax-highlighting
@@ -45,6 +46,7 @@ packages:
       - google-chrome
       - joplin
       - visual-studio-code
+      - vivaldi
       - wezterm
     # App Store installs, find the ID and string to use with `mas list`
     mas:
@@ -103,6 +105,7 @@ packages:
       - ripgrep
       - sd
       - starship
+      - yq
       - zsh
       - zsh-autosuggestions
       - zsh-syntax-highlighting
@@ -160,4 +163,5 @@ packages:
         - rust
         - starship
         - vcredist2022
+        - vivaldi
         - wezterm
