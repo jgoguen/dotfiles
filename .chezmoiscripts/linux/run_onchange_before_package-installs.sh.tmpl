@@ -1,27 +1,5 @@
 #!/bin/sh
 
-{{ if eq .chezmoi.os "darwin" -}}
-brew bundle --no-lock --file=/dev/stdin <<EOF
-{{ range .packages.darwin.brew -}}
-brew {{ . | quote }}
-{{ end -}}
-{{ range (index .packages.darwin .environment "brew") -}}
-brew {{ . | quote }}
-{{ end -}}
-{{ range .packages.darwin.cask -}}
-cask {{ . | quote }}
-{{ end -}}
-{{ range (index .packages.darwin .environment "cask") -}}
-cask {{ . | quote }}
-{{ end -}}
-{{ range .packages.darwin.mas -}}
-mas {{ .name | quote }}, id: {{ .id }}
-{{ end -}}
-{{ range (index .packages.darwin .environment "mas") -}}
-brew {{ .name | quote }}, id: {{ .id }}
-{{ end -}}
-EOF
-{{ else if eq .chezmoi.os "linux" -}}
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
 {{ range .packages.fedora.copr -}}
 sudo dnf copr enable -y {{ . | quote }}
@@ -43,5 +21,4 @@ if command -v flatpak >/dev/null 2>&1 ; then
 flatpak install -y {{ .remote }} {{ .name }}
 {{ end -}}
 fi
-{{ end -}}
 {{ end -}}
