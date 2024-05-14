@@ -2,6 +2,7 @@
 
 set -eu
 
+# shellcheck source=../../helpers.sh
 . "${HOME}/.local/share/chezmoi/helpers.sh"
 
 if ! grep -q 'pam_tid\.so' /etc/pam.d/sudo; then
