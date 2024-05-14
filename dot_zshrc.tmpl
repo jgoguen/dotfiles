@@ -5,6 +5,7 @@ if [ -z "${TERM}" ] || [ "${TERM}" = "vscode" ] || [[ ! -o interactive ]]; then
 	return
 fi
 
+# See https://zsh-manual.netlify.app/options for options available
 setopt always_to_end auto_cd auto_pushd complete_aliases complete_in_word
 setopt correct extended_glob extended_history hash_list_all hist_find_no_dups
 setopt hist_ignore_dups hist_ignore_space hist_no_store hist_reduce_blanks
@@ -134,6 +135,14 @@ bindkey -M menuselect '/' accept-and-infer-next-history
 bindkey -M menuselect '^?' undo
 bindkey -M menuselect ' ' accept-and-hold
 bindkey -M menuselect '*' history-incremental-search-forward
+
+# Move to start/end of line
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+
+# Move forward/backward by word
+bindkey '^f' forward-word
+bindkey '^b' backward-word
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/opt/google-cloud-sdk/completion.zsh.inc' ]; then source '/opt/google-cloud-sdk/completion.zsh.inc'; fi
