@@ -27,6 +27,7 @@ Library/
 {{- end }}
 
 {{- if ne .chezmoi.os "linux" }}
+.chezmoiscripts/linux/
 dconf.sh
 .config/1Password
 .config/copr
@@ -41,6 +42,8 @@ dconf.sh
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin/
+.1password/agent.sock
 macos_defaults.sh
 macos_pam_tid.sh
 Library/
@@ -52,6 +55,7 @@ dconf.sh
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
+.chezmoiscripts/windows/
 *.ps1
 .local/share/nvim-data
 AppData/
