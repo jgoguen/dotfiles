@@ -4,6 +4,7 @@
 
 set -eu
 
+# shellcheck source=../../helpers.sh
 . "${HOME}/.local/share/chezmoi/helpers.sh"
 
 if ! command -v dconf >/dev/null 2>&1; then
@@ -16,50 +17,6 @@ set -e
 dconf write /desktop/gnome/crypto/pgp/ascii-armor "true"
 dconf write /desktop/gnome/crypto/pgp/default-key "'A8B51F5E8032CCE4'"
 dconf write /desktop/gnome/crypto/pgp/encrypt-to-self "true"
-
-dconf write /org/cinnamon/enabled-applets "['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:grouped-window-list@cinnamon.org:2', 'panel1:left:2:window-list@cinnamon.org:13', 'panel1:right:1:keyboard@cinnamon.org:3', 'panel1:right:2:systray@cinnamon.org:4', 'panel1:right:3:xapp-status@cinnamon.org:5', 'panel1:right:4:notifications@cinnamon.org:6', 'panel1:right:5:printers@cinnamon.org:7', 'panel1:right:6:removable-drives@cinnamon.org:8', 'panel1:right:7:network@cinnamon.org:9', 'panel1:right:8:power@cinnamon.org:10', 'panel1:right:9:calendar@cinnamon.org:11', 'panel1:right:10:sound@cinnamon.org:12']"
-
-dconf write /org/cinnamon/desktop/input-sources/sources "[('xkb', 'us'), ('ibus', 'typing-booster')]"
-dconf write /org/cinnamon/desktop/input-sources/xkb-options "['caps:escape', 'grp:win_space_toggle', 'terminate:ctrl_alt_bksp', 'compose:ralt']"
-
-dconf write /org/cinnamon/desktop/interface/clock-show-date "true"
-dconf write /org/cinnamon/desktop/interface/clock-show-seconds "true"
-dconf write /org/cinnamon/desktop/interface/gtk-im-module "'ibus'"
-
-dconf write /org/cinnamon/desktop/keybindings/looking-glass-keybinding "@as []"
-
-dconf write /org/cinnamon/desktop/keybindings/media-keys/area-screenshot "['<Shift><Alt>dollar']"
-dconf write /org/cinnamon/desktop/keybindings/media-keys/screensaver "['<Control><Alt>l', 'XF86ScreenSaver', '<Super>l']"
-dconf write /org/cinnamon/desktop/keybindings/media-keys/window-screenshot "['<Control><Shift><Alt>dollar']"
-
-dconf write /org/cinnamon/desktop/notifications/bottom-notifications "true"
-
-dconf write /org/cinnamon/desktop/sound/event-sounds "false"
-
-dconf write /org/cinnamon/settings-daemon/peripherals/mouse/natural-scroll "true"
-
-dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/horizontal-scrolling "true"
-dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/motion-threshold "1"
-dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/scrolling-method "1"
-
-dconf write /org/cinnamon/settings-daemon/plugins/power/button-power "'nothing'"
-dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-display-battery "300"
-dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-inactive-ac-timeout "3600"
-dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-inactive-ac-type "'nothing'"
-dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-inactive-battery-timeout "900"
-
-dconf write /org/cinnamon/settings-daemon/plugins/xsettings/hinting "'full'"
-
-dconf write /org/cinnamon/sounds/close-enabled "false"
-dconf write /org/cinnamon/sounds/login-enabled "false"
-dconf write /org/cinnamon/sounds/logout-enabled "false"
-dconf write /org/cinnamon/sounds/map-enabled "false"
-dconf write /org/cinnamon/sounds/maximize-enabled "false"
-dconf write /org/cinnamon/sounds/minimize-enabled "false"
-dconf write /org/cinnamon/sounds/notification-enabled "true"
-dconf write /org/cinnamon/sounds/switch-enabled "false"
-dconf write /org/cinnamon/sounds/tile-enabled "false"
-dconf write /org/cinnamon/sounds/unmaximize-enabled "false"
 
 dconf write /org/freedesktop/ibus/engine/typing-booster/dictionary "'en_US,en_CA'"
 dconf write /org/freedesktop/ibus/engine/typing-booster/labeldictionary "true"
