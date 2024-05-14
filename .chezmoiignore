@@ -28,7 +28,6 @@ Library/
 
 {{- if ne .chezmoi.os "linux" }}
 .chezmoiscripts/linux/
-dconf.sh
 .config/1Password
 .config/copr
 .config/htop
@@ -44,13 +43,12 @@ dconf.sh
 {{- if ne .chezmoi.os "darwin" }}
 .chezmoiscripts/darwin/
 .1password/agent.sock
-macos_defaults.sh
 macos_pam_tid.sh
 Library/
 {{- end }}
 
 {{- if eq .environment "headless" }}
-dconf.sh
+.chezmoiscripts/linux/dconf.sh
 .config/1Password
 {{- end }}
 
