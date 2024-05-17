@@ -16,7 +16,7 @@ local settings = {
 		backspace = vim.opt.backspace + { 'nostop' },
 
 		-- Yank/Delete to the "*" register, do not use the system clipboard
-		clipboard = 'unnamed',
+		-- clipboard = 'unnamed',
 
 		-- Use 2 lines for the command area at the bottom of the screen
 		cmdheight = 2,
@@ -65,7 +65,7 @@ local settings = {
 		formatoptions = 'tcqnmM1jl',
 
 		grepformat = '%f:%l:%c:%m',
-		grepprg = 'rg --vimgrep --no-heading --smart-case --hidden',
+		grepprg = 'rg --vimgrep --no-heading --smart-case --hidden --no-ignore',
 
 		-- Show a global status line
 		laststatus = 3,
