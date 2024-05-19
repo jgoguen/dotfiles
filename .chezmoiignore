@@ -26,7 +26,7 @@ Library/
 {{- end }}
 
 {{- if ne .chezmoi.os "linux" }}
-.chezmoiscripts/linux/
+.chezmoiscripts/linux/*
 .config/1Password
 .config/copr
 .config/htop
@@ -40,7 +40,7 @@ Library/
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
-.chezmoiscripts/darwin/
+.chezmoiscripts/darwin/*
 .1password/agent.sock
 macos_pam_tid.sh
 Library/
@@ -52,14 +52,14 @@ Library/
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
-.chezmoiscripts/windows/
+.chezmoiscripts/windows/*
 *.ps1
 .local/share/nvim-data
 AppData/
 {{- end }}
 
 {{- if eq .chezmoi.os "windows" }}
-.chezmoiscripts/unix/
+.chezmoiscripts/unix/*
 install_calibre_plugins.py
 package-installs.sh
 *.sh
