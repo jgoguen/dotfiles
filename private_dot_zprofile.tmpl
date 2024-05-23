@@ -23,7 +23,6 @@ done < <(printf '%s' "${GOPATH}")
 
 export PATH
 
-{{ if eq .chezmoi.os "darwin" -}}
 # Set XDG variables for UNIX apps on Darwin. Use Linux-standard paths because
 # chezmoi can't deploy to a different location per OS.
 export XDG_CACHE_HOME="${HOME}/.cache"
@@ -40,6 +39,7 @@ if [ ! -d "${XDG_DATA_HOME}" ]; then
 	/bin/mkdir -p "${XDG_DATA_HOME}"
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
 BREW_PREFIX=""
 if command -v brew >/dev/null 2>&1; then
 	BREW_PREFIX="$(brew --prefix)"
