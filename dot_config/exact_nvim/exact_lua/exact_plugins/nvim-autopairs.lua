@@ -67,6 +67,7 @@ local M = {
 						'vim',
 						'xhtml',
 						'xml',
+						'yaml',
 						'zsh',
 					}))
 					:with_pair(TSUtils.node_or_parent_is_not({
