@@ -39,6 +39,9 @@ local keybindings = {
 	n = {
 		-- <F8> is defined in plugins to allow lazy-loading by keypress
 
+		-- Do not copy to register when deleting a character
+		x = '_x',
+
 		[';'] = function()
 			require('telescope.builtin').resume()
 		end,
