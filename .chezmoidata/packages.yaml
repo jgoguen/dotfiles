@@ -85,6 +85,7 @@ packages:
       - difftastic
       - fd-find
       - ffmpeg
+      - firefox
       - fortune-mod
       - fzf
       - git
@@ -113,18 +114,13 @@ packages:
     flatpak:
       - name: com.discordapp.Discord
         remote: flathub
-      - name: com.vivaldi.Vivaldi
-        remote: flathub
       - name: net.cozic.joplin_desktop
         remote: flathub
       - name: org.gnome.Evolution
         remote: fedora
-      - name: org.mozilla.firefox
-        remote: fedora
       - name: org.wezfurlong.wezterm
         remote: flathub
     removal:
-      - firefox
       - libswscale-free
   windows:
     powershell:
