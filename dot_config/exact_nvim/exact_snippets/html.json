@@ -1,0 +1,39 @@
+{
+	"HTML5 skeleton": {
+		"prefix": "html5",
+		"body": [
+			"<!DOCTYPE html>",
+			"<html lang=\"${1:en}\">",
+			"\t<head>",
+			"\t\t<meta charset=\"utf-8\" />",
+			"\t\t<meta name=\"viewport\" content=\"width=device-width\" />",
+			"",
+			"\t\t<title>${2:title}</title>",
+			"\t</head>",
+			"\t<body>",
+			"\t\t$0",
+			"\t</body>",
+			"</html>"
+		]
+	},
+	"Link": {
+		"prefix": ["link", "a"],
+		"body": "<a href=\"${1:url}\"$2>$0</a>"
+	},
+	"mailto": {
+		"prefix": ["a:mail", "mailto"],
+		"body": "<a href=\"mailto:${1:email}?subject=${2:subject}\">$0</a>"
+	},
+	"Bold": {
+		"prefix": ["bold", "b"],
+		"body": "<span class=\"bold\">$0</span>"
+	},
+	"Italic": {
+		"prefix": ["italic", "i"],
+		"body": "<span class=\"italic\">$0</span>"
+	},
+	"Data Attribute": {
+		"prefix": "data",
+		"body": "data-${1:attr}=\"${2:$1}\""
+	}
+}

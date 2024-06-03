@@ -1,0 +1,30 @@
+{
+	"Main func": {
+		"prefix": "main",
+		"body": [
+			"int main(int argc, char **argv) {",
+			"\t$0",
+			"",
+			"\treturn 0;",
+			"}"
+		]
+	},
+	"Extern C": {
+		"prefix": ["nocxx", "externc", "extern-c"],
+		"body": [
+			"#ifdef __cplusplus",
+			"extern \"C\" {",
+			"#endif",
+			"",
+			"$0",
+			"",
+			"#ifdef __cplusplus",
+			"} $BLOCK_COMMENT_START extern \"C\" $BLOCK_COMMENT_END",
+			"#endif"
+		]
+	},
+	"calloc": {
+		"prefix": "calloc",
+		"body": "${1:var} = (${2:type}*)calloc(${3:size}, sizeof($2));"
+	}
+}

@@ -1,0 +1,28 @@
+{
+	"Hashbang line": {
+		"prefix": "#!",
+		"body": "#!/usr/bin/env python3"
+	},
+	"From Package Import Module": {
+		"prefix": "from",
+		"body": "from ${1:package} import ${0:module}"
+	},
+	"Dunder Function": {
+		"prefix": "__",
+		"body": ["def __${1:init}__(${2:*args}):", "    $0"]
+	},
+	"if-main block": {
+		"prefix": "if-main",
+		"body": [
+			"def main() -> int:",
+			"    $0",
+			"",
+			"if __name__ == \"__main__\":",
+			"    sys.exit(main())"
+		]
+	},
+	"with block": {
+		"prefix": "with",
+		"body": ["${1|with,async with|} ${2:expr} as ${3:var}:", "    $0"]
+	}
+}

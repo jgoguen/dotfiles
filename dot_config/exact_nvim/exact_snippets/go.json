@@ -1,0 +1,14 @@
+{
+	"If Error Return": {
+		"prefix": "iferr",
+		"body": ["if err != nil {", "\treturn ${1:err}", "end", "$0"]
+	},
+	"Range loop": {
+		"prefix": "for-range",
+		"body": ["for $1 := range $2 {", "\t$0", "}"]
+	},
+	"Append to slice": {
+		"prefix": ["ap", "append"],
+		"body": "${1:slice} = append($1, $0)"
+	}
+}

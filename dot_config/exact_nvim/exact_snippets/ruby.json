@@ -1,0 +1,10 @@
+{
+	"Hashbang line": {
+		"prefix": "#!",
+		"body": "#!/usr/bin/env"
+	},
+	"Begin Rescue": {
+		"prefix": "begin",
+		"body": ["begin", "  ${0}", "rescue ${1:StandardError} => ${2:e}", "end"]
+	}
+}

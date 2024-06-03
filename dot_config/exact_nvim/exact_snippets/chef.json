@@ -1,0 +1,35 @@
+{
+	"file-ish resource": {
+		"prefix": ["cookbook_file", "file", "template", "directory"],
+		"body": [
+			"${1|cookbook_file,file,template,directory|} '${2:dest_name}' do",
+			"  source '${3:source}'",
+			"  owner '${4:root}'",
+			"  group '${5:root}'",
+			"  mode '${6:0644}'",
+			"  action ${7|:create,:create_if_missing,:delete,:nothing}",
+			"end",
+			"$0"
+		]
+	},
+	"package resource": {
+		"prefix": "package",
+		"body": [
+			"package '${1:pkg}' do",
+			"  action ${2|:install,:upgrade,:remove,:purge,:nothing|}",
+			"end",
+			"$0"
+		]
+	},
+	"service resource": {
+		"prefix": ["svc", "service"],
+		"body": [
+			"service '${1:svc}' do",
+			"  enabled ${2|true,false|}",
+			"  running ${3|true,false|}",
+			"  action ${4|:enable,:disable,:start,:stop,:restart,:reload,:nothing|}",
+			"end",
+			"$0"
+		]
+	}
+}

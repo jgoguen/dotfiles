@@ -1,0 +1,28 @@
+{
+	"EditorConfig skeleton": {
+		"prefix": "ec",
+		"body": [
+			"root = true",
+			"",
+			"[*]",
+			"indent_style = ${1|tab,space|}",
+			"indent_size = tab",
+			"tab_width = ${2:4}",
+			"end_of_line = lf",
+			"charset = utf-8",
+			"insert_final_newline = true",
+			"max_line_length = ${3:80}",
+			"trim_trailing_whitespace = true",
+			"$0"
+		]
+	},
+	"EditorConfig indent options": {
+		"prefix": "indent",
+		"body": [
+			"indent_style = ${1|tab,space|}",
+			"indent_size = tab",
+			"tab_width = ${2:4}",
+			"$0"
+		]
+	}
+}

@@ -1,0 +1,42 @@
+{
+	"Safe execution options": {
+		"prefix": "safe",
+		"body": "${1|set -eu,set -euo pipefail|}"
+	},
+	"Hashbang Line": {
+		"prefix": "#!",
+		"body": "#!${1|/bin/sh,/usr/bin/env bash,/usr/bin/env zsh|}"
+	},
+	"If block": {
+		"prefix": "if",
+		"body": ["if [ $1 ]; then", "\t${0:${TM_SELECTED_TEXT}}", "fi"]
+	},
+	"elif block": {
+		"prefix": ["elif", "elsif", "elseif"],
+		"body": ["elif [ $1 ]; then", "\t${0:${TM_SELECTED_TEXT}}"]
+	},
+	"for loop": {
+		"prefix": "for",
+		"body": [
+			"for (( ${2:i} = 0; $2 < ${1:count}; $2++ )); do",
+			"\t${0:${TM_SELECTED_TEXT}}",
+			"done"
+		]
+	},
+	"For-In loop": {
+		"prefix": "fori",
+		"body": [
+			"for ${1:needle} in ${2:haystack}; do",
+			"\t${0:${TM_SELECTED_TEXT}}",
+			"done"
+		]
+	},
+	"Case block": {
+		"prefix": "case",
+		"body": ["case ${1:word} in", "\t${2:pattern})", "\t\t$0", "\t\t;;", "esac"]
+	},
+	"Function block": {
+		"prefix": ["fun", "func", "function"],
+		"body": ["${1:func_name}() {", "\t$0", "}"]
+	}
+}
