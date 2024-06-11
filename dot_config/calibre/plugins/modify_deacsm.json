@@ -1,7 +1,0 @@
-{{- /* chezmoi:modify-template */ -}}
-{{- .chezmoi.stdin | default "{}" | fromJson
-	| setValueAtPath "configured" true
-	| setValueAtPath "delete_acsm_after_fulfill" true
-	| setValueAtPath "detailed_logging" false
-	| setValueAtPath "notify_fulfillment" true
-	| toPrettyJson -}}
