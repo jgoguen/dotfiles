@@ -27,7 +27,4 @@
 	| setValueAtPath "MetadataOptions.subtitle" true
 	| setValueAtPath "MetadataOptions.title" true
 	| setValueAtPath "MetadataOptions.update_KoboEpubs" true
-	| setValueAtPath "backupOptionsStore.backupDestDirectory" (joinPath .chezmoi.homeDir "OneDrive/Backups/KoboReader")
-	| setValueAtPath "backupOptionsStore.backupEachCOnnection" true
-	| setValueAtPath "backupOptionsStore.backupZipDatabase" true
 	| toPrettyJson -}}
