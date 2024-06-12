@@ -1,6 +1,9 @@
 local M = {
 	{
 		'airbus-cert/tree-sitter-powershell',
+		enabled = function()
+			return vim.fn.has('win64') == 1 or vim.fn.has('win32') == 1 or vim.fn.has('win16') == 1
+		end,
 	},
 	{
 		'neovim/nvim-lspconfig',
