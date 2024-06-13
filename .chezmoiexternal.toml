@@ -98,3 +98,13 @@ type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
 refreshPeriod = "672h"
 {{- end }}
+
+[".config/joplin-desktop/userchrome.css"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userchrome.css"
+refreshPeriod = "672h"
+
+[".config/joplin-desktop/userstyle.css"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userstyle.css"
+refreshPeriod = "672h"
