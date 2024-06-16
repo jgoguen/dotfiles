@@ -22,7 +22,7 @@ local keybindings = {
 		['<C-p>'] = '<Plug>luasnip-prev-choice',
 
 		-- Insert link
-		['<C-i>'] = {
+		['<Leader>il'] = {
 			function()
 				require('utils.forms').insert_link_with_text()
 			end,
@@ -62,7 +62,7 @@ local keybindings = {
 		['<C-u>'] = '<C-u>zz',
 
 		-- Insert link
-		['<C-i>'] = {
+		['<Leader>il'] = {
 			function()
 				require('utils.forms').insert_link_with_text()
 			end,
