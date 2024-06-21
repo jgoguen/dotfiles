@@ -7,7 +7,6 @@ local M = {
 
 		opts.options.disabled_filetypes = require('utils').excluded_filetypes
 
-		table.remove(opts.sections.lualine_c, 2)
 		table.insert(opts.sections.lualine_c, {
 			function()
 				return require('noice').api.status.lsp_progress.get_hl()
@@ -21,8 +20,7 @@ local M = {
 				return noice.api.status.lsp_progress.has()
 			end,
 		})
-
-		table.insert(opts.sections.lualine_x, { 'filetype' })
+		opts.sections.lualine_c[3] = { 'filetype' }
 
 		opts.sections.lualine_y = {
 			{ 'progress', separator = ' ', padding = { left = 1, right = 0 } },
