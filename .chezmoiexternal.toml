@@ -108,3 +108,8 @@ refreshPeriod = "672h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userstyle.css"
 refreshPeriod = "672h"
+
+[".config/kitty/current-theme.conf"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/mocha.conf"
+refreshPeriod = "672h"
