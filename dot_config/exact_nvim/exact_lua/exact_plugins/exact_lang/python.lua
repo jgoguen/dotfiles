@@ -3,9 +3,16 @@
 local M = {
 	'neovim/nvim-lspconfig',
 	opts = function(_, opts)
-		opts['servers']['pyright'] = {
+		opts['servers']['basedpyright'] = {
+			enabled = true,
 			settings = {
+				exclude = {
+					'venv',
+					'.venv',
+				},
 				python = {
+					venv = './',
+					venvPath = './venv',
 					analysis = {
 						autoImportCompletions = true,
 						autoSearchPaths = true,
