@@ -73,7 +73,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 		end
 
 		local viewdata = vim.fn.winsaveview()
-		vim.api.nvim_exec([[keepjumps keeppatterns silent! %s/\v\s+$//e]], false)
+		vim.api.nvim_exec2([[keepjumps keeppatterns silent! %s/\v\s+$//e]], { output = false })
 		vim.fn.winrestview(viewdata)
 	end,
 })
