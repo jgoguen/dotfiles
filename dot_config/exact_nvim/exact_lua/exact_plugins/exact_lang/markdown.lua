@@ -21,14 +21,6 @@ local M = {
 			}
 		end,
 	},
-	{
-		'MeanderingProgrammer/markdown.nvim',
-		name = 'render-markdown',
-		dependencies = { 'nvim-treesitter/nvim-treesitter' },
-		opts = {
-			file_types = { 'markdown', 'markdown.pandoc' },
-		},
-	},
 }
 
 return M
