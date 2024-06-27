@@ -82,6 +82,10 @@ else
 {{- end }}
 fi
 
+if [ -n "${KITTY_WINDOW_ID}" ] && [ -n "$(command -v kitten || true)" ]; then
+	alias ssh="kitten ssh"
+fi
+
 if [ -f "${HOME}/.zaliases.local" ]; then
 	. "${HOME}/.zaliases.local"
 fi
