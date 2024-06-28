@@ -4,17 +4,13 @@ local Utils = require('utils')
 
 vim.opt_local.iskeyword:append('@-@')
 
-Utils.buf_set_keymap(
-	'n',
-	'<LocalLeader>i',
-	function()
-		local line = vim.fn.getline('.')
-		if line:find('!important') then
-			line = line:gsub(' !important', '')
-		else
-			line = line:gsub(';', ' !important;')
-		end
-
-		vim.fn.setline('.', line)
+Utils.set_keymap('n', '<LocalLeader>i', function()
+	local line = vim.fn.getline('.')
+	if line:find('!important') then
+		line = line:gsub(' !important', '')
+	else
+		line = line:gsub(';', ' !important;')
 	end
-)
+
+	vim.fn.setline(vim.fn.line('.'), line)
+end)
