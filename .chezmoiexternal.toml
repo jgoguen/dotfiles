@@ -8,35 +8,35 @@
 ["{{ $basedir }}/FiraCode"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}"
-exclude = ["README.md", "readme.md", "LICENSE", "*Propo-*", "*-Retina*"]
+exclude = ["README.md", "readme.md", "LICENSE", "*Propo-*", "*-Retina*", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Hack"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}"
-exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md"]
+exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/JetBrainsMono"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}"
-exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*", "README.md"]
+exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Symbols"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}"
-exclude = ["readme.md", "LICENSE", "README.md"]
+exclude = ["readme.md", "LICENSE", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $basedir }}/Fontin"]
 type = "archive"
 url = "http://www.exljbris.com/dl/fontin2_pc.zip"
-exclude = ["ReadMe.txt"]
+exclude = ["ReadMe.txt", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
