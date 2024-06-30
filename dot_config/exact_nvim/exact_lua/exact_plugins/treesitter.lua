@@ -7,6 +7,11 @@ local M = {
 		'windwp/nvim-ts-autotag',
 	},
 	opts = function(_, opts)
+		opts.highlight.disable = function()
+			if string.find(vim.bo.filetype, 'chezmoitmpl') then
+				return true
+			end
+		end
 		opts.highlight.additional_vim_regex_highlighting = { 'markdown', 'markdown.pandoc' }
 		opts.autotag = { enable = true }
 		opts.endwise = { enable = true }

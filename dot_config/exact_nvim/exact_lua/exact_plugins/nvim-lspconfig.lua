@@ -14,7 +14,7 @@ local M = {
 			has = 'definition',
 		}
 		keys[#keys + 1] = {
-			'igd',
+			'-gd',
 			function()
 				require('telescope.builtin').lsp_definitions({ reuse_win = true, jump_type = 'split' })
 			end,
