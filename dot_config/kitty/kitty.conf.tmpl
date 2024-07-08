@@ -7,8 +7,10 @@ close_on_child_death yes
 copy_on_select {{ if ne .chezmoi.os "linux" }}yes{{ else }}no{{ end }}
 disable_ligatures never
 enable_audio_bell no
+{{ if eq .chezmoi.os "darwin" -}}
 macos_quit_when_last_window_closed yes
-macos_traditional_fullscreen yes
+macos_traditional_fullscreen no
+{{- end }}
 notify_on_cmd_finish unfocused
 scrollback_fill_enlarged_window yes
 scrollback_pager less --chop-long-lines --RAW-CONTROL-CHARS --dumb --quit-if-one-screen --no-init +INPUT_LINE_NUMBER
