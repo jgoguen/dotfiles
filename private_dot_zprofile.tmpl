@@ -111,11 +111,9 @@ if command -v gpgconf >/dev/null 2>&1; then
 	export GPG_AGENT_INFO="$(gpgconf --list-dirs agent-socket)"
 fi
 
-{{ if eq .environment "personal" -}}
 if [ -S "${HOME}/.1password/agent.sock" ]; then
 	export SSH_AUTH_SOCK="${HOME}/.1password/agent.sock"
 fi
-{{- end }}
 
 export TEXMFCONFIG="${HOME}/.config/texlive"
 export TEXMFHOME="${HOME}/.local/share/texlive/texmf"
