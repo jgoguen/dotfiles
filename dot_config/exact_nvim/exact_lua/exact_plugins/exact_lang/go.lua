@@ -6,6 +6,9 @@ local M = {
 		opts = function(_, opts)
 			local filters = opts['servers']['gopls']['settings']['gopls']['directoryFilters'] or {}
 			table.insert(filters, '-.hg')
+			table.insert(filters, '-bazel-bin')
+			table.insert(filters, '-bazel-out')
+			table.insert(filters, '-bazel-testlogs')
 			opts['servers']['gopls']['settings']['gopls']['directoryFilters'] = filters
 		end,
 	},
