@@ -23,6 +23,6 @@
 	| setValueAtPath (list "style.editor.fontFamily") "JetBrainsMono Nerd Font Mono"
 	| setValueAtPath (list "style.editor.monospaceFontFamily") "JetBrainsMono Nerd Font Mono"
 	| setValueAtPath (list "sync.target") 9
-	| setValueAtPath (list "sync.9.path") (index (onepassword "qndq73ff2vacdb46qfwboth3hi").urls 0).href
-	| setValueAtPath (list "sync.9.username") (onepasswordDetailsFields "qndq73ff2vacdb46qfwboth3hi").username.value
+	| setValueAtPath (list "sync.9.path") (index (onepassword "qndq73ff2vacdb46qfwboth3hi" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").urls 0).href
+	| setValueAtPath (list "sync.9.username") (onepasswordDetailsFields "qndq73ff2vacdb46qfwboth3hi" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").username.value
 	| toPrettyJson -}}

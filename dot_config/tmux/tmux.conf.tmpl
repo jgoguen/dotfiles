@@ -159,7 +159,7 @@ set-option -g @catppuccin_flavour 'mocha'
 {{ if or (eq .environment "personal") (eq .environment "headless") -}}
 # Access 1Password login items via CLI in tmux
 set-option -g @plugin 'yardnsm/tmux-1password'
-set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e").UserID.value }}
+set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").UserID.value }}
 {{- end }}
 
 # Keep this at the very end of the file!

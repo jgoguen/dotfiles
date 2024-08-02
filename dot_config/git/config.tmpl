@@ -99,8 +99,8 @@
 	clone-path = {{ .chezmoi.homeDir }}/Code
 
 [github]
-	user = {{ (onepasswordDetailsFields "yaim2h545jdgdfvlepphtyql3i").username.value }}
-	token = {{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i").jgoguen.value }}
+	user = {{ (onepasswordDetailsFields "yaim2h545jdgdfvlepphtyql3i" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").username.value }}
+	token = {{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").jgoguen.value }}
 
 [gpg]
 	format = ssh
