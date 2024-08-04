@@ -42,6 +42,7 @@ Library/
 {{- if ne .chezmoi.os "darwin" }}
 .chezmoiscripts/darwin/*
 .1password/agent.sock
+.local/share/zsh/conf.d/pre/02-homebrew.zsh
 macos_pam_tid.sh
 Library/
 {{- end }}

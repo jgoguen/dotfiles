@@ -7,245 +7,30 @@ fi
 
 RC_START=${SECONDS}
 
-# See https://zsh-manual.netlify.app/options for options available
-setopt always_to_end auto_pushd complete_aliases correct extended_glob
-setopt extended_history hist_find_no_dups hist_ignore_all_dups hist_ignore_space
-setopt hist_no_store hist_reduce_blanks hist_save_no_dups hist_verify
-setopt inc_append_history no_beep no_bg_nice no_flow_control no_hist_beep
-setopt nomatch notify prompt_subst pushd_ignore_dups pushd_silent
-setopt transient_rprompt
+export USER_ZSH="${XDG_DATA_HOME}/zsh"
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh/completion"
 
-zmodload zsh/complete
-zmodload zsh/complist
-zmodload zsh/datetime
-zmodload zsh/pcre
-zmodload zsh/zutil
-
-autoload -U add-zsh-hook
-autoload -Uz colors
-autoload -Uz compinit
-autoload zkbd
-
-: "${XDG_CACHE_HOME:=${HOME}/.cache}"
-: "${XDG_CONFIG_HOME:=${HOME}/.config}"
-: "${XDG_DATA_HOME:=${HOME}/.local/share}"
-: "${XDG_RUNTIME_DIR:=/run/user/$(id -u)}"
-: "${ZDOTDIR:=${HOME}}"
-
-USER_ZSH="${XDG_DATA_HOME}/zsh"
-for d in "site-functions" "completion"; do
-	if [ ! -d "${USER_ZSH}/${d}" ]; then
-		mkdir -p "${USER_ZSH}/${d}"
-	fi
+for f in "${USER_ZSH}"/conf.d/pre/*.zsh; do
+	source "${f}"
 done
 
-typeset -U fpath
-for d in /opt/homebrew/share/zsh-completions /usr/local/share/zsh-completions "${USER_ZSH}/completion" "${USER_ZSH}/site-functions"; do
-	test -d "${d}" && fpath=(${d} ${fpath})
+for f in "${USER_ZSH}"/conf.d/*.zsh; do
+	source "${f}"
 done
 
-zstyle ':completion:*' ambiguous true
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand_alias _expand _complete _correct _approximate _ignored
-zstyle ':completion:*' completions true
-zstyle ':completion:*' expand prefix suffix
-# format all messages not formatted in bold prefixed with ----
-zstyle ':completion:*' format '%B---- %d%b'
-zstyle ':completion:*' glob true
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' ignore-parents parent pwd directory
-zstyle ':completion:*' insert-unambiguous false
-zstyle ':completion:*' keep-prefix false
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-prompt %SAt %l: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' list-suffixes true
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
-zstyle ':completion:*' max-errors 1
-zstyle ':completion:*' menu select
-zstyle ':completion:*' original true
-zstyle ':completion:*' preserve-prefix '//[^/]##/'
-zstyle ':completion:*' prompt 'Corrections (%e errors)'
-zstyle ':completion:*' rehash true
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' special-dirs ..
-zstyle ':completion:*' substitute 1
-zstyle ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
-# Don't complete the same twice
-zstyle ':completion:*:complete:-command-::*' ignore-line yes
-# Don't complete backup files as commands.
-zstyle ':completion:*:complete:-command-::*' ignored-patterns '*\~'
-zstyle ':completion:*:complete:dpkg:option--listfiles-1:*' packageset installed
-zstyle ':completion:*:complete:dpkg:option--status-1:*' packageset avail
-# format descriptions (notice the vt100 escapes)
-zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}completing %B%d%b%{\e[0m%}'
-zstyle ':completion:*:sudo::' environ PATH="/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:$PATH" HOME="${HOME}"
-# format in bold red error messages
-zstyle ':completion:*:warnings' format "%B$fg[red]%}---- no match for: $fg[white]%d%b"
-
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
-ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh/completion"
-if [ ! -d "${ZSH_CACHE_DIR}" ]; then
-	mkdir -p "${ZSH_CACHE_DIR}"
-fi
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}"
-
-zstyle :compinstall filename "${USER_ZSH}/zcompdump"
-
-if [ -f "${HOME}/.zcompdump" ]; then
-	mv "${HOME}/.zcompdump" "${USER_ZSH}/zcompdump"
-fi
-compinit -d "${USER_ZSH}/zcompdump"
-
-[ ! -f "${ZDOTDIR:-$HOME}/.zkbd/$TERM" ] && {
-	zkbd
-	# shellcheck disable=SC2039
-	mv "${ZDOTDIR:-$HOME}/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE}" "${ZDOTDIR:-$HOME}/.zkbd/$TERM"
-}
-# shellcheck source={{ .chezmoi.homeDir }}/.zkbd/xterm-256color
-. "${ZDOTDIR:-$HOME}/.zkbd/$TERM"
-
-[ -n "${key[Backspace]}" ] && bindkey "${key[Backspace]}" backward-delete-char
-[ -n "${key[Insert]}" ] && bindkey "${key[Insert]}" overwrite-mode
-[ -n "${key[Home]}" ] && bindkey "${key[Home]}" beginning-of-line
-[ -n "${key[PageUp]}" ] && bindkey "${key[PageUp]}" up-line-or-history
-[ -n "${key[Delete]}" ] && bindkey "${key[Delete]}" delete-char
-[ -n "${key[End]}" ] && bindkey "${key[End]}" end-of-line
-[ -n "${key[PageDown]}" ] && bindkey "${key[PageDown]}" down-line-or-history
-[ -n "${key[Up]}" ] && bindkey "${key[Up]}" up-line-or-search
-[ -n "${key[Left]}" ] && bindkey "${key[Left]}" backward-char
-[ -n "${key[Down]}" ] && bindkey "${key[Down]}" down-line-or-search
-[ -n "${key[Right]}" ] && bindkey "${key[Right]}" forward-char
-
-for f in "${USER_ZSH}"/site-functions/[a-zA-Z]*; do
-	autoload -U "$(basename "${f%%.zwc}")"
-done
-
-colors
-
-# Import aliases
-test -f ${HOME}/.zaliases && source ${HOME}/.zaliases
-
-{{- if eq .chezmoi.os "linux" }}
-if test -S ${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent ; then
-	export GPG_AGENT_INFO=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent
-fi
-{{- end }}
-
-# Move to start/end of line
-bindkey '^a' beginning-of-line
-bindkey '^e' end-of-line
-
-# Move forward/backward by word
-bindkey '^f' forward-word
-bindkey '^b' backward-word
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/opt/google-cloud-sdk/completion.zsh.inc' ]; then source '/opt/google-cloud-sdk/completion.zsh.inc'; fi
-if [ -f '/opt/google-cloud-sdk/path.zsh.inc' ]; then source '/opt/google-cloud-sdk/path.zsh.inc'; fi
-
-function update-env-vars() {
-	renew-env SSH_AUTH_SOCK
-}
-add-zsh-hook preexec update-env-vars
-
-typeset -F SECONDS
-function record-start-time() {
-	emulate -L zsh
-	ZSH_START_TIME=${ZSH_START_TIME:-$SECONDS}
-}
-add-zsh-hook preexec record-start-time
-
-function elapsed-time() {
-	emulate -L zsh
-	local DELTA="${1}"
-
-	local DAYS=$((~~($DELTA / 86400)))
-	local HOURS=$((~~(($DELTA - $DAYS * 86400) / 3600)))
-	local MINUTES=$((~~(($DELTA - $DAYS * 86400 - $HOURS * 3600) / 60)))
-	local SECS=$(($DELTA - $DAYS * 86400 - $HOURS * 3600 - $MINUTES * 60))
-	local ELAPSED=''
-	test "$DAYS" != '0' && ELAPSED="${DAYS}d"
-	test "$HOURS" != '0' && ELAPSED="${ELAPSED}${HOURS}h"
-	test "$MINUTES" != '0' && ELAPSED="${ELAPSED}${MINUTES}m"
-	if [ "$ELAPSED" = '' ]; then
-		SECS="$(print -f "%.2f" $SECS)s"
-	elif [ "$DAYS" != '0' ]; then
-		SECS=''
-	else
-		SECS="$((~~$SECS))s"
-	fi
-	ELAPSED="${ELAPSED}${SECS}"
-
-	printf '%s' "${ELAPSED}"
-}
-
-function report-start-time() {
-	emulate -L zsh
-	if [ $ZSH_START_TIME ]; then
-		local DELTA=$(($SECONDS - $ZSH_START_TIME))
-		export RPROMPT="exe:$(elapsed-time ${DELTA})%f $RPROMPT_BASE"
-		unset ZSH_START_TIME
-	else
-		export RPROMPT="$RPROMPT_BASE"
-	fi
-}
-add-zsh-hook precmd report-start-time
-
-if command -v starship >/dev/null 2>&1; then
-	eval "$(starship init zsh)"
-	eval "$(starship completions zsh)"
-fi
-
-if command -v op >/dev/null 2>&1; then
-	eval "$(op completion zsh)"
-fi
-
-for f in /usr/local/share/fzf/shell/key-bindings.zsh /usr/share/fzf/shell/key-bindings.zsh; do
-	if [ -f "${f}" ]; then
-		source "${f}"
-	fi
+for f in "${USER_ZSH}"/conf.d/post/*.zsh; do
+	source "${f}"
 done
 
 {{ if eq .chezmoi.os "darwin" -}}
-if command -v brew >/dev/null 2>&1; then
-	BREW_PREFIX="$(brew --prefix)"
-	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-		. "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-	fi
-
-	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-		. "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-	fi
-
-	for f in "${BREW_PREFIX}/"Cellar/fzf/*/shell/key-bindings.zsh; do
-		if [ -f "${f}" ]; then
-			. "${f}"
-		fi
-	done
-fi
-{{ else -}}
-for PREFIX in /usr/local /usr; do
-	if [ -f "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-		. "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-	fi
-
-	if [ -f "${PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-		. "${PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-	fi
-done
+unset BREW_PREFIX
 {{- end }}
-
-if [ -n "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}" ] && [ -d "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}" ]; then
-	. "${ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR}/../zsh-syntax-highlighting.zsh"
-fi
-
-RC_TIME=$(($SECONDS - $RC_START))
-printf 'Shell startup took %s\n' "$(elapsed-time $RC_TIME)"
+unset USER_ZSH
+unset ZSH_CACHE_DIR
 
 if [ -f "${HOME}/.zshrc.local" ]; then
 	. "${HOME}/.zshrc.local"
 fi
+
+RC_TIME=$(($SECONDS - $RC_START))
+printf 'Shell startup took %s\n' "$(elapsed-time $RC_TIME)"
