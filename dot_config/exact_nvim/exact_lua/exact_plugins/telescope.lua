@@ -25,12 +25,6 @@ local M = {
 			},
 		},
 	},
-	{
-		'isak102/telescope-git-file-history.nvim',
-		dependencies = {
-			'tpope/vim-fugitive',
-		},
-	},
 }
 
 return M
