@@ -25,6 +25,11 @@ local M = {
 			table.insert(opts.formatters_by_ft.go, 'golines')
 		end,
 	},
+	{
+		'maxandron/goplements.nvim',
+		ft = 'go',
+		opts = {},
+	},
 }
 
 return M
