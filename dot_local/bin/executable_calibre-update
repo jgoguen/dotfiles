@@ -14,6 +14,7 @@ import shlex
 import subprocess
 import sys
 
+from typing import cast
 from urllib.request import urlopen
 
 try:
@@ -22,14 +23,26 @@ except ImportError:
     print("packaging module not found, install python3-packaging")
     raise
 
+
+class Args(argparse.Namespace):
+    debug = False
+    prefix = os.path.dirname(
+        os.environ.get("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
+    )
+    share_dir = os.path.basename(os.environ.get("XDG_DATA_HOME", "share"))
+    bin_dir = "bin"
+    no_update_lib = False
+    version: str | None = None
+
+
 parser = argparse.ArgumentParser()
-parser.add_argument(
+_ = parser.add_argument(
     "-d",
     "--debug",
     action="store_true",
     help="Print debug messages",
 )
-parser.add_argument(
+_ = parser.add_argument(
     "-p",
     "--prefix",
     default=os.path.dirname(
@@ -37,28 +50,34 @@ parser.add_argument(
     ),
     help="Base directory for all calibre install files (default: %(default)s)",
 )
-parser.add_argument(
+_ = parser.add_argument(
     "-s",
     "--share-dir",
     default=os.path.basename(os.environ.get("XDG_DATA_HOME", "share")),
-    help="Where to store shared data, relative to --prefix (default: " "%(default)s)",
+    help="Where to store shared data, relative to --prefix (default: " + "%(default)s)",
 )
-parser.add_argument(
+_ = parser.add_argument(
     "-b",
     "--bin-dir",
     default="bin",
     help="Where to link binaries, relative to --prefix (default: %(default)s)",
 )
-parser.add_argument(
+_ = parser.add_argument(
     "--no-update-lib",
     action="store_true",
     help=argparse.SUPPRESS,
 )
-opts = parser.parse_args()
+_ = parser.add_argument(
+    "--version",
+    help="Install a specific calibre version",
+)
+
+opts = parser.parse_args(namespace=Args())
+
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s",
-    level=logging.DEBUG if opts.debug else logging.ERROR,
+    level=logging.DEBUG if opts.debug else logging.INFO,
 )
 
 PREFIX_DIR = os.path.abspath(opts.prefix)
@@ -71,12 +90,12 @@ logging.debug(f"Calibre bin directory: {BIN_DIR}")
 LIB_ARCH = "64" if platform.architecture()[0] == "64bit" else ""
 USER_PYTHON_DIR = os.path.expanduser(
     f"{PREFIX_DIR}/lib{LIB_ARCH}/python{sys.version_info.major}"
-    f".{sys.version_info.minor}"
+    + f".{sys.version_info.minor}"
 )
 
 for d in (SHARE_DIR, BIN_DIR):
     if not os.path.isdir(d):
-        logging.debug(f"Creating calibre directory {d}")
+        logging.info(f"Creating calibre directory {d}")
         os.makedirs(d, 0o0700)
 
 if USER_PYTHON_DIR not in sys.path:
@@ -95,63 +114,64 @@ if not opts.no_update_lib:
     else:
         lib_hash = ""
 
-    lib_data = urlopen(
+    lib_data: bytes = urlopen(
         "https://raw.githubusercontent.com/kovidgoyal/calibre/master/"
-        "setup/linux-installer.py"
+        + "setup/linux-installer.py"
     ).read()
 
     new_hash = hashlib.sha256(lib_data).hexdigest()
     if lib_hash != new_hash:
         with open(CALIBRE_INSTALLER_LIB, "w") as f:
-            f.write(lib_data.decode("UTF-8"))
+            _ = f.write(lib_data.decode("UTF-8"))
         os.execv(sys.argv[0], sys.argv[1:] + ["--no-update-lib"])
 
-latest_version = None
+latest_version = opts.version
 calibre_bin = os.path.join(SHARE_DIR, "calibre")
 
 if os.path.exists(calibre_bin):
-    proc = subprocess.run(
-        [calibre_bin, "--version"],
-        stdout=subprocess.PIPE,
-    )
-    logging.debug(f"{calibre_bin} --version: {proc.stdout.strip()}")
-    local_match = re.search(
-        r"^.+\(.+ ([\d\.]+)\)$",
-        proc.stdout.strip().decode("UTF-8"),
-    )
-    if local_match:
-        calibre_version = version.parse(local_match.group(1))
-        logging.debug(f"calibre_version={calibre_version}")
-        resp = urlopen(
-            "https://github.com/kovidgoyal/calibre/releases/latest",
+    if latest_version is None:
+        proc = subprocess.run(
+            [calibre_bin, "--version"],
+            stdout=subprocess.PIPE,
         )
-        logging.debug(f"URL: {resp.geturl()}")
-        remote_match = re.search(
-            r"^.+\/releases\/tag\/v([\d\.]+)$",
-            resp.geturl(),
+        logging.debug(f"{calibre_bin} --version: {proc.stdout.strip()}")
+        local_match = re.search(
+            r"^.+\(.+ ([\d\.]+)\)$",
+            proc.stdout.strip().decode("UTF-8"),
         )
-        if remote_match:
-            latest_version = version.parse(remote_match.group(1))
-            logging.debug("latest_version={0}".format(latest_version))
-            if calibre_version >= latest_version:
-                logging.info(
-                    f"calibre {calibre_version} is already installed",
+        if local_match:
+            calibre_version = version.parse(local_match.group(1))
+            logging.debug(f"calibre_version={calibre_version}")
+            resp = urlopen(
+                "https://github.com/kovidgoyal/calibre/releases/latest",
+            )
+            logging.debug(f"URL: {resp.geturl()}")
+            remote_match = re.search(
+                r"^.+\/releases\/tag\/v([\d\.]+)$",
+                resp.geturl(),
+            )
+            if remote_match:
+                latest_version = version.parse(remote_match.group(1))
+                logging.debug("latest_version={0}".format(latest_version))
+                if calibre_version >= latest_version:
+                    logging.info(
+                        f"calibre {calibre_version} is already installed",
+                    )
+                    sys.exit(0)
+            else:
+                logging.warning(
+                    f"Remote version '{resp.geturl()}' did not match regexp",
                 )
-                sys.exit(0)
         else:
             logging.warning(
-                f"Remote version '{resp.geturl()}' did not match regexp",
+                f"Local version '{proc.stdout.strip()}' did not match regexp",
             )
-    else:
-        logging.warning(
-            f"Local version '{proc.stdout.strip()}' did not match regexp",
-        )
 else:
     logging.warning(
         f"'{calibre_bin}' does not exist, assuming not installed",
     )
 
-logging.debug("About to fetch and execute calibre installer")
+logging.info("Installing calibre {latest_version}")
 
 from calibre import installer  # noqa: E402
 
@@ -163,7 +183,7 @@ installer.run_installer(
     version=str(latest_version) if latest_version else None,
 )
 
-subprocess.call(
+_ = subprocess.call(
     [
         os.path.join(SHARE_DIR, "calibre_postinstall"),
         "--root",
