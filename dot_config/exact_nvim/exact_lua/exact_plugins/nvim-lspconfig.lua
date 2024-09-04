@@ -22,6 +22,10 @@ local M = {
 			has = 'definition',
 		}
 	end,
+	opts = function(_, opts)
+		opts.diagnostics.virtual_text = false
+		return opts
+	end,
 }
 
 return M
