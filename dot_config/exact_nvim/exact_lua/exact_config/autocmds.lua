@@ -77,14 +77,3 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 		vim.fn.winrestview(viewdata)
 	end,
 })
-
--- Treat all files in chezmoi source directory as chezmoi files
-local HasChezmoiCommands, _ = pcall(require, 'chezmoi.commands')
-if HasChezmoiCommands then
-	vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-		pattern = { os.getenv('HOME') .. '/.local/share/chezmoi/*' },
-		callback = function()
-			vim.schedule(require('chezmoi.commands.__edit').watch)
-		end,
-	})
-end
