@@ -12,13 +12,12 @@ end
 
 local M = {
 	's1n7ax/nvim-window-picker',
-	version = 'v1.*',
+	version = '2.*',
 	keys = {
 		{ '<Leader>wp', pick_window, desc = 'Pick window' },
 	},
 	opts = {
-		autoselect_one = true,
-		include_current = true,
+		hint = 'floating-big-letter',
 		filter_rules = {
 			bo = {
 				-- if the file type is one of following, the window will be ignored
