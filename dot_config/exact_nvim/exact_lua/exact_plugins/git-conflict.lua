@@ -3,7 +3,16 @@
 local M = {
 	'akinsho/git-conflict.nvim',
 	version = '*',
-	opts = {},
+	opts = {
+		default_mappings = {
+			ours = '<LocalLeader>co',
+			theirs = '<LocalLeader>ct',
+			none = '<LocalLeader>c0',
+			both = '<LocalLeader>cb',
+			next = ']x',
+			prev = '[x',
+		},
+	},
 }
 
 return M
