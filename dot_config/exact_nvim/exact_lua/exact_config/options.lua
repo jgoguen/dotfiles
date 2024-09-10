@@ -161,7 +161,7 @@ local settings = {
 		neo_tree_remove_legacy_commands = true,
 
 		lazyvim_python_lsp = 'basedpyright',
-		lazyvim_python_ruff = 'ruff_lsp',
+		lazyvim_python_ruff = 'ruff',
 
 		-- Python3 or bust
 		python_highlight_all = true,
