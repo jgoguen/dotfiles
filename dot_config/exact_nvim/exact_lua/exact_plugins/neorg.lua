@@ -18,6 +18,12 @@ local M = {
 		opts = {
 			load = {
 				['core.defaults'] = {},
+
+				['core.completion'] = {
+					config = {
+						engine = 'nvim-cmp',
+					},
+				},
 				['core.concealer'] = {},
 				['core.dirman'] = {
 					config = {
@@ -32,11 +38,25 @@ local M = {
 					config = {
 						timezone = 'implicit-local',
 						type = 'auto',
+						update_date = true,
+					},
+				},
+				['core.export'] = {
+					config = {
+						export_dir = os.getenv('HOME') .. '/Documents',
 					},
 				},
 				['external.context'] = {},
 			},
 		},
+	},
+	{
+		'nvim-cmp',
+		opts = function(_, opts)
+			table.insert(opts.sources, {
+				name = 'neorg',
+			})
+		end,
 	},
 }
 
