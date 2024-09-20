@@ -5,7 +5,7 @@ local M = {
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
 			local filters = opts['servers']['gopls']['settings']['gopls']['directoryFilters'] or {}
-			for _, d in ipairs({ '.hg', '-bazel-bin', '-bazel-out', '-bazel-testlogs', '-bazel-gosre', '-bazel-genfiles' }) do
+			for _, d in ipairs({ '-.hg', '-bazel-bin', '-bazel-out', '-bazel-testlogs', '-bazel-gosre', '-bazel-genfiles' }) do
 				table.insert(filters, d)
 			end
 			opts['servers']['gopls']['settings']['gopls']['directoryFilters'] = filters
