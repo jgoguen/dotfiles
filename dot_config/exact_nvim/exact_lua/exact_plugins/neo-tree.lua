@@ -2,6 +2,22 @@
 
 local M = {
 	'nvim-neo-tree/neo-tree.nvim',
+	keys = {
+		{
+			'<leader>fe',
+			function()
+				require('neo-tree.command').execute({ action = 'focus', toggle = false, dir = require('lazyvim.util').root() })
+			end,
+			desc = 'Go to file in NeoTree (Root Dir)',
+		},
+		{
+			'<leader>fw',
+			function()
+				require('neo-tree.command').execute({ action = 'close' })
+			end,
+			desc = 'Close NeoTree',
+		},
+	},
 	dependencies = {
 		's1n7ax/nvim-window-picker',
 		'nvim-tree/nvim-web-devicons',
