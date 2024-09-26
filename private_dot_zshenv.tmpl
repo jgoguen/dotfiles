@@ -8,11 +8,41 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
+for dname in "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${XDG_STATE_HOME}"; do
+	if [ ! -d "${dname}" ]; then
+		/usr/bin/install -d -m 0700 "${dname}"
+	fi
+done
+
 # Set path first, so many other things depend on it
 typeset -U path
+
+# First, look for /etc/paths and /etc/paths.d/. If they exist, they define paths
+# to start the shell with.
+if [ -r /etc/paths ] || [ -r /etc/paths.d ]; then
+	path=()
+fi
+
+if [ -r /etc/paths ]; then
+	while read -r bindir || [ -n "${bindir}" ]; do
+		if [ -r "${bindir}" ] && [ -x "${bindir}" ]; then
+			path=(${path} "${bindir}")
+		fi
+	done </etc/paths
+fi
+if [ -r /etc/paths.d ]; then
+	for f in $(ls /etc/paths.d/); do
+		while read -r bindir || [ -n "${bindir}" ]; do
+			if [ -r "${bindir}" ] && [ -x "${bindir}" ]; then
+				path=(${path} "${bindir}")
+			fi
+		done </etc/paths.d/${f}
+	done
+fi
+
 for bindir in /bin /sbin /usr/bin /usr/sbin /System/Cryptexes/App/usr/bin /usr/local/bin /usr/local/sbin /var/lib/snapd/snap/bin /usr/local/go/bin /usr/local/nodejs/current/bin /Library/TeX/Distributions/Programs/texbin /opt/local/bin /opt/local/sbin /opt/homebrew/bin "${HOME}/.cargo/bin" "${HOME}/.dotnet/tools" "${HOME}/bin" "${HOME}/.local/bin"; do
-	if [ -d "${bindir}" ]; then
-		path=(${bindir} ${path})
+	if [ -r "${bindir}" ] && [ -x "${bindir}" ]; then
+		path=("${bindir}" ${path})
 	fi
 done
 
@@ -30,37 +60,19 @@ export GOPATH="${HOME}/Library/Application Support/go"
 {{- else }}
 export GOPATH="${XDG_STATE_HOME}/go"
 {{- end }}
-while read -d ':' pathname; do
-	if [ -n "${pathname}" ] && [ -d "${pathname}" ]; then
+while read -d ':' pathname || [ -n "${pathname}" ]; do
+	if [ -r "${pathname}/bin" ] && [ -x "${pathname}/bin" ]; then
 		path=(${pathname}/bin ${path})
+	elif [ ! -d "${pathname}" ]; then
+		/usr/bin/install -d -m 0700 "${pathname}"
 	fi
 done < <(printf '%s' "${GOPATH}")
-
-IFS=':' read -rA PATHNAME <<<"${GOPATH}"
-for dname in "${PATHNAME[@]}"; do
-	if [ ! -d "${dname}" ]; then
-		/usr/bin/install -d -m 0700 "${dname}"
-	fi
-done
 
 export PATH
 
 : "${KITTY_WINDOW_ID:=""}"
 if [ -n "${KITTY_WINDOW_ID}" ]; then
 	export TERM=vte-256color
-fi
-
-if [ ! -d "${XDG_CACHE_HOME}" ]; then
-	/usr/bin/install -d -m 0700 "${XDG_CACHE_HOME}"
-fi
-if [ ! -d "${XDG_CONFIG_HOME}" ]; then
-	/usr/bin/install -d -m 0700 "${XDG_CONFIG_HOME}"
-fi
-if [ ! -d "${XDG_DATA_HOME}" ]; then
-	/usr/bin/install -d -m 0700 "${XDG_DATA_HOME}"
-fi
-if [ ! -d "${XDG_STATE_HOME}" ]; then
-	/usr/bin/install -d -m 0700 "${XDG_STATE_HOME}"
 fi
 
 if command -v clang >/dev/null 2>&1; then
@@ -117,15 +129,6 @@ fi
 export TEXMFCONFIG="${XDG_CONFIG_HOME}/texlive"
 export TEXMFHOME="${XDG_DATA_HOME}/texlive/texmf"
 export TEXMFVAR="${XDG_DATA_HOME}/texlive/var"
-
-# Prompt modifiers for starship prompt
-# export VCS_PROMPT_AHEAD="%{$fg_bold[magenta]%}↑"
-# export VCS_PROMPT_PREFIX=" $fg[white]‹ %{$fg_bold[yellow]%}"
-# export VCS_PROMPT_STAGED="%{$fg_bold[green]%}●"
-# export VCS_PROMPT_SUFFIX=" $fg_bold[white]›%{$reset_color%}"
-# export VCS_PROMPT_UNMERGED="%{$fg_bold[red]%}✕"
-# export VCS_PROMPT_UNSTAGED="%{$fg_bold[red]%}●"
-# export VCS_PROMPT_UNTRACKED="%{$fg_bold[white]%}●"
 
 export XMODIFIERS="@im=ibus"
 
