@@ -3,6 +3,32 @@
 local M = {
 	{
 		'nvim-telescope/telescope.nvim',
+		dependencies = {
+			{
+				'otavioschwanck/telescope-alternate.nvim',
+				opts = function(_, opts)
+					opts = opts or {}
+
+					opts['presets'] = { 'go' }
+					opts['mappings'] = {}
+					opts['telescope_mappings'] = require('telescope-alternate').default_mappings
+					opts['telescope_mappings']['i']['open_horizontal'] = '<C-i>'
+					opts['telescope_mappings']['i']['open_vertical'] = '<C-s>'
+					opts['telescope_mappings']['n']['open_horizontal'] = '<C-i>'
+					opts['telescope_mappings']['n']['open_vertical'] = '<C-s>'
+				end,
+				config = function(_, opts)
+					require('telescope-alternate').setup(opts)
+
+					LazyVim.on_load('telescope.nvim', function()
+						local ok, err = pcall(require('telescope').load_extension, 'telescope-alternate')
+						if not ok then
+							LazyVim.error('Failed to load telescope-alternate:\n' .. err)
+						end
+					end)
+				end,
+			},
+		},
 		opts = {
 			defaults = {
 				path_display = {

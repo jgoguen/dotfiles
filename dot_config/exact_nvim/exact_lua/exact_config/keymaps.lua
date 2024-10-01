@@ -61,6 +61,11 @@ local keybindings = {
 		['<C-d>'] = '<C-d>zz',
 		['<C-u>'] = '<C-u>zz',
 
+		['<Leader>fo'] = {
+			'<cmd>Telescope telescope-alternate alternate_file<CR>',
+			{ desc = 'Alternate file (Telescope)' },
+		},
+
 		-- Insert link
 		['<Leader>il'] = {
 			function()
