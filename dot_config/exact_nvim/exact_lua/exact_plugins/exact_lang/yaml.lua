@@ -2,6 +2,9 @@
 
 local M = {
 	'neovim/nvim-lspconfig',
+	dependencies = {
+		'b0o/SchemaStore.nvim',
+	},
 	opts = function(_, opts)
 		opts['servers']['yamlls']['settings']['yaml']['customTags'] = {
 			'!include_dir_named',
@@ -11,11 +14,7 @@ local M = {
 		}
 		opts['servers']['yamlls']['settings']['yaml']['format']['printWidth'] = 120
 		opts['servers']['yamlls']['settings']['yaml']['format']['singleQuote'] = true
-		opts['servers']['yamlls']['settings']['yaml']['schemas'] = {
-			['http://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
-			['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
-			['http://json.schemastore.org/ansible-stable-2.9'] = 'roles/tasks/*.{yml,yaml},',
-		}
+		opts['servers']['yamlls']['settings']['yaml']['schemas'] = require('schemastore').yaml.schemas()
 	end,
 }
 
