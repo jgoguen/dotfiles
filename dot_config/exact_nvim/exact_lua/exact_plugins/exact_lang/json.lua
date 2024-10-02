@@ -2,6 +2,9 @@
 
 local M = {
 	'neovim/nvim-lspconfig',
+	dependencies = {
+		'b0o/SchemaStore.nvim',
+	},
 	opts = function(_, opts)
 		opts['servers']['jsonls']['settings']['schemas'] = require('schemastore').json.schemas()
 	end,
