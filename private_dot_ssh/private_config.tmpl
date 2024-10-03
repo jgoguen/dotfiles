@@ -15,6 +15,9 @@ Host codeberg.org
 	PreferredAuthentications publickey
 	User git
 
+Match host=!mori.intern.jgoguen.ca,*.intern.jgoguen.ca
+	ProxyJump files.jgoguen.ca
+
 Host *
 	ForwardX11 no
 	ForwardX11Trusted no
