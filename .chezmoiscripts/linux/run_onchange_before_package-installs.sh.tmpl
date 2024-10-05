@@ -1,20 +1,25 @@
 #!/bin/sh
 
+SUDO="$(command -v doas)"
+if [ -z "${SUDO}" ]; then
+	SUDO="$(command -v sudo)"
+fi
+
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
 {{ range .packages.fedora.copr -}}
-sudo dnf copr enable -y {{ . | quote }}
+${SUDO} dnf copr enable -y {{ . | quote }}
 {{ end -}}
 
 if ! rpm -qi rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1 ; then
-	sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
+	${SUDO} dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi
 if ! rpm -qi rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1 ; then
-	sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
+	${SUDO} dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi
-sudo dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
+${SUDO} dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
 
-sudo dnf remove -y {{ .packages.fedora.removal | join " " }}
-sudo dnf install -y {{ .packages.fedora.dnf | join " " }}
+${SUDO} dnf remove -y {{ .packages.fedora.removal | join " " }}
+${SUDO} dnf install -y {{ .packages.fedora.dnf | join " " }}
 
 if command -v flatpak >/dev/null 2>&1 ; then
 {{ range .packages.fedora.flatpak -}}
