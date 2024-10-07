@@ -20,7 +20,6 @@ local M = {
 	},
 	dependencies = {
 		's1n7ax/nvim-window-picker',
-		'nvim-tree/nvim-web-devicons',
 	},
 	opts = {
 		filesystem = {
