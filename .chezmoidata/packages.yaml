@@ -47,7 +47,6 @@ packages:
       - joplin
       - kitty
       - visual-studio-code
-      - vivaldi
     # App Store installs, find the ID and string to use with `mas list`
     mas:
       - name: 1Password for Safari
@@ -161,5 +160,4 @@ packages:
         - rust
         - starship
         - vcredist2022
-        - vivaldi
         - wezterm
