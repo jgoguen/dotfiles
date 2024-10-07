@@ -78,6 +78,26 @@ type = "file"
 url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme"
 refreshPeriod = "672h"
 
+[".config/bat/themes/tokyonight_day.tmTheme"]
+type = "file"
+url = "https://raw.githubusercontent.com/folke/tokyonight.nvim/refs/heads/main/extras/sublime/tokyonight_day.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/tokyonight_moon.tmTheme"]
+type = "file"
+url = "https://raw.githubusercontent.com/folke/tokyonight.nvim/refs/heads/main/extras/sublime/tokyonight_moon.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/tokyonight_night.tmTheme"]
+type = "file"
+url = "https://raw.githubusercontent.com/folke/tokyonight.nvim/refs/heads/main/extras/sublime/tokyonight_night.tmTheme"
+refreshPeriod = "672h"
+
+[".config/bat/themes/tokyonight_storm.tmTheme"]
+type = "file"
+url = "https://raw.githubusercontent.com/folke/tokyonight.nvim/refs/heads/main/extras/sublime/tokyonight_storm.tmTheme"
+refreshPeriod = "672h"
+
 [".local/share/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"]
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
