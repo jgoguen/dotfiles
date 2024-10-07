@@ -14,7 +14,6 @@ local M = {
 		}
 		opts['servers']['yamlls']['settings']['yaml']['format']['printWidth'] = 120
 		opts['servers']['yamlls']['settings']['yaml']['format']['singleQuote'] = true
-		opts['servers']['yamlls']['settings']['yaml']['schemas'] = require('schemastore').yaml.schemas()
 	end,
 }
 
