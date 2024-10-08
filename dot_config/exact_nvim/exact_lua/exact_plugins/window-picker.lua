@@ -16,18 +16,7 @@ local M = {
 	keys = {
 		{ '<Leader>wp', pick_window, desc = 'Pick window' },
 	},
-	opts = {
-		hint = 'floating-big-letter',
-		filter_rules = {
-			bo = {
-				-- if the file type is one of following, the window will be ignored
-				filetype = Utils.excluded_filetypes,
-				-- if the buffer type is one of following, the window will be ignored
-				buftype = Utils.excluded_buftypes,
-			},
-		},
-		show_prompt = false,
-	},
+	opts = Utils.window_picker_opts,
 }
 
 return M

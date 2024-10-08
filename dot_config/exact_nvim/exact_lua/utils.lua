@@ -21,6 +21,19 @@ local M = {
 	},
 }
 
+M.window_picker_opts = {
+	hint = 'floating-big-letter',
+	filter_rules = {
+		bo = {
+			-- if the file type is one of following, the window will be ignored
+			filetype = M.excluded_filetypes,
+			-- if the buffer type is one of following, the window will be ignored
+			buftype = M.excluded_buftypes,
+		},
+	},
+	show_prompt = false,
+}
+
 ---@return boolean
 function M.table_contains(haystack, needle)
 	if type(haystack) ~= 'table' then
