@@ -18,6 +18,8 @@ local M = {
 			},
 		}
 
+		opts['servers']['lua_ls']['settings']['Lua']['format'] = opts['servers']['lua_ls']['settings']['Lua']['format']
+			or {}
 		opts['servers']['lua_ls']['settings']['Lua']['format']['defaultConfig'] = {
 			break_all_list_when_line_exceed = true,
 			end_of_line = 'LF',
