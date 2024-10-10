@@ -1,7 +1,6 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
-local has_LazyvimUtils, LazyvimUtils = pcall(require, 'lazyvim.util')
 local Utils = require('utils')
 
 local keybindings = {
@@ -48,11 +47,7 @@ local keybindings = {
 
 		['<C-/>'] = {
 			function()
-				if not has_LazyvimUtils then
-					return
-				end
-
-				LazyvimUtils.terminal({ vim.o.shell, '-l' }, { cwd = LazyvimUtils.root(), border = 'rounded' })
+				LazyVim.terminal({ vim.o.shell, '-l' }, { cwd = LazyVim.root(), border = 'rounded' })
 			end,
 			{ desc = 'Terminal (root dir)' },
 		},
