@@ -2,7 +2,7 @@
 
 local M = {}
 
----@param wait_ms integer|nil
+---@param wait_ms integer?
 function M.organize_imports(wait_ms)
 	local params = vim.lsp.util.make_range_params()
 	params.context = { only = { 'source.organizeImports' } }
