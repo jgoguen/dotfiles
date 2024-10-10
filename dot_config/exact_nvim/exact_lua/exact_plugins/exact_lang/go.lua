@@ -9,6 +9,10 @@ local M = {
 				table.insert(filters, d)
 			end
 			opts['servers']['gopls']['settings']['gopls']['directoryFilters'] = filters
+
+			opts['servers']['gopls']['settings']['gopls']['staticcheck'] = true
+
+			opts['servers']['gopls']['settings']['gopls']['vulncheck'] = 'Imports'
 		end,
 	},
 	{
