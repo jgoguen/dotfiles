@@ -67,16 +67,20 @@ local M = {
 					height = 0.80,
 					preview_cutoff = 120,
 				},
-				mappings = {
-					i = {
-						['<CR>'] = select_window('default'),
-						['<C-s>'] = select_window('vertical'),
-						['<C-i>'] = select_window('horizontal'),
-					},
-					n = {
-						['<CR>'] = select_window('default'),
-						s = select_window('vertical'),
-						i = select_window('horizontal'),
+				pickers = {
+					find_files = {
+						mappings = {
+							i = {
+								['<CR>'] = select_window('default'),
+								['<C-s>'] = select_window('vertical'),
+								['<C-i>'] = select_window('horizontal'),
+							},
+							n = {
+								['<CR>'] = select_window('default'),
+								s = select_window('vertical'),
+								i = select_window('horizontal'),
+							},
+						},
 					},
 				},
 			},
