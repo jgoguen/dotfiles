@@ -12,6 +12,12 @@ local M = {
 		opts = function(_, opts)
 			opts.formatters_by_ft["go"] = opts.formatters_by_ft["go"] or {}
 			table.insert(opts.formatters_by_ft.go, "golines")
+
+			opts.formatters.goimports = opts.formatters.goimports or {}
+			opts.formatters.goimports.prepend_args = {
+				"-local",
+				"go.jgoguen.ca/",
+			}
 		end,
 	},
 }
