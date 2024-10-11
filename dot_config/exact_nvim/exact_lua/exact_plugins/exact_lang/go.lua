@@ -16,19 +16,6 @@ local M = {
 		end,
 	},
 	{
-		'williamboman/mason.nvim',
-		opts = function(_, opts)
-			table.insert(opts.ensure_installed, 'golines')
-		end,
-	},
-	{
-		'stevearc/conform.nvim',
-		opts = function(_, opts)
-			opts.formatters_by_ft['go'] = opts.formatters_by_ft['go'] or {}
-			table.insert(opts.formatters_by_ft.go, 'golines')
-		end,
-	},
-	{
 		'maxandron/goplements.nvim',
 		ft = 'go',
 		opts = {},
