@@ -94,3 +94,6 @@ tmp
 /npm-debug.log
 yarn.lock
 package-lock.json
+
+# LSP configs that need to be in the root but are environment-specific
+/.pbls.toml
