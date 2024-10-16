@@ -2,6 +2,12 @@
 
 local M = {
 	{
+		"neovim/nvim-lspconfig",
+		opts = function(_, opts)
+			opts["servers"]["gopls"]["settings"]["gopls"]["local"] = "go.jgoguen.ca/"
+		end,
+	},
+	{
 		"williamboman/mason.nvim",
 		opts = function(_, opts)
 			table.insert(opts.ensure_installed, "golines")
@@ -14,10 +20,10 @@ local M = {
 			table.insert(opts.formatters_by_ft.go, "golines")
 
 			opts.formatters.goimports = opts.formatters.goimports or {}
-			opts.formatters.goimports.prepend_args = {
-				"-local",
-				"go.jgoguen.ca/",
-			}
+			-- opts.formatters.goimports.prepend_args = {
+			-- 	"-local",
+			-- 	"go.jgoguen.ca/",
+			-- }
 		end,
 	},
 }
