@@ -10,9 +10,7 @@ local M = {
 					'venv',
 					'.venv',
 				},
-				python = {
-					venv = './',
-					venvPath = './venv',
+				basedpyright = {
 					analysis = {
 						autoImportCompletions = true,
 						autoSearchPaths = true,
@@ -22,6 +20,20 @@ local M = {
 				},
 			},
 		}
+
+		local venv_paths = {
+			'./venv',
+			'./.venv',
+			'./env',
+		}
+		for _, candidate in ipairs(venv_paths) do
+			if vim.fn.isdirectory(candidate) == 1 then
+				opts['servers']['basedpyright']['settings']['python'] = opts['servers']['basedpyright']['settings']['python']
+					or {}
+				opts['servers']['basedpyright']['settings']['python']['pythonPath'] = candidate .. '/bin/python3'
+				break
+			end
+		end
 	end,
 }
 
