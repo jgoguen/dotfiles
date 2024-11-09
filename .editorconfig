@@ -10,14 +10,17 @@ max_line_length = 80
 tab_width = 2
 trim_trailing_whitespace = true
 
+[*.lua]
+max_line_length = 120
+
 [*.py]
 indent_size = 4
 indent_style = space
 max_line_length = 88
 
-[*.lua]
-max_line_length = 120
+[*.rb]
+indent_style = space
 
-[*.yaml]
+[*.{yml,yaml,json}]
 indent_style = space
 max_line_length = 120
