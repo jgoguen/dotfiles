@@ -22,24 +22,24 @@ end
 
 -- Check for Windows
 local font_set = {
+	{{ if eq .chezmoi.os "windows" -}}
+	"JetBrainsMono NFM",
+	{{ else -}}
 	"JetBrainsMono Nerd Font Mono",
+	{{- end }}
 	"FiraCode Nerd Font Mono",
 	"Noto Sans CJK JP",
 	"Symbols Nerd Font Mono",
 }
-local is_windows_11 = false
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-	local _, stdout, _ = wezterm.run_child_process({ "cmd.exe", "ver" })
-	local _, _, build, _ = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
-	is_windows_11 = tonumber(build) >= 22000
 
-	font_set[1] = "JetBrainsMono NFM"
-end
+{{ if eq .chezmoi.os "windows" -}}
+local _, stdout, _ = wezterm.run_child_process({ "cmd.exe", "ver" })
+local _, _, build, _ = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
+local is_windows_11 = tonumber(build) >= 22000
+{{- end }}
 
 -- In newer versions of wezterm, use the config builder for better errors
-if wezterm.config_builder then
-	config = wezterm.config_builder()
-end
+config = wezterm.config_builder()
 
 config.audible_bell = "Disabled"
 config.automatically_reload_config = true
@@ -49,6 +49,7 @@ config.color_scheme = scheme_for_appearance(get_appearance())
 config.default_cwd = wezterm.home_dir
 config.font = wezterm.font_with_fallback(font_set)
 config.font_size = 13
+config.front_end = "WebGpu"
 config.harfbuzz_features = { "ss02", "ss03", "ss05", "ss07", "cv22", "cv24", "cv25", "cv26", "cv32" }
 -- Explicitly set the defaults here since this might be appended to in site config and we don't want to override the
 -- default set of rules.
@@ -80,11 +81,18 @@ config.visual_bell = {
 	target = "CursorColor",
 }
 config.window_close_confirmation = "NeverPrompt"
-config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
 
+{{ if eq .chezmoi.os "darwin" -}}
+	config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
+{{ else -}}
+	config.window_decorations = "RESIZE|TITLE"
+{{- end }}
+
+{{ if eq .chezmoi.os "windows" -}}
 if is_windows_11 then
 	config.default_prog = { "pwsh.exe", "-NoLogo" }
 end
+{{- end }}
 
 if has_site then
 	config = site_config.update_config(config)
@@ -118,6 +126,18 @@ end)
 
 wezterm.on("do-resize-window", function(window)
 	reset_window_size(window)
+end)
+
+wezterm.on("update-right-status", function(_)
+	-- If adding anything to right status, keep it all above this point.
+	for _, bat in ipairs(wezterm.battery_info()) do
+		if bat.state == "Discharging" or bat.state == "Unknown" then
+			config.webgpu_power_preference = "LowPower"
+			return
+		end
+	end
+	-- If we get here, no batteries were found discharging or unknown
+	config.webgpu_power_preference = "HighPerformance"
 end)
 
 return config
