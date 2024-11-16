@@ -1,6 +1,4 @@
-monitor_interval = "120"
-monitor_log_frequency = "5"
 monitor_fullscan_frequency = "10"
-skip_file = "~*|.~*|*.tmp|*.db-*"
-force_http_2 = "false"
-
+monitor_log_frequency = "5"
+skip_file = "~*|.~*|*.tmp|*.db-*|*.swp|*.partial|.DS_Store"
+sync_root_files = "true"
