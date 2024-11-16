@@ -184,7 +184,7 @@ chmod 0600 "${HOME}/.config/age-chezmoi.txt"
 if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	log "Dotfiles not present, cloning" "INFO"
 
-	git clone git@github.com:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
+	git clone git@vcs.jgoguen.ca:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
 
 	log "Setting Github key for git signing" "DEBUG"
 	git -C "${HOME}/.local/share/chezmoi" config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
