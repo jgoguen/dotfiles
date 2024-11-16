@@ -56,6 +56,7 @@ local M = {
 					:with_pair(AutopairCond.not_inside_quote())
 					:with_pair(AutopairCond.not_filetypes({
 						'conf',
+						'dockerfile',
 						'html',
 						'ldif',
 						'sh',
