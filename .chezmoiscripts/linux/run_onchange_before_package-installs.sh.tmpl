@@ -1,4 +1,5 @@
 #!/bin/sh
+# vim: set filetype=sh:
 
 SUDO="$(command -v doas)"
 if [ -z "${SUDO}" ]; then
@@ -8,12 +9,12 @@ fi
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
 {{ range .packages.fedora.copr -}}
 ${SUDO} dnf copr enable -y {{ . | quote }}
-{{ end -}}
+{{- end }}
 
-if ! rpm -qi rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1 ; then
+if ! rpm -qi rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1; then
 	${SUDO} dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi
-if ! rpm -qi rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1 ; then
+if ! rpm -qi rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1; then
 	${SUDO} dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi
 ${SUDO} dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
@@ -21,9 +22,9 @@ ${SUDO} dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream
 ${SUDO} dnf remove -y {{ .packages.fedora.removal | join " " }}
 ${SUDO} dnf install -y {{ .packages.fedora.dnf | join " " }}
 
-if command -v flatpak >/dev/null 2>&1 ; then
-{{ range .packages.fedora.flatpak -}}
-flatpak install -y {{ .remote }} {{ .name }}
-{{ end -}}
+if command -v flatpak >/dev/null 2>&1; then
+	{{ range .packages.fedora.flatpak -}}
+	flatpak install -y {{ .remote }} {{ .name }}
+	{{- end }}
 fi
 {{ end -}}

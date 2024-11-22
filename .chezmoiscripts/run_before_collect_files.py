@@ -14,6 +14,10 @@ OP_BIN = shutil.which("op")
 
 
 def main() -> int:
+    if OP_BIN is None:
+        print("No op binary found!", file=sys.stderr)
+        return 1
+
     if not os.path.isfile(OP_BIN):
         print(f"{OP_BIN} does not exist, cannot gather files", file=sys.stderr)
         return 1
@@ -27,7 +31,7 @@ def main() -> int:
     )
 
     op_docs = json.loads(proc.stdout)
-    files = {}
+    files: dict[str, str] = {}
     logging.debug("Loaded 1Password documents")
 
     for op_doc in op_docs:
@@ -37,7 +41,7 @@ def main() -> int:
                 logging.debug("Found file to install at %s", files[op_doc["id"]])
                 break
 
-    excludes = []
+    excludes: list[str] = []
     chezmoi_proc = subprocess.run(
         ["chezmoi", "source-path"], capture_output=True, check=True
     )
@@ -61,7 +65,7 @@ def main() -> int:
 
         if os.path.isfile(source_path):
             os.unlink(source_path)
-        subprocess.run(
+        _ = subprocess.run(
             [OP_BIN, "document", "get", uuid, "--output", source_path],
             capture_output=True,
             check=True,
@@ -70,7 +74,7 @@ def main() -> int:
 
     with open(os.path.join(source_base, ".git", "info", "exclude"), "w") as f:
         logging.debug("Writing files to git excludes: %s", excludes)
-        f.write("\n".join(excludes))
+        _ = f.write("\n".join(excludes))
 
     return 0
 

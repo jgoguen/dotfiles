@@ -15,19 +15,12 @@ from urllib.request import urlopen
 
 
 if platform.system() == "Darwin":
-    CALIBRE_BASE = os.path.join("/Applications", "calibre.app", "Contents", "MacOS")
-    CALIBRE_CUSTOMIZE_BIN = os.path.join(CALIBRE_BASE, "calibre-customize")
-    CALIBRE_DEBUG_BIN = os.path.join(CALIBRE_BASE, "calibre-debug")
+    calibre_base = os.path.join("/Applications", "calibre.app", "Contents", "MacOS")
+    calibre_customize_bin = os.path.join(calibre_base, "calibre-customize")
+    calibre_debug_bin = os.path.join(calibre_base, "calibre-debug")
 else:
-    CALIBRE_CUSTOMIZE_BIN = shutil.which("calibre-customize")
-    CALIBRE_DEBUG_BIN = shutil.which("calibre-debug")
-if (
-    CALIBRE_CUSTOMIZE_BIN is None
-    or CALIBRE_DEBUG_BIN is None
-    or not os.path.isfile(CALIBRE_CUSTOMIZE_BIN)
-    or not os.path.isfile(CALIBRE_DEBUG_BIN)
-):
-    sys.exit(0)
+    calibre_customize_bin = shutil.which("calibre-customize")
+    calibre_debug_bin = shutil.which("calibre-debug")
 
 BASE_URL = "https://code.calibre-ebook.com/plugins/"
 PLUGIN_INDEX = f"{BASE_URL}/plugins.json.bz2"
@@ -57,8 +50,17 @@ PLUGIN_KEYS = {
 
 
 def main() -> int:
+    if (
+        calibre_customize_bin is None
+        or calibre_debug_bin is None
+        or not os.path.isfile(calibre_customize_bin)
+        or not os.path.isfile(calibre_debug_bin)
+    ):
+        print("Could not find calibre-customize or calibre-debug")
+        return 1
+
     resources_proc = subprocess.run(
-        [CALIBRE_DEBUG_BIN, "-c", "print(sys.resources_location)"],
+        [calibre_debug_bin, "-c", "print(sys.resources_location)"],
         capture_output=True,
         check=True,
         encoding="UTF-8",
@@ -67,7 +69,7 @@ def main() -> int:
 
     ctx = ssl.create_default_context(cafile=cafile)
 
-    plugins = {}
+    plugins: dict[str, dict[str, str]] = {}
     with urlopen(PLUGIN_INDEX, context=ctx) as resp:
         plugins = json.loads(bz2.decompress(resp.read()))
 
@@ -83,7 +85,7 @@ def main() -> int:
             with NamedTemporaryFile() as tmp_file:
                 shutil.copyfileobj(resp, tmp_file)
                 proc = subprocess.run(
-                    [CALIBRE_CUSTOMIZE_BIN, "-a", tmp_file.name],
+                    [calibre_customize_bin, "-a", tmp_file.name],
                     capture_output=True,
                     encoding="UTF-8",
                 )
