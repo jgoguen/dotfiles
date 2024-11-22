@@ -9,6 +9,7 @@ local M = {
 				exclude = {
 					'venv',
 					'.venv',
+					'env',
 				},
 				basedpyright = {
 					analysis = {
@@ -22,11 +23,12 @@ local M = {
 		}
 
 		local venv_paths = {
-			'./venv',
-			'./.venv',
-			'./env',
+			'venv',
+			'.venv',
+			'env',
 		}
-		for _, candidate in ipairs(venv_paths) do
+		for _, dir_base in ipairs(venv_paths) do
+			local candidate = vim.fn.getcwd() .. '/' .. dir_base
 			if vim.fn.isdirectory(candidate) == 1 then
 				opts['servers']['basedpyright']['settings']['python'] = opts['servers']['basedpyright']['settings']['python']
 					or {}
