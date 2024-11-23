@@ -29,7 +29,7 @@ refreshPeriod = "672h"
 ["{{ $basedir }}/Symbols"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}"
-exclude = ["readme.md", "LICENSE", "README.md", ".uuid"]
+exclude = ["readme.md", "LICENSE", "README.md", ".uuid", "10-nerd-font-symbols.conf"]
 exact = true
 refreshPeriod = "672h"
 
