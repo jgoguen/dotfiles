@@ -116,8 +116,6 @@ packages:
         remote: flathub
       - name: net.cozic.joplin_desktop
         remote: flathub
-      - name: org.gnome.Evolution
-        remote: fedora
     removal:
       - libswscale-free
   windows:
