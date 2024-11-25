@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-# vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 autoindent:
-# vim: set foldmarker=[[[,]]] foldmethod=marker foldlevel=0:
+# vim: set filetype=python:
 
 import json
 import logging
