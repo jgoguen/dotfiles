@@ -1,0 +1,43 @@
+#!/bin/sh
+# vim: set filetype=sh:
+
+set -eux
+cat $0
+
+# shellcheck source=../../helpers.sh
+. "${HOME}/.local/share/chezmoi/helpers.sh"
+
+SUDO="$(command -v doas)"
+if [ -z "${SUDO}" ]; then
+	SUDO="$(command -v sudo)"
+fi
+log "Elevating privileges using ${SUDO}" "DEBUG"
+
+{{ $sourceDir := .chezmoi.sourceDir }}
+{{ range (index .system_files .chezmoi.os) }}
+SYS_FILE="{{ .file }}"
+SRC_FILE="{{ $sourceDir }}/.system-files{{ .file }}"
+SRC_HASH="0"
+SYS_HASH="0"
+
+if [ ! -f "${SRC_FILE}" ]; then
+	printf 'Expected source file %s is not present\n' >&2
+	exit 1
+fi
+
+if [ -f "${SRC_FILE}" ]; then
+	SRC_HASH="$(sha256sum "${SRC_FILE}" | cut -d ' ' -f 1)"
+fi
+if [ -f "${SYS_FILE}" ]; then
+	SYS_HASH="$(sha256sum "${SYS_FILE}" | cut -d ' ' -f 1)"
+fi
+
+if [ "${SRC_HASH}" != "${SYS_HASH}" ]; then
+	log "Updating system file: ${SYS_FILE}" "INFO"
+	${SUDO} install -o {{ or .owner "root" }} -g {{ or .group "wheel" }} -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
+	{{ range (or .commands (list)) }}
+	{{ . }}
+	{{ end }}
+fi
+{{ end }}
+
