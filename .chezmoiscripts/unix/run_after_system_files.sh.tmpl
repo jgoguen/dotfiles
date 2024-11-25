@@ -1,8 +1,7 @@
 #!/bin/sh
 # vim: set filetype=sh:
 
-set -eux
-cat $0
+set -u
 
 # shellcheck source=../../helpers.sh
 . "${HOME}/.local/share/chezmoi/helpers.sh"
@@ -12,6 +11,8 @@ if [ -z "${SUDO}" ]; then
 	SUDO="$(command -v sudo)"
 fi
 log "Elevating privileges using ${SUDO}" "DEBUG"
+
+set -e
 
 {{ $sourceDir := .chezmoi.sourceDir }}
 {{ range (index .system_files .chezmoi.os) }}
