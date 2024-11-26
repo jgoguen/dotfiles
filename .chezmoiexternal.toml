@@ -101,6 +101,24 @@ filter.args = ["-d", "\r"]
 # {{- end }}
 refreshPeriod = "672h"
 
+["{{ $scadBasedir }}/libraries/knurl.scad"]
+type = "file"
+url = "https://www.thingiverse.com/download:93142"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "672h"
+
+["{{ $scadBasedir }}/libraries/knobs.scad"]
+type = "file"
+url = "https://www.thingiverse.com/download:140673"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "672h"
+
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
