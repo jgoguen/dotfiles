@@ -54,6 +54,11 @@ type = "file"
 url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
 refreshPeriod = "672h"
 
+["{{ $scadBasedir }}/libraries/ShortCuts.scad"]
+type = "file"
+url = "https://www.thingiverse.com/download:11412285"
+refreshPeriod = ""
+
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
