@@ -1,43 +1,57 @@
-{{ $basedir := ".local/share/fonts" }}
-{{ if eq .chezmoi.os "darwin" }}
-{{ $basedir = "Library/Fonts" }}
-{{ else if eq .chezmoi.os "windows" }}
-{{ $basedir = "AppData/Local/Microsoft/Windows/Fonts" }}
-{{ end }}
 # vim: set filetype=toml:
-["{{ $basedir }}/FiraCode"]
+{{ $fontBasedir := ".local/share/fonts" }}
+{{ if eq .chezmoi.os "darwin" }}
+{{ $fontBasedir = "Library/Fonts" }}
+{{ else if eq .chezmoi.os "windows" }}
+{{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
+{{ end }}
+{{ $scadBasedir := "Documents/OpenSCAD" }}
+{{ if eq .chezmoi.os "linux" }}
+{{ $scadBasedir = ".local/share/OpenSCAD" }}
+{{ end }}
+["{{ $fontBasedir }}/FiraCode"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}"
 exclude = ["README.md", "readme.md", "LICENSE", "*Propo-*", "*-Retina*", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $basedir }}/Hack"]
+["{{ $fontBasedir }}/Hack"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}"
 exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $basedir }}/JetBrainsMono"]
+["{{ $fontBasedir }}/JetBrainsMono"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}"
 exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $basedir }}/Symbols"]
+["{{ $fontBasedir }}/Symbols"]
 type = "archive"
 url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}"
 exclude = ["readme.md", "LICENSE", "README.md", ".uuid", "10-nerd-font-symbols.conf"]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $basedir }}/Fontin"]
+["{{ $fontBasedir }}/Fontin"]
 type = "archive"
 url = "http://www.exljbris.com/dl/fontin2_pc.zip"
 exclude = ["ReadMe.txt", ".uuid"]
 exact = true
+refreshPeriod = "672h"
+
+["{{ $scadBasedir }}/libraries/ub.scad"]
+type = "file"
+url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
+refreshPeriod = "672h"
+
+["{{ $scadBasedir }}/libraries/products.scad"]
+type = "file"
+url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
 refreshPeriod = "672h"
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
