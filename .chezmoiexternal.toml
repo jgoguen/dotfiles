@@ -1,39 +1,60 @@
 # vim: set filetype=toml:
-{{ $fontBasedir := ".local/share/fonts" }}
-{{ if eq .chezmoi.os "darwin" }}
-{{ $fontBasedir = "Library/Fonts" }}
-{{ else if eq .chezmoi.os "windows" }}
-{{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
-{{ end }}
-{{ $scadBasedir := "Documents/OpenSCAD" }}
-{{ if eq .chezmoi.os "linux" }}
-{{ $scadBasedir = ".local/share/OpenSCAD" }}
-{{ end }}
+# {{ $fontBasedir := ".local/share/fonts" }}
+# {{ if eq .chezmoi.os "darwin" }}
+# {{ $fontBasedir = "Library/Fonts" }}
+# {{ else if eq .chezmoi.os "windows" }}
+# {{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
+# {{ end }}
+# {{ $scadBasedir := "Documents/OpenSCAD" }}
+# {{ if eq .chezmoi.os "linux" }}
+# {{ $scadBasedir = ".local/share/OpenSCAD" }}
+# {{ end }}
 ["{{ $fontBasedir }}/FiraCode"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}'
 type = "archive"
-url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}"
-exclude = ["README.md", "readme.md", "LICENSE", "*Propo-*", "*-Retina*", ".uuid"]
+exclude = [
+	"README.md",
+	"readme.md",
+	"LICENSE",
+	"*Propo-*",
+	"*-Retina*",
+	".uuid",
+]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $fontBasedir }}/Hack"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}'
 type = "archive"
-url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}"
 exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $fontBasedir }}/JetBrainsMono"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}'
 type = "archive"
-url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}"
-exclude = ["readme.md", "LICENSE.md", "OFL.txt", "JetBrainsMonoNL*", "*Propo-*", "README.md", ".uuid"]
+exclude = [
+	"readme.md",
+	"LICENSE.md",
+	"OFL.txt",
+	"JetBrainsMonoNL*",
+	"*Propo-*",
+	"README.md",
+	".uuid",
+]
 exact = true
 refreshPeriod = "672h"
 
 ["{{ $fontBasedir }}/Symbols"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}'
 type = "archive"
-url = "{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}"
-exclude = ["readme.md", "LICENSE", "README.md", ".uuid", "10-nerd-font-symbols.conf"]
+exclude = [
+	"readme.md",
+	"LICENSE",
+	"README.md",
+	".uuid",
+	"10-nerd-font-symbols.conf",
+]
 exact = true
 refreshPeriod = "672h"
 
@@ -47,34 +68,85 @@ refreshPeriod = "672h"
 ["{{ $scadBasedir }}/libraries/ub.scad"]
 type = "file"
 url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "672h"
 
 ["{{ $scadBasedir }}/libraries/products.scad"]
 type = "file"
 url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "672h"
 
 ["{{ $scadBasedir }}/libraries/ShortCuts.scad"]
 type = "file"
 url = "https://www.thingiverse.com/download:11412285"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "672h"
 
 ["{{ $scadBasedir }}/libraries/relativity.scad"]
 type = "file"
 url = "https://github.com/davidson16807/relativity.scad/raw/refs/heads/master/relativity.scad"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "672h"
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "168h"
 
 [".config/lazygit/catppuccin-mocha-mauve.yaml"]
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/lazygit/main/themes-mergable/mocha/mauve.yml"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
 refreshPeriod = "672h"
 
-{{ if ne .chezmoi.os "windows" -}}
+[".config/joplin-desktop/userchrome.css"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userchrome.css"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "672h"
+
+[".config/joplin-desktop/userstyle.css"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userstyle.css"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "672h"
+
+[".config/kitty/current-theme.conf"]
+type = "file"
+url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/mocha.conf"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "672h"
+
+# {{- if ne .chezmoi.os "windows" }}
 [".config/tmux/plugins/tpm"]
 type = "archive"
 url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.zip"
@@ -85,6 +157,8 @@ refreshPeriod = "672h"
 [".config/bat/themes/Catppuccin-macchiato.tmTheme"]
 type = "file"
 url = "https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme"
+filter.command = "tr"
+filter.args = ["-d", "\r"]
 refreshPeriod = "672h"
 
 [".config/bat/themes/Catppuccin-mocha.tmTheme"]
@@ -141,19 +215,4 @@ refreshPeriod = "672h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
 refreshPeriod = "672h"
-{{- end }}
-
-[".config/joplin-desktop/userchrome.css"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userchrome.css"
-refreshPeriod = "672h"
-
-[".config/joplin-desktop/userstyle.css"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/joplin/main/src/mocha/userstyle.css"
-refreshPeriod = "672h"
-
-[".config/kitty/current-theme.conf"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/mocha.conf"
-refreshPeriod = "672h"
+# {{- end }}
