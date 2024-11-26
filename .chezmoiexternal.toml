@@ -57,7 +57,12 @@ refreshPeriod = "672h"
 ["{{ $scadBasedir }}/libraries/ShortCuts.scad"]
 type = "file"
 url = "https://www.thingiverse.com/download:11412285"
-refreshPeriod = ""
+refreshPeriod = "672h"
+
+["{{ $scadBasedir }}/libraries/relativity.scad"]
+type = "file"
+url = "https://github.com/davidson16807/relativity.scad/raw/refs/heads/master/relativity.scad"
+refreshPeriod = "672h"
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
