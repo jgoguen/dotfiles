@@ -119,6 +119,14 @@ filter.args = ["-d", "\r"]
 # {{- end }}
 refreshPeriod = "672h"
 
+["{{ $scadBasedir }}/libraries/BOSL2"]
+type = "archive"
+url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.zip"
+exact = true
+stripComponents = 1
+include = ["BOSL2-master/*.scad"]
+refreshPeriod = "168h"
+
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
 url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
