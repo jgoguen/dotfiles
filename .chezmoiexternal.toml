@@ -74,15 +74,6 @@ filter.args = ["-d", "\r"]
 # {{- end }}
 refreshPeriod = "672h"
 
-["{{ $scadBasedir }}/libraries/products.scad"]
-type = "file"
-url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
-# {{- if ne .chezmoi.os "windows" }}
-filter.command = "tr"
-filter.args = ["-d", "\r"]
-# {{- end }}
-refreshPeriod = "672h"
-
 ["{{ $scadBasedir }}/libraries/ShortCuts.scad"]
 type = "file"
 url = "https://www.thingiverse.com/download:11412285"
