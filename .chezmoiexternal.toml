@@ -65,6 +65,7 @@ exclude = ["ReadMe.txt", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
+# {{ if ne .environment "work" }}
 ["{{ $scadBasedir }}/libraries/ub.scad"]
 type = "file"
 url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
@@ -117,6 +118,7 @@ exact = true
 stripComponents = 1
 include = ["BOSL2-master/*.scad"]
 refreshPeriod = "168h"
+# {{ end }}
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
