@@ -4,7 +4,12 @@ local M = {
 	'rachartier/tiny-inline-diagnostic.nvim',
 	opts = {
 		options = {
+			break_line = {
+				enabled = true,
+			},
+			multilines = true,
 			multiple_diag_under_cursor = true,
+			show_source = true,
 		},
 	},
 }
