@@ -1,3 +1,4 @@
+-- vim: set filetype=lua:
 local wezterm = require("wezterm")
 local has_site, site_config = pcall(require, "wezterm_local")
 
@@ -22,21 +23,52 @@ end
 
 -- Check for Windows
 local font_set = {
-	{{ if eq .chezmoi.os "windows" -}}
-	"JetBrainsMono NFM",
-	{{ else -}}
-	"JetBrainsMono Nerd Font Mono",
-	{{- end }}
-	"FiraCode Nerd Font Mono",
+	-- {{- if eq .chezmoi.os "windows" }}
+	{
+		family = "JetBrainsMono NFM",
+		harfbuzz_features = {
+			"zero=1",
+			"ss02",
+			"ss19",
+			"ss20",
+		},
+	},
+	-- {{- else }}
+	{
+		family = "JetBrainsMono Nerd Font Mono",
+		harfbuzz_features = {
+			"zero=1",
+			"ss02",
+			"ss19",
+			"ss20",
+			"cv99",
+		},
+	},
+	-- {{- end }}
+	{
+		family = "FiraCode Nerd Font Mono",
+		harfbuzz_features = {
+			"ss02",
+			"ss03",
+			"ss05",
+			"ss07",
+			"cv22",
+			"cv24",
+			"cv25",
+			"cv26",
+			"cv32",
+			"cv99",
+		},
+	},
 	"Noto Sans CJK JP",
 	"Symbols Nerd Font Mono",
 }
 
-{{ if eq .chezmoi.os "windows" -}}
+-- {{- if eq .chezmoi.os "windows" }}
 local _, stdout, _ = wezterm.run_child_process({ "cmd.exe", "ver" })
 local _, _, build, _ = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
 local is_windows_11 = tonumber(build) >= 22000
-{{- end }}
+-- {{- end }}
 
 -- In newer versions of wezterm, use the config builder for better errors
 config = wezterm.config_builder()
@@ -47,23 +79,69 @@ config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
 config.color_scheme = scheme_for_appearance(get_appearance())
 config.default_cwd = wezterm.home_dir
+-- {{- if eq .chezmoi.os "linux" }}
+config.enable_wayland = os.getenv("WAYLAND_DISPLAY") ~= nil
+-- {{- end }}
 config.font = wezterm.font_with_fallback(font_set)
 config.font_size = 13
 config.front_end = "WebGpu"
-config.harfbuzz_features = { "ss02", "ss03", "ss05", "ss07", "cv22", "cv24", "cv25", "cv26", "cv32" }
--- Explicitly set the defaults here since this might be appended to in site config and we don't want to override the
--- default set of rules.
+
+-- Explicitly set the defaults here since this might be appended to in site
+-- config and we don't want to override the default set of rules.
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
+-- {{- if eq .chezmoi.os "darwin" }}
+config.integrated_title_button_alignment = "Left"
+-- {{- end }}
 config.keys = {
-	{ key = "PageUp", mods = "CTRL", action = wezterm.action({ ActivateTabRelative = -1 }) },
-	{ key = "LeftArrow", mods = "CMD", action = wezterm.action({ ActivateTabRelative = -1 }) },
-	{ key = "PageDown", mods = "CTRL", action = wezterm.action({ ActivateTabRelative = 1 }) },
-	{ key = "RightArrow", mods = "CMD", action = wezterm.action({ ActivateTabRelative = 1 }) },
-	{ key = "t", mods = "CMD", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
-	{ key = "t", mods = "SHIFT|CTRL", action = wezterm.action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }) },
-	{ key = "w", mods = "CMD", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-	{ key = "w", mods = "SHIFT|CTRL", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-	{ key = "r", mods = "SHIFT|CTRL", action = wezterm.action.EmitEvent("do-resize-window") },
+	{
+		key = "PageUp",
+		mods = "CTRL",
+		action = wezterm.action({ ActivateTabRelative = -1 }),
+	},
+	{
+		key = "LeftArrow",
+		mods = "CMD",
+		action = wezterm.action({ ActivateTabRelative = -1 }),
+	},
+	{
+		key = "PageDown",
+		mods = "CTRL",
+		action = wezterm.action({ ActivateTabRelative = 1 }),
+	},
+	{
+		key = "RightArrow",
+		mods = "CMD",
+		action = wezterm.action({ ActivateTabRelative = 1 }),
+	},
+	{
+		key = "t",
+		mods = "CMD",
+		action = wezterm.action({
+			SpawnCommandInNewTab = { cwd = wezterm.home_dir },
+		}),
+	},
+	{
+		key = "t",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action({
+			SpawnCommandInNewTab = { cwd = wezterm.home_dir },
+		}),
+	},
+	{
+		key = "w",
+		mods = "CMD",
+		action = wezterm.action.CloseCurrentTab({ confirm = false }),
+	},
+	{
+		key = "w",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.CloseCurrentTab({ confirm = false }),
+	},
+	{
+		key = "r",
+		mods = "SHIFT|CTRL",
+		action = wezterm.action.EmitEvent("do-resize-window"),
+	},
 }
 config.mouse_bindings = {
 	{
@@ -72,27 +150,37 @@ config.mouse_bindings = {
 		mods = "NONE",
 	},
 }
+-- {{- if eq .chezmoi.os "darwin" }}
+config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
-config.quote_dropped_files = is_windows_11 and "Windows" or "Posix"
+-- {{- end }}
+-- {{- if eq .chezmoi.os "windows" }}
+if is_windows_11 then
+	config.quote_dropped_files = "Windows"
+end
+-- {{- else }}
+config.quote_dropped_files = "Posix"
+-- {{- end }}
 config.selection_word_boundary = " \t\n{}[]()\"'`:"
 config.visual_bell = {
 	fade_in_duration_ms = 75,
 	fade_out_duration_ms = 75,
 	target = "CursorColor",
 }
+config.window_background_opacity = 0.7
 config.window_close_confirmation = "NeverPrompt"
 
-{{ if eq .chezmoi.os "darwin" -}}
-	config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
-{{ else -}}
-	config.window_decorations = "RESIZE|TITLE"
-{{- end }}
+-- {{- if eq .chezmoi.os "darwin" }}
+config.window_decorations = "RESIZE|TITLE"
+-- {{- else }}
+config.window_decorations = "RESIZE|TITLE|INTEGRATED_BUTTONS"
+-- {{- end }}
 
-{{ if eq .chezmoi.os "windows" -}}
+-- {{ if eq .chezmoi.os "windows" -}}
 if is_windows_11 then
 	config.default_prog = { "pwsh.exe", "-NoLogo" }
 end
-{{- end }}
+-- {{- end }}
 
 if has_site then
 	config = site_config.update_config(config)
