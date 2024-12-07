@@ -64,12 +64,6 @@ local font_set = {
 	"Symbols Nerd Font Mono",
 }
 
--- {{- if eq .chezmoi.os "windows" }}
-local _, stdout, _ = wezterm.run_child_process({ "cmd.exe", "ver" })
-local _, _, build, _ = stdout:match("Version ([0-9]+)%.([0-9]+)%.([0-9]+)%.([0-9]+)")
-local is_windows_11 = tonumber(build) >= 22000
--- {{- end }}
-
 -- In newer versions of wezterm, use the config builder for better errors
 config = wezterm.config_builder()
 
@@ -79,6 +73,9 @@ config.bold_brightens_ansi_colors = true
 config.clean_exit_codes = { 130 }
 config.color_scheme = scheme_for_appearance(get_appearance())
 config.default_cwd = wezterm.home_dir
+-- {{ if eq .chezmoi.os "windows" -}}
+config.default_prog = { "pwsh.exe", "-NoLogo" }
+-- {{- end }}
 -- {{- if eq .chezmoi.os "linux" }}
 config.enable_wayland = os.getenv("WAYLAND_DISPLAY") ~= nil
 -- {{- end }}
@@ -155,9 +152,7 @@ config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
 -- {{- end }}
 -- {{- if eq .chezmoi.os "windows" }}
-if is_windows_11 then
-	config.quote_dropped_files = "Windows"
-end
+config.quote_dropped_files = "Windows"
 -- {{- else }}
 config.quote_dropped_files = "Posix"
 -- {{- end }}
@@ -174,12 +169,6 @@ config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE|TITLE"
 -- {{- else }}
 config.window_decorations = "RESIZE|TITLE|INTEGRATED_BUTTONS"
--- {{- end }}
-
--- {{ if eq .chezmoi.os "windows" -}}
-if is_windows_11 then
-	config.default_prog = { "pwsh.exe", "-NoLogo" }
-end
 -- {{- end }}
 
 if has_site then
