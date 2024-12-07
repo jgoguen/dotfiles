@@ -1,0 +1,17 @@
+
+# 50-character title. # 50 characters is here    #
+
+
+
+# Commit types for the title:
+# feat: A new user-facing feature
+# fix: A user-facing bug fix
+# docs: Documentation changes
+# style: Code/doc styling/formatting, net-zero change
+# refactor: code refactoring, net-zero change
+# test: Any changes to tests, no user-facing changes
+# revert: Reverting a previous commit
+# chore: Other grunt tasks with no user-facing changes
+#
+# To denote a breaking change, add '!' after the type/scope
+# fix(api)!: Change the whole API because I can
