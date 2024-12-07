@@ -21,7 +21,6 @@ local function scheme_for_appearance(appearance)
 	end
 end
 
--- Check for Windows
 local font_set = {
 	-- {{- if eq .chezmoi.os "windows" }}
 	{
@@ -88,6 +87,11 @@ config.front_end = "WebGpu"
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 -- {{- if eq .chezmoi.os "darwin" }}
 config.integrated_title_button_alignment = "Left"
+-- {{- end }}
+-- {{- if eq .chezmoi.os "linux" }}
+if os.getenv("XDG_SESSION_DESKTOP") == "gnome" then
+	config.integrated_title_button_style = "Gnome"
+end
 -- {{- end }}
 config.keys = {
 	{
@@ -175,6 +179,12 @@ if has_site then
 	config = site_config.update_config(config)
 end
 
+if config.front_end == "Software" then
+	config.animation_fps = 1
+	config.cursor_blink_ease_in = "Constant"
+	config.cursor_blink_ease_out = "Constant"
+end
+
 wezterm.on("format-tab-title", function(tab)
 	local pane_title = tab.active_pane.title
 	local user_title = tab.active_pane.user_vars.panetitle
@@ -209,11 +219,13 @@ wezterm.on("update-right-status", function(_)
 	-- If adding anything to right status, keep it all above this point.
 	for _, bat in ipairs(wezterm.battery_info()) do
 		if bat.state == "Discharging" or bat.state == "Unknown" then
+			config.cursor_blink_rate = 0
 			config.webgpu_power_preference = "LowPower"
 			return
 		end
 	end
 	-- If we get here, no batteries were found discharging or unknown
+	config.cursor_blink_rate = 800
 	config.webgpu_power_preference = "HighPerformance"
 end)
 
