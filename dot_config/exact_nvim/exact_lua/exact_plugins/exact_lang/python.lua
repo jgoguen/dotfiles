@@ -22,6 +22,14 @@ local M = {
 			},
 		}
 
+		opts['servers']['ruff'] = {
+			enabled = false,
+		}
+
+		opts['servers']['ruff_lsp'] = {
+			enabled = false,
+		}
+
 		local venv_paths = {
 			'venv',
 			'.venv',
