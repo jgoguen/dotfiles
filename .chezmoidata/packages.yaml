@@ -81,6 +81,7 @@ packages:
       - bat
       - bottom
       - compat-lua-devel
+      - composer
       - difftastic
       - fd-find
       - ffmpeg
@@ -105,6 +106,7 @@ packages:
       - python3-neovim
       - python3-pip
       - ripgrep
+      - rubygems
       - sd
       - starship
       - yq
