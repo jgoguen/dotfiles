@@ -11,12 +11,23 @@ local function pick_window()
 end
 
 local M = {
-	's1n7ax/nvim-window-picker',
-	version = '2.*',
-	keys = {
-		{ '<Leader>wp', pick_window, desc = 'Pick window' },
+	{
+		's1n7ax/nvim-window-picker',
+		version = '2.*',
+		keys = {
+			{ '<Leader>wp', pick_window, desc = 'Pick window' },
+		},
+		opts = Utils.window_picker_opts,
 	},
-	opts = Utils.window_picker_opts,
+	{
+		'catppuccin/nvim',
+		name = 'catppuccin',
+		opts = {
+			integrations = {
+				window_picker = true,
+			},
+		},
+	},
 }
 
 return M
