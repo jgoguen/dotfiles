@@ -28,19 +28,14 @@ local M = {
 			lazygit = {
 				enabled = true,
 			},
-			notifier = {
-				enabled = true,
-			},
 			rename = {
 				enabled = true,
 			},
-			statuscolumn = {
-				enabled = true,
-			},
-			terminal = {
-				enabled = true,
-			},
-			words = {
+			scroll = {
+				duration = {
+					step = 15,
+					total = 150,
+				},
 				enabled = true,
 			},
 		},

@@ -6,6 +6,7 @@ local M = {
 		'windwp/nvim-autopairs',
 		opts = {
 			check_ts = true,
+			enable_check_bracket_line = false,
 			ts_config = {
 				java = false,
 			},
@@ -23,11 +24,17 @@ local M = {
 		},
 		config = function(_, opts)
 			local Autopairs = require('nvim-autopairs')
-			local AutopairCmp = require('nvim-autopairs.completion.cmp')
+			local HasAutopairCmp, AutopairCmp = pcall(require, 'nvim-autopairs.completion.cmp')
 			local AutopairRule = require('nvim-autopairs.rule')
 			local AutopairCond = require('nvim-autopairs.conds')
 			local AutopairHandlers = require('nvim-autopairs.completion.handlers')
 			local TSUtils = require('utils.treesitter')
+			local HasCmp, Cmp = pcall(require, 'cmp')
+
+			if not (HasCmp and HasAutopairCmp) then
+				opts['map_cr'] = true
+			end
+
 			Autopairs.setup(opts)
 
 			for _, p in ipairs({ ',', ';' }) do
@@ -110,8 +117,7 @@ local M = {
 					end),
 			})
 
-			local HasCmp, Cmp = pcall(require, 'cmp')
-			if HasCmp then
+			if HasCmp and HasAutopairCmp then
 				Cmp.event:on(
 					'confirm_done',
 					AutopairCmp.on_confirm_done({
