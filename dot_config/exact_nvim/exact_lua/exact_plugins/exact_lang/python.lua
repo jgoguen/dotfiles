@@ -22,12 +22,10 @@ local M = {
 			},
 		}
 
-		opts['servers']['ruff'] = {
-			enabled = false,
-		}
-
-		opts['servers']['ruff_lsp'] = {
-			enabled = false,
+		opts['servers']['ruff'] = opts['servers']['ruff'] or {}
+		opts['servers']['ruff']['init_options'] = opts['servers']['ruff']['init_options'] or {}
+		opts['servers']['ruff']['init_options']['lint'] = {
+			exclude = { '*' },
 		}
 
 		local venv_paths = {
