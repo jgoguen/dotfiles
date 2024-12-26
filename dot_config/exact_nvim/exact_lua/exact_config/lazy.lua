@@ -29,6 +29,7 @@ local lazy_specs = {
 	{ import = 'lazyvim.plugins.extras.editor.mini-files' },
 	{ import = 'lazyvim.plugins.extras.editor.telescope' },
 	{ import = 'lazyvim.plugins.extras.formatting.prettier' },
+	{ import = 'lazyvim.plugins.extras.lang.clangd' },
 	{ import = 'lazyvim.plugins.extras.lang.docker' },
 	{ import = 'lazyvim.plugins.extras.lang.git' },
 	{ import = 'lazyvim.plugins.extras.lang.go' },
@@ -38,7 +39,9 @@ local lazy_specs = {
 	{ import = 'lazyvim.plugins.extras.lang.omnisharp' },
 	{ import = 'lazyvim.plugins.extras.lang.python' },
 	{ import = 'lazyvim.plugins.extras.lang.rust' },
+	{ import = 'lazyvim.plugins.extras.lang.toml' },
 	{ import = 'lazyvim.plugins.extras.lang.yaml' },
+	{ import = 'lazyvim.plugins.extras.test.core' },
 	{ import = 'lazyvim.plugins.extras.ui.treesitter-context' },
 	-- import/override with your plugins
 	{ import = 'plugins' },
