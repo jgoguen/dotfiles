@@ -5,40 +5,50 @@ local M = {
 		'folke/snacks.nvim',
 		priority = 1000,
 		lazy = false,
-		opts = {
-			bigfile = {
-				enabled = true,
-				size = 5 * 1024 * 1024, -- 5MiB
-			},
-			bufdelete = {
-				enabled = true,
-			},
-			git = {
-				enabled = true,
-			},
-			gitbrowse = {
-				enabled = true,
-				url_patterns = {
-					['vcs.jgoguen.ca'] = {
-						branch = '/src/branch/{branch}',
-						file = '/src/branch/{branch}/{file}#L{line}',
+		opts = function(_, opts)
+			local new_opts = {
+				bigfile = {
+					enabled = true,
+					size = 5 * 1024 * 1024, -- 5MiB
+				},
+				bufdelete = {
+					enabled = true,
+				},
+				git = {
+					enabled = true,
+				},
+				gitbrowse = {
+					enabled = true,
+					url_patterns = {
+						['vcs.jgoguen.ca'] = {
+							branch = '/src/branch/{branch}',
+							file = '/src/branch/{branch}/{file}#L{line}',
+						},
 					},
 				},
-			},
-			lazygit = {
-				enabled = true,
-			},
-			rename = {
-				enabled = true,
-			},
-			scroll = {
-				duration = {
-					step = 15,
-					total = 150,
+				lazygit = {
+					enabled = true,
 				},
-				enabled = true,
-			},
-		},
+				rename = {
+					enabled = true,
+				},
+				scroll = {
+					duration = {
+						step = 15,
+						total = 150,
+					},
+					enabled = true,
+				},
+			}
+
+			vim.tbl_deep_extend('force', opts, new_opts)
+
+			table.insert(
+				opts.dashboard.preset.keys,
+				7,
+				{ icon = 'S', key = 'S', desc = 'Select Session', action = require('persistence').select }
+			)
+		end,
 	},
 	{
 		'nvim-neo-tree/neo-tree.nvim',
