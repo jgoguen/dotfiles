@@ -65,6 +65,11 @@ exclude = ["ReadMe.txt", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
+["{{ $fontBasedir }}/codicon.ttf"]
+type = "file"
+url = "https://github.com/microsoft/vscode-codicons/releases/download/0.0.36/codicon.ttf"
+refreshPeriod = "672h"
+
 # {{ if ne .environment "work" }}
 ["{{ $scadBasedir }}/libraries/ub.scad"]
 type = "file"
