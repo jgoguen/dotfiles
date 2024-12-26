@@ -3,8 +3,6 @@
 -- Add any additional options here
 
 local Utils = require('utils')
-local py3_venv = vim.fn.stdpath('data') .. '/venv/bin/python3'
-local py3_path = vim.fn.resolve(vim.fn.exepath('python3'))
 
 local settings = {
 	opt = {
@@ -102,6 +100,8 @@ local settings = {
 		-- Disable mouse support
 		mouse = '',
 
+		sessionoptions = vim.opt.sessionoptions + { 'localoptions', 'options' },
+
 		-- Do not write a shada/viminfo file
 		shadafile = 'NONE',
 
@@ -167,7 +167,7 @@ local settings = {
 		-- Python3 or bust
 		python_highlight_all = true,
 		python_highlight_file_headers_as_comments = true,
-		python3_host_prog = vim.fn.filereadable(py3_venv) == 1 and py3_venv or py3_path,
+		python3_host_prog = Utils.python_executable(),
 		python_version = 'python3',
 
 		['rainbow-delimiters'] = {

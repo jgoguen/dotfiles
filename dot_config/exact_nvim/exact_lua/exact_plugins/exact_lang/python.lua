@@ -28,20 +28,8 @@ local M = {
 			exclude = { '*' },
 		}
 
-		local venv_paths = {
-			'venv',
-			'.venv',
-			'env',
-		}
-		for _, dir_base in ipairs(venv_paths) do
-			local candidate = vim.fn.getcwd() .. '/' .. dir_base
-			if vim.fn.isdirectory(candidate) == 1 then
-				opts['servers']['basedpyright']['settings']['python'] = opts['servers']['basedpyright']['settings']['python']
-					or {}
-				opts['servers']['basedpyright']['settings']['python']['pythonPath'] = candidate .. '/bin/python3'
-				break
-			end
-		end
+		opts['servers']['basedpyright']['settings']['python'] = opts['servers']['basedpyright']['settings']['python'] or {}
+		opts['servers']['basedpyright']['settings']['python']['pythonPath'] = vim.g.python3_host_prog
 	end,
 }
 

@@ -93,4 +93,29 @@ function M.comment_string()
 	return elems[1]
 end
 
+---@return string
+function M.python_executable()
+	local venv_paths = {
+		'.venv',
+		'venv',
+		'env',
+	}
+	local base_dirs = {
+		vim.fn.getcwd(),
+		vim.fn.stdpath('data'),
+	}
+
+	for _, base in ipairs(base_dirs) do
+		for _, venv in ipairs(venv_paths) do
+			local candidate_venv_dir = base .. '/' .. venv
+			local candidate_python = candidate_venv_dir .. '/bin/python3'
+			if vim.fn.filereadable(candidate_python) == 1 then
+				return vim.fn.resolve(candidate_python)
+			end
+		end
+	end
+
+	return vim.fn.resolve(vim.fn.exepath('python3'))
+end
+
 return M
