@@ -19,6 +19,17 @@ local M = {
 		'quickfix',
 		'terminal',
 	},
+	venv_paths = {
+		'.venv',
+		'venv',
+		'env',
+	},
+	base_dirs = {
+		LazyVim.root.get(),
+		vim.fn.getcwd(),
+		vim.fn.stdpath('data'),
+	},
+	resolved_venv_dir = '',
 }
 
 M.window_picker_opts = {
@@ -94,25 +105,41 @@ function M.comment_string()
 end
 
 ---@return string
-function M.python_executable()
-	local venv_paths = {
-		'.venv',
-		'venv',
-		'env',
-	}
-	local base_dirs = {
-		vim.fn.getcwd(),
-		vim.fn.stdpath('data'),
-	}
+function M.python_venv()
+	if M.resolved_venv_dir ~= '' then
+		return M.resolved_venv_dir
+	end
 
-	for _, base in ipairs(base_dirs) do
-		for _, venv in ipairs(venv_paths) do
+	for _, base in ipairs(M.base_dirs) do
+		for _, venv in ipairs(M.venv_paths) do
 			local candidate_venv_dir = base .. '/' .. venv
-			local candidate_python = candidate_venv_dir .. '/bin/python3'
-			if vim.fn.filereadable(candidate_python) == 1 then
-				return vim.fn.resolve(candidate_python)
+			if vim.fn.isdirectory(candidate_venv_dir) then
+				M.resolved_venv_dir = candidate_venv_dir
+				return M.resolved_venv_dir
 			end
 		end
+	end
+
+	return ''
+end
+
+---@param binary string
+---@return string
+function M.python_venv_binary(binary)
+	local candidate_venv_dir = M.python_venv()
+	local candidate_path = candidate_venv_dir .. '/bin/' .. binary
+	if vim.fn.filereadable(candidate_path) == 1 then
+		return candidate_path
+	end
+
+	return ''
+end
+
+---@return string
+function M.python_executable()
+	local python3 = M.python_venv_binary('python3')
+	if python3 ~= '' then
+		return python3
 	end
 
 	return vim.fn.resolve(vim.fn.exepath('python3'))
