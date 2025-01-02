@@ -8,6 +8,12 @@ local M = {
 		if has_catppuccin then
 			opts.highlights = catppuccin.get()
 		end
+
+		opts['options'] = vim.tbl_deep_extend('force', opts['options'], {
+			always_show_bufferline = true,
+			show_buffer_close_icons = false,
+			show_close_icon = false,
+		})
 	end,
 }
 
