@@ -113,7 +113,7 @@ function M.python_venv()
 	for _, base in ipairs(M.base_dirs) do
 		for _, venv in ipairs(M.venv_paths) do
 			local candidate_venv_dir = base .. '/' .. venv
-			if vim.fn.isdirectory(candidate_venv_dir) then
+			if vim.fn.isdirectory(candidate_venv_dir) == 1 then
 				M.resolved_venv_dir = candidate_venv_dir
 				return M.resolved_venv_dir
 			end
