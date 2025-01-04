@@ -50,7 +50,6 @@ if command -v brew >/dev/null 2>&1; then
 	BREW_PREFIX="$(brew --prefix)"
 	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
 		. "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-		bindkey '^l' autosuggest-accept
 	fi
 
 	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
@@ -74,3 +73,7 @@ for PREFIX in /usr/local /usr; do
 	fi
 done
 {{- end }}
+
+if zle -l autosuggest-accept ; then
+	bindkey '^L' autosuggest-accept
+fi
