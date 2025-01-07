@@ -43,7 +43,7 @@ local settings = {
 			msgsep = '‾',
 		},
 
-		foldexpr = 'nvim_treesitter#foldexpr()',
+		foldexpr = 'v:lua.vim.treesitter.foldexpr()',
 
 		foldmethod = 'expr',
 
