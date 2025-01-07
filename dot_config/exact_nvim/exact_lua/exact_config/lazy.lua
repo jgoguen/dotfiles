@@ -33,7 +33,6 @@ local lazy_specs = {
 	{ import = 'lazyvim.plugins.extras.lang.docker' },
 	{ import = 'lazyvim.plugins.extras.lang.git' },
 	{ import = 'lazyvim.plugins.extras.lang.go' },
-	{ import = 'lazyvim.plugins.extras.lang.java' },
 	{ import = 'lazyvim.plugins.extras.lang.json' },
 	{ import = 'lazyvim.plugins.extras.lang.markdown' },
 	{ import = 'lazyvim.plugins.extras.lang.omnisharp' },
@@ -107,3 +106,20 @@ if vim.fn.isdirectory(SnippetsDir) then
 		LuasnipLoader.load({ paths = SnippetsDir })
 	end
 end
+
+vim.filetype.add({
+	extension = {
+		gotmpl = 'gotmpl',
+		sh = 'sh',
+		zsh = 'sh',
+	},
+	filename = {
+		['.infra/deploy.yml'] = 'helm',
+	},
+	pattern = {
+		['(.*/)?chezmoi/.+%.tmpl'] = 'gotmpl',
+		['(.*/)?%.infra/helm/.+%.yml'] = 'helm',
+		['${HOME}/%.z.+'] = 'sh',
+		['${XDG_DATA_HOME}/zsh/.*'] = 'sh',
+	},
+})
