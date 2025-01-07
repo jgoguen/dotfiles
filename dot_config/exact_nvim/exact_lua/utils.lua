@@ -85,26 +85,6 @@ function M.has_tool(tool)
 end
 
 ---@return string
-function M.comment_string()
-	local commentstr = ''
-	local HasTSComment, TSComment = pcall(require, 'ts_context_commentstring.internal')
-	if HasTSComment then
-		commentstr = TSComment.calculate_commentstring() or ''
-	end
-
-	if commentstr == '' then
-		commentstr = vim.opt_local.commentstring:get()
-	end
-
-	local elems = vim.split(commentstr, '%s', {})
-	if #elems == 0 or elems[1] == '' then
-		return ''
-	end
-
-	return elems[1]
-end
-
----@return string
 function M.python_venv()
 	if M.resolved_venv_dir ~= '' then
 		return M.resolved_venv_dir
