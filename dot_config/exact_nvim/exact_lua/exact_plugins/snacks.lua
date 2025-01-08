@@ -41,13 +41,13 @@ local M = {
 				},
 			}
 
-			vim.tbl_deep_extend('force', opts, new_opts)
-
 			table.insert(
 				opts.dashboard.preset.keys,
 				7,
 				{ icon = 'S', key = 'S', desc = 'Select Session', action = require('persistence').select }
 			)
+
+			return vim.tbl_deep_extend('force', opts, new_opts)
 		end,
 	},
 	{

@@ -3,17 +3,20 @@
 local M = {
 	'akinsho/bufferline.nvim',
 	opts = function(_, opts)
-		local has_catppuccin, catppuccin = pcall(require, 'catppuccin.groups.integrations.bufferline')
+		local new_opts = {
+			options = {
+				always_show_bufferline = true,
+				show_buffer_close_icons = false,
+				show_close_icon = false,
+			},
+		}
+		local HasCatppuccin, Catppuccin = pcall(require, 'catppuccin.groups.integrations.bufferline')
 
-		if has_catppuccin then
-			opts.highlights = catppuccin.get()
+		if HasCatppuccin then
+			new_opts.highlights = Catppuccin.get()
 		end
 
-		opts['options'] = vim.tbl_deep_extend('force', opts['options'], {
-			always_show_bufferline = true,
-			show_buffer_close_icons = false,
-			show_close_icon = false,
-		})
+		return vim.tbl_deep_extend('force', opts, new_opts)
 	end,
 }
 

@@ -4,11 +4,13 @@ local M = {
 	'folke/ts-comments.nvim',
 	opts = function(_, opts)
 		local new_opts = {
-			openscad = '// %s',
-			snippets = '# %s',
+			lang = {
+				openscad = '// %s',
+				snippets = '# %s',
+			},
 		}
 
-		opts.lang = vim.tbl_deep_extend('force', opts.lang, new_opts)
+		return vim.tbl_deep_extend('force', opts, new_opts)
 	end,
 }
 

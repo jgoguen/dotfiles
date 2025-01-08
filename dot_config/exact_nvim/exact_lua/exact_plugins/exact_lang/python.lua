@@ -27,7 +27,7 @@ local M = {
 			},
 		}
 
-		opts = vim.tbl_deep_extend('force', opts, new_opts)
+		return vim.tbl_deep_extend('force', opts, new_opts)
 	end,
 }
 
