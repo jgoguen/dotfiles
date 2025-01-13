@@ -163,6 +163,7 @@ local settings = {
 		lazyvim_picker = 'telescope',
 		lazyvim_python_lsp = 'basedpyright',
 		lazyvim_python_ruff = 'ruff',
+		lazyvim_ruby_lsp = 'solargraph',
 
 		-- Python3 or bust
 		python_highlight_all = true,
