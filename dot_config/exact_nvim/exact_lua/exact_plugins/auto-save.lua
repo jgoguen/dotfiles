@@ -3,15 +3,16 @@
 local M = {
 	'okuuva/auto-save.nvim',
 	event = { 'BufLeave', 'FocusLost', 'InsertLeave', 'TextChanged' },
-	cond = function()
-		local disable_for = {
-			norg = 1,
-		}
-
-		return disable_for[vim.bo.filetype] == nil
-	end,
 	opts = {
 		noautocmd = true,
+		condition = function(buf)
+			local disable_for = {
+				'norg',
+			}
+			local filetype = vim.fn.getbufvar(buf, '&filetype')
+
+			return not vim.list_contains(disable_for, filetype)
+		end,
 	},
 }
 
