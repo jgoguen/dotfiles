@@ -1,10 +1,10 @@
-{{- /* chezmoi:modify-template */ -}}
+{{- /* chezmoi:modify-template */ -}},
 {{- .chezmoi.stdin | default "{}" | fromJson
 	| setValueAtPath "dateFormat" "YYYY-MM-DD"
 	| setValueAtPath "locale" "en_US"
 	| setValueAtPath "newNoteFocus" "title"
 	| setValueAtPath "noteVisiblePanes" (list "editor" "viewer")
-	| setValueAtPath "timeFormat" "h:mm A"
+	| setValueAtPath "timeFormat" "HH:mm"
 	| setValueAtPath (list "clipperServer.autoStart") true
 	| setValueAtPath (list "export.pdfPageSize") "Letter"
 	| setValueAtPath (list "markdown.plugin.abbr") true
@@ -25,4 +25,4 @@
 	| setValueAtPath (list "sync.target") 9
 	| setValueAtPath (list "sync.9.path") (index (onepassword "qndq73ff2vacdb46qfwboth3hi" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").urls 0).href
 	| setValueAtPath (list "sync.9.username") (onepasswordDetailsFields "qndq73ff2vacdb46qfwboth3hi" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").username.value
-	| toPrettyJson -}}
+	| toPrettyJson "\t" -}}
