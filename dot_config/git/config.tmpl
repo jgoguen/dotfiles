@@ -5,7 +5,6 @@
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
 	delete-merged = !git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" { print $1 }' | xargs -r git branch -D
-	dft = difftool
 	discard = reset --hard HEAD
 	dm = delete-merged
 	irebase = !f() { git rebase -i HEAD~$1; }; f
@@ -71,17 +70,9 @@
 
 [diff]
 	algorithm = patience
-	external = difft
 	noprefix = true
 	renames = copies
 	submodule = log
-	tool = difftastic
-
-[difftool]
-	prompt = false
-
-[difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
 
 [fetch]
 	prune = true
