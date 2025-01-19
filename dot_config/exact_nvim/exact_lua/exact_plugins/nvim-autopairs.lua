@@ -24,18 +24,21 @@ local M = {
 		},
 		config = function(_, opts)
 			local Autopairs = require('nvim-autopairs')
-			local HasAutopairCmp, AutopairCmp = pcall(require, 'nvim-autopairs.completion.cmp')
 			local AutopairRule = require('nvim-autopairs.rule')
 			local AutopairCond = require('nvim-autopairs.conds')
-			local AutopairHandlers = require('nvim-autopairs.completion.handlers')
 			local TSUtils = require('utils.treesitter')
-			local HasCmp, Cmp = pcall(require, 'cmp')
-
-			if not (HasCmp and HasAutopairCmp) then
-				opts['map_cr'] = true
-			end
 
 			Autopairs.setup(opts)
+
+			-- Add pre-defined rules
+			Autopairs.add_rules(require('nvim-autopairs.rules.ts_basic').setup({
+				enable_moveright = false,
+				ignored_next_char = '%a',
+				enable_check_bracket_line = false,
+				enable_bracket_in_quote = false,
+			}))
+			Autopairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
+			Autopairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))
 
 			for _, p in ipairs({ ',', ';' }) do
 				Autopairs.add_rules({
@@ -78,10 +81,14 @@ local M = {
 						'yaml',
 						'zsh',
 					}))
-					:with_pair(TSUtils.node_or_parent_is_not({
-						'argument_list',
-						'keyword_argument',
-					}))
+					:with_pair(function(rule_opts)
+						local expand_in_args_ft = { 'bzl' }
+						if not vim.tbl_contains(expand_in_args_ft, vim.bo[rule_opts.bufnr].filetype) then
+							if TSUtils.node_or_parent_is({ 'argument_list', 'keyword_argument' }) then
+								return false
+							end
+						end
+					end)
 					:with_pair(function(rule_opts)
 						local last_char = rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1)
 						if last_char:match('[%w%=%s]') then
@@ -109,34 +116,18 @@ local M = {
 					:set_end_pair_length(0)
 					:with_move(AutopairCond.none())
 					:with_del(AutopairCond.none()),
-				AutopairRule('<', '>')
-					:with_pair(AutopairCond.before_regex('%a+'))
-					---@diagnostic disable-next-line: redefined-local
-					:with_move(function(opts)
-						return opts.char == '>'
+
+				-- Auto-pair <> for generics but not as greater-than/less-than
+				AutopairRule('<', '>', { '-html', '-javascriptreact', '-typescriptreact' })
+					-- %a+ means it will auto-pair on word characters followed by <, but not on something like 'a <'
+					-- (::)? makes it work with Rust generics like 'my_func::<T>()'
+					:with_pair(
+						AutopairCond.before_regex('%a+(::)?$', 3)
+					)
+					:with_move(function(rule_opts)
+						return rule_opts.char == '>'
 					end),
 			})
-
-			if HasCmp and HasAutopairCmp then
-				Cmp.event:on(
-					'confirm_done',
-					AutopairCmp.on_confirm_done({
-						filetypes = {
-							['*'] = {
-								['('] = {
-									kind = {
-										Cmp.lsp.CompletionItemKind.Function,
-										Cmp.lsp.CompletionItemKind.Method,
-									},
-									handler = AutopairHandlers['*'],
-								},
-							},
-							latex = false,
-							tex = false,
-						},
-					})
-				)
-			end
 		end,
 	},
 }

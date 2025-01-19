@@ -16,42 +16,38 @@ end
 
 ---@param node_types string|string[]
 function M.node_or_parent_is(node_types)
-	return function()
-		local has_treesitter, TSUtils = pcall(require, 'nvim-treesitter.ts_utils')
-		if not has_treesitter then
-			return false
-		end
-
-		---@type string[]
-		local types = {}
-		if type(node_types) == 'string' then
-			types = { node_types }
-		else
-			types = node_types
-		end
-
-		local node = TSUtils.get_node_at_cursor()
-		if node == nil then
-			return false
-		end
-
-		repeat
-			if Utils.table_contains(types, node:type()) then
-				return true
-			end
-
-			node = node:parent()
-		until node == nil
-
+	local has_treesitter, TSUtils = pcall(require, 'nvim-treesitter.ts_utils')
+	if not has_treesitter then
 		return false
 	end
+
+	---@type string[]
+	local types = {}
+	if type(node_types) == 'string' then
+		types = { node_types }
+	else
+		types = node_types
+	end
+
+	local node = TSUtils.get_node_at_cursor()
+	if node == nil then
+		return false
+	end
+
+	repeat
+		if Utils.table_contains(types, node:type()) then
+			return true
+		end
+
+		node = node:parent()
+	until node == nil
+
+	return false
 end
 
 ---@param node_types string|string[]
 function M.node_or_parent_is_not(node_types)
-	return function()
-		return not M.node_or_parent_is(node_types)()
-	end
+	return not M.node_or_parent_is(node_types)
 end
 
 return M
