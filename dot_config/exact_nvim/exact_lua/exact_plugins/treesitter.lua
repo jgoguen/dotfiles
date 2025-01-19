@@ -13,7 +13,6 @@ local M = {
 	dependencies = {
 		'RRethy/nvim-treesitter-endwise',
 		'ngalaiko/tree-sitter-go-template',
-		'nvim-treesitter/playground',
 		'windwp/nvim-ts-autotag',
 	},
 	opts = function(_, opts)
@@ -28,10 +27,6 @@ local M = {
 		for _, p in ipairs(extra_parsers) do
 			table.insert(opts.ensure_installed, p)
 		end
-
-		opts['playground'] = {
-			enable = true,
-		}
 	end,
 }
 
