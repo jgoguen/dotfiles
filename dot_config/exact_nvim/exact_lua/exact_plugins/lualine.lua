@@ -25,6 +25,7 @@ local M = {
 				end,
 			})
 			opts.sections.lualine_c[3] = { 'filetype' }
+			opts.sections.lualine_c[4] = { LazyVim.lualine.pretty_path({ length = 0 }) }
 
 			table.insert(opts.sections.lualine_x, 1, {
 				function()
