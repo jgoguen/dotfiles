@@ -160,7 +160,6 @@ local settings = {
 
 		neo_tree_remove_legacy_commands = true,
 
-		lazyvim_picker = 'telescope',
 		lazyvim_python_lsp = 'basedpyright',
 		lazyvim_python_ruff = 'ruff',
 

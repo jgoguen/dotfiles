@@ -36,11 +36,12 @@ local keybindings = {
 		['<Leader>fEc'] = { ':Neotree reveal_force_cwd toggle<CR>', { desc = 'NeoTree Toggle' } },
 	},
 	n = {
-		-- <F8> is defined in plugins to allow lazy-loading by keypress
-
-		[';'] = function()
-			require('telescope.builtin').resume()
-		end,
+		['<F8>'] = {
+			function()
+				Snacks.picker.lsp_symbols()
+			end,
+			{ desc = 'LSP Symbols' },
+		},
 
 		-- Allow ^ to act like Home in an IDE
 		['^'] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
@@ -58,11 +59,6 @@ local keybindings = {
 		-- Keep the cursor in the middle of the screen with <C-d> and <C-u>
 		['<C-d>'] = '<C-d>zz',
 		['<C-u>'] = '<C-u>zz',
-
-		['<Leader>fo'] = {
-			'<cmd>Telescope telescope-alternate alternate_file<CR>',
-			{ desc = 'Alternate file (Telescope)' },
-		},
 
 		-- Insert link
 		['<Leader>il'] = {
