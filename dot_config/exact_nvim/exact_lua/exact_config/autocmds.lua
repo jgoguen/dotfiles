@@ -54,6 +54,7 @@ vim.api.nvim_create_autocmd('FileType', {
 		'null-ls-info',
 		'PlenaryTestPopup',
 		'qf',
+		'query',
 		'startuptime',
 		'Trouble',
 		'tsplayground',
@@ -75,5 +76,17 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 		local viewdata = vim.fn.winsaveview()
 		vim.api.nvim_exec2([[keepjumps keeppatterns silent! %s/\v\s+$//e]], { output = false })
 		vim.fn.winrestview(viewdata)
+	end,
+})
+
+-- Organize imports on save unless disabled
+vim.api.nvim_create_autocmd('BufWritePre', {
+	pattern = { '*.go', '*.py', '*.rs' },
+	callback = function(ev)
+		if vim.b[ev.buf].skip_organize_imports then
+			return
+		end
+
+		require('utils.lsp').organize_imports()
 	end,
 })
