@@ -45,21 +45,6 @@ M.window_picker_opts = {
 	show_prompt = false,
 }
 
----@return boolean
-function M.table_contains(haystack, needle)
-	if type(haystack) ~= 'table' then
-		return false
-	end
-
-	for _, value in ipairs(haystack) do
-		if value == needle then
-			return true
-		end
-	end
-
-	return false
-end
-
 ---@param mode string
 ---@param key string
 ---@param val string|fun()
