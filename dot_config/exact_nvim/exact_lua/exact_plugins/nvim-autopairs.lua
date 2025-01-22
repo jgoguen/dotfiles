@@ -33,7 +33,7 @@ local M = {
 			-- Add pre-defined rules
 			Autopairs.add_rules(require('nvim-autopairs.rules.ts_basic').setup({
 				enable_moveright = false,
-				ignored_next_char = '%a',
+				ignored_next_char = '%w',
 				enable_check_bracket_line = false,
 				enable_bracket_in_quote = false,
 			}))
