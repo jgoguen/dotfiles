@@ -89,3 +89,5 @@ function M.find_node_of_type(node_types, node)
 
 	return nil
 end
+
+return M
