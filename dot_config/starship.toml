@@ -20,6 +20,7 @@ $perl\
 $php\
 $rust\
 $battery\
+$kubernetes\
 $time \
 $line_break\
 $status\
@@ -74,36 +75,8 @@ disabled = false
 success_symbol = "[%](bold white)"
 error_symbol = "[%](bold red)"
 
-[custom.hgcommit]
-command = "hg_commit.sh"
-when = "hg st"
-format = "[on](bold white) [$output]($style)"
-style = "bold purple"
-
-[custom.hgremote]
-command = "hg_remote_name.sh"
-when = "hg st"
-style = "bold cyan"
-
-[custom.hgstate]
-command = "hg_state.sh"
-when = "hg st"
-format = "[($output)]($style)"
-style = "bold yellow"
-
-[custom.hgstatus]
-command = "hg_status.sh"
-when = "hg st"
-style = "bold red"
-
-# Adds 200-500ms to the prompt
-[custom.stgit]
-command = "stg series --short=0 -P"
-require_repo = true
-when = "stg series"
-description = "show stacked-git patch"
-symbol = " "
-format = "[$symbol$output]($style)"
+[kubernetes]
+disabled = false
 
 [c]
 symbol = " "
