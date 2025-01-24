@@ -27,18 +27,15 @@ $status\
 $character\
 """
 
-[username]
-show_always = true
-style_user = "bold blue"
-format = "[$user]($style)"
-
 [[battery.display]]
 threshold = 50
 
-[hostname]
-ssh_only = true
-style = "bold green"
-format = " on [$hostname]($style)"
+[c]
+symbol = " "
+
+[character]
+success_symbol = "[%](bold white)"
+error_symbol = "[%](bold red)"
 
 [directory]
 truncation_length = 4
@@ -48,59 +45,39 @@ style = "bold yellow"
 read_only = " "
 format = " in [$path]($style)[$read_only]($read_only_style) "
 
-[git_branch]
-symbol = " "
-style = "bold purple"
+[docker_context]
+symbol = " "
 
-[hg_branch]
+[git_branch]
 symbol = " "
 style = "bold purple"
 
 [git_commit]
 style = "bold cyan"
 
-[status]
-disabled = false
-format = "[$symbol$status]($style) "
-map_symbol = true
-pipestatus = true
+[golang]
+symbol = " "
 
-[sudo]
-disabled = false
+[hg_branch]
+symbol = " "
+style = "bold purple"
 
-[time]
-disabled = false
-
-[character]
-success_symbol = "[%](bold white)"
-error_symbol = "[%](bold red)"
+[hostname]
+ssh_only = true
+style = "bold green"
+format = " on [$hostname]($style)"
 
 [kubernetes]
 disabled = false
 
-[c]
-symbol = " "
-
 [memory_usage]
 disabled = false
-
-[golang]
-symbol = " "
-
-[docker_context]
-symbol = " "
 
 [nodejs]
 symbol = " "
 
 [package]
 symbol = " "
-
-[python]
-symbol = " "
-
-[rust]
-symbol = " "
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
@@ -129,3 +106,26 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+[python]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+map_symbol = true
+pipestatus = true
+
+[sudo]
+disabled = false
+
+[time]
+disabled = false
+
+[username]
+show_always = true
+style_user = "bold blue"
+format = "[$user]($style)"
