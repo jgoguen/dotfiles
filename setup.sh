@@ -195,4 +195,4 @@ useBioUnlock="false"
 if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
 	useBioUnlock="true"
 fi
-OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi init --apply
+OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi apply
