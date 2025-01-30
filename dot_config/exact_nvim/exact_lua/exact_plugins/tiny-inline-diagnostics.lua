@@ -8,7 +8,6 @@ local M = {
 				enabled = true,
 			},
 			multilines = true,
-			multiple_diag_under_cursor = true,
 			show_source = true,
 		},
 	},
