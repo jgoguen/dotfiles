@@ -123,6 +123,14 @@ exact = true
 stripComponents = 1
 include = ["BOSL2-master/*.scad"]
 refreshPeriod = "168h"
+
+["{{ $scadBasedir }}/libraries/escad"]
+type = "archive"
+url = "https://vcs.jgoguen.ca/jgoguen/escad/archive/main.zip"
+exact = true
+stripComponents = 1
+include = ["escad/*.scad"]
+refreshPeriod = "168h"
 # {{ end }}
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
