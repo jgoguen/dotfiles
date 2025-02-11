@@ -41,11 +41,9 @@ local lazy_specs = {
 	{ import = 'lazyvim.plugins.extras.test.core' },
 	{ import = 'lazyvim.plugins.extras.ui.treesitter-context' },
 	{ import = 'lazyvim.plugins.extras.util.chezmoi' },
-	-- import/override with your plugins
-	{ import = 'plugins' },
-	{ import = 'plugins.lang' },
 }
 
+-- Add any lazy extras that may come from the local config
 local HasLocalLazy, LocalLazy = pcall(require, 'local.lazyspec')
 if HasLocalLazy then
 	for _, p in ipairs(LocalLazy) do
@@ -53,6 +51,9 @@ if HasLocalLazy then
 	end
 end
 
+-- Local plugin configs
+table.insert(lazy_specs, {import = "plugins"})
+table.insert(lazy_specs, {import = "plugins.lang"})
 if vim.fn.isdirectory(vim_local_base .. '/lua/plugins/local') == 1 then
 	table.insert(lazy_specs, { import = 'plugins.local' })
 end
