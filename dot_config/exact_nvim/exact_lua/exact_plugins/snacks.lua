@@ -29,6 +29,11 @@ local M = {
 				lazygit = {
 					enabled = true,
 				},
+				picker = {
+					matcher = {
+						frecency = true,
+					},
+				},
 				rename = {
 					enabled = true,
 				},
