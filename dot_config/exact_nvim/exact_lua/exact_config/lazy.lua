@@ -110,6 +110,7 @@ end
 vim.filetype.add({
 	extension = {
 		gotmpl = 'gotmpl',
+		opf = 'xml',
 		sh = 'sh',
 		zsh = 'sh',
 	},
