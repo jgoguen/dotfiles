@@ -53,8 +53,8 @@ if HasLocalLazy then
 end
 
 -- Local plugin configs
-table.insert(lazy_specs, {import = "plugins"})
-table.insert(lazy_specs, {import = "plugins.lang"})
+table.insert(lazy_specs, { import = 'plugins' })
+table.insert(lazy_specs, { import = 'plugins.lang' })
 if vim.fn.isdirectory(vim_local_base .. '/lua/plugins/local') == 1 then
 	table.insert(lazy_specs, { import = 'plugins.local' })
 end
