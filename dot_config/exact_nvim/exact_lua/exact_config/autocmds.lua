@@ -24,20 +24,31 @@ vim.api.nvim_create_autocmd('WinEnter', {
 	group = Utils.augroup('last_window_close'),
 	callback = function(ev)
 		local autoclose_types = {
-			'quickfix',
 			'nofile',
+			'prompt',
+			'quickfix',
 			'trouble',
 		}
-		local win_count = vim.fn.winnr('$')
-		if win_count > 1 then
-			return
+
+		local wins = vim.api.nvim_list_wins()
+		local wins_to_close = {} ---@type integer[]
+
+		for _, winid in ipairs(wins) do
+			local bufid = vim.api.nvim_win_get_buf(winid)
+			local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local', buf = bufid })
+			if buftype then
+				for _, candidate in ipairs(autoclose_types) do
+					if buftype == candidate then
+						table.insert(wins_to_close, winid)
+						break
+					end
+				end
+			end
 		end
 
-		for _, buftype in ipairs(autoclose_types) do
-			if buftype == vim.bo[ev.buf].buftype then
-				vim.cmd('q')
-				return
-			end
+		-- If the length of the windows to close list is the same as the window list, we can just exit.
+		if #wins == #wins_to_close then
+			vim.cmd('qa')
 		end
 	end,
 })
@@ -55,6 +66,7 @@ vim.api.nvim_create_autocmd('FileType', {
 		'PlenaryTestPopup',
 		'qf',
 		'query',
+		'snacks_picker_list',
 		'startuptime',
 		'Trouble',
 		'tsplayground',
