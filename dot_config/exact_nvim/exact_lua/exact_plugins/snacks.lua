@@ -14,6 +14,9 @@ local M = {
 				bufdelete = {
 					enabled = true,
 				},
+				explorer = {
+					enabled = true,
+				},
 				git = {
 					enabled = true,
 				},
@@ -32,6 +35,30 @@ local M = {
 				picker = {
 					matcher = {
 						frecency = true,
+					},
+					sources = {
+						explorer = {
+							formatters = {
+								file = {
+									filename_only = false,
+								},
+							},
+							git_status = true,
+							git_status_open = true,
+							git_untracked = true,
+							win = {
+								list = {
+									keys = {
+										['<CR>'] = { 'confirm', mode = { 'n', 'i' } },
+										['s'] = { { 'pick_win', 'edit_vsplit' }, mode = { 'n', 'i' } },
+										['i'] = { { 'pick_win', 'edit_split' }, mode = { 'n', 'i' } },
+									},
+								},
+							},
+							actions = {
+								confirm = require('utils.snacks').explorer_confirm,
+							},
+						},
 					},
 				},
 				rename = {
@@ -53,20 +80,6 @@ local M = {
 			)
 
 			return vim.tbl_deep_extend('force', opts, new_opts)
-		end,
-	},
-	{
-		'nvim-neo-tree/neo-tree.nvim',
-		opts = function(_, opts)
-			local function on_move(data)
-				Snacks.rename.on_rename_file(data.source, data.destination)
-			end
-			local events = require('neo-tree.events')
-			opts.event_handlers = opts.event_handlers or {}
-			vim.list_extend(opts.event_handlers, {
-				{ event = events.FILE_MOVED, handler = on_move },
-				{ event = events.FILE_RENAMED, handler = on_move },
-			})
 		end,
 	},
 }
