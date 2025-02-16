@@ -8,13 +8,15 @@ local M = {
 
 		opts['servers']['lua_ls']['settings']['Lua']['diagnostics'] = {
 			globals = {
-				'nvim',
-				'vim',
-				'require',
-				'pcall',
+				'Lazy',
+				'Snacks',
 				'_G',
-				'os',
 				'ipairs',
+				'nvim',
+				'os',
+				'pcall',
+				'require',
+				'vim',
 			},
 		}
 
