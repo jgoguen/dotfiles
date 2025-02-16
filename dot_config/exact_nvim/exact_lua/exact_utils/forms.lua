@@ -28,7 +28,6 @@ function M.insert_link_with_text()
 					local url = renderer:get_component_by_id('link-url'):get_current_value()
 					local text = renderer:get_component_by_id('link-text'):get_current_value()
 					renderer:close()
-					local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 					local style = vim.opt_local.filetype:get()
 
 					local link_str = ''
@@ -40,8 +39,7 @@ function M.insert_link_with_text()
 						link_str = string.format(M.link_formats['default'], text, url)
 					end
 
-					vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { link_str })
-					vim.api.nvim_win_set_cursor(0, { row, col + string.len(link_str) })
+					vim.api.nvim_put({ link_str }, 'c', true, true)
 				end,
 			},
 			n.text_input({
