@@ -1,5 +1,4 @@
 monitor_log_frequency = "5"
-monitor_fullscan_frequency = "10"
 sync_root_files = "true"
 skip_file = "~*|.~*|*.tmp|*.db-*|*.swp|*.partial|.DS_Store"
 
