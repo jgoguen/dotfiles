@@ -1,16 +1,37 @@
-{{ $fontBasedir := ".local/share/fonts" }}
-{{ if eq .chezmoi.os "darwin" }}
-{{ $fontBasedir = "Library/Fonts" }}
-{{ else if eq .chezmoi.os "windows" }}
-{{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
-{{ end }}
+{
+	{ $fontBasedir := ".local/share/fonts"
+	}
+}
+{
+	{ if eq .chezmoi.os "darwin"
+	}
+}
+{
+	{ $fontBasedir = "Library/Fonts"
+	}
+}
+{
+	{ else if eq .chezmoi.os "windows"
+	}
+}
+{
+	{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts"
+	}
+}
+{
+	{ end
+	}
+}
 README.md
 helpers.sh
 setup.sh
 setup.ps1
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
-{{ $fontBasedir }}/*/.uuid
+{
+	{ $fontBasedir
+	}
+}/*/.uuid
 
 {{- if eq .environment "work" }}
 .chezmoiscripts/collect_files.py
@@ -25,6 +46,7 @@ setup.ps1
 .config/vim-local.lua
 .config/vim-local.vim
 .local/bin/calibre-update
+.local/bin/onedrive-nextcloud-sync
 .local/share/texlive/
 .netrc
 .ssh/
