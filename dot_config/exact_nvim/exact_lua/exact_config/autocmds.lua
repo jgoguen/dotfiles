@@ -35,8 +35,8 @@ vim.api.nvim_create_autocmd('WinEnter', {
 
 		for _, winid in ipairs(wins) do
 			local bufid = vim.api.nvim_win_get_buf(winid)
-			local buftype = vim.api.nvim_get_option_value('buftype', { scope = 'local', buf = bufid })
-			if buftype then
+			local ok, buftype = pcall(vim.api.nvim_get_option_value, 'buftype', { buf = bufid })
+			if ok and buftype then
 				for _, candidate in ipairs(autoclose_types) do
 					if buftype == candidate then
 						table.insert(wins_to_close, winid)
