@@ -49,14 +49,14 @@ local M = {
 							win = {
 								list = {
 									keys = {
-										['<CR>'] = { 'confirm', mode = { 'n', 'i' } },
+										['<CR>'] = { 'handle_file_or_dir', mode = { 'n', 'i' } },
 										['s'] = { { 'pick_win', 'edit_vsplit' }, mode = { 'n', 'i' } },
 										['i'] = { { 'pick_win', 'edit_split' }, mode = { 'n', 'i' } },
 									},
 								},
 							},
 							actions = {
-								confirm = require('utils.snacks').explorer_confirm,
+								handle_file_or_dir = require('utils.snacks').explorer_confirm,
 							},
 						},
 					},
@@ -81,6 +81,37 @@ local M = {
 
 			return vim.tbl_deep_extend('force', opts, new_opts)
 		end,
+		keys = {
+			{
+				'<leader>fe',
+				function()
+					local explorer = Snacks.picker.get({ source = 'explorer' })[1]
+					if explorer == nil then
+						Snacks.explorer({ cwd = LazyVim.root() })
+						return
+					end
+
+					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
+					Snacks.explorer.reveal({ file = file })
+					Snacks.explorer.actions.actions.explorer_focus(explorer)
+				end,
+				desc = 'File Explorer (root dir)',
+			},
+			{
+				'<leader>fE',
+				function()
+					local explorer = Snacks.picker.get({ source = 'explorer' })[1]
+					if explorer == nil then
+						Snacks.explorer()
+						return
+					end
+
+					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
+					Snacks.explorer.reveal({ file = file })
+				end,
+				desc = 'File Explorer (cwd)',
+			},
+		},
 	},
 }
 
