@@ -58,9 +58,13 @@ vim.api.nvim_create_autocmd('FileType', {
 	group = Utils.augroup('close_with_q'),
 	pattern = {
 		'checkhealth',
+		'diagmsg',
+		'fzf',
 		'help',
 		'lspinfo',
 		'man',
+		'neo-tree',
+		'nofile',
 		'notify',
 		'null-ls-info',
 		'PlenaryTestPopup',
