@@ -29,6 +29,11 @@ local M = {
 						},
 					},
 				},
+				indent = {
+					chunk = {
+						enabled = true,
+					},
+				},
 				lazygit = {
 					enabled = true,
 				},
