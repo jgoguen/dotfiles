@@ -93,7 +93,7 @@ local M = {
 
 					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
 					Snacks.explorer.reveal({ file = file })
-					Snacks.explorer.actions.actions.explorer_focus(explorer)
+					explorer:focus('list', { show = true })
 				end,
 				desc = 'File Explorer (root dir)',
 			},
@@ -108,6 +108,7 @@ local M = {
 
 					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
 					Snacks.explorer.reveal({ file = file })
+					explorer:focus('list', { show = true })
 				end,
 				desc = 'File Explorer (cwd)',
 			},
