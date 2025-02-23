@@ -23,16 +23,11 @@ function M.pick_win(picker, item, action)
 				return false
 			end
 
-			for _, buftype in ipairs(Utils.excluded_buftypes) do
-				if vim.bo[buf].buftype == buftype then
-					return false
-				end
-			end
-
-			for _, filetype in ipairs(Utils.excluded_filetypes) do
-				if vim.bo[buf].filetype == filetype then
-					return false
-				end
+			if
+				vim.tbl_contains(Utils.excluded_buftypes, vim.bo[buf].buftype)
+				or vim.tbl_contains(Utils.excluded_filetypes, vim.bo[buf].filetype)
+			then
+				return false
 			end
 
 			return true
