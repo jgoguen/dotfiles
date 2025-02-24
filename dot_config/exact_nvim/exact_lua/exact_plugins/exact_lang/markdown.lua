@@ -3,7 +3,7 @@
 local M = {
 	{
 		'vim-pandoc/vim-pandoc',
-		lazy = false,
+		ft = { 'markdown' },
 		init = function()
 			vim.g['pandoc#filetypes#pandoc_markdown'] = 0
 

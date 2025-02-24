@@ -2,6 +2,14 @@
 
 local M = {
 	url = 'https://codeberg.org/jgoguen/git-linker.nvim',
+	cond = function()
+		local cwd = LazyVim.root.cwd()
+		if cwd == '' then
+			return false
+		end
+
+		return vim.fs.find('.git', { path = cwd, upward = true })[1] ~= nil
+	end,
 }
 
 return M

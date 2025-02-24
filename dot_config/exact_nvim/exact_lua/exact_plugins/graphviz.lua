@@ -16,14 +16,12 @@ local M = {
 		},
 	},
 	{
-		'liuchengxu/graphviz.vim',
+		'izocha/graphviz.nvim',
 		enabled = function()
 			return require('utils').has_tool('dot')
 		end,
-		lazy = false,
-		init = function()
-			vim.g.graphviz_output_format = 'svg'
-		end,
+		ft = { 'dot' },
+		opts = {},
 	},
 }
 

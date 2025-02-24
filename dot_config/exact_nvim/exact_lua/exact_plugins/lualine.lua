@@ -3,6 +3,9 @@
 local M = {
 	{
 		'rsreimer/codeowners.nvim',
+		cond = function()
+			return vim.fs.find('.github/CODEOWNERS', { path = LazyVim.root.cwd(), upward = true })[1] ~= nil
+		end,
 	},
 	{
 		'nvim-lualine/lualine.nvim',
@@ -32,7 +35,8 @@ local M = {
 					return 'OWNERS: ' .. require('codeowners').get_buf_owner()
 				end,
 				cond = function()
-					return require('codeowners').get_buf_owner() ~= ''
+					local HasCodeowners, Codeowners = pcall(require, 'codeowners')
+					return HasCodeowners and Codeowners.get_buf_owner() ~= ''
 				end,
 			})
 

@@ -68,6 +68,15 @@ local keybindings = {
 			{ desc = 'Insert link and text' },
 		},
 
+		-- Window picker
+		['<Leader>wp'] = {
+			function()
+				local wid = require('utils.snacks').pick_window()
+				vim.api.nvim_set_current_win(wid)
+			end,
+			{ desc = 'Pick window' },
+		},
+
 		-- Normal movement between wrapped lines
 		['<up>'] = { [[v:count == 0 ? 'gk' : 'k']], { expr = true } },
 		['<down>'] = { [[v:count == 0 ? 'gj' : 'j']], { expr = true } },

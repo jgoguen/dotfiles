@@ -2,6 +2,8 @@
 
 local M = {
 	'rachartier/tiny-inline-diagnostic.nvim',
+	event = { 'LspAttach' },
+	priority = 1000,
 	opts = {
 		options = {
 			break_line = {
@@ -11,6 +13,10 @@ local M = {
 			show_source = true,
 		},
 	},
+	config = function(_, opts)
+		require('tiny-inline-diagnostic').setup(opts)
+		vim.diagnostic.config({ virtual_text = false })
+	end,
 }
 
 return M

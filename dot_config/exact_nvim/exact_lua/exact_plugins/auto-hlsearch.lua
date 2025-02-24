@@ -2,7 +2,7 @@
 
 local M = {
 	'asiryk/auto-hlsearch.nvim',
-	keys = '/',
+	keys = { '/', '?' },
 	opts = {},
 }
 

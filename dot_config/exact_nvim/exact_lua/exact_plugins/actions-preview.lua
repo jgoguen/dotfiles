@@ -2,7 +2,13 @@
 
 local M = {
 	'aznhe21/actions-preview.nvim',
+	-- Prepare for aznhe21/actions-preview.nvim#62
+	cond = function()
+		local HasSnacks, _ = pcall(require, 'actions-preview.backend.snacks')
+		return HasSnacks
+	end,
 	opts = {
+		backend = { 'snacks' },
 		diff = {
 			ignore_whitespace = true,
 		},

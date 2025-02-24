@@ -14,7 +14,7 @@ local settings = {
 		backspace = vim.opt.backspace + { 'nostop' },
 
 		-- Yank/Delete to the "*" register, do not use the system clipboard
-		-- clipboard = 'unnamed',
+		clipboard = vim.env.SSH_TTY and '' or 'unnamed',
 
 		-- Use 2 lines for the command area at the bottom of the screen
 		cmdheight = 2,
@@ -42,10 +42,6 @@ local settings = {
 			eob = ' ',
 			msgsep = '‾',
 		},
-
-		foldexpr = 'v:lua.vim.treesitter.foldexpr()',
-
-		foldmethod = 'expr',
 
 		-- A fold must have at least this many lines
 		foldminlines = 3,
@@ -149,6 +145,9 @@ local settings = {
 		writebackup = false,
 	},
 	g = {
+		-- Do not use an AI source for autocompletion if it's supported
+		ai_cmp = false,
+
 		mapleader = '`',
 		maplocalleader = '\\',
 
@@ -157,8 +156,6 @@ local settings = {
 
 		loaded_node_provider = 0,
 		loaded_perl_provider = 0,
-
-		neo_tree_remove_legacy_commands = true,
 
 		lazyvim_picker = 'snacks',
 		lazyvim_python_lsp = 'basedpyright',
@@ -170,11 +167,26 @@ local settings = {
 		python3_host_prog = Utils.python_executable(),
 		python_version = 'python3',
 
-		['rainbow-delimiters'] = {
-			enable = true,
-			disable = { 'html' },
-			extended_mode = true,
-			max_file_lines = nil,
+		-- Spec used by LazyVim to detect the root directory. Entries are one of:
+		-- - The name of a detector function
+		--   - See https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/util/root.lua
+		-- - A pattern or list of patterns of file or directory names only found in the root directory
+		-- - A function with signature `function(bufnum): string|string[]`
+		root_spec = {
+			'lsp',
+			{
+				'.git',
+				'.hg',
+				'lua',
+				'go.mod',
+				'go.sum',
+				'BAZEL.module',
+				'pyproject.toml',
+				'hugo.toml',
+				'Cargo.toml',
+				'requirements.txt',
+			},
+			'cwd',
 		},
 	},
 }

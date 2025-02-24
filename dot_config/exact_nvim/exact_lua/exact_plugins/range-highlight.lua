@@ -2,6 +2,7 @@
 
 local M = {
 	'winston0410/range-highlight.nvim',
+	event = { 'BufReadPost' },
 	dependencies = {
 		'winston0410/cmd-parser.nvim',
 	},

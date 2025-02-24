@@ -2,6 +2,14 @@
 
 local M = {
 	'akinsho/git-conflict.nvim',
+	cond = function()
+		local cwd = LazyVim.root.cwd()
+		if cwd == '' then
+			return false
+		end
+
+		return vim.fs.find('.git', { path = cwd, upward = true })[1] ~= nil
+	end,
 	version = '*',
 	opts = {
 		default_mappings = {

@@ -3,8 +3,10 @@
 local M = {
 	{
 		'vhyrro/luarocks.nvim',
+		-- This plugin must load before others so it can be ready to install rocks needed by other plugins
+		lazy = false,
 		priority = 1000,
-		config = true,
+		opts = {},
 	},
 	{
 		'nvim-neorg/neorg',

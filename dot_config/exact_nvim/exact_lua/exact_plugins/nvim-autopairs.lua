@@ -4,14 +4,15 @@ local M = {
 	{ 'echasnovski/mini.pairs', enabled = false },
 	{
 		'windwp/nvim-autopairs',
+		event = { 'InsertEnter' },
 		opts = {
 			check_ts = true,
-			enable_check_bracket_line = false,
+			-- enable_check_bracket_line = false,
 			ts_config = {
 				java = false,
 			},
 			fast_wrap = {
-				map = '<M-e>',
+				map = '<A-e>',
 				chars = { '{', '[', '(', '"', "'" },
 				pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
 				offset = 0,
@@ -127,6 +128,10 @@ local M = {
 					:with_move(function(rule_opts)
 						return rule_opts.char == '>'
 					end),
+
+				-- Try to handle triple-backticks
+				AutopairRule('```', '```'):with_pair(AutopairCond.not_before_char('`', 3)),
+				AutopairRule('```.*$', '```'):only_cr():use_regex(true),
 			})
 		end,
 	},

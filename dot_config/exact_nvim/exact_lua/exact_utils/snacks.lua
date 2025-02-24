@@ -5,19 +5,19 @@ local Utils = require('utils')
 -- Utility functions for working around limitations in snacks.nvim
 local M = {}
 
--- This is a pretty blatant copy of snacks.picker.actions.pick_win. The only difference is this function will call
--- Snacks.picker.util.pick_win() with a filter function to exclude some buffer types.
----@param picker snacks.Picker
----@param item? snacks.picker.Item
----@param action? snacks.picker.Action
----@return (boolean|string)?
-function M.pick_win(picker, item, action)
-	if not picker.layout.split then
-		picker.layout:hide()
+---@param win integer?
+---@return integer
+function M.pick_window(win)
+	local current_wid = win or vim.api.nvim_get_current_win()
+
+	-- If we have snacks.nvim, it's available as Snacks
+	local HasSnacks, _ = pcall(require, 'snacks.picker.util')
+	if not HasSnacks then
+		return current_wid
 	end
 
-	local win = Snacks.picker.util.pick_win({
-		main = picker.main,
+	local wid = Snacks.picker.util.pick_win({
+		main = current_wid,
 		filter = function(_, buf)
 			if vim.bo[buf].filetype:find('^snacks') then
 				return false
@@ -32,23 +32,9 @@ function M.pick_win(picker, item, action)
 
 			return true
 		end,
-	})
-	if not win then
-		if not picker.layout.split then
-			picker.layout:unhide()
-		end
-		return true
-	end
+	}) or current_wid
 
-	picker.main = win
-
-	if not picker.layout.split then
-		vim.defer_fn(function()
-			if not picker.closed then
-				picker.layout:unhide()
-			end
-		end, 100)
-	end
+	return wid
 end
 
 -- This is a pretty blatant copy of snacks.explorer.actions.actions.confirm. The only difference is
@@ -66,7 +52,22 @@ function M.explorer_confirm(picker, item, action)
 		require('snacks.explorer.tree'):toggle(item.file)
 		require('snacks.explorer.actions').update(picker, { refresh = true })
 	else
-		M.pick_win(picker, item, action)
+		-- This section is a pretty blatant copy of snacks.picker.actions.pick_win(). The major difference here is that
+		-- `M.pick_window()` uses a custom filter function to exclude more buftypes and filetypes.
+		if not picker.layout.split then
+			picker.layout:hide()
+		end
+
+		local win = M.pick_window(picker.main)
+		picker.main = win
+
+		if not picker.layout.split then
+			vim.defer_fn(function()
+				if not picker.closed then
+					picker.layout:unhide()
+				end
+			end, 100)
+		end
 		Snacks.picker.actions.jump(picker, item, action)
 	end
 end
