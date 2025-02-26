@@ -5,6 +5,9 @@ local Utils = require('utils')
 local M = {
 	{
 		'saghen/blink.cmp',
+		dependencies = {
+			{'echasnovski/mini.icons'},
+		},
 		opts = function(_, opts)
 			local new_opts = {
 				completion = {
@@ -17,6 +20,19 @@ local M = {
 								{ 'item_idx' },
 								{ 'kind_icon', 'kind' },
 								{ 'label', 'label_description' },
+							},
+							components = {
+								kind_icon = {
+									ellipsis = false,
+									text = function(ctx)
+										local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+										return kind_icon
+									end,
+									highlight = function(ctx)
+										local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+										return hl
+									end,
+								},
 							},
 						},
 					},
