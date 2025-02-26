@@ -76,6 +76,9 @@ local M = {
 					},
 					enabled = true,
 				},
+				statuscolumn = {
+					enabled = true,
+				},
 			}
 
 			table.insert(
