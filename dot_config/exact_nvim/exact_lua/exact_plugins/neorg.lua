@@ -11,6 +11,7 @@ local M = {
 	{
 		'nvim-neorg/neorg',
 		-- build = ':Neorg sync-parsers',
+		version = '*',
 		cmd = 'Neorg',
 		ft = { 'norg' },
 		dependencies = {
