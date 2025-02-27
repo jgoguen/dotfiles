@@ -31,9 +31,6 @@ local keybindings = {
 		-- Add undo breakpoints
 		['('] = '(<C-g>u',
 		[')'] = ')<C-g>u',
-
-		['<Leader>fec'] = { ':Neotree reveal_force_cwd toggle<CR>', { desc = 'NeoTree Toggle' } },
-		['<Leader>fEc'] = { ':Neotree reveal_force_cwd toggle<CR>', { desc = 'NeoTree Toggle' } },
 	},
 	n = {
 		['<F8>'] = {
