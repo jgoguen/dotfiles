@@ -51,6 +51,7 @@ local M = {
 							git_status = true,
 							git_status_open = true,
 							git_untracked = true,
+							hidden = true,
 							win = {
 								list = {
 									keys = {
@@ -63,6 +64,9 @@ local M = {
 							actions = {
 								handle_file_or_dir = require('utils.snacks').explorer_confirm,
 							},
+						},
+						files = {
+							hidden = true,
 						},
 					},
 				},
