@@ -34,6 +34,7 @@ local M = {
 				function()
 					return 'OWNERS: ' .. require('codeowners').get_buf_owner()
 				end,
+				separator = require('lualine').get_config().options.component_separators,
 				cond = function()
 					local HasCodeowners, Codeowners = pcall(require, 'codeowners')
 					return HasCodeowners and Codeowners.get_buf_owner() ~= ''
@@ -57,6 +58,8 @@ local M = {
 				hostname = string.gsub(hostname, '\n$', '')
 				return hostname
 			end)
+
+			table.insert(opts.extensions, 'trouble')
 		end,
 	},
 }
