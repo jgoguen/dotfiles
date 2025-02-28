@@ -8,6 +8,11 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
+if [ ! -w "${XDG_RUNTIME_DIR:="/run/user/$(id -u)}" ]; then
+	XDG_RUNTIME_DIR="/tmp"
+fi
+export XDG_RUNTIME_DIR
+
 for dname in "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${XDG_STATE_HOME}"; do
 	if [ ! -d "${dname}" ]; then
 		/usr/bin/install -d -m 0700 "${dname}"
