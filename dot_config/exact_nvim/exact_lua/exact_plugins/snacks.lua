@@ -80,6 +80,14 @@ local M = {
 					},
 					enabled = true,
 				},
+				terminal = {
+					win = {
+						position = 'float',
+					},
+				},
+				win = {
+					border = 'double',
+				},
 			}
 
 			table.insert(

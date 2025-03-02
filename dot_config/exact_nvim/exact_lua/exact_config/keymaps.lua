@@ -45,10 +45,7 @@ local keybindings = {
 
 		['<C-/>'] = {
 			function()
-				Snacks.terminal(
-					{ vim.o.shell, '-l' },
-					{ cwd = LazyVim.root(), win = { border = 'rounded', position = 'float' } }
-				)
+				Snacks.terminal({ vim.o.shell, '-l' }, { cwd = LazyVim.root() })
 			end,
 			{ desc = 'Terminal (root dir)' },
 		},
