@@ -132,14 +132,21 @@ set-option -gw clock-mode-colour green #green
 set-option -gw clock-mode-style 12
 
 # Catppuccin warns TPM users to load the theme first
-if-shell "[ -f ~/.config/tmux/plugins/tmux/catppuccin.tmux ]" "run-shell ~/.config/tmux/plugins/tmux/catppuccin.tmux"
+set-option -g @catppuccin_window_flags "icon"
+set-option -g @catppuccin_flavour 'mocha'
+set-option -g @catppuccin_window_status_style "rounded"
+
+set-option -g @catppuccin_pane_status_enabled "yes"
+set-option -g @catppuccin_pane_border_status "yes"
+
+if-shell "[ -f #{d:current_file}/plugins/tmux/catppuccin.tmux ]" "run-shell #{d:current_file}/plugins/tmux/catppuccin.tmux"
 
 # Status bar format
 set-option -g status-left " #{tmux_mode_indicator} "
-set-option -g status-right "#{E:@catppuccin_status_application}"
+set-option -gF status-right "#{E:@catppuccin_status_application}"
 set-option -agF status-right "#{E:@catppuccin_status_cpu}"
 set-option -agF status-right "#{E:@catppuccin_status_battery}"
-set-option -agF status-right "#{T:%H:%m}"
+set-option -agF status-right "#{T:%%H:%%m}"
 # ]]]
 
 # Plugins [[[
@@ -163,10 +170,6 @@ set-option -g @plugin 'tmux-plugins/tmux-cpu'
 set-option -g @plugin 'wfxr/tmux-fzf-url'
 
 set-option -g @batt_remain_short true
-
-set-option -g @catppuccin_window_flags "icon"
-set-option -g @catppuccin_flavour 'mocha'
-set-option -g @catppuccin_window_status_style "rounded"
 
 set-option -g @mode_indicator_prefix_mode_style "fg=#{@thm_crust},bg=#{@thm_blue}"
 set-option -g @mode_indicator_copy_mode_style "fg=#{@thm_crust},bg=#{@thm_yellow}"
