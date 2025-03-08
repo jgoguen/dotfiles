@@ -90,4 +90,54 @@ function M.find_node_of_type(node_types, node)
 	return nil
 end
 
+-- HTML/XML functions cursor compliments of
+-- https://medium.com/scoro-engineering/5-smart-mini-snippets-for-making-text-editing-more-fun-in-neovim-b55ffb96325a
+function M.html_attribute_equals()
+	-- The cursor position isn't quite right, get the node to the left
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	local range = { cursor[1] - 1, cursor[2] - 1 }
+	local add_for_nodes = {
+		'attribute_name',
+		'directive_argument',
+		'directive_name',
+	}
+
+	local node = vim.treesitter.get_node({ pos = range })
+	if not node or not vim.tbl_contains(add_for_nodes, node:type()) then
+		return '='
+	end
+	return '=""<left>'
+end
+
+function M.html_self_closing()
+	local node = vim.treesitter.get_node()
+	if not node then
+		return '/'
+	end
+
+	local first_sibling = node:prev_named_sibling()
+	if not first_sibling then
+		return '/'
+	end
+
+	local parent = node:parent()
+	if not parent then
+		return '/'
+	end
+
+	local tag_in_progress = node:type() == 'text' and parent:type() == 'element'
+	local is_start = first_sibling:type() == 'element'
+	local start_text = vim.treesitter.get_node_text(first_sibling, 0)
+	local is_terminated = string.match(start_text, '>$')
+
+	if tag_in_progress and is_start and not is_terminated then
+		local char = vim.fn.strcharpart(vim.fn.strpart(vim.fn.getline('.'), vim.fn.col('.') - 2), 0, 1)
+		local have_space = char == ' '
+
+		return have_space and '/>' or ' />'
+	end
+
+	return '/'
+end
+
 return M

@@ -7,3 +7,6 @@ vim.cmd('compiler tidy')
 
 TSUtils.ensure_installed({ 'css', 'html' })
 MasonUtils.ensure_installed({ 'cssls', 'html' })
+
+vim.keymap.set('i', '=', TSUtils.html_attribute_equals, { buffer = true, expr = true })
+vim.keymap.set('i', '/', TSUtils.html_self_closing, { buffer = true, expr = true })
