@@ -99,7 +99,7 @@ local M = {
 				{ icon = 'S', key = 'S', desc = 'Select Session', action = require('persistence').select }
 			)
 
-			opts = vim.tbl_deep_extend('force', opts, new_opts)
+			return vim.tbl_deep_extend('force', opts, new_opts)
 		end,
 		keys = {
 			{
