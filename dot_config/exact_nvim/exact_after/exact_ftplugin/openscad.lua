@@ -6,4 +6,6 @@ if vim.fn.has('linux') == 1 or vim.fn.has('wsl') == 1 then
 	lib_path = XDG_DATA_HOME .. '/OpenSCAD/libraries'
 end
 
+vim.opt_local.commentstring = '// %s'
+
 vim.opt_local.path:append({ lib_path })
