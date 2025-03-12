@@ -42,12 +42,6 @@ bindkey '^e' end-of-line
 bindkey '^f' forward-word
 bindkey '^b' backward-word
 
-for f in /usr/local/share/fzf/shell/key-bindings.zsh /usr/share/fzf/shell/key-bindings.zsh; do
-	if [ -f "${f}" ]; then
-		source "${f}"
-	fi
-done
-
 {{ if eq .chezmoi.os "darwin" -}}
 if command -v brew >/dev/null 2>&1; then
 	BREW_PREFIX="$(brew --prefix)"
@@ -58,12 +52,6 @@ if command -v brew >/dev/null 2>&1; then
 	if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
 		. "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 	fi
-
-	for f in "${BREW_PREFIX}/"Cellar/fzf/*/shell/key-bindings.zsh; do
-		if [ -f "${f}" ]; then
-			. "${f}"
-		fi
-	done
 fi
 {{ else -}}
 for PREFIX in /usr/local /usr; do
@@ -76,6 +64,10 @@ for PREFIX in /usr/local /usr; do
 	fi
 done
 {{- end }}
+
+if command -v fzf >/dev/null 2>&1; then
+	eval $(fzf --zsh)
+fi
 
 if zle -l autosuggest-accept ; then
 	bindkey '^L' autosuggest-accept
