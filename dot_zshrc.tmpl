@@ -8,7 +8,7 @@ fi
 RC_START=${SECONDS}
 
 export USER_ZSH="${XDG_DATA_HOME}/zsh"
-export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh/completion"
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
 
 for f in "${USER_ZSH}"/conf.d/pre/*.zsh; do
 	source "${f}"
