@@ -19,8 +19,7 @@ for dname in "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${XDG_
 	fi
 done
 
-: "${KITTY_WINDOW_ID:=""}"
-if [ -n "${KITTY_WINDOW_ID}" ]; then
+if [ -n "${KITTY_WINDOW_ID:=""}" ]; then
 	export TERM=vte-256color
 fi
 
