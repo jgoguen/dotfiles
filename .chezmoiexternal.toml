@@ -254,4 +254,11 @@ refreshPeriod = "672h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh"
 refreshPeriod = "672h"
+
+[".local/share/zsh/plugins/fzf-tab"]
+type = "git-repo"
+exact = true
+url = "https://github.com/Aloxaf/fzf-tab.git"
+[".local/share/zsh/plugins/fzf-tab".clone]
+args = ["--depth", "1"]
 # {{- end }}
