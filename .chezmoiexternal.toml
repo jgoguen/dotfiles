@@ -262,10 +262,12 @@ url = "https://github.com/Aloxaf/fzf-tab.git"
 [".local/share/zsh/plugins/fzf-tab".clone]
 args = ["--depth", "1"]
 
+# {{- if eq .environment "work" }}
 [".local/share/zsh/completion/_knife"]
 type = "file"
 url = "https://github.com/ohmyzsh/ohmyzsh/raw/refs/heads/master/plugins/knife/_knife"
 refreshPeriod = "672h"
+# {{- end }}
 
 # {{- range (concat .zsh.plugins.common.omz (index .zsh.plugins .environment "omz")) }}
 [".local/share/zsh/plugins/{{ . }}/{{ . }}.plugin.zsh"]
