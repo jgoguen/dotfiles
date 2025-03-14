@@ -6,7 +6,6 @@ packages:
       - bottom
       - chezmoi
       - coreutils
-      - difftastic
       - fd
       - fortune
       - fzf
@@ -72,6 +71,61 @@ packages:
       brew: []
       cask: []
       mas: []
+  arch:
+    pacman:
+      - bat
+      - bottom
+      - discord
+      - fd
+      - firefox
+      - fortune-mod
+      - fzf
+      - gamescope
+      - git
+      - git-absorb
+      - git-crypt
+      - gnupg
+      - go
+      - imagemagick
+      - jq
+      - kitty
+      - lazygit
+      - lsd
+      - lua51
+      - luajit
+      - lutris
+      - npm
+      - pre-commit
+      - python-pip
+      - python-pynvim
+      - ripgrep
+      - sd
+      - signal-desktop
+      - starship
+      - steam
+      - thunderbird
+      - yq
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    aur:
+      - 1password
+      - 1password-cli
+      - 1password-blur-me-not
+      - fortune-mod-calvin
+      - fortune-mod-ferengi_rules_of_acquisition
+      - fortune-mod-hackers
+      - fortune-mod-montypython
+      - fortune-mod-portal-game
+      - fortune-mod-question-answer-jokes
+      - fortune-mod-starwars
+      - fortune-mod-vimtips
+      - git-extras
+      - joplin-desktop
+      - neovim-nightly-bin
+      - onedrive-abraunegg
+      - onedrive-gui
+      - signal-desktop-blur-me-not
   fedora:
     copr:
       - atim/bottom
@@ -81,8 +135,6 @@ packages:
       - bat
       - bottom
       - compat-lua-devel
-      - composer
-      - difftastic
       - fd-find
       - ffmpeg
       - firefox
@@ -109,6 +161,7 @@ packages:
       - rubygems
       - sd
       - starship
+      - thunderbird
       - yq
       - zsh
       - zsh-autosuggestions
@@ -146,7 +199,6 @@ packages:
         - 1password-cli
         - age
         - chezmoi
-        - difftastic
         - fzf
         - gcc
         - git
