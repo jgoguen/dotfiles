@@ -32,6 +32,9 @@ setup.ps1
 .var/app/com.calibre_ebook.calibre/
 Library/
 {{- end }}
+{{- if ne .environment "work" }}
+.local/share/zsh/completion/_k9s
+{{- end }}
 
 {{- if ne .chezmoi.os "linux" }}
 .chezmoiscripts/linux/*
