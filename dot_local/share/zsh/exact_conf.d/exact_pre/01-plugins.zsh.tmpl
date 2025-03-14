@@ -14,7 +14,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Do not use zsh completion, delegate to fzf-tab entirely
 zstyle ':completion:*' menu no
 
-if command -v lsd >/dev/null 2>&1; then
+if (( ${+commands[lsd]} )); then
 	# Enable directory preview when completing `cd`
 	zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
 fi

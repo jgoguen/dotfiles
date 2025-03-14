@@ -11,5 +11,3 @@ zsh:
       omz:
         - aws
         - bazel
-        - k9s
-        - knife

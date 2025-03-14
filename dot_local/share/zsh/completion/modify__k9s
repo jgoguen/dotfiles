@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if command -v k9s >/dev/null 2>&1; then
+	k9s completion zsh
+fi
