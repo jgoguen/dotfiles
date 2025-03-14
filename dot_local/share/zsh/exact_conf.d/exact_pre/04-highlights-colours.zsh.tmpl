@@ -10,11 +10,11 @@ if [ -n "${BREW_PREFIX}" ]; then
 fi
 {{- else }}
 # LS_COLORS is exported by this
-if command -v dircolors >/dev/null 2>&1; then
+if (( ${+commands[dircolors]} )); then
 	if [ -r "${XDG_STATE_HOME}/dircolors" ]; then
-		eval "$(dircolors -b ${XDG_STATE_HOME}/dircolors)"
+		source <(dircolors -b ${XDG_STATE_HOME}/dircolors)
 	else
-		eval "$(dircolors -b)"
+		source <(dircolors -b)
 	fi
 fi
 

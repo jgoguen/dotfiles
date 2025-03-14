@@ -3,8 +3,8 @@
 
 # Detect CPU count
 CPU_COUNT=0
-if command -v nproc >/dev/null 2>&1 ; then
-	CPU_COUNT="$(command nproc)"
+if (( ${+commands[nproc]} )); then
+	CPU_COUNT="$(nproc)"
 elif sysctl -n hw.ncpu >/dev/null 2>&1 ; then
 	CPU_COUNT="$(sysctl -n hw.ncpu)"
 fi

@@ -53,21 +53,20 @@ done < <(printf '%s' "${GOPATH}")
 
 export PATH
 
-if command -v clang >/dev/null 2>&1; then
-	export CC="$(command -v clang)"
+if (( ${+commands[clang]} )); then
+	export CC="${commands[clang]}"
 fi
 
-if command -v nvim >/dev/null 2>&1; then
-	export EDITOR="$(command -v nvim)"
-elif command -v vim >/dev/null 2>&1; then
-	export EDITOR="$(command -v vim)"
+if (( ${+commands[nvim]} )); then
+	export EDITOR="${commands[nvim]}"
+elif (( ${+commands[vim]} )); then
+	export EDITOR="${commands[vim]}"
 else
 	export EDITOR=vi
 fi
 export VISUAL="${EDITOR:-vi}"
 
-MAN_BIN="$(command -v manpath)"
-if command -v manpath >/dev/null 2>&1 && [ -z "${MANPATH}" ]; then
-	MANPATH="${XDG_DATA_HOME}/man:/opt/local/share/man:$(command manpath 2>/dev/null)"
+if (( ${+commands[manpath]} )) && [ -z "${MANPATH}" ]; then
+	MANPATH="${XDG_DATA_HOME}/man:/opt/local/share/man:$(manpath 2>/dev/null)"
 	export MANPATH
 fi

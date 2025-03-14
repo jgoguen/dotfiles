@@ -43,7 +43,7 @@ bindkey '^f' forward-word
 bindkey '^b' backward-word
 
 {{ if eq .chezmoi.os "darwin" -}}
-if command -v brew >/dev/null 2>&1; then
+if (( ${+commands[brew]} )); then
 	BREW_PREFIX="$(brew --prefix)"
 	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
 		. "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -65,7 +65,7 @@ for PREFIX in /usr/local /usr; do
 done
 {{- end }}
 
-if command -v fzf >/dev/null 2>&1; then
+if (( ${+commands[fzf]} )); then
 	source <(fzf --zsh)
 fi
 

@@ -8,7 +8,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_GITHUB_API_TOKEN={{ (onepasswordItemFields "yaim2h545jdgdfvlepphtyql3i" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").homebrew.value | quote }}
 
 BREW_PREFIX=""
-if command -v brew >/dev/null 2>&1; then
+if (( ${+commands[brew]} )); then
 	BREW_PREFIX="$(brew --prefix)"
 fi
 export BREW_PREFIX

@@ -23,7 +23,7 @@ for d in "${USER_ZSH}/completion" "${USER_ZSH}/site-functions"; do
 	fi
 done
 {{- if eq .chezmoi.os "darwin" }}
-if command -v brew >/dev/null 2>&1; then
+if (( ${+commands[brew]} )); then
 	fpath=($(brew --prefix)/share/zsh/site-functions ${fpath})
 fi
 {{- end }}
