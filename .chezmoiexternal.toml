@@ -261,4 +261,12 @@ exact = true
 url = "https://github.com/Aloxaf/fzf-tab.git"
 [".local/share/zsh/plugins/fzf-tab".clone]
 args = ["--depth", "1"]
+
+# {{- range (concat .zsh.plugins.common.omz (index .zsh.plugins .environment "omz")) }}
+[".local/share/zsh/plugins/{{ . }}/{{ . }}.plugin.zsh"]
+type = "file"
+url = "https://github.com/ohmyzsh/ohmyzsh/raw/refs/heads/master/plugins/{{ . }}/{{ . }}.plugin.zsh"
+refreshPeriod = "672h"
+
+# {{- end }}
 # {{- end }}

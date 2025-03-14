@@ -1,0 +1,15 @@
+---
+zsh:
+  plugins:
+    common:
+      omz:
+        - encode64
+        - python
+    personal:
+      omz: []
+    work:
+      omz:
+        - aws
+        - bazel
+        - k9s
+        - knife
