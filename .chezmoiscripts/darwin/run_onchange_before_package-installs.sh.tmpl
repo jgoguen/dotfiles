@@ -1,7 +1,7 @@
 #!/bin/sh
 # vim: set filetype=sh:
 
-brew bundle --no-lock --file=/dev/stdin <<EOF
+brew bundle --file=/dev/stdin <<EOF
 {{ range .packages.darwin.brew -}}
 brew {{ . | quote }}
 {{ end }}
