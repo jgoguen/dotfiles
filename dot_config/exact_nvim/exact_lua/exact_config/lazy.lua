@@ -95,6 +95,9 @@ require('lazy').setup({
 			},
 		},
 	},
+	ui = {
+		border = "double",
+	},
 })
 
 vim.api.nvim_set_hl(0, 'LineNr', { fg = '#4b547d' })
