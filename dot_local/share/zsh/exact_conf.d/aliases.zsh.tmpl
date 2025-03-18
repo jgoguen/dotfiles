@@ -28,10 +28,10 @@ elif (( ${+commands[xdg-open]} )); then
 	alias open="${commands[xdg-open]}"
 fi
 
-if (( ${+commands[wl-copy]} )); then
+if [ -n "${WAYLAND_DISPLAY}" ] && (( ${+commands[wl-copy]} )); then
 	alias pbcopy="${commands[wl-copy]} --trim-newline"
 	alias pbpaste="${commands[wl-paste]} --no-newline"
-elif (( ${+commands[xclip]} )); then
+elif [ -n "${DISPLAY}" ] && (( ${+commands[xclip]} )); then
 	alias pbcopy="${commands[xclip]} -selection clipboard"
 	alias pbpaste="${commands[xclip]} -selection clipboard -o"
 fi
