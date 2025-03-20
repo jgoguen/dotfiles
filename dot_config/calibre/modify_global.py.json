@@ -1,6 +1,6 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- .chezmoi.stdin | default "{}" | fromJson
-	| setValueAtPath "library_path" (joinPath .chezmoi.homeDir "OneDrive/Documents/Calibre Library")
+	| setValueAtPath "library_path" (joinPath .chezmoi.homeDir "Nextcloud/Documents/Calibre Library")
 	| setValueAtPath "installation_uuid" "f2d1d0a9-e2f3-4eda-8814-93ed00e84698"
 	| setValueAtPath "manage_device_metadata" "on_connect"
 	| setValueAtPath "mark_new_books" true
