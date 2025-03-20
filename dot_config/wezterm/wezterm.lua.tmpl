@@ -76,7 +76,7 @@ config.default_cwd = wezterm.home_dir
 config.default_prog = { "pwsh.exe", "-NoLogo" }
 -- {{- end }}
 -- {{- if eq .chezmoi.os "linux" }}
-config.enable_wayland = os.getenv("WAYLAND_DISPLAY") ~= nil
+config.enable_wayland = os.getenv("XDG_SESSION_TYPE") == 'wayland'
 -- {{- end }}
 config.font = wezterm.font_with_fallback(font_set)
 config.font_size = 13
@@ -172,7 +172,7 @@ config.window_close_confirmation = "NeverPrompt"
 -- {{- if eq .chezmoi.os "darwin" }}
 config.window_decorations = "RESIZE|TITLE"
 -- {{- else }}
-config.window_decorations = "RESIZE|TITLE|INTEGRATED_BUTTONS"
+config.window_decorations = "RESIZE|INTEGRATED_BUTTONS"
 -- {{- end }}
 
 if has_site then
