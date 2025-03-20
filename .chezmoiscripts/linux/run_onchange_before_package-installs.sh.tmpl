@@ -17,6 +17,9 @@ fi
 if ! rpm -qi rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1; then
 	${SUDO} dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
 fi
+if ! rpm -qi rpmfusion-nonfree-release-tainted-{{ .chezmoi.osRelease.versionID }} >/dev/null 2>&1; then
+	${SUDO} dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-tainted-{{ .chezmoi.osRelease.versionID }}.noarch.rpm
+fi
 ${SUDO} dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
 
 ${SUDO} dnf remove -y {{ .packages.fedora.removal | join " " }}
