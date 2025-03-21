@@ -5,6 +5,8 @@ zsh:
       omz:
         - encode64
         - python
+    headless:
+      omz: []
     personal:
       omz: []
     work:
