@@ -115,6 +115,11 @@ bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
 bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
 bind-key / display-popup -E "tmux new-session -A -s scratch"
+
+unbind Q
+bind-key Q set-option -w synchronize-panes
+
+bind-key M resize-pane -Z
 # ]]]
 
 # Statusbar [[[
@@ -139,6 +144,11 @@ set-option -g @catppuccin_window_status_style "rounded"
 set-option -g @catppuccin_pane_status_enabled "yes"
 set-option -g @catppuccin_pane_border_status "yes"
 
+set-option -g @catppuccin_window_text " #T#{?window_zoomed_flag, (🔍),}#{?pane_synchronized, SYNCHRONISED-PANES,}"
+set-option -g @catppuccin_window_current_text " #T#{?pane_synchronized, SYNCHRONISED-PANES,}"
+
+set-option -g @catppuccin_date_time_text " %H:%M"
+
 if-shell "[ -f #{d:current_file}/plugins/tmux/catppuccin.tmux ]" "run-shell #{d:current_file}/plugins/tmux/catppuccin.tmux"
 
 # Status bar format
@@ -146,7 +156,7 @@ set-option -g status-left " #{tmux_mode_indicator} "
 set-option -gF status-right "#{E:@catppuccin_status_application}"
 set-option -agF status-right "#{E:@catppuccin_status_cpu}"
 set-option -agF status-right "#{E:@catppuccin_status_battery}"
-set-option -agF status-right "#{T:%%H:%%m}"
+set-option -agF status-right "#{E:@catppuccin_status_date_time}"
 # ]]]
 
 # Plugins [[[
