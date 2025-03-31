@@ -50,6 +50,12 @@ zstyle ':fzf-tab:*' accept-line enter
 if [ -n "${TMUX:-""}" ]; then
 	# If we're in tmux, use ftb-tmux-popup instead
 	zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+	# zstyle ':fzf-tab:*' popup-pad 4 4
+
+	local -a window_size=($(tmux display-message -p "#{window_width} #{window_height}"))
+	min_width=$((window_size[1] / 3))
+	min_height=$((window_size[2] / 4))
+	zstyle ':fzf-tab:*' popup-min-size $min_width $min_height
 fi
 
 for dpath in $(find ~/.local/share/zsh/plugins/* -maxdepth 0 -type d); do
