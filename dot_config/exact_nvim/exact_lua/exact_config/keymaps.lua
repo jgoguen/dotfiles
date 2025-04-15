@@ -43,13 +43,6 @@ local keybindings = {
 		-- Allow ^ to act like Home in an IDE
 		['^'] = { [[col('.') == match(getline('.'), '\S')+1 ? '0' : '^']], { expr = true } },
 
-		['<C-/>'] = {
-			function()
-				Snacks.terminal({ vim.o.shell, '-l' }, { cwd = LazyVim.root() })
-			end,
-			{ desc = 'Terminal (root dir)' },
-		},
-
 		-- Keep the cursor in the middle of the screen with <C-d> and <C-u>
 		['<C-d>'] = '<C-d>zz',
 		['<C-u>'] = '<C-u>zz',
