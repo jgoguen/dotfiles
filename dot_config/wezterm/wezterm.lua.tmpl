@@ -76,7 +76,7 @@ config.default_cwd = wezterm.home_dir
 config.default_prog = { "pwsh.exe", "-NoLogo" }
 -- {{- end }}
 -- {{- if eq .chezmoi.os "linux" }}
-config.enable_wayland = os.getenv("XDG_SESSION_TYPE") == 'wayland'
+config.enable_wayland = os.getenv("XDG_SESSION_TYPE") == "wayland"
 -- {{- end }}
 config.font = wezterm.font_with_fallback(font_set)
 config.font_size = 13
@@ -160,7 +160,7 @@ config.quote_dropped_files = "Windows"
 -- {{- else }}
 config.quote_dropped_files = "Posix"
 -- {{- end }}
-config.selection_word_boundary = " \t\n{}[]()\"'`:"
+config.selection_word_boundary = " \t\n{}[]()\"'`:║"
 config.visual_bell = {
 	fade_in_duration_ms = 75,
 	fade_out_duration_ms = 75,
