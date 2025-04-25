@@ -193,7 +193,7 @@ set-option -g @mode_indicator_empty_mode_style "fg=#{@thm_crust},bg=#{@thm_sky}"
 {{ if or (eq .environment "personal") (eq .environment "headless") -}}
 # Access 1Password login items via CLI in tmux
 set-option -g @plugin 'yardnsm/tmux-1password'
-set-option -g @1password-account {{ (onepasswordItemFields "ikmpz644kh5vugsho3wilerm7e" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").UserID.value }}
+set-option -g @1password-account {{ (onepasswordItemFields "m53coa6etwddk5c6nl2zv3xlxi" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").UserID.value }}
 {{- end }}
 
 # Keep this at the very end of the file!
