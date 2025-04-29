@@ -1,74 +1,46 @@
-# vim: set filetype=toml:
-# {{ $fontBasedir := ".local/share/fonts" }}
-# {{ if eq .chezmoi.os "darwin" }}
-# {{ $fontBasedir = "Library/Fonts" }}
-# {{ else if eq .chezmoi.os "windows" }}
-# {{ $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
-# {{ end }}
-# {{ $scadBasedir := "Documents/OpenSCAD" }}
-# {{ if eq .chezmoi.os "linux" }}
-# {{ $scadBasedir = ".local/share/OpenSCAD" }}
-# {{ end }}
-["{{ $fontBasedir }}/FiraCode"]
-url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.zip" }}'
+# {{- $fontBasedir := ".local/share/fonts" }}
+# {{- if eq .chezmoi.os "darwin" }}
+# {{- $fontBasedir = "Library/Fonts" }}
+# {{- else if eq .chezmoi.os "windows" }}
+# {{- $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
+# {{- end }}
+# {{- $scadBasedir := "Documents/OpenSCAD" }}
+# {{- if eq .chezmoi.os "linux" }}
+# {{- $scadBasedir = ".local/share/OpenSCAD" }}
+# {{- end }}
+
+# {{- range $f := .fonts.nerdfonts }}
+# {{- $zip := printf "%s.zip" $f }}
+["{{ $fontBasedir }}/{{ $f }}"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" $zip }}'
 type = "archive"
 exclude = [
+	"LICENSE",
+	"LICENSE.md",
+	"README",
 	"README.md",
 	"readme.md",
-	"LICENSE",
-	"*Propo-*",
-	"*-Retina*",
-	".uuid",
-]
-exact = true
-refreshPeriod = "672h"
-
-["{{ $fontBasedir }}/Hack"]
-url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "Hack.zip" }}'
-type = "archive"
-exclude = ["readme.md", "LICENSE.md", "*Propo-*", "README.md", ".uuid"]
-exact = true
-refreshPeriod = "672h"
-
-["{{ $fontBasedir }}/JetBrainsMono"]
-url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.zip" }}'
-type = "archive"
-exclude = [
-	"readme.md",
-	"LICENSE.md",
 	"OFL.txt",
 	"JetBrainsMonoNL*",
 	"*Propo-*",
-	"README.md",
-	".uuid",
-]
-exact = true
-refreshPeriod = "672h"
-
-["{{ $fontBasedir }}/Symbols"]
-url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "NerdFontsSymbolsOnly.zip" }}'
-type = "archive"
-exclude = [
-	"readme.md",
-	"LICENSE",
-	"README.md",
+	"*-Retina*",
 	".uuid",
 	"10-nerd-font-symbols.conf",
 ]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $fontBasedir }}/Fontin"]
-type = "archive"
-url = "http://www.exljbris.com/dl/fontin2_pc.zip"
+# {{- end }}
+
+# {{- range .fonts.download }}
+["{{ $fontBasedir }}/{{ .name }}"]
+type = "{{ .type }}"
+url = "{{ .url }}"
 exclude = ["ReadMe.txt", ".uuid"]
 exact = true
 refreshPeriod = "672h"
 
-["{{ $fontBasedir }}/codicon.ttf"]
-type = "file"
-url = "https://github.com/microsoft/vscode-codicons/releases/download/0.0.36/codicon.ttf"
-refreshPeriod = "672h"
+# {{- end }}
 
 # {{ if ne .environment "work" }}
 ["{{ $scadBasedir }}/libraries/ub.scad"]
