@@ -9,6 +9,7 @@ fonts:
     - Hack
     - JetBrainsMono
     - NerdFontsSymbolsOnly
+    - SourceCodePro
   download:
     - name: Fontin
       type: archive
