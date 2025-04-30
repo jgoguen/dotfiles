@@ -28,7 +28,7 @@ dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape', 'grp:w
 dconf write /org/gnome/desktop/interface/clock-show-seconds "true"
 dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
 dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
-dconf write /org/gnome/desktop/interface/monospace-font-name "'JetBrainsMono Nerd Font Mono 11'"
+dconf write /org/gnome/desktop/interface/monospace-font-name "'FiraCode Nerd Font Mono 12'"
 dconf write /org/gnome/desktop/interface/show-battery-percentage "true"
 
 dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll "true"

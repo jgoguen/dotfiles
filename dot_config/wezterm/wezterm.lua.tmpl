@@ -14,14 +14,27 @@ end
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
 		return "Catppuccin Mocha"
-		--return "tokyonight_moon"
 	else
 		return "Catppuccin Latte"
-		--return "tokyonight_day"
 	end
 end
 
 local font_set = {
+	{
+		family = "FiraCode Nerd Font Mono",
+		harfbuzz_features = {
+			"ss02",
+			"ss03",
+			"ss05",
+			"ss07",
+			"cv22",
+			"cv24",
+			"cv25",
+			"cv26",
+			"cv32",
+			"cv99",
+		},
+	},
 	-- {{- if eq .chezmoi.os "windows" }}
 	{
 		family = "JetBrainsMono NFM",
@@ -44,21 +57,6 @@ local font_set = {
 		},
 	},
 	-- {{- end }}
-	{
-		family = "FiraCode Nerd Font Mono",
-		harfbuzz_features = {
-			"ss02",
-			"ss03",
-			"ss05",
-			"ss07",
-			"cv22",
-			"cv24",
-			"cv25",
-			"cv26",
-			"cv32",
-			"cv99",
-		},
-	},
 	"Noto Sans CJK JP",
 	"Symbols Nerd Font Mono",
 }
@@ -79,7 +77,7 @@ config.default_prog = { "pwsh.exe", "-NoLogo" }
 config.enable_wayland = os.getenv("XDG_SESSION_TYPE") == "wayland"
 -- {{- end }}
 config.font = wezterm.font_with_fallback(font_set)
-config.font_size = 13
+config.font_size = 14
 config.front_end = "WebGpu"
 
 -- Explicitly set the defaults here since this might be appended to in site
