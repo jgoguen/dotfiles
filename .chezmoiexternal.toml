@@ -1,18 +1,6 @@
-# {{- $fontBasedir := ".local/share/fonts" }}
-# {{- if eq .chezmoi.os "darwin" }}
-# {{- $fontBasedir = "Library/Fonts" }}
-# {{- else if eq .chezmoi.os "windows" }}
-# {{- $fontBasedir = "AppData/Local/Microsoft/Windows/Fonts" }}
-# {{- end }}
-# {{- $scadBasedir := "Documents/OpenSCAD" }}
-# {{- if eq .chezmoi.os "linux" }}
-# {{- $scadBasedir = ".local/share/OpenSCAD" }}
-# {{- end }}
-
 # {{- range $f := .fonts.nerdfonts }}
-# {{- $zip := printf "%s.zip" $f }}
-["{{ $fontBasedir }}/{{ $f }}"]
-url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" $zip }}'
+["{{ (index $.fonts.basedirs $.chezmoi.os) }}/{{ $f }}"]
+url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" (printf "%s.zip" $f) }}'
 type = "archive"
 exclude = [
 	"LICENSE",
@@ -29,88 +17,30 @@ exclude = [
 ]
 exact = true
 refreshPeriod = "672h"
-
 # {{- end }}
 
 # {{- range .fonts.download }}
-["{{ $fontBasedir }}/{{ .name }}"]
+["{{ (index $.fonts.basedirs $.chezmoi.os) }}/{{ .name }}"]
 type = "{{ .type }}"
 url = "{{ .url }}"
 exclude = ["ReadMe.txt", ".uuid"]
 exact = true
 refreshPeriod = "672h"
-
 # {{- end }}
 
-# {{ if ne .environment "work" }}
-["{{ $scadBasedir }}/libraries/ub.scad"]
-type = "file"
-url = "https://github.com/UBaer21/UB.scad/raw/refs/heads/main/libraries/ub.scad"
-# {{- if ne .chezmoi.os "windows" }}
+# {{- if eq .environment "work" }}
+# {{- $scadBasedir := (index .scad.basedirs .chezmoi.os) }}
+# {{- range .scad.libraries }}
+["{{ $scadBasedir }}/libraries/{{ .name }}"]
+type = "{{ .type }}"
+url = "{{ .url }}"
+# {{- if and (eq .type "file") (ne $.chezmoi.os "windows") }}
 filter.command = "tr"
 filter.args = ["-d", "\r"]
 # {{- end }}
 refreshPeriod = "672h"
-
-["{{ $scadBasedir }}/libraries/ShortCuts.scad"]
-type = "file"
-url = "https://www.thingiverse.com/download:11412285"
-# {{- if ne .chezmoi.os "windows" }}
-filter.command = "tr"
-filter.args = ["-d", "\r"]
 # {{- end }}
-refreshPeriod = "672h"
-
-["{{ $scadBasedir }}/libraries/relativity.scad"]
-type = "file"
-url = "https://github.com/davidson16807/relativity.scad/raw/refs/heads/master/relativity.scad"
-# {{- if ne .chezmoi.os "windows" }}
-filter.command = "tr"
-filter.args = ["-d", "\r"]
 # {{- end }}
-refreshPeriod = "672h"
-
-["{{ $scadBasedir }}/libraries/knurl.scad"]
-type = "file"
-url = "https://www.thingiverse.com/download:93142"
-# {{- if ne .chezmoi.os "windows" }}
-filter.command = "tr"
-filter.args = ["-d", "\r"]
-# {{- end }}
-refreshPeriod = "672h"
-
-["{{ $scadBasedir }}/libraries/knobs.scad"]
-type = "file"
-url = "https://www.thingiverse.com/download:140673"
-# {{- if ne .chezmoi.os "windows" }}
-filter.command = "tr"
-filter.args = ["-d", "\r"]
-# {{- end }}
-refreshPeriod = "672h"
-
-["{{ $scadBasedir }}/libraries/BOSL2"]
-type = "archive"
-url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.zip"
-exact = true
-stripComponents = 1
-include = ["BOSL2-master/*.scad"]
-refreshPeriod = "168h"
-
-["{{ $scadBasedir }}/libraries/escad"]
-type = "archive"
-url = "https://vcs.jgoguen.ca/jgoguen/escad/archive/main.zip"
-exact = true
-stripComponents = 1
-include = ["escad/*.scad"]
-refreshPeriod = "168h"
-
-["{{ $scadBasedir }}/libraries/gridfinity"]
-type = "archive"
-url = "https://github.com/ostat/gridfinity_extended_openscad/archive/refs/heads/main.zip"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
-# {{ end }}
 
 [".config/nvim/lua/neorg/modules/external/context/module.lua"]
 type = "file"
