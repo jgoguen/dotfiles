@@ -1,0 +1,40 @@
+[scad]
+[scad.basedirs]
+windows = "Documents/OpenSCAD"
+darwin = "Documents/OpenSCAD"
+linux = ".local/share/OpenSCAD"
+
+[[scad.libraries]]
+name = "ub.scad"
+type = "file"
+url = "https://raw.githubusercontent.com/UBaer21/UB.scad/refs/heads/main/libraries/ub.scad"
+
+[[scad.libraries]]
+name = "ShortCuts.scad"
+type = "file"
+url = "https://www.thingiverse.com/download:11412285"
+
+[[scad.libraries]]
+name = "relativity.scad"
+type = "file"
+url = "https://raw.githubusercontent.com/davidson16807/relativity.scad/refs/heads/master/relativity.scad"
+
+[[scad.libraries]]
+name = "knurl.scad"
+type = "file"
+url = "https://www.thingiverse.com/download:93142"
+
+[[scad.libraries]]
+name = "knobs.scad'"
+type = "file"
+url = "https://www.thingiverse.com/download:140673"
+
+[[scad.libraries]]
+name = "BOSL2"
+type = "archive"
+url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.zip"
+
+[[scad.libraries]]
+name = "gridfinity"
+type = "archive"
+url = "https://github.com/ostat/gridfinity_extended_openscad/archive/refs/heads/main.zip"

@@ -1,0 +1,11 @@
+[zsh]
+[zsh.plugins]
+[zsh.plugins.common]
+omz = ["encode64", "python"]
+
+[zsh.plugins.headless]
+omz = []
+[zsh.plugins.personal]
+omz = []
+[zsh.plugins.work]
+omz = ["aws", "bazel"]

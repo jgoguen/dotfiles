@@ -1,0 +1,241 @@
+[packages]
+[packages.darwin]
+brew = [
+	"bat",
+	"bottom",
+	"chezmoi",
+	"coreutils",
+	"fd",
+	"fortune",
+	"fzf",
+	"git",
+	"git-absorb",
+	"git-crypt",
+	"git-extras",
+	"gnupg",
+	"go",
+	"imagemagick",
+	"jq",
+	"lazygit",
+	"lsd",
+	"lunchy",
+	"mas",
+	"neovim",
+	"npm",
+	"pinentry-mac",
+	"pre-commit",
+	"procs",
+	"pstree",
+	"python3",
+	"rename",
+	"ripgrep",
+	"sd",
+	"starship",
+	"yq",
+	"zsh",
+	"zsh-autosuggestions",
+	"zsh-syntax-highlighting",
+]
+
+cask = [
+	"1password",
+	"1password-cli",
+	"alfred",
+	"discord",
+	"firefox",
+	"google-chrome",
+	"joplin",
+	"kitty",
+	"visual-studio-code",
+]
+
+# App Store installs, find the ID and string to use with `mas list`
+[[packages.darwin.mas]]
+name = "1Password for Safari"
+id = 1569813296
+
+[[packages.darwin.mas]]
+name = "Baking Soda"
+id = 1601151613
+
+[[packages.darwin.mas]]
+name = "Hand Mirror"
+id = 1502839586
+
+[[packages.darwin.mas]]
+name = "OneDrive"
+id = 823766827
+
+[[packages.darwin.mas]]
+name = "Vinegar"
+id = 1591303229
+
+[packages.darwin.personal]
+brew = []
+cask = ["calibre"]
+mas = []
+
+[packages.darwin.work]
+brew = []
+cask = []
+mas = []
+
+[packages.darwin.headless]
+brew = []
+cask = []
+mas = []
+
+[packages.arch]
+pacman = [
+	"bat",
+	"bottom",
+	"discord",
+	"fd",
+	"firefox",
+	"fortune-mod",
+	"fzf",
+	"gamescope",
+	"git",
+	"git-absorb",
+	"git-crypt",
+	"gnupg",
+	"go",
+	"imagemagick",
+	"jq",
+	"kitty",
+	"lazygit",
+	"lsd",
+	"lua51",
+	"luajit",
+	"lutris",
+	"npm",
+	"pre-commit",
+	"python-pip",
+	"python-pynvim",
+	"ripgrep",
+	"sd",
+	"signal-desktop",
+	"starship",
+	"steam",
+	"thunderbird",
+	"yq",
+	"zsh",
+	"zsh-autosuggestions",
+	"zsh-syntax-highlighting",
+]
+
+aur = [
+	"1password",
+	"1password-cli",
+	"1password-blur-me-not",
+	"fortune-mod-calvin",
+	"fortune-mod-ferengi_rules_of_acquisition",
+	"fortune-mod-hackers",
+	"fortune-mod-montypython",
+	"fortune-mod-portal-game",
+	"fortune-mod-question-answer-jokes",
+	"fortune-mod-starwars",
+	"fortune-mod-vimtips",
+	"git-extras",
+	"joplin-desktop",
+	"neovim-nightly-bin",
+	"onedrive-abraunegg",
+	"onedrive-gui",
+	"signal-desktop-blur-me-not",
+]
+
+[packages.fedora]
+copr = ["atim/bottom", "atim/lazygit", "atim/starship"]
+
+dnf = [
+	"bat",
+	"bottom",
+	"compat-lua-devel",
+	"fd-find",
+	"ffmpeg",
+	"firefox",
+	"fortune-mod",
+	"fzf",
+	"git",
+	"git-absorb",
+	"git-crypt",
+	"git-extras",
+	"gnupg2",
+	"golang-bin",
+	"ImageMagick",
+	"jq",
+	"kitty",
+	"lazygit",
+	"lsd",
+	"neovim",
+	"nodejs-npm",
+	"onedrive",
+	"pre-commit",
+	"python3-neovim",
+	"python3-pip",
+	"ripgrep",
+	"rubygems",
+	"sd",
+	"starship",
+	"thunderbird",
+	"yq",
+	"zsh",
+	"zsh-autosuggestions",
+	"zsh-syntax-highlighting",
+]
+removal = ["libswscale-free"]
+
+[[packages.fedora.flatpak]]
+name = "com.discordapp.Discord"
+remote = "flathub"
+
+[[packages.fedora.flatpak]]
+name = "net.cozic.joplin_desktop"
+remote = "flathub"
+
+[packages.windows]
+powershell = [
+	"AdvancedHistory",
+	"Microsoft.PowerShell.SecretManagement",
+	"Microsoft.PowerShell.SecretStore",
+]
+
+winget = [
+	"AgileBits.1Password",
+	"Discord.Discord",
+	"EpicGames.EpicGamesLauncher",
+	"GIMP.GIMP",
+	"Microsoft.PowerShell",
+	"Microsoft.PowerToys",
+	"Microsoft.VisualStudioCode",
+	"Mozilla.Firefox",
+	"Mozilla.Thunderbird",
+	"Roblox.Roblox",
+	"Valve.Steam",
+]
+
+msstore = [
+	"9PMMSR1CGPWG", # HEIF extensions
+]
+
+[packages.windows.scoop]
+buckets = ["extras"]
+packages = [
+	"1password-cli",
+	"age",
+	"chezmoi",
+	"fzf",
+	"gcc",
+	"git",
+	"go",
+	"gsudo",
+	"lazygit",
+	"neovim",
+	"nodejs",
+	"python",
+	"ripgrep",
+	"rust",
+	"starship",
+	"vcredist2022",
+	"wezterm",
+]

@@ -1,0 +1,23 @@
+[fonts]
+nerdfonts = [
+	"FiraCode",
+	"Hack",
+	"JetBrainsMono",
+	"NerdFontsSymbolsOnly",
+	"SourceCodePro",
+]
+
+[fonts.basedirs]
+windows = "AppData/Local/Microsoft/Windows/Fonts"
+darwin = "Library/Fonts"
+linux = ".local/share/fonts"
+
+[[fonts.download]]
+name = "Fontin"
+type = "archive"
+url = "http://www.exljbris.com/dl/fontin2_pc.zip"
+
+[[fonts.download]]
+name = "codicon.ttf"
+type = "file"
+url = "https://github.com/microsoft/vscode-codicons/releases/download/0.0.36/codicon.ttf"
