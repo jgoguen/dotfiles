@@ -28,7 +28,7 @@ exact = true
 refreshPeriod = "672h"
 # {{- end }}
 
-# {{- if eq .environment "work" }}
+# {{- if ne .environment "work" }}
 # {{- $scadBasedir := (index .scad.basedirs .chezmoi.os) }}
 # {{- range .scad.libraries }}
 ["{{ $scadBasedir }}/libraries/{{ .name }}"]
