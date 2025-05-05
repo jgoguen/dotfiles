@@ -5,6 +5,7 @@ type = "archive"
 exclude = [
 	"LICENSE",
 	"LICENSE.md",
+	"LICENSE.txt",
 	"README",
 	"README.md",
 	"readme.md",
