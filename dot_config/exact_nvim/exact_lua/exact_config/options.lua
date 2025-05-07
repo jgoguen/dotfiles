@@ -122,6 +122,9 @@ local settings = {
 		-- Properly spell check camelCase words
 		spelloptions = vim.opt.spelloptions + { 'camel' },
 
+		-- Keep the same top line when opening or closing splits
+		splitkeep = 'topline',
+
 		-- Do not use swap files
 		swapfile = false,
 
