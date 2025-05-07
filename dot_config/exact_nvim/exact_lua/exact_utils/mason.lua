@@ -4,7 +4,7 @@ local M = {}
 
 ---@param server string
 local function resolve_package(server)
-	local has_mason, ServerMapping = pcall(require, 'mason-lspconfig.mappings.server')
+	local has_mason, MasonLSPConfig = pcall(require, 'mason-lspconfig')
 	if not has_mason then
 		return nil
 	end
@@ -14,7 +14,7 @@ local function resolve_package(server)
 		return nil
 	end
 
-	local pkg_name = ServerMapping.lspconfig_to_package[server]
+	local pkg_name = MasonLSPConfig.get_mappings().lspconfig_to_package[server]
 	local has_pkg, pkg = pcall(Registry.get_package, pkg_name)
 	if not has_pkg then
 		return nil
