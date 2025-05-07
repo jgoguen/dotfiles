@@ -14,7 +14,7 @@ local function resolve_package(server)
 		return nil
 	end
 
-	local pkg_name = MasonLSPConfig.get_mappings().lspconfig_to_package[server]
+	local pkg_name = MasonLSPConfig.get_mappings().lspconfig_to_mason[server]
 	local has_pkg, pkg = pcall(Registry.get_package, pkg_name)
 	if not has_pkg then
 		return nil
