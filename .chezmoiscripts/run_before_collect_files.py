@@ -7,9 +7,11 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 
 
 OP_BIN = shutil.which("op")
+CHEZMOI_BIN = shutil.which("chezmoi")
 
 
 def main() -> int:
@@ -21,7 +23,16 @@ def main() -> int:
         print(f"{OP_BIN} does not exist, cannot gather files", file=sys.stderr)
         return 1
 
+    if CHEZMOI_BIN is None:
+        print("No chezmoi binary found!", file=sys.stderr)
+        return 1
+
+    if not os.path.isfile(CHEZMOI_BIN):
+        print(f"{CHEZMOI_BIN} does not exist, cannot gather files", file=sys.stderr)
+        return 1
+
     logging.debug("Using op location: %s", OP_BIN)
+    logging.debug("Using chezmoi location: %s", CHEZMOI_BIN)
 
     proc = subprocess.run(
         [OP_BIN, "document", "list", "--format", "json"],
@@ -41,35 +52,43 @@ def main() -> int:
                 break
 
     excludes: list[str] = []
-    chezmoi_proc = subprocess.run(
-        ["chezmoi", "source-path"], capture_output=True, check=True
-    )
-    source_base = chezmoi_proc.stdout.decode("UTF-8").strip()
+    source_base = ""
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            chezmoi_proc = subprocess.run(
+                [CHEZMOI_BIN, "source-path", "--persistent-state", os.path.join(d, "state")], capture_output=True, check=True
+            )
+            source_base = chezmoi_proc.stdout.decode("UTF-8").strip()
+    except subprocess.CalledProcessError as cpe:
+        logging.exception("Command '%s' exited with code %d\nSTDOUT: %s\nSTDERR: %s",
+                          cpe.cmd, cpe.returncode, cpe.stdout, cpe.stderr)
+        raise cpe
     logging.debug("Chezmoi source path: %s", source_base)
 
-    for uuid in files:
-        dirname = os.path.expanduser(os.path.dirname(files[uuid]))
-        basename = os.path.basename(files[uuid])
-        proc = subprocess.run(
-            ["chezmoi", "source-path", dirname], capture_output=True, check=True
-        )
-        source_dir = proc.stdout.decode("UTF-8").strip()
-        source_path = os.path.join(source_dir, basename)
+    with tempfile.TemporaryDirectory() as d:
+        for uuid in files:
+            dirname = os.path.expanduser(os.path.dirname(files[uuid]))
+            basename = os.path.basename(files[uuid])
+            proc = subprocess.run(
+                [CHEZMOI_BIN, "source-path", "--persistent-state", os.path.join(d, basename), dirname], capture_output=True, check=True
+            )
+            source_dir = proc.stdout.decode("UTF-8").strip()
+            source_path = os.path.join(source_dir, basename)
 
-        logging.debug(
-            "Installing file %s to Chezmoi source path %s",
-            basename,
-            source_path,
-        )
+            logging.debug(
+                "Installing file %s to Chezmoi source path %s",
+                basename,
+                source_path,
+            )
 
-        if os.path.isfile(source_path):
-            os.unlink(source_path)
-        _ = subprocess.run(
-            [OP_BIN, "document", "get", uuid, "--output", source_path],
-            capture_output=True,
-            check=True,
-        )
-        excludes.append(os.path.relpath(source_path, source_base))
+            if os.path.isfile(source_path):
+                os.unlink(source_path)
+            _ = subprocess.run(
+                [OP_BIN, "document", "get", uuid, "--output", source_path],
+                capture_output=True,
+                check=True,
+            )
+            excludes.append(os.path.relpath(source_path, source_base))
 
     with open(os.path.join(source_base, ".git", "info", "exclude"), "w") as f:
         logging.debug("Writing files to git excludes: %s", excludes)
