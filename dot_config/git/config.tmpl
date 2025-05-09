@@ -7,7 +7,15 @@
 [alias]
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
-	delete-merged = !git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" { print $1 }' | xargs -r git branch -D
+	delete-merged = "!f() { \
+		HEAD_BRANCH=\"$(git remote show origin | awk '/HEAD branch/ {print $NF}')\"; \
+		git for-each-ref refs/heads/ --format='%(refname:short)' | \
+			grep -v \"^${HEAD_BRANCH}\\$\" | \
+			xargs -I {} sh -c ' \
+				if git log \"${HEAD_BRANCH}\"..\"{}\" --not --all --quiet; then \
+					git branch -D \"{}\"; \
+				fi'; \
+	}; f"
 	discard = reset --hard HEAD
 	dm = delete-merged
 	irebase = !f() { git rebase -i HEAD~$1; }; f
