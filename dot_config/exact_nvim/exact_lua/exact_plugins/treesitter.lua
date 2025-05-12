@@ -27,6 +27,8 @@ local M = {
 		for _, p in ipairs(extra_parsers) do
 			table.insert(opts.ensure_installed, p)
 		end
+		opts.indent.disable = opts.indent.disable or {}
+		table.insert(opts.indent.disable, 'yaml')
 	end,
 }
 
