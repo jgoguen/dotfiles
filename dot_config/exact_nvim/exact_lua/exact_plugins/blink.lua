@@ -6,13 +6,18 @@ local M = {
 	{
 		'saghen/blink.cmp',
 		dependencies = {
-			{'echasnovski/mini.icons'},
+			{ 'echasnovski/mini.icons' },
 		},
 		opts = function(_, opts)
 			local new_opts = {
 				completion = {
 					ghost_text = {
 						enabled = true,
+					},
+					list = {
+						selection = {
+							preselect = false,
+						},
 					},
 					menu = {
 						draw = {
@@ -91,6 +96,7 @@ local M = {
 				},
 				signature = {
 					enabled = true,
+					show_on_insert = true,
 				},
 			}
 
