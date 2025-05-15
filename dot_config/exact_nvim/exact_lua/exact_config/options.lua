@@ -189,7 +189,13 @@ local settings = {
 				'Cargo.toml',
 				'requirements.txt',
 			},
-			'cwd',
+			function(buf)
+				local ok, path = pcall(LazyVim.root.bufpath, buf)
+				if ok and path ~= nil and path ~= "" then
+					return vim.fs.dirname(path)
+				end
+				return LazyVim.root.cwd()
+			end,
 		},
 	},
 }
