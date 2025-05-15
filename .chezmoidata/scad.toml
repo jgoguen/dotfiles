@@ -25,16 +25,20 @@ type = "file"
 url = "https://www.thingiverse.com/download:93142"
 
 [[scad.libraries]]
-name = "knobs.scad'"
+name = "knobs.scad"
 type = "file"
 url = "https://www.thingiverse.com/download:140673"
 
 [[scad.libraries]]
 name = "BOSL2"
 type = "archive"
-url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.zip"
+strip = 1
+include = ["*/*.scad"]
+url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.tar.gz"
 
 [[scad.libraries]]
 name = "gridfinity"
 type = "archive"
-url = "https://github.com/ostat/gridfinity_extended_openscad/archive/refs/heads/main.zip"
+strip = 2
+include = ["*/src/**"]
+url = "https://github.com/kennetek/gridfinity-rebuilt-openscad/archive/refs/heads/main.tar.gz"

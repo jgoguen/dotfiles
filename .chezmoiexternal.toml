@@ -39,6 +39,13 @@ url = "{{ .url }}"
 filter.command = "tr"
 filter.args = ["-d", "\r"]
 # {{- end }}
+# {{- if and (eq .type "archive") (ne .strip nil) }}
+stripComponents = {{ .strip }}
+# {{- end }}
+# {{- if ne .include nil }}
+include = {{ .include | toToml }}
+# {{- end }}
+exact = true
 refreshPeriod = "672h"
 # {{- end }}
 # {{- end }}
