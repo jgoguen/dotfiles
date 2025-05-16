@@ -148,9 +148,6 @@ local settings = {
 		writebackup = false,
 	},
 	g = {
-		-- Do not use an AI source for autocompletion if it's supported
-		ai_cmp = false,
-
 		mapleader = '`',
 		maplocalleader = '\\',
 
@@ -188,10 +185,11 @@ local settings = {
 				'hugo.toml',
 				'Cargo.toml',
 				'requirements.txt',
+				'Makefile',
 			},
 			function(buf)
 				local ok, path = pcall(LazyVim.root.bufpath, buf)
-				if ok and path ~= nil and path ~= "" then
+				if ok and path ~= nil and path ~= '' then
 					return vim.fs.dirname(path)
 				end
 				return LazyVim.root.cwd()
