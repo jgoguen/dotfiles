@@ -21,7 +21,6 @@ macos_traditional_fullscreen no
 notify_on_cmd_finish unfocused
 scrollback_fill_enlarged_window yes
 scrollback_pager less --chop-long-lines --RAW-CONTROL-CHARS --dumb --quit-if-one-screen --no-init +INPUT_LINE_NUMBER
-shell_integration disabled
 show_hyperlink_targets yes
 strip_trailing_spaces smart
 tab_bar_edge top
@@ -61,15 +60,18 @@ map kitty_mod+l neighboring_window right
 #: available here <https://sw.kovidgoyal.net/kitty/actions/>.
 
 #: Scroll to previous shell prompt
-# map kitty_mod+z scroll_to_prompt -1
+map kitty_mod+z scroll_to_prompt -1
 
 #: Scroll to next shell prompt
-# map kitty_mod+x scroll_to_prompt 1
+map kitty_mod+x scroll_to_prompt 1
 
 #: Browse scrollback buffer in pager
 map kitty_mod+h show_scrollback
 
 #: Browse output of the last shell command in pager
 map kitty_mod+g show_last_command_output
+
+# Right-click to select command output
+mouse_map right press ungrabbed mouse_select_command_output
 
 include current-theme.conf
