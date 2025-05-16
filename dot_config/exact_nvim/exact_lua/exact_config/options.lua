@@ -148,6 +148,9 @@ local settings = {
 		writebackup = false,
 	},
 	g = {
+		-- Do not use an AI source for autocompletion if it's supported
+		ai_cmp = false,
+
 		mapleader = '`',
 		maplocalleader = '\\',
 
