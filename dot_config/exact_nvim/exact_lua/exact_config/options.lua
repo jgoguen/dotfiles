@@ -188,6 +188,8 @@ local settings = {
 				'hugo.toml',
 				'Cargo.toml',
 				'requirements.txt',
+			},
+			{
 				'Makefile',
 			},
 			function(buf)
