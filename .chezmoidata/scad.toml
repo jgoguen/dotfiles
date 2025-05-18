@@ -39,6 +39,6 @@ url = "https://github.com/BelfrySCAD/BOSL2/archive/refs/heads/master.tar.gz"
 [[scad.libraries]]
 name = "gridfinity"
 type = "archive"
-strip = 2
-include = ["*/src/**"]
+strip = 1
+include = ["*/*.scad", "*/src/**"]
 url = "https://github.com/kennetek/gridfinity-rebuilt-openscad/archive/refs/heads/main.tar.gz"
