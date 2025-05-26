@@ -9,6 +9,9 @@ local M = {
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
 			opts.diagnostics.virtual_text = false
+			opts.capabilities['offsetEncoding'] = { 'utf-16' }
+			opts.capabilities['general'] = opts.capabilities['general'] or {}
+			opts.capabilities.general['positionEncodings'] = { 'utf-16' }
 		end,
 	},
 }
