@@ -19,7 +19,7 @@
 	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.name" "Kobo Libra H2O"
 	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.type" "Kobo Libra H2O"
 	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.uuid" "fe95d2da-0895-4c6b-a110-22ce4d1538d4"
-	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.serial_no" (onepasswordItemFields "owir6vo66vd2vca6bjdsaw2ctu" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").Serial.value
+	| setValueAtPath "Devices.fe95d2da-0895-4c6b-a110-22ce4d1538d4.serial_no" (onepasswordItemFields "m525xfh2st2y47ehblshwiud44" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").Serial.value
 	| setValueAtPath "MetadataOptions.author" true
 	| setValueAtPath "MetadataOptions.description" true
 	| setValueAtPath "MetadataOptions.rating" false
