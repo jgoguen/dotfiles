@@ -14,10 +14,9 @@ log "Elevating privileges using ${SUDO}" "DEBUG"
 
 set -e
 
-{{ $sourceDir := .chezmoi.sourceDir }}
 {{ range (index .system_files .chezmoi.os) }}
 SYS_FILE="{{ .file }}"
-SRC_FILE="{{ $sourceDir }}/.system-files{{ .file }}"
+SRC_FILE="{{ $.chezmoi.sourceDir }}/.system-files{{ .file }}"
 SRC_HASH="0"
 SYS_HASH="0"
 

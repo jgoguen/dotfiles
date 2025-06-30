@@ -5,6 +5,10 @@ file = "/etc/pam.d/sudo_local"
 mode = "0444"
 
 [[system_files.linux]]
+file = "/etc/firefox/policies/policies.json"
+group = "root"
+
+[[system_files.linux]]
 file = "/etc/udev/hwdb.d/99-capslock-to-esc.hwdb"
 group = "root"
 commands = ["${SUDO} systemd-hwdb update"]
