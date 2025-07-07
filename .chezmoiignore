@@ -46,6 +46,7 @@ Library/
 .fedora.upn
 .gimp-2.8/
 .local/bin/calibre-update
+.local/bin/prime-run
 .rpmmacros
 .var/
 {{- end }}

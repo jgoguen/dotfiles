@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+# Detect current GL renderer
+GL_VENDOR=$(glxinfo 2>/dev/null | grep "OpenGL vendor string" | awk -F ': ' '{print tolower($2)}')
+
+case "${GL_VENDOR}" in
+nvidia)
+	# NVIDIA driver stack (proprietary or open)
+	__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=1 exec "$@"
+	;;
+intel | mesa)
+	# Mesa-based stack (Intel/AMD/Nouveau)
+	DRI_PRIME=1 exec "$@"
+	;;
+*)
+	echo "Warning: Could not determine GPU stack; running without offload" >&2
+	exec "$@"
+	;;
+esac
