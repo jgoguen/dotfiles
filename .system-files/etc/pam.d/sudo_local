@@ -1,2 +1,2 @@
-auth sufficient pam_tid.so
 auth sufficient pam_watchid.so
+auth sufficient pam_tid.so
