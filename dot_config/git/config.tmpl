@@ -9,12 +9,11 @@
 	branches = branch -a -l
 	delete-merged = "!f() { \
 		HEAD_BRANCH=\"$(git remote show origin | awk '/HEAD branch/ {print $NF}')\"; \
-		git for-each-ref refs/heads/ --format='%(refname:short)' | \
-			grep -v \"^${HEAD_BRANCH}\\$\" | \
-			xargs -I {} sh -c ' \
-				if git log \"${HEAD_BRANCH}\"..\"{}\" --not --all --quiet; then \
-					git branch -D \"{}\"; \
-				fi'; \
+		git fetch -p; \
+		git for-each-ref refs/heads/ --format='%(refname:short)%(HEAD) %(upstream:track)' | \
+			grep -v '\\*' | \
+			awk '/\\[gone\\]/ {print $1}' | \
+			xargs -I {} git branch -D '{}'; \
 	}; f"
 	discard = reset --hard HEAD
 	dm = delete-merged
