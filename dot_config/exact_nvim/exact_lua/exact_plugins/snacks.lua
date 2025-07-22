@@ -69,6 +69,13 @@ local M = {
 							hidden = true,
 						},
 					},
+					win = {
+						preview = {
+							wo = {
+								wrap = true,
+							},
+						},
+					},
 				},
 				rename = {
 					enabled = true,
