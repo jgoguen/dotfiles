@@ -15,41 +15,85 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd('VimResized', {
 	group = Utils.augroup('resizing'),
 	callback = function()
-		vim.cmd('tabdo wincmd =')
+		vim.defer_fn(function()
+			vim.cmd('tabdo wincmd =')
+		end, 100)
 	end,
 })
 
 -- Close when buffer is in the last open window
-vim.api.nvim_create_autocmd('WinEnter', {
+vim.g.jgoguen_last_window_close_debounce = nil
+vim.api.nvim_create_autocmd({ 'BufDelete', 'BufUnload', 'BufWipeout' }, {
 	group = Utils.augroup('last_window_close'),
-	callback = function(ev)
-		local autoclose_types = {
-			'nofile',
-			'prompt',
-			'quickfix',
-			'trouble',
-		}
+	callback = function()
+		Utils.log('Starting last_window_close check')
+		if vim.g.jgoguen_last_window_close_debounce then
+			Utils.log('Skipping, debounce active')
+			return
+		end
 
-		local wins = vim.api.nvim_list_wins()
-		local wins_to_close = {} ---@type integer[]
+		vim.g.jgoguen_last_window_close_debounce = true
+		vim.defer_fn(function()
+			vim.g.jgoguen_last_window_close_debounce = nil
 
-		for _, winid in ipairs(wins) do
-			local bufid = vim.api.nvim_win_get_buf(winid)
-			local ok, buftype = pcall(vim.api.nvim_get_option_value, 'buftype', { buf = bufid })
-			if ok and buftype then
-				for _, candidate in ipairs(autoclose_types) do
-					if buftype == candidate then
-						table.insert(wins_to_close, winid)
-						break
+			local autoclose_buftypes = {
+				help = true,
+				nofile = true,
+				prompt = true,
+				quickfix = true,
+				trouble = true,
+			}
+			local skip_filetypes = {
+				snacks_dashboard = true,
+			}
+
+			local windows = vim.api.nvim_tabpage_list_wins(0)
+			Utils.log('Checking windows: ' .. vim.inspect(windows))
+
+			for _, winid in ipairs(windows) do
+				Utils.log('Checking window: ' .. winid)
+				local bufid = vim.api.nvim_win_get_buf(winid)
+
+				Utils.log('Checking buffer: ' .. bufid)
+				Utils.log('Buffer ' .. bufid .. ' is loaded: ' .. tostring(vim.api.nvim_buf_is_loaded(bufid)))
+				Utils.log(
+					'Buffer ' .. bufid .. ' is listed: ' .. tostring(vim.api.nvim_get_option_value('buflisted', { buf = bufid }))
+				)
+				-- Only consider loaded buffers
+				if vim.api.nvim_buf_is_loaded(bufid) then
+					-- If the filetype is in the skip_filetypes list, we definitely won't be closing anything so just return early.
+					-- Filetype is checked before buflisted because some buffers may be loaded but not listed. For example, The
+					-- snacks.nvim dashboard.
+					local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufid })
+					Utils.log('Buffer ' .. bufid .. ' has filetype: ' .. filetype)
+					if skip_filetypes[filetype] then
+						Utils.log('Skipping buffer ' .. bufid .. ' due to filetype: ' .. filetype)
+						return
+					end
+
+					if vim.api.nvim_get_option_value('buflisted', { buf = bufid }) then
+						-- If the buftype is not in the autoclose_buftypes list, we won't be closing anything so just return early
+						local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufid })
+						Utils.log('Buffer ' .. bufid .. ' has buftype: ' .. buftype)
+						if not autoclose_buftypes[buftype] then
+							Utils.log('Skipping buffer ' .. bufid .. ' due to buftype: ' .. buftype)
+							return
+						end
 					end
 				end
 			end
-		end
 
-		-- If the length of the windows to close list is the same as the window list, we can just exit.
-		if #wins == #wins_to_close then
-			vim.cmd('qa')
-		end
+			-- If we reach this point, none of the buffers have a filetype that should be ignored and all of the buffers have
+			-- a buftype that indicates we have no more user-active windows open. Now decide if we're closing the tab or the
+			-- application.
+			if #vim.api.nvim_list_tabpages() == 1 then
+				Utils.log('Closing application, only one tabpage left')
+				vim.cmd('qa')
+			else
+				Utils.log('Closing tab, multiple tabpages left')
+				vim.cmd('tabclose')
+			end
+		end, 100)
 	end,
 })
 
