@@ -131,3 +131,25 @@ vim.filetype.add({
 		['${XDG_DATA_HOME}/zsh/.*'] = 'sh',
 	},
 })
+
+vim.api.nvim_create_user_command('DebugLog', function(opts)
+	local args = opts.args
+
+	if args == '' or args == 'toggle' then
+		vim.g.jgoguen_debug_log = not vim.g.jgoguen_debug_log
+	elseif args == 'on' or args == '1' or args == 'true' then
+		vim.g.jgoguen_debug_log = true
+	elseif args == 'off' or args == '0' or args == 'false' then
+		vim.g.jgoguen_debug_log = false
+	else
+		vim.notify('Usage: :DebugLog [toggle|on|off]', vim.log.levels.WARN)
+		return
+	end
+
+	vim.notify('Debug logging ' .. (vim.g.jgoguen_debug_log and 'enabled' or 'disabled'), vim.log.levels.INFO)
+end, {
+	nargs = '?',
+	complete = function()
+		return { 'toggle', 'on', 'off' }
+	end,
+})

@@ -30,6 +30,9 @@ local M = {
 		vim.fn.stdpath('data'),
 	},
 	resolved_venv_dir = '',
+	debug_log_file = vim.fn.stdpath('cache') .. '/nvim-debug.log',
+	__log_queue = {},
+	__flushing = false,
 }
 
 M.window_picker_opts = {
@@ -108,6 +111,46 @@ function M.python_executable()
 	end
 
 	return vim.fn.resolve(vim.fn.exepath('python3'))
+end
+
+function M.flush_debug_log()
+	if M.__flushing or #M.__log_queue == 0 then
+		return
+	end
+	M.__flushing = true
+
+	local ok, f = pcall(io.open, M.debug_log_file, 'a')
+	if not ok or not f then
+		vim.notify('Failed to open debug log file: ' .. M.debug_log_file, vim.log.levels.ERROR)
+		M.__log_queue = {}
+		M.__flushing = false
+		return
+	end
+
+	for _, msg in ipairs(M.__log_queue) do
+		f:write(msg .. '\n')
+	end
+	f:close()
+
+	M.__log_queue = {}
+	M.__flushing = false
+end
+
+---@param fmt string Format string, printf-style
+---@vararg ... any Arguments to format, converted to string with tostring()
+function M.log(fmt, ...)
+	if not vim.g.jgoguen_debug then
+		return
+	end
+
+	local ok, msg = pcall(string.format, fmt, ...)
+	if not ok then
+		msg = ('<format error> %s | args=%s'):format(tostring(fmt), vim.inspect({ ... }))
+	end
+
+	table.insert(M.__log_queue, os.date('[%Y-%m-%d %H:%M:%S] ') .. msg)
+
+	vim.defer_fn(M.flush_debug_log, 100)
 end
 
 return M

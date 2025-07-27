@@ -106,3 +106,9 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 		require('utils.lsp').organize_imports()
 	end,
 })
+
+-- Flush the log queue on VimLeavePre
+vim.api.nvim_create_autocmd('VimLeavePre', {
+	group = Utils.augroup('flush_log_queue'),
+	callback = Utils.flush_log_queue,
+})
