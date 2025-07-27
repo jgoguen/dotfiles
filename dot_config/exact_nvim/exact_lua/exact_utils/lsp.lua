@@ -4,7 +4,8 @@ local M = {}
 
 ---@param wait_ms integer?
 function M.organize_imports(wait_ms)
-	local params = vim.lsp.util.make_range_params()
+	local params = vim.lsp.util.make_range_params(0, 'utf-8')
+	---@diagnostic disable-next-line: inject-field
 	params.context = { only = { 'source.organizeImports' } }
 
 	local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, wait_ms)
