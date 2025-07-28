@@ -149,7 +149,7 @@ end
 ---@param fmt string Format string, printf-style
 ---@vararg ... any Arguments to format, converted to string with tostring()
 function M.log(fmt, ...)
-	if not vim.g.jgoguen_debug then
+	if not vim.g.jgoguen_debug_log then
 		return
 	end
 
@@ -160,7 +160,9 @@ function M.log(fmt, ...)
 
 	table.insert(M.__log_queue, os.date('[%Y-%m-%d %H:%M:%S] ') .. msg)
 
-	vim.defer_fn(M.flush_debug_log, 100)
+	vim.defer_fn(function()
+		M.flush_debug_log()
+	end, 100)
 end
 
 return M
