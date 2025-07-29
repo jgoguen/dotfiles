@@ -26,6 +26,7 @@ local M = {
 		name = 'catppuccin',
 		opts = {
 			flavour = 'mocha',
+			auto_integrations = true,
 			transparent_background = true,
 			background = {
 				light = 'latte',
