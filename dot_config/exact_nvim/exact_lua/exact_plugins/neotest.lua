@@ -3,14 +3,13 @@
 local M = {
 	{
 		'nvim-neotest/neotest',
-		dependencies = {
-			{ 'sluongng/neotest-bazel' },
+		opts = {
+			adapters = {
+				['neotest-python'] = {
+					python = vim.g.python3_host_prog,
+				},
+			},
 		},
-		opts = function(_, opts)
-			opts['adapters']['neotest-bazel'] = {}
-			opts['adapters']['neotest-python'] = opts['adapters']['neotest-python'] or {}
-			opts['adapters']['neotest-python']['python'] = vim.g.python3_host_prog
-		end,
 	},
 }
 

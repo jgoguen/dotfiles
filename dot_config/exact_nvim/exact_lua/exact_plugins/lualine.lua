@@ -32,6 +32,21 @@ local M = {
 
 			table.insert(opts.sections.lualine_x, 1, {
 				function()
+					local linters = require('lint').get_running()
+					if #linters == 0 then
+						return '󰦕'
+					end
+					return '󱉶 ' .. table.concat(linters, ', ')
+				end,
+				separator = require('lualine').get_config().options.component_separators,
+				cond = function()
+					local HasLint, _ = pcall(require, 'lint')
+					return HasLint
+				end,
+			})
+
+			table.insert(opts.sections.lualine_x, 2, {
+				function()
 					return 'OWNERS: ' .. require('codeowners').get_buf_owner()
 				end,
 				separator = require('lualine').get_config().options.component_separators,

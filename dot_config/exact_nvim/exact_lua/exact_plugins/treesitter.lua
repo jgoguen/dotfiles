@@ -15,21 +15,24 @@ local M = {
 		'ngalaiko/tree-sitter-go-template',
 		'windwp/nvim-ts-autotag',
 	},
-	opts = function(_, opts)
-		opts.highlight.disable = function()
-			if string.find(vim.bo.filetype, 'chezmoitmpl') then
-				return true
-			end
-		end
-		opts.highlight.additional_vim_regex_highlighting = { 'markdown', 'markdown.pandoc' }
-		opts.autotag = { enable = true }
-		opts.endwise = { enable = true }
-		for _, p in ipairs(extra_parsers) do
-			table.insert(opts.ensure_installed, p)
-		end
-		opts.indent.disable = opts.indent.disable or {}
-		table.insert(opts.indent.disable, 'yaml')
-	end,
+	opts = {
+		highlight = {
+			enable = true,
+			disable = function()
+				if string.find(vim.bo.filetype, 'chezmoitmpl') then
+					return true
+				end
+			end,
+			additional_vim_regex_highlighting = { 'markdown', 'markdown.pandoc' },
+		},
+		autotag = { enable = true },
+		endwise = { enable = true },
+		ensure_installed = extra_parsers,
+		indent = {
+			enable = true,
+			disable = { 'yaml' },
+		},
+	},
 }
 
 return M

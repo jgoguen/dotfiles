@@ -3,15 +3,21 @@
 local M = {
 	{
 		"neovim/nvim-lspconfig",
-		opts = function(_, opts)
-			opts["servers"]["gopls"]["settings"]["gopls"]["local"] = "go.jgoguen.ca/"
-		end,
+		opts = {
+			servers = {
+				gopls = {
+					settings = {
+						gopls = {
+							["local"] = "go.jgoguen.ca/",
+						},
+					},
+				},
+			},
+		},
 	},
 	{
 		"mason-org/mason.nvim",
-		opts = function(_, opts)
-			table.insert(opts.ensure_installed, "golines")
-		end,
+		opts = { ensure_installed = { "golines" } },
 	},
 	{
 		"stevearc/conform.nvim",

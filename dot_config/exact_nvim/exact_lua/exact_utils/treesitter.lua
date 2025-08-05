@@ -2,16 +2,6 @@
 
 local M = {}
 
----@param parsers string|string[]
-function M.ensure_installed(parsers)
-	local has_treesitter, TSInstall = pcall(require, 'nvim-treesitter.install')
-	if not has_treesitter then
-		return
-	end
-
-	TSInstall.ensure_installed(parsers)
-end
-
 ---@param node_types string|string[]
 ---@return boolean
 function M.node_is(node_types, node)

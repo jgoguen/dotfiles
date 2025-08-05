@@ -49,6 +49,14 @@ local M = {
 		end,
 	},
 	{
+		'mason-org/mason.nvim',
+		opts = { ensure_installed = { 'lua-language-server' } },
+	},
+	{
+		'nvim-treesitter/nvim-treesitter',
+		opts = { ensure_installed = { 'lua', 'luadoc', 'luap' } },
+	},
+	{
 		'mfussenegger/nluarepl',
 	},
 }

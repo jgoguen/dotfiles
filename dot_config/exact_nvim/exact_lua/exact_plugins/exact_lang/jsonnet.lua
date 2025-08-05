@@ -3,9 +3,7 @@
 local M = {
 	{
 		'nvim-treesitter/nvim-treesitter',
-		opts = function(_, opts)
-			vim.list_extend(opts.ensure_installed, { 'jsonnet' })
-		end,
+		opts = { ensure_installed = { 'jsonnet' } },
 	},
 	{
 		'neovim/nvim-lspconfig',
@@ -23,10 +21,7 @@ local M = {
 	},
 	{
 		'mason-org/mason.nvim',
-		opts = function(_, opts)
-			opts.ensure_installed = opts.ensure_installed or {}
-			vim.list_extend(opts.ensure_installed, { 'jsonnet-language-server' })
-		end,
+		opts = { ensure_installed = { 'jsonnet-language-server' } },
 	},
 }
 
