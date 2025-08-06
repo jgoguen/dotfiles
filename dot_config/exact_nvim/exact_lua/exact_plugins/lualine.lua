@@ -63,6 +63,15 @@ local M = {
 				{ '%B' },
 			}
 
+			-- If running under tmux, a clock is provided by my tmux config already. The Lazyvim config for lualine inserts
+			-- a clock as the first element in `lualine_z`.
+			if vim.env.TMUX ~= nil then
+				local z_sections = opts.sections.lualine_z or {}
+				if #z_sections > 0 then
+					table.remove(z_sections, 1)
+				end
+			end
+
 			table.insert(opts.sections.lualine_z, 1, function()
 				local f = io.popen('/bin/hostname -s')
 				if f == nil then
