@@ -129,6 +129,10 @@ function M.flush_debug_log()
 	end
 	M.__flushing = true
 
+	M.flush_debug_log_immediate()
+end
+
+M.flush_debug_log_immediate = function()
 	local ok, f = pcall(io.open, M.debug_log_file, 'a')
 	if not ok or not f then
 		vim.notify('Failed to open debug log file: ' .. M.debug_log_file, vim.log.levels.ERROR)
@@ -146,9 +150,21 @@ function M.flush_debug_log()
 	M.__flushing = false
 end
 
+---Write a formatted message to the debug log file.
 ---@param fmt string Format string, printf-style
 ---@vararg ... any Arguments to format, converted to string with tostring()
 function M.log(fmt, ...)
+	M.store_log(fmt, ...)
+
+	vim.defer_fn(function()
+		M.flush_debug_log()
+	end, 100)
+end
+
+---Stores a log message to be written to the debug log file.
+---@param fmt string Format string, printf-style
+---@vararg ... any Arguments to format, converted to string with tostring()
+function M.store_log(fmt, ...)
 	if not vim.g.jgoguen_debug_log then
 		return
 	end
@@ -159,10 +175,14 @@ function M.log(fmt, ...)
 	end
 
 	table.insert(M.__log_queue, os.date('[%Y-%m-%d %H:%M:%S] ') .. msg)
+end
 
-	vim.defer_fn(function()
-		M.flush_debug_log()
-	end, 100)
+---Write a formatted message to the debug log file and flush immediately.
+---@param fmt string Format string, printf-style
+---@vararg ... any Arguments to format, converted to string with tostring()
+M.log_immediate = function(fmt, ...)
+	M.store_log(fmt, ...)
+	M.flush_debug_log_immediate()
 end
 
 return M
