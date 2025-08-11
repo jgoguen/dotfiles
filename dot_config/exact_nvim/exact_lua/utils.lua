@@ -35,8 +35,7 @@ local M = {
 		'env',
 	},
 	base_dirs = {
-		LazyVim.root.get(),
-		vim.fn.getcwd(),
+		vim.uv.cwd(),
 		vim.fn.stdpath('data'),
 	},
 	resolved_venv_dir = '',
@@ -88,7 +87,10 @@ function M.python_venv()
 		return M.resolved_venv_dir
 	end
 
-	for _, base in ipairs(M.base_dirs) do
+	local dirs = { LazyVim.root.cwd() }
+	vim.list_extend(dirs, M.base_dirs)
+
+	for _, base in ipairs(dirs) do
 		for _, venv in ipairs(M.venv_paths) do
 			local candidate_venv_dir = base .. '/' .. venv
 			if vim.fn.isdirectory(candidate_venv_dir) == 1 then

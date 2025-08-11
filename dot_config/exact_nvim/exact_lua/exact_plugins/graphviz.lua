@@ -3,7 +3,7 @@
 local M = {
 	{
 		'mason-org/mason.nvim',
-		opts = {ensure_installed = {'dot-language-server'}},
+		opts = { ensure_installed = { 'dot-language-server' } },
 	},
 	{
 		'neovim/nvim-lspconfig',

@@ -4,7 +4,8 @@ local M = {
 	{
 		'rsreimer/codeowners.nvim',
 		cond = function()
-			return vim.fs.find('.github/CODEOWNERS', { path = LazyVim.root.cwd(), upward = true })[1] ~= nil
+			-- Do not use LazyVim.root.cwd() here, it isn't available at bootstrap
+			return vim.fs.find('.github/CODEOWNERS', { path = vim.uv.cwd(), upward = true })[1] ~= nil
 		end,
 	},
 	{

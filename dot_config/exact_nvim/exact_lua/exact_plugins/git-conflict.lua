@@ -3,7 +3,8 @@
 local M = {
 	'akinsho/git-conflict.nvim',
 	cond = function()
-		local cwd = LazyVim.root.cwd()
+		-- Don't use LazyVim.root.cwd() here, it isn't available at bootstrap
+		local cwd = vim.uv.cwd()
 		if cwd == '' then
 			return false
 		end
