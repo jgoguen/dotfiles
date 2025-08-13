@@ -5,109 +5,119 @@ local Utils = require('utils')
 local M = {
 	{
 		'saghen/blink.cmp',
+		version = not vim.g.lazyvim_blink_main and '*',
+		build = vim.g.lazyvim_blink_main and 'cargo build --release',
 		dependencies = {
 			{ 'echasnovski/mini.icons' },
 		},
-		opts = function(_, opts)
-			local new_opts = {
-				completion = {
-					ghost_text = {
-						enabled = true,
-					},
-					list = {
-						selection = {
-							preselect = false,
-						},
-					},
-					menu = {
-						draw = {
-							columns = {
-								{ 'item_idx' },
-								{ 'kind_icon', 'kind' },
-								{ 'label', 'label_description' },
-							},
-							components = {
-								kind_icon = {
-									ellipsis = false,
-									text = function(ctx)
-										local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-										return kind_icon
-									end,
-									highlight = function(ctx)
-										local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-										return hl
-									end,
-								},
-							},
-						},
-					},
-				},
-				keymap = {
-					['<A-1>'] = {
-						function(cmp)
-							cmp.accept({ index = 1 })
-						end,
-					},
-					['<A-2>'] = {
-						function(cmp)
-							cmp.accept({ index = 2 })
-						end,
-					},
-					['<A-3>'] = {
-						function(cmp)
-							cmp.accept({ index = 3 })
-						end,
-					},
-					['<A-4>'] = {
-						function(cmp)
-							cmp.accept({ index = 4 })
-						end,
-					},
-					['<A-5>'] = {
-						function(cmp)
-							cmp.accept({ index = 5 })
-						end,
-					},
-					['<A-6>'] = {
-						function(cmp)
-							cmp.accept({ index = 6 })
-						end,
-					},
-					['<A-7>'] = {
-						function(cmp)
-							cmp.accept({ index = 7 })
-						end,
-					},
-					['<A-8>'] = {
-						function(cmp)
-							cmp.accept({ index = 8 })
-						end,
-					},
-					['<A-9>'] = {
-						function(cmp)
-							cmp.accept({ index = 9 })
-						end,
-					},
-					['<A-0>'] = {
-						function(cmp)
-							cmp.accept({ index = 10 })
-						end,
-					},
-				},
-				signature = {
+		opts = {
+			completion = {
+				ghost_text = {
 					enabled = true,
+				},
+				list = {
+					selection = {
+						preselect = false,
+					},
+				},
+				menu = {
+					draw = {
+						columns = {
+							-- { 'item_idx' },
+							{ 'kind_icon', 'kind' },
+							{ 'label', 'label_description' },
+							{ 'source_name' },
+						},
+						components = {
+							kind_icon = {
+								ellipsis = false,
+								text = function(ctx)
+									local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+									return kind_icon
+								end,
+								highlight = function(ctx)
+									local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+									return hl
+								end,
+							},
+							kind = {
+								highlight = function(ctx)
+									local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+									return hl
+								end,
+							},
+						},
+					},
+				},
+			},
+			fuzzy = {
+				implementation = 'prefer_rust',
+			},
+			keymap = {
+				['<A-1>'] = {
+					function(cmp)
+						cmp.accept({ index = 1 })
+					end,
+				},
+				['<A-2>'] = {
+					function(cmp)
+						cmp.accept({ index = 2 })
+					end,
+				},
+				['<A-3>'] = {
+					function(cmp)
+						cmp.accept({ index = 3 })
+					end,
+				},
+				['<A-4>'] = {
+					function(cmp)
+						cmp.accept({ index = 4 })
+					end,
+				},
+				['<A-5>'] = {
+					function(cmp)
+						cmp.accept({ index = 5 })
+					end,
+				},
+				['<A-6>'] = {
+					function(cmp)
+						cmp.accept({ index = 6 })
+					end,
+				},
+				['<A-7>'] = {
+					function(cmp)
+						cmp.accept({ index = 7 })
+					end,
+				},
+				['<A-8>'] = {
+					function(cmp)
+						cmp.accept({ index = 8 })
+					end,
+				},
+				['<A-9>'] = {
+					function(cmp)
+						cmp.accept({ index = 9 })
+					end,
+				},
+				['<A-0>'] = {
+					function(cmp)
+						cmp.accept({ index = 10 })
+					end,
+				},
+			},
+			signature = {
+				enabled = true,
+				trigger = {
 					show_on_insert = true,
 				},
-			}
-
-			opts = vim.tbl_deep_extend('force', opts, new_opts)
-			opts.enabled = function()
+			},
+			enabled = function()
 				return not (
 					vim.tbl_contains(Utils.excluded_buftypes, vim.bo.buftype)
 					or vim.tbl_contains(Utils.excluded_filetypes, vim.bo.filetype)
 				)
-			end
-		end,
+			end,
+		},
 	},
 }
 
