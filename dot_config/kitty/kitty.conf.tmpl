@@ -15,6 +15,7 @@ disable_ligatures never
 enable_audio_bell no
 {{ if eq .chezmoi.os "darwin" -}}
 macos_colorspace default
+macos_option_as_alt left
 macos_quit_when_last_window_closed yes
 macos_traditional_fullscreen no
 {{- end }}
