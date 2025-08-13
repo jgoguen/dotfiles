@@ -10,7 +10,6 @@ brew = [
 	"fzf",
 	"git",
 	"git-absorb",
-	"git-crypt",
 	"git-extras",
 	"gnupg",
 	"go",
@@ -45,7 +44,6 @@ cask = [
 	"google-chrome",
 	"joplin",
 	"kitty",
-	"visual-studio-code",
 ]
 
 # App Store installs, find the ID and string to use with `mas list`
@@ -62,17 +60,16 @@ name = "Hand Mirror"
 id = 1502839586
 
 [[packages.darwin.mas]]
-name = "OneDrive"
-id = 823766827
-
-[[packages.darwin.mas]]
 name = "Vinegar"
 id = 1591303229
 
 [packages.darwin.personal]
-brew = []
+brew = ["rust"]
 cask = ["calibre"]
-mas = []
+
+[[packages.darwin.personal.mas]]
+name = "OneDrive"
+id = 823766827
 
 [packages.darwin.work]
 brew = []
@@ -96,7 +93,6 @@ pacman = [
 	"gamescope",
 	"git",
 	"git-absorb",
-	"git-crypt",
 	"gnupg",
 	"go",
 	"imagemagick",
@@ -112,6 +108,8 @@ pacman = [
 	"python-pip",
 	"python-pynvim",
 	"ripgrep",
+	"rust",
+	"rust-src",
 	"signal-desktop",
 	"starship",
 	"steam",
@@ -156,7 +154,6 @@ dnf = [
 	"fzf",
 	"git",
 	"git-absorb",
-	"git-crypt",
 	"git-extras",
 	"gnupg2",
 	"golang-bin",
@@ -172,7 +169,8 @@ dnf = [
 	"python3-neovim",
 	"python3-pip",
 	"ripgrep",
-	"rubygems",
+	"rust",
+	"rust-src",
 	"starship",
 	"thunderbird",
 	"yq",
