@@ -2,21 +2,17 @@
 
 local M = {
 	{
-		'vhyrro/luarocks.nvim',
-		-- This plugin must load before others so it can be ready to install rocks needed by other plugins
-		lazy = false,
-		priority = 1000,
-		opts = {},
+		'nvim-treesitter/nvim-treesitter',
+		opts = {
+			ensure_installed = { 'norg' },
+		},
 	},
 	{
 		'nvim-neorg/neorg',
-		-- build = ':Neorg sync-parsers',
+		lazy = false,
 		version = '*',
-		cmd = 'Neorg',
-		ft = { 'norg' },
 		dependencies = {
 			'nvim-lua/plenary.nvim',
-			'vhyrro/luarocks.nvim',
 		},
 		opts = {
 			load = {
