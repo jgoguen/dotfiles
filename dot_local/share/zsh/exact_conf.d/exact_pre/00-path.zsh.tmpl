@@ -44,11 +44,10 @@ export GOPATH="${HOME}/Library/Application Support/go"
 export GOPATH="${XDG_STATE_HOME}/go"
 {{- end }}
 while read -d ':' pathname || [ -n "${pathname}" ]; do
-	if [ -r "${pathname}/bin" ] && [ -x "${pathname}/bin" ]; then
-		path=(${pathname}/bin ${path})
-	elif [ ! -d "${pathname}" ]; then
-		/usr/bin/install -d -m 0700 "${pathname}"
+	if [ ! -d "${pathname}" ]; then
+		/usr/bin/install -d -m 0700 "${pathname}/bin"
 	fi
+	path=(${pathname}/bin ${path})
 done < <(printf '%s' "${GOPATH}")
 
 export PATH
