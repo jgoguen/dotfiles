@@ -85,6 +85,7 @@ mas = []
 pacman = [
 	"bat",
 	"bottom",
+	"clang",
 	"discord",
 	"fd",
 	"firefox",
@@ -146,6 +147,7 @@ copr = ["atim/bottom", "atim/lazygit", "atim/starship"]
 dnf = [
 	"bat",
 	"bottom",
+	"clang",
 	"compat-lua-devel",
 	"fd-find",
 	"ffmpeg",
