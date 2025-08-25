@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd('VimResized', {
 -- Close when buffer is in the last open window
 vim.api.nvim_create_autocmd('QuitPre', {
 	group = Utils.augroup('last_window_close'),
-	callback = function()
+	callback = function(ev)
 		Utils.log('Starting last_window_close check')
 
 		local autoclose_buftypes = {
@@ -34,12 +34,17 @@ vim.api.nvim_create_autocmd('QuitPre', {
 			quickfix = true,
 			trouble = true,
 		}
-		local skip_filetypes = {
-			snacks_dashboard = true,
+		local close_filetypes = {
+			noice = true,
+			snacks_layout_box = true,
+			snacks_picker_input = true,
+			snacks_picker_layout = true,
+			snacks_picker_list = true,
 		}
 
 		local close_windows = {} ---@type integer[]
 		local windows = vim.api.nvim_tabpage_list_wins(0)
+		local current_win = vim.api.nvim_get_current_win()
 		Utils.log('Checking windows: ' .. vim.inspect(windows))
 
 		-- Try to find a reason to quit. Any buffer whose buftype is not in autoclose_buftypes or whose filetype is in
@@ -47,6 +52,11 @@ vim.api.nvim_create_autocmd('QuitPre', {
 		for _, winid in ipairs(windows) do
 			Utils.log('Checking window: ' .. winid)
 			local bufid = vim.api.nvim_win_get_buf(winid)
+			if bufid == ev.buf and winid == current_win then
+				-- Don't consider the buffer that is being closed
+				Utils.log('Skipping buffer ' .. bufid .. ' in window ' .. winid .. ' because it is being closed')
+				goto continue
+			end
 
 			Utils.log('Checking buffer: ' .. bufid)
 			Utils.log('Buffer ' .. bufid .. ' is loaded: ' .. tostring(vim.api.nvim_buf_is_loaded(bufid)))
@@ -60,7 +70,7 @@ vim.api.nvim_create_autocmd('QuitPre', {
 				-- snacks.nvim dashboard.
 				local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufid })
 				Utils.log('Buffer ' .. bufid .. ' has filetype: ' .. filetype)
-				if skip_filetypes[filetype] then
+				if not close_filetypes[filetype] then
 					Utils.log('Skipping buffer ' .. bufid .. ' due to filetype: ' .. filetype)
 					return
 				end
@@ -79,6 +89,10 @@ vim.api.nvim_create_autocmd('QuitPre', {
 			-- If we get here, the window can be closed and we haven't detected any windows to prevent closing in any windows
 			-- so far.
 			table.insert(close_windows, winid)
+
+			-- Keep this as the very last statement in the loop, because for some reason Lua doesn't want to add a proper
+			-- continue statement.
+			::continue::
 		end
 
 		-- If we reach this point, none of the buffers have a filetype that should be ignored and all of the buffers have
