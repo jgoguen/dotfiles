@@ -7,7 +7,7 @@ local M = {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter',
-		opts = { ensure_installed = { 'css', 'html', 'scss' } },
+		opts = { ensure_installed = { 'css', 'html', 'javascript', 'scss', 'typescript' } },
 	},
 }
 

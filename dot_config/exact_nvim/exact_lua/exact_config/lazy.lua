@@ -120,12 +120,8 @@ vim.filetype.add({
 		sh = 'sh',
 		zsh = 'sh',
 	},
-	filename = {
-		['.infra/deploy.yml'] = 'helm',
-	},
 	pattern = {
-		['(.*/)?chezmoi/.+%.tmpl'] = 'gotmpl',
-		['(.*/)?%.infra/helm/.+%.yml'] = 'helm',
+		['(.+/)?chezmoi/.+%.tmpl'] = 'gotmpl',
 		['${HOME}/%.z.+'] = 'sh',
 		['${XDG_DATA_HOME}/zsh/.*'] = 'sh',
 	},
