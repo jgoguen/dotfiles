@@ -8,7 +8,7 @@ local M = {
 		version = not vim.g.lazyvim_blink_main and '*',
 		build = vim.g.lazyvim_blink_main and 'cargo build --release',
 		dependencies = {
-			{ 'echasnovski/mini.icons' },
+			{ 'nvim-mini/mini.icons' },
 		},
 		opts = {
 			completion = {

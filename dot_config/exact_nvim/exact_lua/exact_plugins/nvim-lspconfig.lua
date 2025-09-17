@@ -3,8 +3,6 @@
 local M = {
 	-- Temporary pinning until lazy.nvim updates to remove its usage of
 	-- mason-lspconfig.mappings.server for Mason v2.
-	{ 'mason-org/mason.nvim', version = '1.11.0' },
-	{ 'mason-org/mason-lspconfig.nvim', version = '1.32.0' },
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)

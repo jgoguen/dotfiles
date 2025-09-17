@@ -2,17 +2,17 @@
 
 local M = {
 	{
-		'nvim-treesitter/nvim-treesitter',
-		opts = {
-			ensure_installed = { 'norg' },
-		},
-	},
-	{
 		'nvim-neorg/neorg',
 		lazy = false,
 		version = '*',
 		dependencies = {
 			'nvim-lua/plenary.nvim',
+			{
+				'nvim-treesitter/nvim-treesitter',
+				opts = {
+					ensure_installed = { 'norg' },
+				},
+			},
 		},
 		opts = {
 			load = {
