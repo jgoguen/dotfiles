@@ -4,6 +4,7 @@ local M = {
 	{
 		'nvim-neorg/neorg',
 		lazy = false,
+		ft = { 'norg' },
 		version = '*',
 		dependencies = {
 			'nvim-lua/plenary.nvim',
