@@ -11,7 +11,7 @@ local M = {
 			{
 				'nvim-treesitter/nvim-treesitter',
 				opts = {
-					ensure_installed = { 'norg' },
+					ensure_installed = { 'norg', 'norg_meta' },
 				},
 			},
 		},
