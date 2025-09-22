@@ -2,15 +2,6 @@
 
 local M = {
 	'akinsho/bufferline.nvim',
-	-- TODO: Remove init once LazyVim updates to include this fix, likely October or later
-	init = function()
-		local HasCatppuccin, CatppuccinBufline = pcall(require, 'catppuccin.groups.integrations.bufferline')
-		if HasCatppuccin then
-			function CatppuccinBufline.get()
-				return CatppuccinBufline.get_theme()
-			end
-		end
-	end,
 	opts = function(_, opts)
 		local new_opts = {
 			options = {
@@ -22,7 +13,7 @@ local M = {
 		local HasCatppuccin, Catppuccin = pcall(require, 'catppuccin.groups.integrations.bufferline')
 
 		if HasCatppuccin then
-			new_opts.highlights = Catppuccin.get()
+			new_opts.highlights = Catppuccin.get_theme()
 		end
 
 		return vim.tbl_deep_extend('force', opts, new_opts)
