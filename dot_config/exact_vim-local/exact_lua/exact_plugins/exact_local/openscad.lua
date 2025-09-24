@@ -5,7 +5,7 @@ local M = {
 		'neovim/nvim-lspconfig',
 		opts = {
 			settings = {
-				openscad = {
+				openscad_lsp = {
 					-- An empty string is required here if there are no paths to provide because openscad-lsp doesn't check for
 					-- this value being missing but empty is fine.
 					search_paths = '',
@@ -13,6 +13,10 @@ local M = {
 				},
 			},
 		},
+	},
+	{
+		'mason-org/mason.nvim',
+		opts = { ensure_installed = { 'openscad-lsp' } },
 	},
 }
 
