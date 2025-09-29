@@ -11,6 +11,10 @@ local M = {
 			links = {
 				conceal = true,
 			},
+			mappings = {
+				MkdnTableNextCell = { 'i', '<C-Tab>' },
+				MkdnTablePrevCell = { 'i', '<C-S-Tab>' },
+			},
 		},
 	},
 }
