@@ -30,13 +30,12 @@ function M.insert_link_with_text()
 					renderer:close()
 					local style = vim.opt_local.filetype:get()
 
+					local format = M.link_formats[style] or M.link_formats['default']
 					local link_str = ''
-					if style == 'norg' then
-						link_str = string.format(M.link_formats['norg'], url, text)
-					elseif style == 'html' then
-						link_str = string.format(M.link_formats['html'], url, text)
+					if style == 'norg' or style == 'html' then
+						link_str = string.format(format, url, text)
 					else
-						link_str = string.format(M.link_formats['default'], text, url)
+						link_str = string.format(format, text, url)
 					end
 
 					vim.api.nvim_put({ link_str }, 'c', true, true)
