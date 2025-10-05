@@ -177,5 +177,52 @@ vim.api.nvim_create_autocmd('FileType', {
 			silent = true,
 			buffer = true,
 		})
+
+		local HasOrgHyperlink, OrgHyperlink = pcall(require, 'orgmode.org.links.hyperlink')
+		if HasOrgHyperlink then
+			vim.keymap.set('n', '<CR>', function()
+				local TSUtils = require('utils.treesitter')
+				if TSUtils.node_or_any_parent_is('listitem') then
+					Utils.log_immediate('In listitem, checking for link')
+					Utils.log_immediate('Current node type: ' .. vim.treesitter.get_node():type())
+					local link_desc = TSUtils.find_child_of_type('link_desc')
+
+					-- Could be that we're lower in the tree so we need a parent
+					if link_desc == nil then
+						Utils.log_immediate('No link child found, checking parents')
+						link_desc = TSUtils.find_parent_of_type('link_desc')
+					end
+
+					-- Could be that it's one of the sibling nodes that has the link_desc
+					if link_desc == nil then
+						Utils.log_immediate('No link parent found, checking siblings')
+						local node = vim.treesitter.get_node():parent()
+						if node ~= nil then
+							Utils.log_immediate('Parent node type: ' .. node:type())
+							link_desc = TSUtils.find_child_of_type('link_desc', node)
+						end
+					end
+
+					if link_desc ~= nil then
+						Utils.log_immediate('Found link_desc, trying to open link')
+						local link = OrgHyperlink.from_node(link_desc, vim.api.nvim_get_current_buf())
+						local Org = require('orgmode')
+						Utils.log_immediate('Opening link: ' .. link.url:to_string())
+						vim.schedule(function()
+							if Org.links:follow(link.url:to_string()) then
+								Utils.log_immediate('Link opened successfully')
+							else
+								Utils.log_immediate('Failed to open link')
+								vim.notify('Could not open link: ' .. link.url:to_string(), vim.log.levels.WARN)
+							end
+						end)
+						return ''
+					end
+				end
+
+				Utils.log_immediate('Not in listitem or no link found, inserting newline')
+				return '<CR>'
+			end, { buffer = true, noremap = true, silent = true, expr = true })
+		end
 	end,
 })
