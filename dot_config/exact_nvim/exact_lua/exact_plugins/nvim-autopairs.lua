@@ -4,7 +4,7 @@ local TSUtils = require('utils.treesitter')
 
 local equal_space_skip_checks = {
 	make = function()
-		return TSUtils.node_or_parent_is({ 'recipe' })
+		return TSUtils.node_or_any_parent_is({ 'recipe' })
 	end,
 }
 
@@ -98,7 +98,7 @@ local M = {
 							end
 
 							-- Global check
-							if TSUtils.node_or_parent_is({ 'argument_list', 'keyword_argument' }) then
+							if TSUtils.node_or_any_parent_is({ 'argument_list', 'keyword_argument' }) then
 								return false
 							end
 						end
