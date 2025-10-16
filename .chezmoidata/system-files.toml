@@ -9,11 +9,6 @@ file = "/etc/firefox/policies/policies.json"
 group = "root"
 
 [[system_files.linux]]
-file = "/etc/udev/hwdb.d/99-capslock-to-esc.hwdb"
-group = "root"
-commands = ["${SUDO} systemd-hwdb update"]
-
-[[system_files.linux]]
 file = "/etc/udev/rules.d/50-esp8266.rules"
 group = "root"
 commands = ["${SUDO} systemctl restart systemd-udevd"]
@@ -21,3 +16,7 @@ commands = ["${SUDO} systemctl restart systemd-udevd"]
 [[system_files.linux]]
 file = "/etc/modprobe.d/nvidia.conf"
 group = "root"
+only_if = "-n \"$(lspci | grep -i nvidia)\""
+
+[[system_files.linux]]
+file = "/etc/polkit-1/rules.d/00-ntp-and-time-zone.rules"

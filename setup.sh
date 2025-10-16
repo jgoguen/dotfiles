@@ -90,7 +90,22 @@ elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
 	sudo dnf install -y bottom
 elif [ -f /etc/arch-release ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} pacman -S --noconfirm --needed $(cat "${MYDIR}/.package-lists/arch")
+	${SUDO_CMD} pacman -S --noconfirm --needed $(awk '/^pacman = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
+
+	SERVICES="\
+		sddm \
+		wpa_supplicant \
+		NetworkManager \
+		avahi-daemon \
+		avahi-dnsconfd \
+		cups \
+		plocate-updatedb.timer \
+		chronyd"
+
+	for svc in ${SERVICES}; do
+		log "Enabling ${svc} to start on boot" "DEBUG"
+		${SUDO_CMD} systemctl enable "${svc}"
+	done
 
 	if ! command -v yay >/dev/null 2>&1; then
 		curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
@@ -98,9 +113,10 @@ elif [ -f /etc/arch-release ]; then
 		cd "${TMPDIR}/yay"
 		makepkg -sCci
 		cd -
+		rm -rf "${TMPDIR}/yay"
 	fi
 
-	yay --answerclean NotInstalled --answerdiff None --removemake --cleanafter --norebuild -S --needed $(cat "${MYDIR}/.package-lists/arch-aur")
+	yay --answerclean NotInstalled --answerdiff None --removemake --cleanafter --norebuild -S --needed $(awk '/^aur = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
 elif [ "${OSTYPE}" = "openbsd" ]; then
 	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq libxml unzip--

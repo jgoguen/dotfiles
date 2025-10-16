@@ -1,0 +1,8 @@
+// Allow the admin to change the system timezonte and NTP settings without authentication
+polkit.addRule(function(action, subject) {
+		if ((action.id == "org.freedesktop.timedate1.set-timezone" ||
+		     action.id == "org.freedesktop.timedate1.set-ntp") &&
+		    (subject.active && subject.isInGroup("wheel"))) {
+			return polkit.Result.YES;
+		}
+});

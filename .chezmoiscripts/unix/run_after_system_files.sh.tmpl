@@ -15,7 +15,7 @@ log "Elevating privileges using ${SUDO}" "DEBUG"
 set -e
 
 {{ range (index .system_files .chezmoi.os) }}
-SYS_FILE="{{ .file }}"
+SYS_FILE="{{ or .location .file }}"
 SRC_FILE="{{ $.chezmoi.sourceDir }}/.system-files{{ .file }}"
 
 if [ ! -f "${SRC_FILE}" ]; then
@@ -25,10 +25,12 @@ fi
 
 if ! cmp -s "${SRC_FILE}" "${SYS_FILE}"; then
 	log "Updating system file: ${SYS_FILE}" "INFO"
+	{{ if ne (or .only_if "") "" }}if [ {{ .only_if }} ]; then{{ end }}
 	${SUDO} install -D -o {{ or .owner "root" }} -g {{ or .group "wheel" }} -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
 	{{ range (or .commands (list)) }}
 	{{ . }}
 	{{ end }}
+	{{ if ne (or .only_if "") "" }}fi{{ end }}
 fi
 {{ end }}
 
