@@ -55,12 +55,14 @@ if (( ${+commands[brew]} )); then
 fi
 {{ else -}}
 for PREFIX in /usr/local /usr; do
-	if [ -f "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-		. "${PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-	fi
+	for Z_DIR in "" "zsh/plugins"; do
+		if [ -f "${PREFIX}/share/${Z_DIR}/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+			. "${PREFIX}/share/${Z_DIR}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+		fi
 
-	if [ -f "${PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-		. "${PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+		if [ -f "${PREFIX}/share/${Z_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+			. "${PREFIX}/share/${Z_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+		fi
 	fi
 done
 {{- end }}
