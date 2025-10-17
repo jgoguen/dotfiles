@@ -9,7 +9,7 @@ set -eu
 if [ ! -d /usr/local/lib/pam ] || [ ! -f /usr/local/lib/pam/pam_watchid.so* ]; then
 	log "Cloning and installing pam_watchid for sudo_local" "INFO"
 	gitroot="$(mktemp --tmpdir -d)"
-	git clone https://github.com/Logicer16/pam-watchid.git "${gitroot}"
+	git clone https://github.com/mostpinkest/pam-watchid.git "${gitroot}"
 	cd "${gitroot}"
 	make install
 	cd -
