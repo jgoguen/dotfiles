@@ -19,4 +19,8 @@ group = "root"
 only_if = "-n \"$(lspci | grep -i nvidia)\""
 
 [[system_files.linux]]
+file = "/etc/modprobe.d/pcspkr.conf"
+group = "root"
+
+[[system_files.linux]]
 file = "/etc/polkit-1/rules.d/00-ntp-and-time-zone.rules"
