@@ -191,10 +191,10 @@ if [ ! -d "${HOME}/.ssh" ]; then
 fi
 
 log "Fetching GitHub SSH keys from 1Password" "DEBUG"
-op item get yhriphcxvz4pewyxhtjoxgjv6m --fields 'label=public key' >"${HOME}/.ssh/git.pub"
+op item get iasvzaqvii5rzkm7byrflhrr3m --fields 'label=public key' >"${HOME}/.ssh/git.pub"
 
 log "Fetching dotfiles Age key from 1Password" "DEBUG"
-op document get oylhnlt5t6eoypifnfpjo7uzcm --out-file "${HOME}/.config/age-chezmoi.txt"
+op document get hembrkxzg4mdkgefbf6nh7kyge --out-file "${HOME}/.config/age-chezmoi.txt"
 chmod 0600 "${HOME}/.config/age-chezmoi.txt"
 
 if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
@@ -211,4 +211,4 @@ useBioUnlock="false"
 if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
 	useBioUnlock="true"
 fi
-OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi apply
+OP_BIOMETRIC_UNLOCK_ENABLED=${useBioUnlock} chezmoi apply --init
