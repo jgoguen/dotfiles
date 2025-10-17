@@ -42,6 +42,7 @@ bindkey '^e' end-of-line
 bindkey '^f' forward-word
 bindkey '^b' backward-word
 
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 {{ if eq .chezmoi.os "darwin" -}}
 if (( ${+commands[brew]} )); then
 	BREW_PREFIX="$(brew --prefix)"
@@ -63,7 +64,7 @@ for PREFIX in /usr/local /usr; do
 		if [ -f "${PREFIX}/share/${Z_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
 			. "${PREFIX}/share/${Z_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 		fi
-	fi
+	done
 done
 {{- end }}
 
