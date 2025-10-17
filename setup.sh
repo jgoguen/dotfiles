@@ -204,6 +204,11 @@ if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 
 	log "Setting Github key for git signing" "DEBUG"
 	git -C "${HOME}/.local/share/chezmoi" config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
+
+	log "Setting git remote push URLs" "DEBUG"
+	for DOMAIN in vcs.jgoguen.ca github.com codeberg.org; do
+		git -C "${HOME}/.local/share/chezmoi" remote set-url --add --push origin git@${DOMAIN}:jgoguen/dotfiles.git
+	done
 fi
 
 log "Initializing chezmoi and applying dotfiles" "INFO"
