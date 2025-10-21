@@ -155,6 +155,7 @@ pacman = [
 	"networkmanager",
 	"nextcloud-client",
 	"nftables",
+	"noto-fonts",
 	"npm",
 	"phonon-qt6",
 	"phonon-qt6-vlc",
@@ -181,6 +182,11 @@ pacman = [
 	"starship",
 	"thermald",
 	"thunderbird",
+	"ttf-dejavu",
+	"ttf-hannom",
+	"ttf-khmer",
+	"ttf-liberation",
+	"ttf-scheherazade-new",
 	"unace",
 	"unarj",
 	"unrar",
@@ -222,6 +228,8 @@ aur = [
 	"kio-onedrive-git",
 	"networkmanager-dispatcher-chrony",
 	"orca-slicer-bin",
+	"ttf-ancient-fonts",
+	"ttf-qurancomplex-fonts",
 ]
 
 [packages.fedora]
