@@ -5,17 +5,17 @@
 typeset -U path
 typeset -aU path_dirs
 path_dirs=(
-	/bin
 	/sbin
-	/usr/bin
+	/bin
 	/usr/sbin
-	/usr/local/bin
+	/usr/bin
 	/usr/local/sbin
+	/usr/local/bin
 	/var/lib/snapd/snap/bin
 	/usr/local/go/bin
 	/usr/local/nodejs/current/bin
-	/opt/local/bin
 	/opt/local/sbin
+	/opt/local/bin
 	/opt/homebrew/bin
 	"${HOME}/.cargo/bin"
 	"${HOME}/.dotnet/tools"
@@ -24,8 +24,11 @@ path_dirs=(
 )
 
 for bindir in "${path_dirs[@]}"; do
-	if [ -r "${bindir}" ] && [ -x "${bindir}" ]; then
-		path=("${bindir}" ${path})
+	if [ -d "${bindir}" ] && [ -r "${bindir}" ] && [ -x "${bindir}" ]; then
+		binpath="$(realpath "${bindir}" 2>/dev/null || true)"
+		if [ -n "${binpath}" ]; then
+			path=("${binpath}" ${path})
+		fi
 	fi
 done
 
