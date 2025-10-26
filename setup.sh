@@ -98,7 +98,10 @@ elif [ -f /etc/arch-release ]; then
 		NetworkManager \
 		avahi-daemon \
 		avahi-dnsconfd \
+		bluetooth \
 		cups \
+		nftables \
+		firewalld \
 		plocate-updatedb.timer \
 		chronyd"
 

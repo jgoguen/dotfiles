@@ -38,5 +38,9 @@ if [ -f "${HOME}/.zshrc.local" ]; then
 	. "${HOME}/.zshrc.local"
 fi
 
+if (( $+commands[direnv] )); then
+	eval "$(direnv hook zsh)"
+fi
+
 RC_TIME=$(($SECONDS - $RC_START))
 printf 'Shell startup took %s\n' "$(elapsed-time $RC_TIME)"
