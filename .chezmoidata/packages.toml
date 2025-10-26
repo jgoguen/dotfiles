@@ -103,6 +103,7 @@ pacman = [
 	"cups-pk-helper",
 	"curl",
 	"dhclient",
+	"direnv",
 	"discord",
 	"dolphin",
 	"dolphin-plugins",
