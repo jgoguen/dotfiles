@@ -1,0 +1,23 @@
+# vim: set filetype=sh:
+
+keep_except() {
+	DIRENV_kept=$(for v in $@; do
+		printf '-u %s\n' "${v}"
+	done | xargs env -0 | base64)
+}
+
+keep_vars() {
+	local v
+	for k in $@; do
+		eval "v=\$$k"
+		DIRENV_kept="$DIRENV_kept"$(printf "%s=%s\000" "$k" "$v" | base64)
+	done
+}
+
+reset_kept() {
+	: ${DIRENV_kept?No environment stored. Missing keep_except()?}
+	while IFS= read -r -d '' V; do
+		eval "${V%%=*}='${V#*=}'"
+	done < <(echo "$DIRENV_kept" | base64 -d)
+	unset DIRENV_kept
+}
