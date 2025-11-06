@@ -9,6 +9,9 @@ local M = {
 				norg = false,
 				yaml = true,
 			},
+			{{ if eq .chezmoi.os "darwin" -}}
+			copilot_node_command = "/opt/homebrew/bin/node"
+			{{- end }}
 		},
 	},
 }
