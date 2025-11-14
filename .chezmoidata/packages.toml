@@ -235,9 +235,34 @@ aur = [
 	"kio-onedrive-git",
 	"networkmanager-dispatcher-chrony",
 	"orca-slicer-bin",
+	"otf-exljbris",
 	"ttf-ancient-fonts",
 	"ttf-qurancomplex-fonts",
 ]
+
+[[packages.arch.flatpak]]
+name = "com.github.k4zmu2a.spacecadetpinball"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "com.github.tchx84.Flatseal"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "it.mijorus.gearlever"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.kde.gwenview"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.kde.krita"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.libreoffice.LibreOffice"
+remote = "flathub"
 
 [packages.fedora]
 copr = ["atim/bottom", "atim/lazygit", "atim/starship"]
