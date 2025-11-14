@@ -5,12 +5,6 @@ if [ -z "${TERM}" ] || [ "${TERM}" = "vscode" ] || [[ ! -o interactive ]]; then
 	return
 fi
 
-# Disable WezTerm user var integrations in neovim:
-# https://github.com/wezterm/wezterm/issues/5007
-# For some reason this isn't working unless it's disabled in the base terminal
-# before starting neovim.
-export WEZTERM_SHELL_SKIP_ALL=1
-
 RC_START=${SECONDS}
 
 export USER_ZSH="${XDG_DATA_HOME}/zsh"
@@ -39,7 +33,11 @@ if [ -f "${HOME}/.zshrc.local" ]; then
 fi
 
 if (( $+commands[direnv] )); then
-	eval "$(direnv hook zsh)"
+	source <(direnv hook zsh)
+fi
+
+if (( $+commands[fortune] )); then
+	fortune -s
 fi
 
 RC_TIME=$(($SECONDS - $RC_START))
