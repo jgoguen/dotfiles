@@ -37,6 +37,9 @@ local M = {
 				lazygit = {
 					enabled = true,
 				},
+				notifier = {
+					style = 'fancy',
+				},
 				picker = {
 					matcher = {
 						frecency = true,
