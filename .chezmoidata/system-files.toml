@@ -42,3 +42,8 @@ only_if = "-f /etc/arch-release"
 [[system_files.linux]]
 file = "/etc/1password/custom_allowed_browsers"
 group = "root"
+
+[[system_files.linux]]
+file = "/etc/pacman.d/hooks/95-systemd-boot.hook"
+group = "root"
+only_if = "-f /boot/EFI/systemd/systemd-bootx64.efi"
