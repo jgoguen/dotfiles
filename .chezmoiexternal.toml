@@ -50,6 +50,15 @@ refreshPeriod = "672h"
 # {{- end }}
 # {{- end }}
 
+[".config/nvim/lua/neorg/modules/external/context/module.lua"]
+type = "file"
+url = "https://github.com/max397574/neorg-contexts/raw/master/lua/neorg/modules/external/context/module.lua"
+# {{- if ne .chezmoi.os "windows" }}
+filter.command = "tr"
+filter.args = ["-d", "\r"]
+# {{- end }}
+refreshPeriod = "168h"
+
 [".config/lazygit/catppuccin-mocha-mauve.yaml"]
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/lazygit/main/themes-mergable/mocha/mauve.yml"
