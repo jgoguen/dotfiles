@@ -181,6 +181,7 @@ pacman = [
 	"qt6-imageformats",
 	"ripgrep",
 	"rsync",
+	"rust",
 	"sd",
 	"sddm",
 	"sddm-kcm",
