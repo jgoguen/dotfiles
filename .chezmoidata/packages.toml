@@ -150,6 +150,7 @@ pacman = [
 	"lazygit",
 	"less",
 	"libappindicator-gtk3",
+	"libreoffice-fresh",
 	"libxml2",
 	"lsd",
 	"lua51",
@@ -259,10 +260,6 @@ remote = "flathub"
 
 [[packages.arch.flatpak]]
 name = "org.kde.krita"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.libreoffice.LibreOffice"
 remote = "flathub"
 
 [packages.fedora]
