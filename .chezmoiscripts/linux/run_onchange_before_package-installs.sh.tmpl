@@ -30,6 +30,10 @@ if command -v yay >/dev/null 2>&1; then
 else
 	${SUDO} pacman -Sy --needed --noconfirm {{ .packages.arch.pacman | join " " }}
 fi
+{{ else if eq .chezmoi.osRelease.id "debian" -}}
+{{- range .packages.debian.apt -}}
+${SUDO} apt-get install -y {{ . }}
+{{- end }}
 {{ end }}
 
 if command -v flatpak >/dev/null 2>&1; then

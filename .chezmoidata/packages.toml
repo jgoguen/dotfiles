@@ -262,6 +262,29 @@ remote = "flathub"
 name = "org.kde.krita"
 remote = "flathub"
 
+[packages.debian]
+apt = [
+	"bat",
+	"fortune-mod",
+	"fortunes",
+	"fortunes-debian-hints",
+	"fzf",
+	"git",
+	"gnupg",
+	"jq",
+	"lazygit",
+	"lsd",
+	"neovim",
+	"python3-pynvim",
+	"ripgrep",
+	"starship",
+	"yq",
+	"zsh",
+	"zsh-autosuggestions",
+	"zsh-syntax-highlighting",
+]
+flatpak = []
+
 [packages.fedora]
 copr = ["atim/bottom", "atim/lazygit", "atim/starship"]
 
