@@ -1,6 +1,37 @@
 local M = {
 	{
 		'zbirenbaum/copilot.lua',
+		cond = function()
+			if jit and jit.os == 'Linux' then
+				local f = io.open('/proc/net/route', 'r')
+				if not f then
+					return false
+				end
+
+				for line in f:lines() do
+					local iface, dest = line:match('^(%S+)%s+(%S+)')
+					if dest == '00000000' and iface ~= 'lo' then
+						f:close()
+						return true
+					end
+				end
+
+				f:close()
+				return false
+			elseif jit and jit.os == 'OSX' then
+				local p = io.popen('route -n get default 2>/dev/null')
+				if not p then
+					return false
+				end
+
+				local output = p:read('*a')
+				p:close()
+
+				return output:match('gateway:') ~= nil
+			else
+				return false
+			end
+		end,
 		opts = {
 			root_dir = function()
 				return LazyVim.root() or LazyVim.root.cwd()
