@@ -35,7 +35,7 @@ ${SUDO} apt-get install -y {{ .packages.debian.apt | join " " }}
 {{ end }}
 
 if command -v flatpak >/dev/null 2>&1; then
-	# Install Flatpak packages
+	printf 'Installing Flatpak packages\n'
 	{{ range or (index .packages .chezmoi.osRelease.id "flatpak") (list) }}
 	flatpak install -y {{ .remote }} {{ .name }}
 	{{ end -}}
