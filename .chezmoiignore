@@ -12,6 +12,10 @@ setup.ps1
 .config/nvim/lazyvim.json
 {{ $fontBasedir }}/*/.uuid
 
+{{- if not (findExecutable "calibre-debug" (list ".local/bin")) }}
+.chezmoiscripts/install_calibre_plugins.py
+{{- end }}
+
 {{- if eq .environment "work" }}
 .chezmoiscripts/collect_files.py
 .chezmoiscripts/install_calibre_plugins.py
