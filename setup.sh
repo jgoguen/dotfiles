@@ -27,22 +27,22 @@ fi
 
 MACHINE="$(uname -m)"
 case "${MACHINE}" in
-x86_64)
-	MACHINE="amd64"
-	HOMEBREW_BIN="/usr/local/bin/brew"
-	;;
-arm*)
-	if [ "${OSTYPE}" = "darwin" ]; then
+	x86_64)
+		MACHINE="amd64"
+		HOMEBREW_BIN="/usr/local/bin/brew"
+		;;
+	arm*)
+		if [ "${OSTYPE}" = "darwin" ]; then
+			MACHINE="arm64"
+		else
+			MACHINE="arm"
+		fi
+		HOMEBREW_BIN="/opt/homebrew/bin/brew"
+		;;
+	aarch64)
 		MACHINE="arm64"
-	else
-		MACHINE="arm"
-	fi
-	HOMEBREW_BIN="/opt/homebrew/bin/brew"
-	;;
-aarch64)
-	MACHINE="arm64"
-	HOMEBREW_BIN="/opt/homebrew/bin/brew"
-	;;
+		HOMEBREW_BIN="/opt/homebrew/bin/brew"
+		;;
 esac
 
 TEMPDIR="$(mktemp -d)"
@@ -51,6 +51,7 @@ log "Created temporary directory: ${TEMPDIR}" "DEBUG"
 log "Running setup for OS ${OSTYPE} ${MACHINE}" "INFO"
 
 # Install packages required for setup
+log "Installing needed packages, please enter your password if prompted" "INFO"
 if [ "${OSTYPE}" = "darwin" ]; then
 	log "Checking if XCode tools are ready" "DEBUG"
 	if ! xcode-select --print-path >/dev/null 2>&1; then
@@ -81,48 +82,73 @@ if [ "${OSTYPE}" = "darwin" ]; then
 	log "Grant Full Disk Access to WezTerm.app. Press Return when ready." "WARN"
 	open /System/Library/PreferencePanes/Security.prefPane
 	read -r
-elif [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ]; then
-	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} dnf install --refresh -y bat curl dnf-plugins-core git-core git-crypt gnupg2 jq libxml2 lsb unzip
-
-	log "Installing bottom from COPR" "INFO"
-	sudo dnf copr enable -y atim/bottom
-	sudo dnf install -y bottom
-elif [ -f /etc/arch-release ]; then
-	log "Installing needed packages, please enter your password if prompted" "INFO"
-	${SUDO_CMD} pacman -S --noconfirm --needed $(awk '/^pacman = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
-
-	SERVICES="\
-		sddm \
-		wpa_supplicant \
-		NetworkManager \
-		avahi-daemon \
-		avahi-dnsconfd \
-		bluetooth \
-		cups \
-		nftables \
-		firewalld \
-		plocate-updatedb.timer \
-		chronyd"
-
-	for svc in ${SERVICES}; do
-		log "Enabling ${svc} to start on boot" "DEBUG"
-		${SUDO_CMD} systemctl enable "${svc}"
-	done
-
-	if ! command -v yay >/dev/null 2>&1; then
-		curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
-		tar zxf "${TMPDIR}/yay.tar.gz" -C "${TMPDIR}"
-		cd "${TMPDIR}/yay"
-		makepkg -sCci
-		cd -
-		rm -rf "${TMPDIR}/yay"
-	fi
-
-	yay --answerclean NotInstalled --answerdiff None --removemake --cleanafter --norebuild -S --needed $(awk '/^aur = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
 elif [ "${OSTYPE}" = "openbsd" ]; then
-	log "Installing needed packages, please enter your password if prompted" "INFO"
 	${SUDO_CMD} pkg_add -ru curl git git-crypt gnupg--%gnupg2 jq libxml unzip--
+elif [ -f /etc/os-release ]; then
+	. /etc/os-release
+	: "${ID:=unknown}"
+	if [ "${ID}" = "fedora" ]; then
+		${SUDO_CMD} dnf install --refresh -y bat curl dnf-plugins-core git-core git-crypt gnupg2 jq libxml2 lsb unzip
+
+		log "Installing bottom from COPR" "INFO"
+		sudo dnf copr enable -y atim/bottom
+		sudo dnf install -y bottom
+
+		log "Installing 1Password for RPM systems" "INFO"
+		log "Installing 1Password GPG key" "DEBUG"
+		${SUDO_CMD} rpm --import https://downloads.1password.com/linux/keys/1password.asc
+		log "Installing 1Password repo file" "DEBUG"
+		# shellcheck disable=SC2016
+		${SUDO_CMD} sh -c 'printf "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" >/etc/yum.repos.d/1password.repo'
+		${SUDO_CMD} dnf install -y 1password-cli
+		if [ -n "${DISPLAY:-}" ]; then
+			${SUDO_CMD} dnf install -y 1password
+		fi
+	elif [ "${ID}" = "arch" ]; then
+		${SUDO_CMD} pacman -S --noconfirm --needed $(awk '/^pacman = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
+
+		SERVICES="\
+			sddm \
+			wpa_supplicant \
+			NetworkManager \
+			avahi-daemon \
+			avahi-dnsconfd \
+			bluetooth \
+			cups \
+			nftables \
+			firewalld \
+			plocate-updatedb.timer \
+			chronyd"
+
+		for svc in ${SERVICES}; do
+			log "Enabling ${svc} to start on boot" "DEBUG"
+			${SUDO_CMD} systemctl enable "${svc}"
+		done
+
+		if ! command -v yay >/dev/null 2>&1; then
+			curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
+			tar zxf "${TMPDIR}/yay.tar.gz" -C "${TMPDIR}"
+			cd "${TMPDIR}/yay"
+			makepkg -sCci
+			cd -
+			rm -rf "${TMPDIR}/yay"
+		fi
+
+		yay --answerclean NotInstalled --answerdiff None --removemake --cleanafter --norebuild -S --needed $(awk '/^aur = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
+	elif [ "${ID}" = "debian" ] || [ "${ID}" = "ubuntu" ]; then
+		cat <<EOF | ${SUDO_CMD} tee /etc/apt/sources.list
+deb http://deb.debian.org/debian/ unstable main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian/ unstable main contrib non-free non-free-firmware
+EOF
+		${SUDO_CMD} apt-get update
+		${SUDO_CMD} apt-get install -y zsh zsh-autosuggestions zsh-syntax-highlighting git jq unzip curl wget libxml2-utils nodejs npm cargo ca-certificates
+
+		wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O "${TEMPDIR}/packages-microsoft-prod.deb"
+		${SUDO_CMD} dpkg -i "${TEMPDIR}/packages-microsoft-prod.deb"
+
+		${SUDO_CMD} apt-get update
+		${SUDO_CMD} apt-get install -y dotnet-sdk-10.0
+	fi
 fi
 
 # Install the OpenBSD ports tree if needed
@@ -131,18 +157,7 @@ if [ "${OSTYPE}" = "openbsd" ] && [ ! -d /usr/ports ]; then
 	curl "https://cdn.openbsd.org/pub/OpenBSD/$(uname -r)/ports.tar.gz" | ${SUDO_CMD} tar zxphf - -C /usr
 fi
 
-if [ -f /etc/fedora-release ] || [ -f /etc/redhat-release ] || [ -f /etc/centos-release ]; then
-	log "Installing 1Password for RPM systems" "INFO"
-	log "Installing 1Password GPG key" "DEBUG"
-	${SUDO_CMD} rpm --import https://downloads.1password.com/linux/keys/1password.asc
-	log "Installing 1Password repo file" "DEBUG"
-	# shellcheck disable=SC2016
-	${SUDO_CMD} sh -c 'printf "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" >/etc/yum.repos.d/1password.repo'
-	${SUDO_CMD} dnf install -y 1password-cli
-	if [ -n "${DISPLAY:-}" ]; then
-		${SUDO_CMD} dnf install -y 1password
-	fi
-fi
+export PATH="${HOME}/.local/bin:${PATH}"
 
 # Fetch the op CLI from upstream and install it if needed
 # This is janky as fuck screen-scraping to get the package URL, here's hoping
@@ -152,16 +167,14 @@ if ! which op >/dev/null 2>&1; then
 	OP_URL="$(curl -fsSL https://app-updates.agilebits.com/product_history/CLI2 2>/dev/null | xmllint --html --dtdattr --xpath "string(//article[not(@class='beta')][1]/div[@class='cli-archs']/p[@class='system ${OSTYPE}']/a[text()='${MACHINE}']/@href)" - 2>/dev/null)"
 	log "Fetching 1Password CLI from ${OP_URL}" "DEBUG"
 	curl -fsSL "${OP_URL}" >"${TEMPDIR}/op.zip"
-	unzip "${TEMPDIR}/op.zip" "${TEMPDIR}/op"
-	log "Installing ${TEMPDIR}/op to /usr/local/bin/op" "DEBUG"
-	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "${TEMPDIR}/op" /usr/local/bin/op
+	unzip "${TEMPDIR}/op.zip" "op" -d "${TEMPDIR}"
+	log "Installing ${TEMPDIR}/op to ${HOME}/.local/bin/op" "DEBUG"
+	${SUDO_CMD} install -m 0755 -o ${USER} -g "$(id -g ${USER})" -s -S "" "${TEMPDIR}/op" "${HOME}/.local/bin/op"
 fi
 
 if ! which chezmoi >/dev/null 2>&1; then
-	log "chezmoi does not exist, fetching chezmoi for ${OSTYPE}_${MACHINE}" "INFO"
-	sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${TEMPDIR}"
-	log "Installing ${TEMPDIR}/chezmoi to /usr/local/bin/chezmoi" "DEBUG"
-	${SUDO_CMD} install -m 0755 -o root -g "$(id -g root)" -s -S "" "${TEMPDIR}/chezmoi" /usr/local/bin/chezmoi
+	log "chezmoi does not exist, fetching chezmoi for ${OSTYPE}_${MACHINE} to ${HOME}/.local/bin/chezmoi" "INFO"
+	sh -c "$(curl -fsLS get.chezmoi.io/lb)"
 fi
 
 if [ "${OSTYPE}" = "darwin" ] || [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
@@ -183,6 +196,11 @@ else
 	eval "$(op signin)"
 fi
 
+if [ ! -d "${HOME}/.config" ]; then
+	log "Creating directory ${HOME}/.config" "DEBUG"
+	install -d -m 0700 "${HOME}/.config"
+fi
+
 if [ ! -d "${HOME}/.local/share" ]; then
 	log "Creating directory ${HOME}/.local/share" "DEBUG"
 	install -d -m 0700 "${HOME}/.local/share"
@@ -193,7 +211,8 @@ if [ ! -d "${HOME}/.ssh" ]; then
 	install -d -m 0700 "${HOME}/.ssh"
 fi
 
-log "Fetching GitHub SSH keys from 1Password" "DEBUG"
+log "Fetching Codeberg and GitHub SSH keys from 1Password" "DEBUG"
+op item get k23qbzw5aaur4xhccict2kd6uq --fields 'label=public key' >"${HOME}/.ssh/codeberg.pub"
 op item get iasvzaqvii5rzkm7byrflhrr3m --fields 'label=public key' >"${HOME}/.ssh/git.pub"
 
 log "Fetching dotfiles Age key from 1Password" "DEBUG"
@@ -203,13 +222,13 @@ chmod 0600 "${HOME}/.config/age-chezmoi.txt"
 if [ ! -d "${HOME}/.local/share/chezmoi" ]; then
 	log "Dotfiles not present, cloning" "INFO"
 
-	git clone git@vcs.jgoguen.ca:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
+	git clone git@codeberg.org:jgoguen/dotfiles.git "${HOME}/.local/share/chezmoi"
 
 	log "Setting Github key for git signing" "DEBUG"
 	git -C "${HOME}/.local/share/chezmoi" config user.signingkey 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5Z49qDHmr2+Io9lOzDCnb5QD4EERq6bJAOqYxD0THx'
 
 	log "Setting git remote push URLs" "DEBUG"
-	for DOMAIN in vcs.jgoguen.ca github.com codeberg.org; do
+	for DOMAIN in codeberg.org github.com; do
 		git -C "${HOME}/.local/share/chezmoi" remote set-url --add --push origin git@${DOMAIN}:jgoguen/dotfiles.git
 	done
 fi
