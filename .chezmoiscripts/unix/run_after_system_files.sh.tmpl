@@ -26,7 +26,15 @@ fi
 {{ if ne (or .only_if "") "" }}if [ {{ .only_if }} ]; then{{ end }}
 	if ! cmp -s "${SRC_FILE}" "${SYS_FILE}"; then
 		log "Updating system file: ${SYS_FILE}" "INFO"
-		${SUDO} install -D -o {{ or .owner "root" }} -g {{ or .group "wheel" }} -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
+		GROUP_NAME="{{ .group }}"
+		if [ -z "${GROUP_NAME}" ] || [ "${GROUP_NAME}" = "<no value>" ]; then
+			if getent group adm 2>&1 >/dev/null ; then
+				GROUP_NAME="adm"
+			else
+				GROUP_NAME="wheel"
+			fi
+		fi
+		${SUDO} install -D -o {{ or .owner "root" }} -g "${GROUP_NAME}" -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
 		{{ range (or .commands (list)) }}
 		{{ . }}
 		{{ end }}
