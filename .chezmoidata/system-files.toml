@@ -26,12 +26,21 @@ group = "root"
 file = "/etc/polkit-1/rules.d/00-ntp-and-time-zone.rules"
 
 [[system_files.linux]]
-file = "/etc/systemd/system/bluetooth-disable-before-sleep.service"
+file = "/etc/systemd/network/10-usb-interfaces.link"
 group = "root"
-only_if = "-f /etc/arch-release"
 commands = [
-		"${SUDO} systemctl daemon-reload",
-		"${SUDO} systemctl enable bluetooth-disable-before-sleep.service",
+	"${SUDO} systemctl daemon-reload",
+	"${SUDO} udevadm control --reload",
+	"${SUDO} udevadm trigger -c add -s net",
+]
+
+[[system_files.linux]]
+file = "/etc/systemd/network/11-internal-interfaces.link"
+group = "root"
+commands = [
+	"${SUDO} systemctl daemon-reload",
+	"${SUDO} udevadm control --reload",
+	"${SUDO} udevadm trigger -c add -s net",
 ]
 
 [[system_files.linux]]

@@ -1,0 +1,5 @@
+[Match]
+Path=pci-*
+
+[Link]
+NamePolicy=keep path database mac kernel
