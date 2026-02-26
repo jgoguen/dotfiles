@@ -4,15 +4,20 @@ local M = {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
-			local filters = opts['servers']['gopls']['settings']['gopls']['directoryFilters'] or {}
-			for _, d in ipairs({ '-.hg', '-bazel-bin', '-bazel-out', '-bazel-testlogs', '-bazel-gosre', '-bazel-genfiles' }) do
-				table.insert(filters, d)
-			end
-			opts['servers']['gopls']['settings']['gopls']['directoryFilters'] = filters
+			local goplsSettings = {
+				-- See https://go.googlesource.com/tools/+/master/gopls/doc/analyzers.md#replace-interface_with-any for valid
+				-- analyzer names.
+				analyses = {
+					unusedresult = false,
+				},
+				directoryFilters = { '-.hg', '-.git' },
+				semanticTokens = true,
+				staticcheck = true,
+				vulncheck = 'Imports',
+			}
 
-			opts['servers']['gopls']['settings']['gopls']['staticcheck'] = true
-
-			opts['servers']['gopls']['settings']['gopls']['vulncheck'] = 'Imports'
+			opts['servers']['gopls']['settings']['gopls'] =
+				vim.tbl_deep_extend('force', opts['servers']['gopls']['settings']['gopls'] or {}, goplsSettings)
 		end,
 	},
 	{
