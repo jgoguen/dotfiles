@@ -7,7 +7,7 @@ enable-ssh-support
 max-cache-ttl 86400
 max-cache-ttl-ssh 86400
 {{- if eq .chezmoi.os "darwin" }}
-pinentry-program /usr/local/bin/pinentry-mac
+pinentry-program /opt/homebrew/bin/pinentry-mac
 {{- else }}
 pinentry-program /usr/bin/pinentry
 {{- end }}
