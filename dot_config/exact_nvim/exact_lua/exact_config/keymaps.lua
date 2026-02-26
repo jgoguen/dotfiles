@@ -20,6 +20,26 @@ local keybindings = {
 		['<C-n>'] = '<Plug>luasnip-next-choice',
 		['<C-p>'] = '<Plug>luasnip-prev-choice',
 
+		['<Esc>'] = {
+			function()
+				local dismissed = false
+
+				local ok, copilot = pcall(require, 'copilot.suggestion')
+				if ok and copilot.is_visible() then
+					copilot.dismiss()
+					dismissed = true
+				end
+
+				-- Other plugin dismissals can be added here later
+
+				if dismissed then
+					return ''
+				end
+				return '<Esc>'
+			end,
+			{ expr = true, silent = true, desc = 'Dismiss suggestions/completions if visible' },
+		},
+
 		-- Insert link
 		['<Leader>il'] = {
 			function()
