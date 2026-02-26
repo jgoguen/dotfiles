@@ -21,6 +21,11 @@ local M = {
 								printWidth = 120,
 								singleQuote = true,
 							},
+							schemaStore = {
+								enable = false,
+								url = '',
+							},
+							schemas = require('schemastore').yaml.schemas(),
 						},
 					},
 				},
