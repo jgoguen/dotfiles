@@ -84,6 +84,38 @@ local keybindings = {
 			{ desc = 'Pick window' },
 		},
 
+		-- Go to YAML node
+		['<Leader>yt'] = {
+			function()
+				require('utils.yaml').go_to_path()
+			end,
+			{ desc = 'Go to YAML node' },
+		},
+		['[y'] = {
+			function()
+				require('utils.yaml').prev_sibling()
+			end,
+			{ desc = 'Go to previous YAML sibling' },
+		},
+		[']y'] = {
+			function()
+				require('utils.yaml').next_sibling()
+			end,
+			{ desc = 'Go to next YAML sibling' },
+		},
+		['<S-Up>'] = {
+			function()
+				require('utils.yaml').go_up()
+			end,
+			{ desc = 'Go to parent YAML node' },
+		},
+		['<S-Down>'] = {
+			function()
+				require('utils.yaml').go_down()
+			end,
+			{ desc = 'Go to first child YAML node' },
+		},
+
 		-- Normal movement between wrapped lines
 		['<up>'] = { [[v:count == 0 ? 'gk' : 'k']], { expr = true } },
 		['<down>'] = { [[v:count == 0 ? 'gj' : 'j']], { expr = true } },
