@@ -20,11 +20,6 @@ local M = {
 				vim.tbl_deep_extend('force', opts['servers']['gopls']['settings']['gopls'] or {}, goplsSettings)
 		end,
 	},
-	{
-		'maxandron/goplements.nvim',
-		ft = 'go',
-		opts = {},
-	},
 }
 
 return M
