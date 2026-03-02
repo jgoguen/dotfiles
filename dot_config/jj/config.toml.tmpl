@@ -1,7 +1,9 @@
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json
 
 [aliases]
+bottom = ["edit", "stack_bottom()"]
 push = ["git", "push", "-c", "trunk()..@"]
+top = ["edit", "stack_top()"]
 
 [git]
 sign-on-push = true
@@ -11,6 +13,16 @@ auto-track-bookmarks = "{{ .chezmoi.username }}/*"
 
 [remotes.upstream]
 auto-track-bookmarks = "{{ .chezmoi.username }}/*"
+
+[revset-aliases]
+# Commits in the current stack: ancestors of @ that are not ancestors of trunk()
+"stack_range()" = "trunk()..@"
+
+# Bottom of stack: first descendant of trunk() on the path to @
+"stack_bottom()" = "roots(stack_range())"
+
+# Top of stack: head commit of that path
+"stack_top()" = "heads(stack_range())"
 
 [signing]
 behavior = "own"
