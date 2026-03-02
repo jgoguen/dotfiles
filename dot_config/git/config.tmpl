@@ -114,7 +114,7 @@
 	token = {{ (onepasswordItemFields "g363lzpne2wne6q2auted2r6we" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").jgoguen.value }}
 
 [gpg]
-	format = {{ if eq .environment "work" }}openpgp{{ else }}ssh{{ end }}
+	format = ssh
 
 [gpg "openpgp"]
 {{- if eq .chezmoi.os "darwin" }}
