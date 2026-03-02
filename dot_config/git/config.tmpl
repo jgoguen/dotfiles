@@ -13,7 +13,12 @@
 		git for-each-ref refs/heads/ --format='%(refname:short)%(HEAD) %(upstream:track)' | \
 			grep -v '\\*' | \
 			awk '/\\[gone\\]/ {print $1}' | \
-			xargs -I {} git branch -D '{}'; \
+			while read branch; do \
+				git branch -D \"$branch\"; \
+				if command -v jj >/dev/null 2>&1; then \
+					jj bookmark forget \"$branch\" >/dev/null 2>&1 || true; \
+				fi; \
+			done; \
 	}; f"
 	discard = reset --hard HEAD
 	dm = delete-merged
