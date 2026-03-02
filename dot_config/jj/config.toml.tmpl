@@ -1,0 +1,45 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[aliases]
+push = ["git", "push", "-c", "trunk()..@"]
+
+[git]
+sign-on-push = true
+
+[remotes.origin]
+auto-track-bookmarks = "{{ .chezmoi.username }}/*"
+
+[remotes.upstream]
+auto-track-bookmarks = "{{ .chezmoi.username }}/*"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+backends.ssh.allowed-signers = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
+{{- if eq .chezmoi.os "darwin" }}
+backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- else if eq .chezmoi.os "windows" }}
+backends.ssh.program = "{{ .chezmoi.homeDir }}/AppData/Local/1Password/app/8/op-ssh-sign.exe"
+{{- else }}
+backends.ssh.program = "/opt/1Password/op-ssh-sign"
+{{- end }}
+key = "~/.ssh/git.pub"
+
+[templates]
+git_push_bookmark = '"{{ .chezmoi.username }}/" ++ change_id.shortest(8)'
+log_node = '''
+coalesce(
+  if(!self, "🮀"),
+  if(current_working_copy, "@"),
+  if(root, "┴"),
+  if(immutable, "●", "○"),
+)
+'''
+op_log_node = 'if(current_operation, "@", "○")'
+
+[ui]
+log-word-wrap = true
+
+[user]
+name = "Joel Goguen"
+email = "{{ .email }}"
