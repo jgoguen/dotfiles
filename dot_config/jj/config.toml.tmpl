@@ -28,6 +28,7 @@ auto-track-bookmarks = "{{ .chezmoi.username }}/*"
 behavior = "own"
 backend = "ssh"
 backends.ssh.allowed-signers = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
+{{- if ne .environment "headless" }}
 {{- if eq .chezmoi.os "darwin" }}
 backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 {{- else if eq .chezmoi.os "windows" }}
@@ -35,7 +36,8 @@ backends.ssh.program = "{{ .chezmoi.homeDir }}/AppData/Local/1Password/app/8/op-
 {{- else }}
 backends.ssh.program = "/opt/1Password/op-ssh-sign"
 {{- end }}
-key = "~/.ssh/git.pub"
+{{- end }}
+key = "{{ .github.gpgkey }}"
 
 [templates]
 git_push_bookmark = '"{{ .chezmoi.username }}/" ++ change_id.shortest(8)'
