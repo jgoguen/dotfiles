@@ -5,6 +5,10 @@ bottom = ["edit", "stack_bottom()"]
 push = ["git", "push", "-c", "trunk()..@"]
 top = ["edit", "stack_top()"]
 
+[colors]
+"diff removed token" = { fg = "bright red", bg = "#400000", underline = false }
+"diff added token" = { fg = "bright green", bg = "#003000", underline = false }
+
 [git]
 sign-on-push = true
 
@@ -39,19 +43,27 @@ backends.ssh.program = "/opt/1Password/op-ssh-sign"
 {{- end }}
 key = "{{ .github.gpgkey }}"
 
+[template-aliases]
+"in_branch(commit)" = 'commit.contained_in("immutable_heads()..bookmarks()")'
+
 [templates]
 git_push_bookmark = '"{{ .chezmoi.username }}/" ++ change_id.shortest(8)'
 log_node = '''
 coalesce(
-  if(!self, "🮀"),
-  if(current_working_copy, "@"),
-  if(root, "┴"),
-  if(immutable, "●", "○"),
+	if(!self, "🮀"),
+	if(conflict, "⚠"),
+	if(current_working_copy, "@"),
+	if(root, "┴"),
+	if(immutable, "●"),
+	if(in_branch(self), "◇"),
+	"○"
 )
 '''
 op_log_node = 'if(current_operation, "@", "○")'
 
 [ui]
+default-command = "log"
+diff-format = "git"
 log-word-wrap = true
 
 [user]
