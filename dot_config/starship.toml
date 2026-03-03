@@ -7,9 +7,8 @@ $command_duration\
 $username\
 $hostname\
 $directory\
-$git_branch\
-$git_state\
-$git_status\
+${custom.jj_branch}\
+${custom.jj_status}\
 $c\
 $dotnet\
 $golang\
@@ -46,6 +45,20 @@ format = " in [$path]($style)[$read_only]($read_only_style) "
 
 [docker_context]
 symbol = " "
+
+[custom.jj_branch]
+command = "jj log -r @ --limit 1 --no-graph --no-pager -T 'if(bookmarks, bookmarks, change_id.shortest(8))'"
+detect_folders = [".jj"]
+description = "Current jj bookmark or change-id"
+format = " on [$output]($style) "
+style = "bold purple"
+
+[custom.jj_status]
+command = "bash ~/.local/bin/jj-status"
+when = "jj status > /dev/null 2>&1"
+description = "jj ahead/behind + stash + conflict status"
+format = "[$output]($style) "
+style = "bold red"
 
 [git_branch]
 symbol = " "
