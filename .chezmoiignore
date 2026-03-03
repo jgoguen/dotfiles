@@ -10,6 +10,10 @@ setup.sh
 setup.ps1
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
+.config/opencode/.gitignore
+.config/opencode/node_modules
+.config/opencode/bun.lock
+.config/opencode/package.json
 {{ $fontBasedir }}/*/.uuid
 
 {{- if not (findExecutable "calibre-debug" (list ".local/bin")) }}
