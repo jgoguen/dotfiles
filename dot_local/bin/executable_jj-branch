@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+# Allow this to work in a pure git repository
+if [ ! -d .jj ] && [ -d .git ]; then
+	printf '%s\n' "$(starship module git_branch)"
+	exit 0
+fi
+
+printf '%s' "$(jj log -r @ --limit 1 --no-graph --no-pager -T 'if(bookmarks, bookmarks, change_id.shortest(8))')"
