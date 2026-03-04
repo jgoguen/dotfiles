@@ -1,11 +1,10 @@
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json
 
 [aliases]
-bottom = ["edit", "stack_bottom()"]
 push = ["git", "push", "-c", "trunk()..@"]
-top = ["edit", "stack_top()"]
 
 [colors]
+current_change = {bg = "#cba6f7"}
 "diff removed token" = { fg = "bright red", bg = "#400000", underline = false }
 "diff added token" = { fg = "bright green", bg = "#003000", underline = false }
 
@@ -44,15 +43,45 @@ backends.ssh.program = "/opt/1Password/op-ssh-sign"
 key = "{{ .github.gpgkey }}"
 
 [template-aliases]
+common_commit_msg_format = '''
+
+JJ: 50-character title. # 50 characters is here  #
+
+
+JJ: ignore-rest
+
+# Commit types for the title:
+# feat: A new user-facing feature
+# fix: A user-facing bug fix
+# docs: Documentation changes
+# style: Code/doc styling/formatting, net-zero change
+# refactor: code refactoring, net-zero change
+# test: Any changes to tests, no user-facing changes
+# revert: Reverting a previous commit
+# chore: Other grunt tasks with no user-facing changes
+#
+# To denote a breaking change, add '!' after the type/scope
+# fix(api)!: Change the whole API because I can
+'''
+default_commit_tail = '''
+'''
 "in_branch(commit)" = 'commit.contained_in("immutable_heads()..bookmarks()")'
 
 [templates]
+default_commit_description = '''
+concat(
+	coalesce(description, common_commit_msg_format, "\n"),
+	"\n\n",
+	diff.get()
+)
+'''
 git_push_bookmark = '"{{ .chezmoi.username }}/" ++ change_id.shortest(8)'
+# log = 'if(current_working_copy, label("current_change", builtin_log_compact), builtin_log_compact)'
 log_node = '''
 coalesce(
 	if(!self, "🮀"),
 	if(conflict, "⚠"),
-	if(current_working_copy, "@"),
+	if(current_working_copy, label("current_change", "@")),
 	if(root, "┴"),
 	if(immutable, "●"),
 	if(in_branch(self), "◇"),
@@ -65,6 +94,9 @@ op_log_node = 'if(current_operation, "@", "○")'
 default-command = ["log", "--reversed"]
 diff-format = "git"
 log-word-wrap = true
+
+[ui.movement]
+edit = true
 
 [user]
 name = "Joel Goguen"
