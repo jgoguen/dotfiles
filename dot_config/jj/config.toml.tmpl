@@ -2,6 +2,19 @@
 
 [aliases]
 push = ["git", "push", "-c", "trunk()..@"]
+qup = ["util", "exec", "--", "sh", "-c", '''
+b=$({
+	# Local bookmarks
+	jj --no-pager --ignore-working-copy bookmark list -T 'self.name() ++ " " ++ description.first_line() ++ "\n"' 2>/dev/null
+
+	# Other changes with no bookmark
+	jj --no-pager --ignore-working-copy log --no-graph -r 'heads(mine() & ~bookmarks())' -T 'change_id.shortest(8) ++ " " ++ description.first_line() ++ "\n"' 2>/dev/null
+} | fzf --layout=reverse-list --select-1 | awk '{print $1}')
+if [ -z "${b}" ]; then
+	exit 0
+fi
+jj edit "${b}"
+''']
 
 [colors]
 current_change = {bg = "#cba6f7"}
@@ -80,6 +93,7 @@ git_push_bookmark = '"{{ .chezmoi.username }}/" ++ change_id.shortest(8)'
 log_node = '''
 coalesce(
 	if(!self, "🮀"),
+	if(self &&  self.contained_in("trunk()"), "*"),
 	if(conflict, "⚠"),
 	if(current_working_copy, label("current_change", "@")),
 	if(root, "┴"),
