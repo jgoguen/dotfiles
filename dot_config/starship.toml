@@ -62,8 +62,7 @@ format = "[$output]($style) "
 style = "bold red"
 
 [git_branch]
-symbol = " "
-style = "bold purple"
+format = "[$branch(:$remote_branch)]()"
 
 [git_commit]
 style = "bold cyan"
