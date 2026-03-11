@@ -7,6 +7,31 @@
 [alias]
 	amend = commit --amend -a --no-edit
 	branches = branch -a -l
+	changed-files =	"!f() { \
+		if [ \"$#\" -gt 0 ]; then \
+			base = \"$1\"; \
+		else \
+			up = $(git rev-parse --abbrev-ref --symbolic-full-name @{upstream} 2>/dev/null || true); \
+			if [ -n \"$up\" ]; then \
+				base=$(git merge-base HEAD \"$up\"); \
+			else \
+				def_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true); \
+				if [ -n \"$def_head\" ]; then \
+					base=$(git merge-base HEAD \"$def_head\"); \
+				elif git rev-parse --verify main >/dev/null 2>&1; then \
+					base=$(git merge-base HEAD main); \
+				elif git rev-parse --verify master >/dev/null 2>&1; then \
+					base=$(git merge-base HEAD master); \
+				else \
+					base=$(git rev-list --max-parents=0 HEAD | tail -n 1); \
+				fi; \
+			fi; \
+		fi; \
+		{ \
+			git diff --name-status \"$base\"; \
+			git ls-files --others --exclude-standard | sed 's/^/x\t/'; \
+		} | sort -k2 -u; \
+	}; f"
 	delete-merged = "!f() { \
 		HEAD_BRANCH=\"$(git remote show origin | awk '/HEAD branch/ {print $NF}')\"; \
 		git fetch -p; \
@@ -22,6 +47,7 @@
 	}; f"
 	discard = reset --hard HEAD
 	dm = delete-merged
+	fdiff = "changed-files"
 	irebase = !f() { git rebase -i HEAD~$1; }; f
 	latest = !git checkout master && git pull origin master && git submodule update --recursive
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
@@ -37,6 +63,26 @@
 	remotes = remote -v
 	shelve = stash push --include-untracked
 	sl = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''            %C(white)%s%C(reset) %C(dim white)- %an <%aE>%C(reset)'
+	trunk = "!f() { \
+		if def_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); then \
+			TRUNK_BRANCH=${def_head#origin/}; \
+		elif git show-ref --verify --quiet refs/heads/main >/dev/null 2>&1; then \
+			TRUNK_BRANCH=main; \
+		elif git show-ref --verify --quiet refs/heads/master >/dev/null 2>&1; then \
+			TRUNK_BRANCH=master; \
+		elif git show-ref --verify --quiet refs/remotes/origin/main >/dev/null 2>&1; then \
+			TRUNK_BRANCH=main; \
+		elif git show-ref --verify --quiet refs/remotes/origin/master >/dev/null 2>&1; then \
+			TRUNK_BRANCH=master; \
+		else \
+			echo 'Could not determine trunk branch (tried origin/HEAD, main, master)' >&2; \
+			exit 1; \
+		fi; \
+		if ! git show-ref --verify --quiet \"refs/heads/$TRUNK_BRANCH\"; then \
+			git branch \"$TRUNK_BRANCH\" \"origin/$TRUNK_BRANCH\" 2>/dev/null || true; \
+		fi; \
+		git switch \"$TRUNK_BRANCH\"; \
+	}; f"
 	unstage = reset
 	uncommit = reset --soft HEAD^
 	unshelve = stash pop
