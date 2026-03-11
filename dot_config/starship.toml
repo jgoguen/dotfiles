@@ -7,8 +7,9 @@ $command_duration\
 $username\
 $hostname\
 $directory\
-${custom.jj_branch}\
-${custom.jj_status}\
+$git_branch\
+$git_state\
+$git_status\
 $c\
 $dotnet\
 $golang\
@@ -62,7 +63,8 @@ format = "[$output]($style) "
 style = "bold red"
 
 [git_branch]
-format = "[$branch(:$remote_branch)]()"
+symbol = " "
+style = "bold purple"
 
 [git_commit]
 style = "bold cyan"
