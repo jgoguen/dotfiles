@@ -165,7 +165,7 @@ set-option -agF status-right "#{E:@catppuccin_status_date_time}"
 
 # Plugins [[[
 # Tmux Plugin Manager
-set-option -g @plugin 'tmux-plugins/tpm'
+set-option -g @plugin 'tmuxpack/tpack'
 # Catppuccin theme for tmux
 set-option -g @plugin 'catppuccin/tmux'
 # Navigate vim and tmux windows natively
@@ -198,7 +198,7 @@ set-option -g @1password-account {{ (onepasswordItemFields "sqi2ukkoumegeim3d6lv
 
 # Keep this at the very end of the file!
 set-environment -Fg TMUX_PLUGIN_MANAGER_PATH "~/.config/tmux/plugins"
-if-shell "test ! -d ~/.config/tmux/plugins/tpm" 'run-shell "git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm"'
-if-shell "test ! -d ~/.config/tmux/plugins/tmux-fzf" 'run-shell "~/.config/tmux/plugins/tpm/bin/install_plugins"'
-run-shell "~/.config/tmux/plugins/tpm/tpm"
+if-shell "test ! -d ~/.config/tmux/plugins/tpack" 'run-shell "git clone https://github.com/tmuxpack/tpack ~/.config/tmux/plugins/tpack"'
+if-shell "test ! -d ~/.config/tmux/plugins/tmux-fzf" 'run-shell "~/.config/tmux/plugins/tpack/bin/install_plugins"'
+run-shell "~/.config/tmux/plugins/tpack/tpm"
 # ]]]
