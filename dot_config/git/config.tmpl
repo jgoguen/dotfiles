@@ -6,6 +6,14 @@
 
 [alias]
 	branches = branch -a -l
+	cgrep = "!f() { \
+		if [ $# -lt 1 ]; then \
+			echo "usage: git cgrep <pattern> [pathspec ...]"; \
+			return 1; \
+		fi; \
+		pattern=\"$1\"; shift; \
+		git log -p -G \"$pattern\" -- \"$@\"; \
+	}; f"
 	changed-files =	"!f() { \
 		if [ \"$#\" -gt 0 ]; then \
 			base = \"$1\"; \
@@ -39,16 +47,43 @@
 			awk '/\\[gone\\]/ {print $1}' | \
 			while read branch; do \
 				git branch -D \"$branch\"; \
-				if command -v jj >/dev/null 2>&1; then \
-					jj bookmark forget \"$branch\" >/dev/null 2>&1 || true; \
-				fi; \
 			done; \
 	}; f"
 	discard = reset --hard HEAD
 	dm = delete-merged
 	fdiff = "changed-files"
 	irebase = !f() { git rebase -i HEAD~$1; }; f
-	latest = !git checkout master && git pull origin master && git submodule update --recursive
+	latest = "!f() { \
+		curr=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo ""); \
+		had_shelf=0; \
+		if [ -n "$(git status --porcelain=v1 2>/dev/null)" ]; then \
+			git shelve || { echo "[latest] git shelve failed"; return 1; }; \
+			had_shelf=1; \
+		fi; \
+		git trunk; \
+		trunk=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo ""); \
+		if [ -z "$trunk" ]; then \
+			echo "[latest] failed to determine trunk branch"; \
+			return 1; \
+		fi; \
+		was_feature=0; \
+		if [ -n "$curr" ] && [ "$curr" != "$trunk" ]; then was_feature=1; fi; \
+		git pull || { echo "[latest] git pull failed"; return 1; }; \
+		git submodule update --recursive || { echo "[latest] submodule update failed"; return 1; }; \
+		if [ "$was_feature" = 1 ]; then \
+			git switch "$curr" || { echo "[latest] Cannot switch back to $curr"; return 1; }; \
+			echo "[latest] Rebasing stack onto $trunk..."; \
+			git rebase "$trunk" || { \
+				echo "[latest] Rebase failed, resolve conflicts manually and continue/abort rebase."; \
+				echo "[latest] Stashed changes are still saved, do NOT run git stash pop yet."; \
+				return 1; \
+			}; \
+		fi; \
+		git delete-merged || { echo "[latest] git delete-merged failed"; return 1; }; \
+		if [ "$had_shelf" = 1 ]; then \
+			git unshelve || { echo "[latest] git unshelve failed, you may have stashed changes that need to be manually unstashed."; return 1; }; \
+		fi; \
+	}; f"
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	outdated = !git-rebase-needed
 	qup = "!f() { \
