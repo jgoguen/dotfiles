@@ -5,7 +5,6 @@
 	skippedCherryPicks = false
 
 [alias]
-	amend = commit --amend -a --no-edit
 	branches = branch -a -l
 	changed-files =	"!f() { \
 		if [ \"$#\" -gt 0 ]; then \
@@ -62,7 +61,6 @@
 	f $(git for-each-ref --sort=-committerdate refs/heads/ --format='%(objectname:short) %(HEAD)%(refname:short)' | grep -Ev \"\\*|\\s${HEAD_BRANCH}$\" | fzf --layout=reverse-list --select-1 | awk '{print $2}')"
 	remotes = remote -v
 	shelve = stash push --include-untracked
-	sl = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''            %C(white)%s%C(reset) %C(dim white)- %an <%aE>%C(reset)'
 	trunk = "!f() { \
 		if def_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); then \
 			TRUNK_BRANCH=${def_head#origin/}; \
