@@ -14,6 +14,10 @@ alias sort="LC_ALL=C sort"
 alias flushdns="dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
 {{- end }}
 
+if (( ${+commands[git-branchless]} )); then
+	alias git="${commands[git-branchless]} wrap --"
+fi
+
 if (( ${+commands[python3]} )); then
 	alias urldecode="${commands[python3]} -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))'"
 	alias urlencode="${commands[python3]} -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))'"
