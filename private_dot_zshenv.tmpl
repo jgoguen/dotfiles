@@ -77,6 +77,10 @@ export NODE_PATH
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
+if [ -f "${XDG_CONFIG_HOME:-${HOME}/.config}/opencode/opencode-local.json" ]; then
+	export OPENCODE_CONFIG="${XDG_CONFIG_HOME:-${HOME}/.config}/opencode/opencode-local.json"
+fi
+
 if [ -f "${HOME}/.zshenv.local" ]; then
 	. "${HOME}/.zshenv.local"
 fi
