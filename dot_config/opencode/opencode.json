@@ -6,12 +6,22 @@
     "bash": {
       "*": "ask",
 
+      "bazel build *": "allow",
+      "bazel run //:gazelle": "allow",
+      "bazel run //tools:format": "allow",
+      "bazel test *": "allow",
+
       "ssh *": "deny",
       "ssh": "deny",
 
       "rm -rf *": "deny",
       "sudo *": "deny",
       "su *": "deny",
+
+      "go build": "allow",
+      "go build *": "allow",
+      "go test": "allow",
+      "go test *": "allow",
 
       "brew install *": "deny",
       "brew uninstall *": "deny",
