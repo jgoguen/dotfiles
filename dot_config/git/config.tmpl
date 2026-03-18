@@ -97,7 +97,7 @@
 	remotes = remote -v
 	shelve = stash push --include-untracked
 	sl = "sl-all --author \"$(git config user.email)\""
-	sl-all = "log --graph --boundary --decorate --color=always --abbrev-commit--date=relative --simplify-by-decoration --all --not origin/HEAD --pretty=format:'%C(auto)%h %C(bold blue)%ar%C(reset) %C(yellow)%d%C(reset) %s'"
+	sl-all = "log --graph --boundary --decorate --color=always --abbrev-commit --date=relative --simplify-by-decoration --all --not origin/HEAD --pretty=format:'%C(auto)%h %C(bold blue)%ar%C(reset) %C(yellow)%d%C(reset) %s'"
 	trunk = "!f() { \
 		if def_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); then \
 			TRUNK_BRANCH=${def_head#origin/}; \
