@@ -96,7 +96,7 @@
 	f $(git for-each-ref --sort=-committerdate refs/heads/ --format='%(objectname:short) %(HEAD)%(refname:short)' | grep -Ev \"\\*|\\s${HEAD_BRANCH}$\" | fzf --layout=reverse-list --select-1 | awk '{print $2}')"
 	remotes = remote -v
 	shelve = stash push --include-untracked
-	sl = "sl-all --author \"$(git config user.email)\""
+	sl = "!git sl-all --author \"$(git config user.email)\""
 	sl-all = "log --graph --boundary --decorate --color=always --abbrev-commit --date=relative --simplify-by-decoration --all --not origin/HEAD --pretty=format:'%C(auto)%h %C(bold blue)%ar%C(reset) %C(yellow)%d%C(reset) %s'"
 	trunk = "!f() { \
 		if def_head=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); then \
