@@ -16,7 +16,7 @@
 	}; f"
 	changed-files =	"!f() { \
 		if [ \"$#\" -gt 0 ]; then \
-			base = \"$1\"; \
+			base=\"$1\"; \
 		else \
 			up=$(git rev-parse --abbrev-ref --symbolic-full-name @{upstream} 2>/dev/null || true); \
 			if [ -n \"${up}\" ]; then \
