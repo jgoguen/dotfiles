@@ -8,8 +8,13 @@
 
       "bazel build *": "allow",
       "bazel run //:gazelle": "allow",
+      "bazel run //buld/proto:*": "allow",
       "bazel run //tools:format": "allow",
+      "bazel run //tools:format 2>&1": "allow",
       "bazel test *": "allow",
+
+      "grep *": "allow",
+      "tail *": "allow",
 
       "ssh *": "deny",
       "ssh": "deny",
@@ -265,7 +270,6 @@
       "knife role edit *": "deny",
       "knife role delete *": "deny",
       "knife role create *": "deny",
-      "knife role edit *": "deny",
       "knife role from *": "deny",
 
       "docker ps *": "allow",
