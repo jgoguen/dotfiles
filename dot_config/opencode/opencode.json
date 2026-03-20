@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["@simonwjackson/opencode-direnv", "opencode-gemini-auth@latest"],
+  "plugin": ["@simonwjackson/opencode-direnv", "opencode-gemini-auth@latest", "@mohak34/opencode-notifier@latest"],
   "formatter": false,
   "permission": {
     "bash": {
