@@ -13,6 +13,7 @@
       "bazel run //tools:format 2>&1": "allow",
       "bazel test *": "allow",
 
+      "find *": "allow",
       "grep *": "allow",
       "tail *": "allow",
 
