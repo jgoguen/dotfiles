@@ -36,15 +36,9 @@ PLUGIN_KEYS = {
     "Goodreads",
     "KFX Input",
     "KFX Output",
-    "KePub Input",
-    "KePub Metadata Reader",
-    "KePub Metadata Writer",
-    "KePub Output",
     "Kindle Collections",
     "Kindle High-res Covers",
     "Kobo Books",
-    "Kobo Utilities",
-    "KoboTouchExtended",
     "Overdrive Link",
 }
 
@@ -68,6 +62,7 @@ def main() -> int:
     cafile = os.path.join(resources_proc.stdout.strip(), "calibre-ebook-root-CA.crt")
 
     ctx = ssl.create_default_context(cafile=cafile)
+    ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT
 
     plugins: dict[str, dict[str, str]] = {}
     with urlopen(PLUGIN_INDEX, context=ctx) as resp:
