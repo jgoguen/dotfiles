@@ -76,7 +76,7 @@ def main() -> int:
             continue
 
         print(f"Installing plugin: {plugin}")
-        with urlopen(plugin_remote_file) as resp:
+        with urlopen(plugin_remote_file, context=ctx) as resp:
             with NamedTemporaryFile() as tmp_file:
                 shutil.copyfileobj(resp, tmp_file)
                 proc = subprocess.run(
