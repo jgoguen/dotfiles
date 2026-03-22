@@ -9,3 +9,7 @@ fi
 if (( $+commands[op] )); then
 	source <(op completion zsh)
 fi
+
+if (( $+commands[opencode] )); then
+	source <(opencode completion)
+fi
