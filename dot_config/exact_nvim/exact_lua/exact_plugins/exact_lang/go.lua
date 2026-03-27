@@ -12,7 +12,8 @@ local M = {
 				},
 				directoryFilters = { '-.hg', '-.git' },
 				semanticTokens = true,
-				staticcheck = true,
+				completeUnimported = true,
+				staticcheck = false,
 				vulncheck = 'Imports',
 			}
 
