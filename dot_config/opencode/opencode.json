@@ -92,6 +92,7 @@
 
       "bazel build *": "allow",
       "bazel run //:gazelle": "allow",
+      "bazel run //:gazelle 2>&1": "allow",
       "bazel run //buld/proto:*": "allow",
       "bazel run //tools:format": "allow",
       "bazel run //tools:format 2>&1": "allow",
