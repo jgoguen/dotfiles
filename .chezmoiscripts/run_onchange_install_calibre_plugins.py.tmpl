@@ -76,18 +76,21 @@ def main() -> int:
             continue
 
         print(f"Installing plugin: {plugin}")
-        with urlopen(plugin_remote_file, context=ctx) as resp:
-            with NamedTemporaryFile() as tmp_file:
-                shutil.copyfileobj(resp, tmp_file)
-                proc = subprocess.run(
-                    [calibre_customize_bin, "-a", tmp_file.name],
-                    capture_output=True,
-                    encoding="UTF-8",
-                )
-                if proc.returncode != 0:
-                    print(
-                        f"Failed to install plugin from {plugin_remote_file}:\n{proc.stderr}"
+        try:
+            with urlopen(plugin_remote_file, context=ctx) as resp:
+                with NamedTemporaryFile() as tmp_file:
+                    shutil.copyfileobj(resp, tmp_file)
+                    proc = subprocess.run(
+                        [calibre_customize_bin, "-a", tmp_file.name],
+                        capture_output=True,
+                        encoding="UTF-8",
                     )
+                    if proc.returncode != 0:
+                        print(
+                            f"Failed to install plugin from {plugin_remote_file}:\n{proc.stderr}"
+                        )
+        except Exception as e:
+            print(f"Failed to download '{plugin_remote_file}': {e}")
 
     return 0
 
