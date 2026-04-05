@@ -1,0 +1,436 @@
+#!/usr/bin/env zsh
+
+set -Eeuo pipefail
+
+# Rebase stack tips onto upstream/main, refresh mapped refs,
+# and rebuild staging branch from scratch.
+
+########################################
+# Configuration
+########################################
+
+UPSTREAM_BRANCH="upstream/main"
+DEFAULT_STACK_TIP="HEAD"
+STAGING_BRANCH="staging"
+PUSH_STAGING="no"
+PUSH_REMOTE="origin"
+DRY_RUN="no"
+MERGE_TARGETS_FILE=""
+EXPLICIT_MERGE_TARGETS="no"
+MERGE_TARGETS=()
+
+print_aligned_opts() {
+	printf '\t%-20s %s\n' "$@"
+}
+
+usage() {
+	printf 'git build-staging: [-h] [-u upstream] [-s staging_branch] [-b branch] [-t stack_tip] [-p] [-r remote] [-e local=remote] [-n]\n'
+	print_aligned_opts "-h" "Show this message"
+	print_aligned_opts "-u upstream" "Use this as the upstream branch (default: ${UPSTREAM_BRANCH})"
+	print_aligned_opts "-s staging_branch" "Create this branch as the staging branch (default: ${STAGING_BRANCH})"
+	print_aligned_opts "-b branch" "Merge this local branch/ref into staging. May be used multiple times."
+	print_aligned_opts "-t stack_tip" "Rebase this stack tip onto upstream, then merge it into staging as a single target. May be used multiple times."
+	print_aligned_opts "-p" "Push staging branch to <remote> after merging"
+	print_aligned_opts "-r remote" "Push the staging branch to this remote (default: ${PUSH_REMOTE})"
+	print_aligned_opts "-e local=remote" "Refresh local from remote, then merge local into staging. May be used multiple times."
+	print_aligned_opts "-n" "Print the rebuild plan without changing any branches"
+	print_aligned_opts "" "Targets are merged in the order the -b/-t/-e options are provided."
+	print_aligned_opts "" "When no -b/-t/-e options are given, targets are loaded from .git/."
+}
+
+add_merge_target() {
+	MERGE_TARGETS+=("${1}:${2}")
+}
+
+set_explicit_merge_targets() {
+	EXPLICIT_MERGE_TARGETS="yes"
+}
+
+while getopts "hu:s:b:t:pr:e:n" opt; do
+	case "${opt}" in
+		h)
+			usage
+			exit 0
+			;;
+		u)
+			UPSTREAM_BRANCH="${OPTARG}"
+			;;
+		s)
+			STAGING_BRANCH="${OPTARG}"
+			;;
+		b)
+			set_explicit_merge_targets
+			add_merge_target "branch" "${OPTARG}"
+			;;
+		t)
+			set_explicit_merge_targets
+			add_merge_target "stack" "${OPTARG}"
+			;;
+		p)
+			PUSH_STAGING="yes"
+			;;
+		r)
+			PUSH_REMOTE="${OPTARG}"
+			;;
+		e)
+			set_explicit_merge_targets
+			add_merge_target "mapped" "${OPTARG}"
+			;;
+		n)
+			DRY_RUN="yes"
+			;;
+		?)
+			printf 'Unknown option "-%s"\n' "${opt}"
+			usage
+			exit 1
+			;;
+	esac
+done
+
+log() {
+	printf '\n==> %s\n' "$*"
+}
+
+init_merge_targets_file() {
+	MERGE_TARGETS_FILE="$(git rev-parse --git-path build-staging-targets)"
+}
+
+load_persisted_merge_targets() {
+	local target kind spec loaded_any="no"
+
+	MERGE_TARGETS=()
+
+	if [ ! -f "${MERGE_TARGETS_FILE}" ]; then
+		warn "No persisted merge targets found at ${MERGE_TARGETS_FILE}; defaulting to ${DEFAULT_STACK_TIP}"
+		add_merge_target "stack" "${DEFAULT_STACK_TIP}"
+		return
+	fi
+
+	while IFS= read -r target || [ -n "${target}" ]; do
+		[ -n "${target}" ] || continue
+		kind="${target%%:*}"
+		spec="${target#*:}"
+
+		case "${kind}" in
+			branch|stack|mapped)
+				add_merge_target "${kind}" "${spec}"
+				loaded_any="yes"
+				;;
+			*)
+				warn "Ignoring invalid persisted merge target: ${target}"
+				;;
+		esac
+	done < "${MERGE_TARGETS_FILE}"
+
+	if [ "${loaded_any}" = "yes" ]; then
+		log "Loaded persisted merge targets from ${MERGE_TARGETS_FILE}"
+	else
+		log "Persisted merge target file is empty"
+	fi
+	}
+
+save_merge_targets() {
+	local target tmp_file
+
+	tmp_file="${MERGE_TARGETS_FILE}.tmp.$$"
+	: > "${tmp_file}"
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		printf '%s\n' "${target}" >> "${tmp_file}"
+	done
+
+	mv "${tmp_file}" "${MERGE_TARGETS_FILE}"
+	}
+
+prune_missing_persisted_merge_targets() {
+	local target kind spec remote_ref pruned_any="no"
+	local -a kept_targets=()
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+
+		case "${kind}" in
+			branch|stack)
+				if git rev-parse --verify --quiet "${spec}" >/dev/null; then
+					kept_targets+=("${target}")
+				else
+					warn "Dropping missing persisted ${kind}: ${spec}"
+					pruned_any="yes"
+				fi
+				;;
+			mapped)
+				if [[ "${spec}" != *=* ]]; then
+					warn "Dropping invalid persisted mapped ref: ${spec}"
+					pruned_any="yes"
+					continue
+				fi
+
+				remote_ref="${spec#*=}"
+				if git rev-parse --verify --quiet "${remote_ref}" >/dev/null; then
+					kept_targets+=("${target}")
+				else
+					warn "Dropping missing persisted mapped ref: ${spec}"
+					pruned_any="yes"
+				fi
+				;;
+		esac
+	done
+
+	MERGE_TARGETS=("${kept_targets[@]}")
+
+	if [ "${pruned_any}" = "yes" ] && [ "${DRY_RUN}" != "yes" ]; then
+		save_merge_targets
+	fi
+}
+
+warn() {
+	printf '\nWARN: %s\n' "$*" >&2
+}
+
+die() {
+	printf '\nERROR: %s\n' "$*" >&2
+	exit 1
+}
+
+cleanup_on_error() {
+	local exit_code=$?
+
+	warn "A command failed. Attempting to abort any in-progress Git operation."
+
+	git rebase --abort >/dev/null 2>&1 || true
+	git merge --abort >/dev/null 2>&1 || true
+	git cherry-pick --abort >/dev/null 2>&1 || true
+
+	warn "Repository may need manual review."
+	exit "${exit_code}"
+}
+trap cleanup_on_error ERR
+
+require_clean_worktree() {
+	if ! git diff --quiet || ! git diff --cached --quiet; then
+		die "Working tree or index is not clean. Commit, stash, or discard changes first."
+	fi
+}
+
+require_branch_exists() {
+	local ref="${1}"
+	git rev-parse --verify --quiet "${ref}" >/dev/null \
+		|| die "Required ref does not exist: ${ref}"
+}
+
+require_ref_mapping() {
+	local spec="${1}" local_ref remote_ref
+
+	if [[ "${spec}" != *=* ]]; then
+		die "Mapped ref must be in local=remote form: ${spec}"
+	fi
+
+	local_ref="${spec%%=*}"
+	remote_ref="${spec#*=}"
+
+	if [ -z "${local_ref}" ] || [ -z "${remote_ref}" ]; then
+		die "Mapped ref must include both local and remote refs: ${spec}"
+	fi
+}
+
+show_branch_tips() {
+	log "Current local branch tips"
+	git for-each-ref \
+		--format='  %(refname:short) -> %(objectname:short)' \
+		refs/heads
+}
+
+refresh_mapped_refs() {
+	local target kind spec local_ref remote_ref refreshed_any="no"
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+
+		if [ "${kind}" != "mapped" ]; then
+			continue
+		fi
+
+		if [ "${refreshed_any}" = "no" ]; then
+			log "Refreshing mapped refs"
+			refreshed_any="yes"
+		fi
+
+		require_ref_mapping "${spec}"
+		local_ref="${spec%%=*}"
+		remote_ref="${spec#*=}"
+
+		require_branch_exists "${remote_ref}"
+		printf '  %s <- %s\n' "${local_ref}" "${remote_ref}"
+
+		git branch -f "${local_ref}" "${remote_ref}" >/dev/null
+	done
+
+	if [ "${refreshed_any}" = "no" ]; then
+		log "No mapped refs configured"
+	fi
+}
+
+rebase_stack_tips() {
+	local target kind spec rebased_any="no"
+	typeset -A seen_stack_tips
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+
+		if [ "${kind}" != "stack" ] || [ -n "${seen_stack_tips[${spec}]:-}" ]; then
+			continue
+		fi
+
+		if [ "${rebased_any}" = "no" ]; then
+			log "Rebasing stack tips onto ${UPSTREAM_BRANCH}"
+			rebased_any="yes"
+		fi
+
+		printf '  rebasing %s\n' "${spec}"
+		git switch "${spec}" >/dev/null
+		git rebase "${UPSTREAM_BRANCH}"
+		seen_stack_tips[${spec}]=1
+	done
+
+	if [ "${rebased_any}" = "no" ]; then
+		log "No stack tips configured"
+	fi
+}
+
+rebuild_staging_branch() {
+	local target kind spec merge_ref
+
+	log "Rebuilding ${STAGING_BRANCH} from ${UPSTREAM_BRANCH}"
+	git switch -C "${STAGING_BRANCH}" "${UPSTREAM_BRANCH}" >/dev/null
+	git branch --set-upstream-to "${PUSH_REMOTE}/${STAGING_BRANCH}" "${STAGING_BRANCH}" >/dev/null
+
+	log "Merging requested branches in order"
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+		merge_ref="${spec}"
+
+		if [ "${kind}" = "mapped" ]; then
+			merge_ref="${spec%%=*}"
+		fi
+
+		printf '  merging %s (%s)\n' "${merge_ref}" "${kind}"
+		git merge --no-ff --no-edit "${merge_ref}"
+	done
+}
+
+show_plan() {
+	local target kind spec merge_ref index=1
+
+	log "Dry run plan"
+	printf '  upstream: %s\n' "${UPSTREAM_BRANCH}"
+	printf '  staging:  %s\n' "${STAGING_BRANCH}"
+	printf '  push:     %s\n' "${PUSH_STAGING}"
+	if [ "${PUSH_STAGING}" = "yes" ]; then
+		printf '  remote:   %s\n' "${PUSH_REMOTE}"
+	fi
+
+	printf '\n'
+	printf '  actions:\n'
+	if [ "${EXPLICIT_MERGE_TARGETS}" = "yes" ]; then
+		printf '    %d. overwrite persisted merge targets at %s\n' "${index}" "${MERGE_TARGETS_FILE}"
+		index=$((index + 1))
+	else
+		printf '    %d. load persisted merge targets from %s\n' "${index}" "${MERGE_TARGETS_FILE}"
+		index=$((index + 1))
+	fi
+	printf '    %d. fetch all remotes and prune stale refs\n' "${index}"
+		index=$((index + 1))
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+
+		if [ "${kind}" = "stack" ]; then
+			printf '    %d. rebase stack tip %s onto %s\n' "${index}" "${spec}" "${UPSTREAM_BRANCH}"
+			index=$((index + 1))
+		fi
+		if [ "${kind}" = "mapped" ]; then
+			printf '    %d. refresh mapped ref %s <- %s\n' "${index}" "${spec%%=*}" "${spec#*=}"
+			index=$((index + 1))
+		fi
+	done
+
+	printf '    %d. recreate %s from %s\n' "${index}" "${STAGING_BRANCH}" "${UPSTREAM_BRANCH}"
+	index=$((index + 1))
+
+	for target in "${MERGE_TARGETS[@]}"; do
+		kind="${target%%:*}"
+		spec="${target#*:}"
+		merge_ref="${spec}"
+
+		if [ "${kind}" = "mapped" ]; then
+			merge_ref="${spec%%=*}"
+		fi
+
+		printf '    %d. merge %s (%s)\n' "${index}" "${merge_ref}" "${kind}"
+		index=$((index + 1))
+	done
+
+	if [ "${PUSH_STAGING}" = "yes" ]; then
+		printf '    %d. push %s to %s with --force-with-lease\n' "${index}" "${STAGING_BRANCH}" "${PUSH_REMOTE}"
+	fi
+}
+
+validate_merge_targets() {
+	local merge_target kind spec
+
+	for merge_target in "${MERGE_TARGETS[@]}"; do
+		kind="${merge_target%%:*}"
+		spec="${merge_target#*:}"
+
+		case "${kind}" in
+			branch|stack)
+				require_branch_exists "${spec}"
+				;;
+			mapped)
+				require_ref_mapping "${spec}"
+				require_branch_exists "${spec#*=}"
+				;;
+		esac
+	done
+}
+
+push_staging_if_requested() {
+	if [ "${PUSH_STAGING}" = "yes" ]; then
+		log "Pushing ${STAGING_BRANCH} to ${PUSH_REMOTE} (force-with-lease)"
+		git push --force-with-lease "${PUSH_REMOTE}" "${STAGING_BRANCH}"
+	fi
+}
+
+require_clean_worktree
+init_merge_targets_file
+
+log "Fetching all remotes"
+git fetch --all --prune
+
+require_branch_exists "${UPSTREAM_BRANCH}"
+
+if [ "${EXPLICIT_MERGE_TARGETS}" = "yes" ]; then
+	validate_merge_targets
+	save_merge_targets
+else
+	load_persisted_merge_targets
+	prune_missing_persisted_merge_targets
+	validate_merge_targets
+fi
+
+if [ "${DRY_RUN}" = "yes" ]; then
+	show_plan
+	exit 0
+fi
+
+rebase_stack_tips
+refresh_mapped_refs
+rebuild_staging_branch
+push_staging_if_requested
+
+log "Done"

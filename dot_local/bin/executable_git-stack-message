@@ -1,0 +1,339 @@
+#!/usr/bin/env python3
+# vim: set expandtab sw=4 ts=4 sts=4 foldmethod=indent filetype=python:
+
+"""
+git stack-message
+
+Rewrite commit messages for a linear stack of one-commit-per-branch local
+branches.
+
+Usage:
+    git stack-message [start-ref]
+
+Examples:
+    git stack-message
+    git stack-message feature/01-base
+    git stack-message HEAD
+
+Assumptions:
+- Each branch in the stack contributes exactly one tip commit.
+- The stack is linear.
+- The next branch in the stack is the unique local branch whose tip commit
+  has the current commit as its first parent.
+- Only local branches (refs/heads/*) are updated.
+"""
+
+from __future__ import annotations
+
+import os
+import re
+import subprocess
+import sys
+from dataclasses import dataclass
+from datetime import datetime, timezone
+
+
+MARK_START = "*** branch stack ***"
+MARK_END = "*** end branch stack ***"
+
+
+class GitError(RuntimeError):
+    pass
+
+
+@dataclass
+class BranchTip:
+    name: str
+    commit: str
+
+
+@dataclass
+class StackEntry:
+    commit: str
+    branches: list[str]
+    subject: str
+    body: str
+    tree: str
+    parent: str | None
+    author_name: str
+    author_email: str
+    author_date: str
+    committer_name: str
+    committer_email: str
+    committer_date: str
+
+
+def run_git(
+    args: list[str],
+    *,
+    check: bool = True,
+    env: dict[str, str] | None = None,
+    input_text: str | None = None,
+) -> str:
+    proc = subprocess.run(
+        ["git", *args],
+        input=input_text,
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    if check and proc.returncode != 0:
+        raise GitError(f"git {' '.join(args)} failed:\n{proc.stderr.strip()}")
+    return proc.stdout
+
+
+def ensure_git_repo() -> None:
+    run_git(["rev-parse", "--git-dir"])
+
+
+def ensure_clean_worktree() -> None:
+    status = run_git(["status", "--porcelain"])
+    if status.strip():
+        raise GitError(
+            "Working tree or index is not clean. Commit/stash changes first."
+        )
+
+
+def rev_parse_commit(ref: str) -> str:
+    return run_git(["rev-parse", "--verify", f"{ref}^{{commit}}"]).strip()
+
+
+def current_head_ref() -> str | None:
+    ref = run_git(["symbolic-ref", "-q", "HEAD"], check=False).strip()
+    return ref if ref else None
+
+
+def list_local_branch_tips() -> list[BranchTip]:
+    out = run_git(
+        ["for-each-ref", "--format=%(refname:short)\t%(objectname)", "refs/heads"]
+    )
+    tips: list[BranchTip] = []
+    for line in out.splitlines():
+        if not line.strip():
+            continue
+        name, commit = line.split("\t", 1)
+        tips.append(BranchTip(name=name, commit=commit))
+    return tips
+
+
+def first_parent(commit: str) -> str | None:
+    out = run_git(["rev-list", "--parents", "-n", "1", commit]).strip()
+    parts = out.split()
+    if len(parts) <= 1:
+        return None
+    # Only follow the first parent.
+    return parts[1]
+
+
+def get_commit_message(commit: str) -> str:
+    return run_git(["log", "-1", "--format=%B", commit])
+
+
+def get_commit_subject(commit: str) -> str:
+    return run_git(["log", "-1", "--format=%s", commit]).strip()
+
+
+def get_tree(commit: str) -> str:
+    return run_git(["rev-parse", f"{commit}^{{tree}}"]).strip()
+
+
+def get_commit_meta(commit: str) -> dict[str, str]:
+    fmt = "%an%x00%ae%x00%aI%x00%cn%x00%ce%x00%cI"
+    out = run_git(["show", "-s", f"--format={fmt}", commit]).rstrip("\n")
+    an, ae, ad, cn, ce, cd = out.split("\x00")
+    return {
+        "author_name": an,
+        "author_email": ae,
+        "author_date": ad,
+        "committer_name": cn,
+        "committer_email": ce,
+        "committer_date": cd,
+    }
+
+
+def strip_managed_block(message: str) -> str:
+    pattern = re.compile(
+        rf"\n*{re.escape(MARK_START)}\n.*?\n{re.escape(MARK_END)}\n*$",
+        re.DOTALL,
+    )
+    cleaned = re.sub(pattern, "", message.rstrip("\n"))
+    return cleaned.rstrip() + "\n"
+
+
+def build_message(original_message: str, bullets: list[str]) -> str:
+    base = strip_managed_block(original_message).rstrip()
+    block = "\n".join([MARK_START, "", *bullets, "", MARK_END])
+    return f"{base}\n\n{block}\n"
+
+
+def build_stack(start_commit: str) -> list[StackEntry]:
+    tips = list_local_branch_tips()
+
+    commit_to_branches: dict[str, list[str]] = {}
+    for tip in tips:
+        commit_to_branches.setdefault(tip.commit, []).append(tip.name)
+
+    if start_commit not in commit_to_branches:
+        raise GitError(
+            f"Start commit {start_commit} is not the tip of any local branch."
+        )
+
+    # Map parent commit -> child branch tips
+    parent_to_children: dict[str, list[BranchTip]] = {}
+    for tip in tips:
+        parent = first_parent(tip.commit)
+        if parent:
+            parent_to_children.setdefault(parent, []).append(tip)
+
+    chain: list[str] = [start_commit]
+    seen = {start_commit}
+    cur = start_commit
+
+    while True:
+        children = parent_to_children.get(cur, [])
+        # Ignore branches already in the chain.
+        children = [c for c in children if c.commit not in seen]
+
+        if not children:
+            break
+
+        if len(children) != 1:
+            names = ", ".join(f"{c.name}({c.commit[:12]})" for c in children)
+            raise GitError(
+                f"Stack is not linear above {cur[:12]}; found multiple child branches: {names}"
+            )
+
+        child = children[0]
+        chain.append(child.commit)
+        seen.add(child.commit)
+        cur = child.commit
+
+    entries: list[StackEntry] = []
+    for commit in chain:
+        branches = sorted(commit_to_branches.get(commit, []))
+        if not branches:
+            raise GitError(f"No local branch found for stack commit {commit[:12]}")
+        msg = get_commit_message(commit)
+        meta = get_commit_meta(commit)
+        entries.append(
+            StackEntry(
+                commit=commit,
+                branches=branches,
+                subject=get_commit_subject(commit),
+                body=msg,
+                tree=get_tree(commit),
+                parent=first_parent(commit),
+                author_name=meta["author_name"],
+                author_email=meta["author_email"],
+                author_date=meta["author_date"],
+                committer_name=meta["committer_name"],
+                committer_email=meta["committer_email"],
+                committer_date=meta["committer_date"],
+            )
+        )
+    return entries
+
+
+def create_commit(tree: str, parent: str | None, message: str, meta: StackEntry) -> str:
+    env = os.environ.copy()
+    env.update(
+        {
+            "GIT_AUTHOR_NAME": meta.author_name,
+            "GIT_AUTHOR_EMAIL": meta.author_email,
+            "GIT_AUTHOR_DATE": meta.author_date,
+            "GIT_COMMITTER_NAME": meta.committer_name,
+            "GIT_COMMITTER_EMAIL": meta.committer_email,
+            "GIT_COMMITTER_DATE": meta.committer_date,
+        }
+    )
+
+    args = ["commit-tree", tree]
+    if parent:
+        args.extend(["-p", parent])
+
+    new_commit = run_git(args, env=env, input_text=message).strip()
+    return new_commit
+
+
+def update_ref(ref: str, new: str, old: str) -> None:
+    run_git(["update-ref", ref, new, old])
+
+
+def backup_ref_name(branch: str, timestamp: str) -> str:
+    safe_branch = branch.replace("/", "__")
+    return f"refs/stack-desc-backup/{timestamp}/{safe_branch}"
+
+
+def main() -> int:
+    try:
+        ensure_git_repo()
+        ensure_clean_worktree()
+
+        start_ref = sys.argv[1] if len(sys.argv) > 1 else "HEAD"
+        start_commit = rev_parse_commit(start_ref)
+        head_ref = current_head_ref()
+
+        entries = build_stack(start_commit)
+        subjects = [e.subject for e in entries]
+
+        old_to_new: dict[str, str] = {}
+
+        for idx, entry in enumerate(entries):
+            bullets: list[str] = []
+            for i, subj in enumerate(subjects):
+                marker = " 👈" if i == idx else ""
+                bullets.append(f"- {subj}{marker}")
+
+            new_message = build_message(entry.body, bullets)
+
+            old_parent = entry.parent
+            new_parent = old_to_new.get(old_parent, old_parent) if old_parent else None
+            new_commit = create_commit(entry.tree, new_parent, new_message, entry)
+            old_to_new[entry.commit] = new_commit
+
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+        # Back up and move local branches that point at rewritten commits.
+        for entry in entries:
+            new_commit = old_to_new[entry.commit]
+            for branch in entry.branches:
+                backup_ref = backup_ref_name(branch, timestamp)
+                update_ref(backup_ref, entry.commit, "0" * 40)
+                update_ref(f"refs/heads/{branch}", new_commit, entry.commit)
+
+        # If HEAD is detached and points at one of the rewritten commits, move HEAD too.
+        if head_ref is None:
+            old_head = rev_parse_commit("HEAD")
+            if old_head in old_to_new:
+                update_ref("HEAD", old_to_new[old_head], old_head)
+
+        print("Rewrote stack:")
+        for entry in entries:
+            new_commit = old_to_new[entry.commit]
+            branch_list = ", ".join(entry.branches)
+            current = ""
+            if head_ref and any(head_ref == f"refs/heads/{b}" for b in entry.branches):
+                current = " [checked out]"
+            print(f"  {branch_list}: {entry.commit[:12]} -> {new_commit[:12]}{current}")
+
+        print("\nBackup refs:")
+        for entry in entries:
+            for branch in entry.branches:
+                print(f"  {backup_ref_name(branch, timestamp)}")
+
+        print("\nDone.")
+        print("You will likely need to force-push the rewritten branches.")
+        print("Example:")
+        print("  git push --force-with-lease origin <branch1> <branch2> ...")
+        return 0
+
+    except GitError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    except KeyboardInterrupt:
+        print("Interrupted.", file=sys.stderr)
+        return 130
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
