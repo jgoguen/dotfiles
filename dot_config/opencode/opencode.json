@@ -321,6 +321,8 @@
       "kubens -c": "allow",
       "kubens *": "deny",
 
+      "luac -p *": "allow",
+
       "rm -rf *": "deny",
 
       "rpm -e *": "deny",
