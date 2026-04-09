@@ -229,6 +229,7 @@
       "go build *": "allow",
       "go test": "allow",
       "go test *": "allow",
+      "go vet *": "allow",
 
       "grep *": "allow",
 
