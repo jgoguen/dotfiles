@@ -58,8 +58,7 @@ build-aux/
 configure
 
 # build files
-build/
-obj
+obj/
 *.obj
 *.o
 *.py[co]
