@@ -2,6 +2,9 @@
 
 local M = {
 	'folke/noice.nvim',
+	init = function()
+		vim.o.cmdheight = 0
+	end,
 	opts = {
 		messages = {
 			view_history = 'popup',

@@ -6,7 +6,7 @@ local M = {
 		opts = function(_, opts)
 			-- If cwd is in my code directory, remove the libraries specific to neovim configuration development
 			local code_dir = os.getenv('HOME') .. '/Code/'
-			if not vim.fn.getcwd():sub(1, #code_dir) == code_dir then
+			if vim.fn.getcwd():sub(1, #code_dir) ~= code_dir then
 				return
 			end
 

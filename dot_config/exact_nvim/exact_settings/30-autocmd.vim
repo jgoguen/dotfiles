@@ -7,13 +7,6 @@ augroup matching
 	autocmd BufWinEnter,BufWinLeave,InsertLeave * call clearmatches()
 augroup END
 
-augroup syn_highlight
-	autocmd!
-
-	" More accurate, but slower, syntax highlighting. See |syn-sync|
-	autocmd BufEnter * :syntax sync fromstart
-augroup END
-
 augroup encodings
 	autocmd!
 

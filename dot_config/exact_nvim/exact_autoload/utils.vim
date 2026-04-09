@@ -7,25 +7,3 @@ function! utils#ToggleCursorColumn() abort
 		set cursorcolumn
 	endif
 endfunction
-
-" Check if a colorscheme exists
-function! utils#HaveColorscheme(name) abort
-	let pat = printf('colors/%s.vim', a:name)
-	return !empty(globpath(&rtp, pat))
-endfunction
-
-" Download a file from the Internet
-function! utils#FetchRemoteFile(url, dest) abort
-	if !executable('curl')
-		echoerr 'curl is not available!'
-		return
-	endif
-
-	if a:url ==# '' || a:dest ==# ''
-		echoerr 'Both a URL and destination file must be given!'
-		return
-	endif
-
-	let curl_bin = exepath('curl')
-	execute printf('%s -fsSL --create-dirs %s -o %s', curl_bin, a:url, a:dest)
-endfunction

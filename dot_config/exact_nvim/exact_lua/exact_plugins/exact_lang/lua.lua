@@ -4,48 +4,57 @@ local M = {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
-			opts['servers']['lua_ls']['settings']['Lua']['completion']['callSnippet'] = 'Both'
-			opts['servers']['lua_ls']['settings']['Lua']['completion']['keywordSnippet'] = 'Both'
+			opts.servers = opts.servers or {}
+			opts.servers.lua_ls = opts.servers.lua_ls or {}
+			opts.servers.lua_ls.settings = opts.servers.lua_ls.settings or {}
 
-			opts['servers']['lua_ls']['settings']['Lua']['diagnostics'] = {
-				globals = {
-					'Lazy',
-					'Snacks',
-					'_G',
-					'ipairs',
-					'nvim',
-					'os',
-					'pcall',
-					'require',
-					'vim',
+			local lua_settings = {
+				Lua = {
+					completion = {
+						callSnippet = 'Both',
+						keywordSnippet = 'Both',
+					},
+					diagnostics = {
+						globals = {
+							'Lazy',
+							'Snacks',
+							'_G',
+							'ipairs',
+							'nvim',
+							'os',
+							'pcall',
+							'require',
+							'vim',
+						},
+					},
+					format = {
+						defaultConfig = {
+							break_all_list_when_line_exceed = true,
+							end_of_line = 'LF',
+							quote_style = 'single',
+							trailing_table_separator = 'smart',
+						},
+					},
+					hint = {
+						setType = true,
+					},
+					IntelliSense = {
+						traceLocalSet = true,
+						traceReturn = true,
+					},
+					runtime = {
+						version = 'Lua 5.1',
+					},
+					telemetry = {
+						enable = false,
+					},
+					workspace = {
+						library = vim.api.nvim_get_runtime_file('', true),
+					},
 				},
 			}
 
-			opts['servers']['lua_ls']['settings']['Lua']['format'] = opts['servers']['lua_ls']['settings']['Lua']['format']
-				or {}
-			opts['servers']['lua_ls']['settings']['Lua']['format']['defaultConfig'] = {
-				break_all_list_when_line_exceed = true,
-				end_of_line = 'LF',
-				quote_style = 'single',
-				trailing_table_separator = 'smart',
-			}
-
-			opts['servers']['lua_ls']['settings']['Lua']['hint']['setType'] = true
-
-			opts['servers']['lua_ls']['settings']['Lua']['IntelliSense'] = {
-				traceLocalSet = true,
-				traceReturn = true,
-			}
-
-			opts['servers']['lua_ls']['settings']['Lua']['runtime'] = {
-				version = 'Lua 5.1',
-			}
-
-			opts['servers']['lua_ls']['settings']['Lua']['telemetry'] = {
-				enable = false,
-			}
-
-			opts['servers']['lua_ls']['settings']['Lua']['workspace']['library'] = vim.api.nvim_get_runtime_file('', true)
+			opts.servers.lua_ls.settings = vim.tbl_deep_extend('force', opts.servers.lua_ls.settings, lua_settings)
 		end,
 	},
 	{

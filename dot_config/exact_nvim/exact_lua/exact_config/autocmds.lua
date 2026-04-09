@@ -25,85 +25,33 @@ vim.api.nvim_create_autocmd('VimResized', {
 vim.api.nvim_create_autocmd('QuitPre', {
 	group = Utils.augroup('last_window_close'),
 	callback = function(ev)
-		Utils.log('Starting last_window_close check')
-
-		local autoclose_buftypes = {
-			help = true,
-			nofile = true,
-			prompt = true,
-			quickfix = true,
-			trouble = true,
-		}
-		local close_filetypes = {
-			noice = true,
-			snacks_layout_box = true,
-			snacks_picker_input = true,
-			snacks_picker_layout = true,
-			snacks_picker_list = true,
-		}
-
-		local close_windows = {} ---@type integer[]
-		local windows = vim.api.nvim_tabpage_list_wins(0)
 		local current_win = vim.api.nvim_get_current_win()
-		Utils.log('Checking windows: ' .. vim.inspect(windows))
-
-		-- Try to find a reason to quit. Any buffer whose buftype is not in autoclose_buftypes or whose filetype is in
-		-- skip_filetypes is an excuse to bail out early.
-		for _, winid in ipairs(windows) do
-			Utils.log('Checking window: ' .. winid)
-			local bufid = vim.api.nvim_win_get_buf(winid)
-			if bufid == ev.buf and winid == current_win then
-				-- Don't consider the buffer that is being closed
-				Utils.log('Skipping buffer ' .. bufid .. ' in window ' .. winid .. ' because it is being closed')
-				goto continue
+		local function is_file_edit_buffer(bufnr)
+			if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then
+				return false
 			end
+			if not vim.bo[bufnr].buflisted then
+				return false
+			end
+			if vim.bo[bufnr].buftype ~= '' then
+				return false
+			end
+			return vim.api.nvim_buf_get_name(bufnr) ~= ''
+		end
 
-			Utils.log('Checking buffer: ' .. bufid)
-			Utils.log('Buffer ' .. bufid .. ' is loaded: ' .. tostring(vim.api.nvim_buf_is_loaded(bufid)))
-			Utils.log(
-				'Buffer ' .. bufid .. ' is listed: ' .. tostring(vim.api.nvim_get_option_value('buflisted', { buf = bufid }))
-			)
-			-- Only consider loaded buffers
-			if vim.api.nvim_buf_is_loaded(bufid) then
-				-- If the filetype is in the skip_filetypes list, we definitely won't be closing anything so just return early.
-				-- Filetype is checked before buflisted because some buffers may be loaded but not listed. For example, The
-				-- snacks.nvim dashboard.
-				local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufid })
-				Utils.log('Buffer ' .. bufid .. ' has filetype: ' .. filetype)
-				if not close_filetypes[filetype] then
-					Utils.log('Skipping buffer ' .. bufid .. ' due to filetype: ' .. filetype)
+		for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+			if winid ~= current_win then
+				local bufid = vim.api.nvim_win_get_buf(winid)
+				if is_file_edit_buffer(bufid) then
 					return
 				end
-
-				if vim.api.nvim_get_option_value('buflisted', { buf = bufid }) then
-					-- If the buftype is not in the autoclose_buftypes list, we won't be closing anything so just return early
-					local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufid })
-					Utils.log('Buffer ' .. bufid .. ' has buftype: ' .. buftype)
-					if buftype ~= '' and not autoclose_buftypes[buftype] then
-						Utils.log('Skipping buffer ' .. bufid .. ' due to buftype: ' .. buftype)
-						return
-					end
-				end
 			end
-
-			-- If we get here, the window can be closed and we haven't detected any windows to prevent closing in any windows
-			-- so far.
-			table.insert(close_windows, winid)
-
-			-- Keep this as the very last statement in the loop, because for some reason Lua doesn't want to add a proper
-			-- continue statement.
-			::continue::
 		end
 
-		-- If we reach this point, none of the buffers have a filetype that should be ignored and all of the buffers have
-		-- a buftype that indicates we have no more user-active windows open. Close all remaining windows.
-		Utils.log('Closing windows: ' .. vim.inspect(close_windows))
-		for _, winid in ipairs(close_windows) do
-			Utils.log('Closing window: ' .. winid)
-			vim.api.nvim_win_close(winid, true)
-		end
-
-		Utils.log_immediate('Last windows closed successfully')
+		Utils.log('No file edit buffers remain after closing %d, quitting all', ev.buf)
+		vim.schedule(function()
+			vim.cmd('qa')
+		end)
 	end,
 })
 
@@ -171,7 +119,7 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
 
 -- org-mode "meta return"
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = 'org',
+	pattern = 'neorg',
 	callback = function()
 		vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
 			silent = true,

@@ -4,9 +4,13 @@ local M = {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
+			opts.diagnostics = opts.diagnostics or {}
+			opts.servers = opts.servers or {}
+			opts.servers['*'] = opts.servers['*'] or {}
+
 			opts.diagnostics.virtual_text = false
 
-			capabilities = {
+			local capabilities = {
 				offsetEncoding = { 'utf-16' },
 				general = {
 					positionEncodings = { 'utf-16' },

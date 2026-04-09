@@ -100,10 +100,23 @@ require('lazy').setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#4b547d' })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#4b547d' })
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#899497', italic = true })
-vim.api.nvim_set_hl(0, '@comment', { fg = '#899497', italic = true })
+local function apply_highlights()
+	vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red' })
+	vim.api.nvim_set_hl(0, 'SpellBad', { bg = 'red', fg = 'black' })
+	vim.api.nvim_set_hl(0, 'Folded', { fg = 'Black', bg = 'DarkGrey' })
+	vim.api.nvim_set_hl(0, 'SignColumn', {})
+	vim.api.nvim_set_hl(0, 'LineNr', { fg = '#4b547d' })
+	vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#4b547d' })
+	vim.api.nvim_set_hl(0, 'Comment', { fg = '#899497', italic = true })
+	vim.api.nvim_set_hl(0, '@comment', { fg = '#899497', italic = true })
+end
+
+apply_highlights()
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+	group = vim.api.nvim_create_augroup('jgoguen_colorscheme_overrides', { clear = true }),
+	callback = apply_highlights,
+})
 
 local SnippetsDir = vim.fn.stdpath('data') .. '/snippets'
 if vim.fn.isdirectory(SnippetsDir) then
@@ -112,20 +125,6 @@ if vim.fn.isdirectory(SnippetsDir) then
 		LuasnipLoader.load({ paths = SnippetsDir })
 	end
 end
-
-vim.filetype.add({
-	extension = {
-		gotmpl = 'gotmpl',
-		opf = 'xml',
-		sh = 'sh',
-		zsh = 'sh',
-	},
-	pattern = {
-		['(.+/)?chezmoi/.+%.tmpl'] = 'gotmpl',
-		['${HOME}/%.z.+'] = 'sh',
-		['${XDG_DATA_HOME}/zsh/.*'] = 'sh',
-	},
-})
 
 vim.api.nvim_create_user_command('DebugLog', function(opts)
 	local args = opts.args

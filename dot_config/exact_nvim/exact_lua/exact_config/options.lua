@@ -3,6 +3,7 @@
 -- Add any additional options here
 
 local Utils = require('utils')
+local HasNoiceConfig = pcall(require, 'plugins.noice')
 
 local settings = {
 	opt = {
@@ -16,8 +17,8 @@ local settings = {
 		-- Yank/Delete to the "*" register, do not use the system clipboard
 		clipboard = vim.env.SSH_TTY and '' or 'unnamed',
 
-		-- Use 2 lines for the command area at the bottom of the screen
-		cmdheight = 2,
+		-- Use a taller command area when Noice is not configured
+		cmdheight = HasNoiceConfig and 0 or 2,
 
 		-- Highlight the column after 'textwidth'
 		colorcolumn = '+1',
@@ -97,9 +98,6 @@ local settings = {
 		mouse = '',
 
 		sessionoptions = vim.opt.sessionoptions + { 'localoptions', 'options' },
-
-		-- Do not write a shada/viminfo file
-		shadafile = 'NONE',
 
 		-- Shorten messages
 		-- m - Use [+] instead of [modified]

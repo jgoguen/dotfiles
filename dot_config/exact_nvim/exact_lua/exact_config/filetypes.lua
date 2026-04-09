@@ -1,0 +1,77 @@
+local function first_line(bufnr)
+	return vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ''
+end
+
+vim.filetype.add({
+	extension = {
+		cls = function(_, bufnr)
+			if first_line(bufnr):match('^%%') then
+				return 'latex'
+			end
+		end,
+		gotmpl = 'gotmpl',
+		hh = 'hack',
+		hhi = 'hack',
+		json = 'jsonc',
+		jsonnet = 'jsonnet',
+		libsonnet = 'jsonnet',
+		markdown = 'markdown.pandoc',
+		md = 'markdown.pandoc',
+		mdown = 'markdown.pandoc',
+		mkd = 'markdown.pandoc',
+		mkdn = 'markdown.pandoc',
+		mdwn = 'markdown.pandoc',
+		opf = 'xml',
+		php = function(_, bufnr)
+			if first_line(bufnr):match('^<?hh') then
+				return 'hack'
+			end
+			return 'php'
+		end,
+		py = 'python',
+		rb = 'ruby',
+		scss = 'scss.css',
+		sh = 'sh',
+		tex = 'latex',
+		thrift = 'thrift',
+		zsh = 'sh',
+	},
+	filename = {
+		['.arcconfig'] = 'jsonc',
+		['.zprofile'] = 'sh',
+		['.zshenv'] = 'sh',
+		['.zlogin'] = 'sh',
+		['.zlogout'] = 'sh',
+		['.zshrc'] = 'sh',
+		BUCK = 'python',
+		PKGBUILD = 'sh',
+		README = 'text',
+		TARGETS = 'python',
+	},
+	pattern = {
+		['(.+/)?chezmoi/.+%.tmpl'] = 'gotmpl',
+		['.*/cookbooks/.*%.erb$'] = 'ruby.erb.chef',
+		['.*/cookbooks/.*%.rb$'] = 'ruby.eruby.chef',
+		['.*/roles/.*%.yml$'] = 'yaml.ansible',
+		['.*'] = function(_, bufnr)
+			local line = first_line(bufnr)
+			if line:match('%f[%a]zsh%f[%A]') then
+				return 'zsh'
+			end
+			if line:match('%f[%a]bash%f[%A]') or line:match('%f[%a]sh%f[%A]') then
+				return 'sh'
+			end
+			if line:match('^%s*{') then
+				return 'jsonc'
+			end
+		end,
+		['.*%.cconf$'] = 'python',
+		['.*%.cinc$'] = 'python',
+		['.*%.commit%.hg%.txt$'] = 'hgcommit',
+		['.*%.json%.txt$'] = 'jsonc',
+		['.*%.markdown$'] = 'markdown.pandoc',
+		['.*%.txt$'] = 'text',
+		['.*%.mcconf$'] = 'python',
+		[vim.pesc((vim.env.XDG_DATA_HOME or (vim.env.HOME .. '/.local/share')) .. '/zsh/') .. '.*'] = 'sh',
+	},
+})
