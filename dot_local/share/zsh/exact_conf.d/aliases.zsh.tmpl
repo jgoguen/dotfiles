@@ -37,6 +37,8 @@ fi
 
 if (( ${+commands[bat]} )); then
 	alias cat="${commands[bat]}"
+elif (( ${+commands[batcat]} )); then
+	alias cat="${commands[batcat]}"
 fi
 
 if (( ${+commands[lsd]} )); then
