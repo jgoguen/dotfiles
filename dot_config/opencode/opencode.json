@@ -147,6 +147,7 @@
       "eksctl scale *": "deny",
       "eksctl upgrade *": "deny",
 
+      "fd *": "allow",
       "find *": "allow",
 
       "flux bootstrap *": "deny",
@@ -213,6 +214,7 @@
       "git remote -v *": "allow",
       "git reset": "deny",
       "git reset *": "deny",
+      "git rev-parse *": "allow",
       "git revert *": "deny",
       "git rm *": "deny",
       "git show": "allow",
