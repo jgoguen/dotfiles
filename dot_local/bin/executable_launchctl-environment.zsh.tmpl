@@ -1,0 +1,89 @@
+#!{{ if (findExecutable "zsh" (list "/opt/homebrew/bin")) }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }}
+set -euo pipefail
+
+confdir="${HOME}/.config/environment.d"
+
+# Restrictive variable name check:
+# starts with letter or underscore, then letters/digits/underscores
+is_valid_name() {
+  [[ "${1}" =~ '^[A-Za-z_][A-Za-z0-9_]*$' ]]
+}
+
+# Parse one line of the form:
+#   NAME=VALUE
+#   export NAME=VALUE
+# Supports shell-style quoting on the right-hand side by using zsh eval
+# only after validating the variable name and constructing a controlled assignment.
+parse_assignment() {
+  local line="${1}"
+  local name rhs trimmed
+
+  # Trim leading/trailing whitespace
+  trimmed="${line#"${line%%[![:space:]]*}"}"
+  trimmed="${trimmed%"${trimmed##*[![:space:]]}"}"
+
+  # Skip blank lines and full-line comments
+  [[ -z "${trimmed}" ]] && return 1
+  [[ "${trimmed}" == \#* ]] && return 1
+
+  # Optional leading "export"
+  if [[ "${trimmed}" == export[[:space:]]* ]]; then
+    trimmed="${trimmed#export}"
+    trimmed="${trimmed#"${trimmed%%[![:space:]]*}"}"
+  fi
+
+  # Must contain =
+  [[ "${trimmed}" == *"="* ]] || {
+    print -u2 "Skipping non-assignment line: ${line}"
+    return 1
+  }
+
+  name="${trimmed%%=*}"
+  rhs="${trimmed#*=}"
+
+  # Trim whitespace around name
+  name="${name%"${name##*[![:space:]]}"}"
+  name="${name#"${name%%[![:space:]]*}"}"
+
+  if ! is_valid_name "${name}"; then
+    print -u2 "Skipping invalid variable name: ${name}"
+    return 1
+  fi
+
+  # Evaluate only a controlled assignment into a local parameter.
+  # This allows quoted values like:
+  #   FOO="hello world"
+  #   BAR='a b c'
+  local value
+  eval "value=${rhs}"
+
+  printf '%s\0%s\0' "${name}" "${value}"
+}
+
+apply_file() {
+  local file="${1}"
+  local line parsed name value
+
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    parsed="$(parse_assignment "${line}" || true)"
+    [[ -z "${parsed}" ]] && continue
+
+    name="${parsed%%$'\0'*}"
+    value="${parsed#*$'\0'}"
+    value="${value%$'\0'}"
+
+    /bin/launchctl setenv "${name}" "${value}"
+  done <"${file}"
+}
+
+main() {
+  local found=0 file
+
+  [[ -d "${confdir}" ]] || exit 0
+
+  for file in "${confdir}"/*.conf(N); do
+    apply_file "${file}"
+  done
+}
+
+main "$@"
