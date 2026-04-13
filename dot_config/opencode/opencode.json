@@ -362,6 +362,9 @@
 
       "tail *": "allow",
 
+      "uname": "allow",
+      "uname *": "allow",
+
       "velero backup create *": "deny",
       "velero backup delete *": "deny",
       "velero backup describe *": "allow",
