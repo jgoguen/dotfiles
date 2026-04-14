@@ -235,6 +235,9 @@
 
       "grep *": "allow",
 
+      "head": "allow",
+      "head *": "allow",
+
       "helm delete *": "deny",
       "helm get *": "allow",
       "helm history *": "allow",
@@ -360,6 +363,7 @@
       "systemctl stop *": "deny",
       "systemctl unmask *": "deny",
 
+      "tail": "allow",
       "tail *": "allow",
 
       "uname": "allow",
