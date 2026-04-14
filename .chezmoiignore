@@ -38,7 +38,7 @@ setup.ps1
 .netrc
 .ssh/
 .var/app/com.calibre_ebook.calibre/
-Library/
+Library/Preferences/calibre
 {{- end }}
 {{- if ne .environment "work" }}
 .local/share/zsh/completion/_k9s
