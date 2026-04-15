@@ -2,6 +2,4 @@
 
 local Ftplugin = require('utils.ftplugin')
 
-vim.cmd('compiler tidy')
-
-Ftplugin.setup_markup_pairs()
+Ftplugin.setup_markup({ compiler = 'tidy' })

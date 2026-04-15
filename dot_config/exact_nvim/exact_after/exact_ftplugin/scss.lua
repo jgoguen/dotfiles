@@ -2,8 +2,4 @@
 
 local Ftplugin = require('utils.ftplugin')
 
-vim.cmd('compiler sass')
-
-vim.opt_local.iskeyword:append('@-@')
-
-Ftplugin.setup_css_important_toggle()
+Ftplugin.setup_css_like({ compiler = 'sass' })

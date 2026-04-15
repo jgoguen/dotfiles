@@ -21,6 +21,8 @@ local M = {
 			autotag = { enable = true },
 			endwise = { enable = true },
 			ensure_installed = {
+				'c',
+				'cpp',
 				'comment',
 				'git_config',
 				'gotmpl',

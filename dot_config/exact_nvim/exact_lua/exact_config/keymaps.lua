@@ -160,19 +160,11 @@ local keybindings = {
 		['<Leader>xR'] = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
 		gR = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
 
-		['<Leader>rs'] = {
-			':nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR>:redraw!<CR>',
-			{ desc = 'Refresh screen' },
-		},
-
 		-- Find merge conflict markers
 		['<Leader>mc'] = { '/\\v^[<\\|=>]{7}( .*\\|$)<CR>', { desc = 'Merge conflict marker search' } },
 
 		-- Mark a word as rare
 		['z?'] = ':execute ":spellrare " .. expand("<cword>")<CR>',
-
-		-- Toggle cursorcolumn (useful for aligning text)
-		['<Leader>cl'] = { ':<C-U>call utils#ToggleCursorColumn()<CR>', { desc = 'Toggle cursor column' } },
 	},
 	v = {
 		-- Better indentation
@@ -201,3 +193,5 @@ for mode, mapppings in pairs(keybindings) do
 		end
 	end
 end
+
+Snacks.toggle.option('cursorcolumn', { name = 'Cursor Column' }):map('<Leader>cl')

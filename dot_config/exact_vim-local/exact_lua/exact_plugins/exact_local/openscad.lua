@@ -4,12 +4,14 @@ local M = {
 	{
 		'neovim/nvim-lspconfig',
 		opts = {
-			settings = {
+			servers = {
 				openscad_lsp = {
-					-- An empty string is required here if there are no paths to provide because openscad-lsp doesn't check for
-					-- this value being missing but empty is fine.
-					search_paths = '',
-					fmt_style = 'file',
+					settings = {
+						-- An empty string is required here if there are no paths to provide because openscad-lsp doesn't check for
+						-- this value being missing but empty is fine.
+						search_paths = '',
+						fmt_style = 'file',
+					},
 				},
 			},
 		},

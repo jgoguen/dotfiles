@@ -37,39 +37,4 @@ function M.pick_window(win)
 	return wid
 end
 
--- This is a pretty blatant copy of snacks.explorer.actions.actions.confirm. The only difference is
--- that this function will call pick_win() before calling jump().
----@param picker snacks.Picker
----@param item? snacks.picker.Item
----@param action? snacks.picker.Action
----@return (boolean|string)?
-function M.explorer_confirm(picker, item, action)
-	if not item then
-		return
-	elseif picker.input.filter.meta.searching then
-		require('snacks.explorer.actions').update(picker, { target = item.file })
-	elseif item.dir then
-		require('snacks.explorer.tree'):toggle(item.file)
-		require('snacks.explorer.actions').update(picker, { refresh = true })
-	else
-		-- This section is a pretty blatant copy of snacks.picker.actions.pick_win(). The major difference here is that
-		-- `M.pick_window()` uses a custom filter function to exclude more buftypes and filetypes.
-		if not picker.layout.split then
-			picker.layout:hide()
-		end
-
-		local win = M.pick_window(picker.main)
-		picker.main = win
-
-		if not picker.layout.split then
-			vim.defer_fn(function()
-				if not picker.closed then
-					picker.layout:unhide()
-				end
-			end, 100)
-		end
-		Snacks.picker.actions.jump(picker, item, action)
-	end
-end
-
 return M

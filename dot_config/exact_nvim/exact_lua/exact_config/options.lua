@@ -210,11 +210,3 @@ for scope, opts in pairs(settings) do
 		vim[scope][setting] = value
 	end
 end
-
-if vim.fn.filereadable(XDG_CONFIG_HOME .. '/vim-local.vim') ~= 0 then
-	vim.cmd('source ' .. XDG_CONFIG_HOME .. '/vim-local.vim')
-end
-
-if vim.fn.filereadable(XDG_CONFIG_HOME .. '/vim-local.lua') ~= 0 then
-	vim.cmd('source ' .. XDG_CONFIG_HOME .. '/vim-local.lua')
-end

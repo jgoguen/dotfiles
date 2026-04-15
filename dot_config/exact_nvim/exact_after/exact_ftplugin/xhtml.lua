@@ -2,6 +2,9 @@
 
 local Ftplugin = require('utils.ftplugin')
 
-vim.treesitter.language.register('html', 'xhtml')
-
-Ftplugin.setup_markup_pairs()
+Ftplugin.setup_markup({
+	register_treesitter = {
+		parser = 'html',
+		filetype = 'xhtml',
+	},
+})

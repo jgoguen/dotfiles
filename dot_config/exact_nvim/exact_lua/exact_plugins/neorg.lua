@@ -40,11 +40,9 @@ local M = {
 				},
 			},
 		},
-		lazy = false,
 		opts = {
 			load = {
 				['core.defaults'] = {},
-
 				['core.concealer'] = {},
 				['core.dirman'] = {
 					config = {

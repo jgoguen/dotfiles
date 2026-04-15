@@ -6,31 +6,44 @@ local M = {
 		dependencies = {
 			'b0o/SchemaStore.nvim',
 		},
-		opts = {
-			servers = {
-				yamlls = {
-					settings = {
-						yaml = {
-							customTags = {
-								'!include_dir_named',
-								'!input scalar',
-								'!lambda scalar',
-								'!secret scalar',
-							},
-							format = {
-								printWidth = 120,
-								singleQuote = true,
-							},
-							schemaStore = {
-								enable = false,
-								url = '',
-							},
-							schemas = require('schemastore').yaml.schemas(),
-						},
-					},
+		opts = function(_, opts)
+			opts.servers = opts.servers or {}
+
+			local existing_before_init = opts.servers.yamlls and opts.servers.yamlls.before_init
+			local yaml_settings = {
+				customTags = {
+					'!include_dir_named',
+					'!input scalar',
+					'!lambda scalar',
+					'!secret scalar',
 				},
-			},
-		},
+				format = {
+					printWidth = 120,
+					singleQuote = true,
+				},
+				schemaStore = {
+					enable = false,
+					url = '',
+				},
+			}
+
+			opts.servers.yamlls = vim.tbl_deep_extend('force', opts.servers.yamlls or {}, {
+				settings = {
+					yaml = yaml_settings,
+				},
+				before_init = function(init_params, new_config)
+					if existing_before_init then
+						existing_before_init(init_params, new_config)
+					end
+
+					new_config.settings = new_config.settings or {}
+					new_config.settings.yaml = new_config.settings.yaml or {}
+					new_config.settings.yaml = vim.tbl_deep_extend('force', new_config.settings.yaml or {}, {
+						schemas = require('schemastore').yaml.schemas(),
+					})
+				end,
+			})
+		end,
 	},
 }
 

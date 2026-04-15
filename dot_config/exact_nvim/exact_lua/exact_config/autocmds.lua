@@ -3,83 +3,31 @@
 
 local Utils = require('utils')
 
--- Highlight on yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-	group = Utils.augroup('text_yank_post'),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
-
--- Handle terminal resizing
-vim.api.nvim_create_autocmd('VimResized', {
-	group = Utils.augroup('resizing'),
-	callback = function()
-		vim.defer_fn(function()
-			vim.cmd('tabdo wincmd =')
-		end, 100)
-	end,
-})
-
--- Close when buffer is in the last open window
-vim.api.nvim_create_autocmd('QuitPre', {
-	group = Utils.augroup('last_window_close'),
-	callback = function(ev)
-		local current_win = vim.api.nvim_get_current_win()
-		local function is_file_edit_buffer(bufnr)
-			if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then
-				return false
-			end
-			if not vim.bo[bufnr].buflisted then
-				return false
-			end
-			if vim.bo[bufnr].buftype ~= '' then
-				return false
-			end
-			return vim.api.nvim_buf_get_name(bufnr) ~= ''
-		end
-
-		for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-			if winid ~= current_win then
-				local bufid = vim.api.nvim_win_get_buf(winid)
-				if is_file_edit_buffer(bufid) then
-					return
-				end
-			end
-		end
-
-		Utils.log('No file edit buffers remain after closing %d, quitting all', ev.buf)
-		vim.schedule(function()
-			vim.cmd('qa')
-		end)
-	end,
-})
-
--- Close certain filetypes with just 'q'
+-- Close certain filetypes with just 'q'. This should match what LazyVim already does, but for additional file types not
+-- in LazyVim's list.
 vim.api.nvim_create_autocmd('FileType', {
 	group = Utils.augroup('close_with_q'),
 	pattern = {
-		'checkhealth',
 		'diagmsg',
 		'fzf',
-		'help',
-		'lspinfo',
-		'man',
 		'neo-tree',
 		'nofile',
-		'notify',
 		'null-ls-info',
-		'PlenaryTestPopup',
-		'qf',
 		'query',
 		'snacks_picker_list',
-		'startuptime',
 		'Trouble',
-		'tsplayground',
 	},
 	callback = function(ev)
 		vim.bo[ev.buf].buflisted = false
-		Utils.set_keymap('n', 'q', ':close<CR>', { buffer = ev.buf })
+		vim.schedule(function()
+			Utils.set_keymap('n', 'q', function()
+				vim.cmd('close')
+				pcall(vim.api.nvim_buf_delete, ev.buf, { force = true })
+			end, {
+				buffer = ev.buf,
+				desc = 'Quit buffer',
+			})
+		end)
 	end,
 })
 
@@ -113,7 +61,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 vim.api.nvim_create_autocmd('VimLeavePre', {
 	group = Utils.augroup('flush_log_queue'),
 	callback = function()
-		Utils.flush_log_queue()
+		Utils.flush_debug_log()
 	end,
 })
 

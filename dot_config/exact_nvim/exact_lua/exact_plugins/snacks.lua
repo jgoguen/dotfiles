@@ -15,7 +15,7 @@ local M = {
 					enabled = true,
 				},
 				explorer = {
-					enabled = true,
+					enabled = false,
 				},
 				git = {
 					enabled = true,
@@ -45,29 +45,6 @@ local M = {
 						frecency = true,
 					},
 					sources = {
-						explorer = {
-							formatters = {
-								file = {
-									filename_only = false,
-								},
-							},
-							git_status = true,
-							git_status_open = true,
-							git_untracked = true,
-							hidden = true,
-							win = {
-								list = {
-									keys = {
-										['<CR>'] = { 'handle_file_or_dir', mode = { 'n', 'i' } },
-										['s'] = { { 'pick_win', 'edit_vsplit' }, mode = { 'n', 'i' } },
-										['i'] = { { 'pick_win', 'edit_split' }, mode = { 'n', 'i' } },
-									},
-								},
-							},
-							actions = {
-								handle_file_or_dir = require('utils.snacks').explorer_confirm,
-							},
-						},
 						files = {
 							hidden = true,
 						},
@@ -111,38 +88,6 @@ local M = {
 
 			return vim.tbl_deep_extend('force', opts, new_opts)
 		end,
-		keys = {
-			{
-				'<leader>fe',
-				function()
-					local explorer = Snacks.picker.get({ source = 'explorer' })[1]
-					if explorer == nil then
-						Snacks.explorer({ cwd = LazyVim.root() })
-						return
-					end
-
-					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
-					Snacks.explorer.reveal({ file = file })
-					explorer:focus('list', { show = true })
-				end,
-				desc = 'File Explorer (root dir)',
-			},
-			{
-				'<leader>fE',
-				function()
-					local explorer = Snacks.picker.get({ source = 'explorer' })[1]
-					if explorer == nil then
-						Snacks.explorer()
-						return
-					end
-
-					local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
-					Snacks.explorer.reveal({ file = file })
-					explorer:focus('list', { show = true })
-				end,
-				desc = 'File Explorer (cwd)',
-			},
-		},
 	},
 }
 

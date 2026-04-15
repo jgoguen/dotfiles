@@ -2,6 +2,4 @@
 
 local Ftplugin = require('utils.ftplugin')
 
-vim.cmd([[compiler xmllint]])
-
-Ftplugin.setup_markup_pairs()
+Ftplugin.setup_markup({ compiler = 'xmllint' })

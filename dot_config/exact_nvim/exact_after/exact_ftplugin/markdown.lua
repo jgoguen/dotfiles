@@ -3,4 +3,3 @@
 vim.opt_local.cindent = false
 vim.opt_local.expandtab = true
 vim.opt_local.iskeyword:append(':')
-vim.opt_local.spell = true
