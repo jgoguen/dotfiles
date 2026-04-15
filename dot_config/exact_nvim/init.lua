@@ -7,6 +7,7 @@ vim.g.xdg_data_home = XDG_DATA_HOME
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require('config.lazy')
 require('config.filetypes')
+pcall(require, 'local.config.filetypes')
 
 local settings = vim.fn.globpath(vim.o.runtimepath, 'settings/*.vim', false, true)
 if settings ~= nil then
