@@ -9,59 +9,108 @@ local M = {
 }
 
 function M.insert_link_with_text()
-	local n = require('nui-components')
-	local renderer = n.create_renderer({
-		width = 60,
-		height = 8,
+	local orig_win = vim.api.nvim_get_current_win()
+	local filetype = vim.bo.filetype
+
+	local bufnr = vim.api.nvim_create_buf(false, true)
+	vim.bo[bufnr].buftype = 'nofile'
+	vim.bo[bufnr].bufhidden = 'wipe'
+
+	local ns = vim.api.nvim_create_namespace('link_form')
+
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { '', '' })
+
+	vim.api.nvim_buf_set_extmark(bufnr, ns, 0, 0, {
+		virt_text = { { 'URL:  ', 'FloatTitle' } },
+		virt_text_pos = 'inline',
+		right_gravity = false,
+	})
+	vim.api.nvim_buf_set_extmark(bufnr, ns, 1, 0, {
+		virt_text = { { 'Text: ', 'FloatTitle' } },
+		virt_text_pos = 'inline',
+		right_gravity = false,
 	})
 
-	local body = function()
-		return n.form(
-			{
-				id = 'link-form',
-				submit_key = '<CR>',
-				on_submit = function(is_valid)
-					if not is_valid then
-						return
-					end
+	local width = 60
+	local height = 2
+	local winnr = vim.api.nvim_open_win(bufnr, true, {
+		relative = 'editor',
+		width = width,
+		height = height,
+		row = math.floor((vim.o.lines - height) / 2),
+		col = math.floor((vim.o.columns - width) / 2),
+		style = 'minimal',
+		border = 'double',
+		title = ' Insert Link ',
+		title_pos = 'center',
+	})
 
-					local url = renderer:get_component_by_id('link-url'):get_current_value()
-					local text = renderer:get_component_by_id('link-text'):get_current_value()
-					renderer:close()
-					local style = vim.opt_local.filetype:get()
+	vim.cmd('startinsert')
 
-					local format = M.link_formats[style] or M.link_formats['default']
-					local link_str = ''
-					if style == 'norg' or style == 'html' then
-						link_str = string.format(format, url, text)
-					else
-						link_str = string.format(format, text, url)
-					end
-
-					vim.api.nvim_put({ link_str }, 'c', true, true)
-				end,
-			},
-			n.text_input({
-				id = 'link-url',
-				autofocus = true,
-				autoresize = true,
-				size = 1,
-				max_lines = 1,
-				border_label = 'URL',
-				validate = n.validator.is_not_empty,
-			}),
-			n.text_input({
-				id = 'link-text',
-				autoresize = true,
-				size = 1,
-				max_lines = 1,
-				border_label = 'Link text',
-				validate = n.validator.is_not_empty,
-			})
-		)
+	local closed = false
+	local function close()
+		if closed then
+			return
+		end
+		closed = true
+		vim.cmd('stopinsert')
+		if vim.api.nvim_win_is_valid(winnr) then
+			vim.api.nvim_win_close(winnr, true)
+		end
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			vim.api.nvim_buf_delete(bufnr, { force = true })
+		end
 	end
 
-	renderer:render(body)
+	local function submit()
+		local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 2, false)
+		local url = vim.trim(lines[1] or '')
+		local text = vim.trim(lines[2] or '')
+
+		if url == '' or text == '' then
+			vim.notify('Both URL and link text are required', vim.log.levels.WARN)
+			return
+		end
+
+		close()
+
+		if vim.api.nvim_win_is_valid(orig_win) then
+			vim.api.nvim_set_current_win(orig_win)
+		end
+
+		local format = M.link_formats[filetype] or M.link_formats['default']
+		local link_str
+		if filetype == 'norg' or filetype == 'html' then
+			link_str = string.format(format, url, text)
+		else
+			link_str = string.format(format, text, url)
+		end
+
+		vim.api.nvim_put({ link_str }, 'c', true, true)
+		vim.cmd('startinsert!')
+	end
+
+	local kopts = { buffer = bufnr, noremap = true, silent = true }
+
+	-- Tab/S-Tab: toggle between the two fields, cursor at end of content
+	for _, key in ipairs({ '<Tab>', '<S-Tab>' }) do
+		vim.keymap.set('i', key, function()
+			local row = vim.api.nvim_win_get_cursor(winnr)[1]
+			local target = row == 1 and 2 or 1
+			local line = vim.api.nvim_buf_get_lines(bufnr, target - 1, target, false)[1] or ''
+			vim.api.nvim_win_set_cursor(winnr, { target, #line })
+		end, kopts)
+	end
+
+	vim.keymap.set({ 'i', 'n' }, '<CR>', submit, kopts)
+	vim.keymap.set({ 'i', 'n' }, '<Esc>', close, kopts)
+	vim.keymap.set('n', 'q', close, kopts)
+
+	vim.api.nvim_create_autocmd('BufLeave', {
+		buffer = bufnr,
+		once = true,
+		callback = close,
+	})
 end
 
 return M

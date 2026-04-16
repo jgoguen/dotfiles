@@ -78,16 +78,100 @@ local M = {
 				MiniFiles.refresh({ content = { filter = show_dotfiles and filter_show or filter_hide } })
 			end
 
+			--- Pick a non-floating, non-special window. Returns the window ID directly
+			--- if only one is eligible, or prompts with Snacks picker if multiple.
+			---@return integer?
+			local function pick_target()
+				local Utils = require('utils')
+				local eligible = {}
+				for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+					if vim.api.nvim_win_get_config(win).relative == '' then
+						local buf = vim.api.nvim_win_get_buf(win)
+						if
+							not vim.tbl_contains(Utils.excluded_buftypes, vim.bo[buf].buftype)
+							and not vim.tbl_contains(Utils.excluded_filetypes, vim.bo[buf].filetype)
+						then
+							table.insert(eligible, win)
+						end
+					end
+				end
+
+				if #eligible == 0 then
+					return nil
+				end
+				if #eligible == 1 then
+					return eligible[1]
+				end
+
+				return Snacks.picker.util.pick_win({
+					filter = function(win, buf)
+						if vim.api.nvim_win_get_config(win).relative ~= '' then
+							return false
+						end
+						return not vim.tbl_contains(Utils.excluded_buftypes, vim.bo[buf].buftype)
+							and not vim.tbl_contains(Utils.excluded_filetypes, vim.bo[buf].filetype)
+					end,
+				})
+			end
+
+			--- Open the file under cursor. Optionally creates a split in the chosen
+			--- base window first.
+			---@param direction? string Split direction (e.g. 'belowright horizontal'), nil for no split
+			local function open_in(direction)
+				local entry = MiniFiles.get_fs_entry()
+				if not entry or entry.fs_type ~= 'file' then
+					return
+				end
+
+				local state = MiniFiles.get_explorer_state()
+				if not state then
+					return
+				end
+
+				local target = state.target_window
+
+				local picked = pick_target()
+				if not picked then
+					return
+				end
+				target = picked
+
+				if direction then
+					local new_win = vim.api.nvim_win_call(target, function()
+						vim.cmd(direction .. ' split')
+						return vim.api.nvim_get_current_win()
+					end)
+					MiniFiles.set_target_window(new_win)
+				else
+					MiniFiles.set_target_window(target)
+				end
+
+				MiniFiles.go_in({ close_on_file = true })
+			end
+
 			vim.api.nvim_create_autocmd('User', {
 				pattern = 'MiniFilesBufferCreate',
 				callback = function(args)
 					local buf_id = args.data.buf_id
+					local map = function(lhs, rhs, desc)
+						vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = desc })
+					end
 
-					vim.keymap.set('n', '<CR>', function()
-						MiniFiles.go_in({ close_on_file = true })
-					end, { buffer = buf_id, desc = 'Open entry' })
+					map('g.', toggle_dotfiles, 'Toggle hidden files')
 
-					vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id, desc = 'Toggle hidden files' })
+					-- Pick a window first, then open or split from it
+					map('<CR>', function()
+						open_in(nil)
+					end, 'Pick window and open')
+					map('s', function()
+						open_in('vertical')
+					end, 'Pick window, open in horizontal split')
+					map('v', function()
+						open_in('horizontal')
+					end, 'Pick window, open in vertical split')
+					map('i', function()
+						open_in('horizontal')
+					end, 'Pick window, open in vertical split')
 				end,
 			})
 
