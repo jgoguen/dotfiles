@@ -3,7 +3,7 @@
 local homedir = os.getenv('HOME') or os.getenv('USERPROFILE')
 local lib_path = homedir .. '/Documents/OpenSCAD/libraries'
 if vim.fn.has('linux') == 1 or vim.fn.has('wsl') == 1 then
-	lib_path = XDG_DATA_HOME .. '/OpenSCAD/libraries'
+	lib_path = _G.XDG_DATA_HOME .. '/OpenSCAD/libraries'
 end
 
 vim.opt_local.commentstring = '// %s'

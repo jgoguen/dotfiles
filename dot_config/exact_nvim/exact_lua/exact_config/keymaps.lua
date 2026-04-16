@@ -145,10 +145,6 @@ local keybindings = {
 		-- Mark z, join [count] lines, jump back to mark z
 		J = 'mzJ`z',
 
-		-- Going to the next/previous match will centre the line it's on
-		n = { [['Nn'[v:searchforward]|zzzv]], { expr = true } },
-		N = { [['nN'[v:searchforward]|zzzv]], { expr = true } },
-
 		-- Location/Quickfix window keymaps
 		['[l'] = { ':lprevious<CR>zz', { desc = 'Previous location window entry' } },
 		[']l'] = { ':lnext<CR>zz', { desc = 'Next location window entry' } },
@@ -157,8 +153,8 @@ local keybindings = {
 		['<Leader>='] = '<C-w>=',
 
 		-- Trouble.nivm keymaps
-		['<Leader>xR'] = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
-		gR = { ':TroubleToggle lsp_references<CR>', { desc = 'Trouble LSP References' } },
+		['<Leader>xR'] = { ':Trouble lsp_references toggle<CR>', { desc = 'Trouble LSP References' } },
+		gR = { ':Trouble lsp_references toggle<CR>', { desc = 'Trouble LSP References' } },
 
 		-- Find merge conflict markers
 		['<Leader>mc'] = { '/\\v^[<\\|=>]{7}( .*\\|$)<CR>', { desc = 'Merge conflict marker search' } },

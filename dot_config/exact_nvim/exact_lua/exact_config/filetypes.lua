@@ -14,7 +14,6 @@ vim.filetype.add({
 		gotmpl = 'gotmpl',
 		hh = 'hack',
 		hhi = 'hack',
-		json = 'jsonc',
 		jsonnet = 'jsonnet',
 		libsonnet = 'jsonnet',
 		markdown = 'markdown.pandoc',

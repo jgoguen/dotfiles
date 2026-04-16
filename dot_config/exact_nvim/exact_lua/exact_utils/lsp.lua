@@ -4,7 +4,7 @@ local M = {}
 
 ---@param wait_ms integer?
 function M.organize_imports(wait_ms)
-	local params = vim.lsp.util.make_range_params(0, 'utf-8')
+	local params = vim.lsp.util.make_range_params(vim.api.nvim_get_current_win(), 'utf-16')
 	---@diagnostic disable-next-line: inject-field
 	params.context = { only = { 'source.organizeImports' } }
 

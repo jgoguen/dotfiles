@@ -12,9 +12,6 @@ syn match liquid '{%.*%}'
 " Liquid multiline. Look for "{%[anything]%}[anything]{%[anything]%}"
 syn region highlight_block start='{% highlight .*%}' end='{%.*%}'
 
-" Fenced code blocks, used in GitHub Flavored Markdown (GFM)
-syn region highlight_block start='```' end='```'
-
 " Actually highlight those regions.
 highlight link math Statement
 highlight link liquid Statement

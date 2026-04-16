@@ -18,13 +18,7 @@ local M = {
 						globals = {
 							'Lazy',
 							'Snacks',
-							'_G',
-							'ipairs',
 							'nvim',
-							'os',
-							'pcall',
-							'require',
-							'vim',
 						},
 					},
 					format = {
@@ -48,9 +42,6 @@ local M = {
 					telemetry = {
 						enable = false,
 					},
-					workspace = {
-						library = vim.api.nvim_get_runtime_file('', true),
-					},
 				},
 			}
 
@@ -64,9 +55,6 @@ local M = {
 	{
 		'nvim-treesitter/nvim-treesitter',
 		opts = { ensure_installed = { 'lua', 'luadoc', 'luap' } },
-	},
-	{
-		'mfussenegger/nluarepl',
 	},
 }
 

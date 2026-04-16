@@ -20,15 +20,6 @@ local marksman_filetypes = {
 
 local M = {
 	{
-		'vim-pandoc/vim-pandoc',
-		ft = { 'markdown' },
-		init = function()
-			vim.g['pandoc#filetypes#pandoc_markdown'] = 0
-
-			vim.treesitter.language.register('markdown', { 'markdown.pandoc' })
-		end,
-	},
-	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
 			opts.servers.marksman.filetypes = opts.servers.marksman.filetypes or {}
