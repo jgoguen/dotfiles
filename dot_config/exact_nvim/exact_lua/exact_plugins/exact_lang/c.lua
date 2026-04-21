@@ -81,6 +81,17 @@ local M = {
 			opts.servers.clangd = vim.tbl_deep_extend('force', opts.servers.clangd or {}, new_settings)
 		end,
 	},
+	{
+		'stevearc/conform.nvim',
+		---@module "conform"
+		---@type conform.setupOpts
+		opts = {
+			formatters_by_ft = {
+				c = { 'clang-format' },
+				cpp = { 'clang-format' },
+			},
+		},
+	},
 }
 
 return M
