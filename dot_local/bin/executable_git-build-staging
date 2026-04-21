@@ -305,7 +305,9 @@ rebuild_staging_branch() {
 
 	log "Rebuilding ${STAGING_BRANCH} from ${UPSTREAM_BRANCH}"
 	git switch -C "${STAGING_BRANCH}" "${UPSTREAM_BRANCH}" >/dev/null
-	git branch --set-upstream-to "${PUSH_REMOTE}/${STAGING_BRANCH}" "${STAGING_BRANCH}" >/dev/null
+	if git show-ref --verify --quiet "refs/remotes/${PUSH_REMOTE}/${STAGING_BRANCH}"; then
+		git branch --set-upstream-to "${PUSH_REMOTE}/${STAGING_BRANCH}" "${STAGING_BRANCH}" >/dev/null
+	fi
 
 	log "Merging requested branches in order"
 	for target in "${MERGE_TARGETS[@]}"; do
@@ -402,7 +404,7 @@ validate_merge_targets() {
 push_staging_if_requested() {
 	if [ "${PUSH_STAGING}" = "yes" ]; then
 		log "Pushing ${STAGING_BRANCH} to ${PUSH_REMOTE} (force-with-lease)"
-		git push --force-with-lease "${PUSH_REMOTE}" "${STAGING_BRANCH}"
+		git push --force-with-lease --set-upstream "${PUSH_REMOTE}" "${STAGING_BRANCH}"
 	fi
 }
 
