@@ -36,9 +36,9 @@ if (( $+commands[direnv] )); then
 	source <(direnv hook zsh)
 fi
 
-if (( $+commands[fortune] )); then
-	fortune -s
-fi
+# if (( $+commands[fortune] )); then
+# 	fortune -s
+# fi
 
 RC_TIME=$(($SECONDS - $RC_START))
 printf 'Shell startup took %s\n' "$(elapsed-time $RC_TIME)"
