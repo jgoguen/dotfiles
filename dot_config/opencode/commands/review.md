@@ -2,38 +2,78 @@
 description: Review the current code changes
 ---
 
-Review the changes made in the currently checked out commit. Look for any
-potential improvements, bugs, security issues, or areas that could be optimized.
-Consider the following aspects:
+Review the current code changes.
 
-- Code readability and maintainability
-- Consistent naming conventions
-- Adherence to coding standards and best practices
-- Performance implications
-- Security vulnerabilities
-- Proper error handling and logging
-- Test coverage and quality
-- Tests cover edge cases and error scenarios
-- Keep dependencies up to date
-- Debug logging is disabled by default
+Use `code-reviewer` as the primary reviewer and always include
+`security-auditor` in the review. If the scope of the change warrants it,
+delegate to additional specialists and combine the results into one review:
 
-Error handling best practices:
+- `technical-writer` for documentation-heavy changes or when documentation
+  accuracy, clarity, or completeness is part of the review scope
+- `accessibility-tester` when front-end or web UI changes materially affect
+  semantics, keyboard interaction, focus behavior, screen reader support,
+  visual contrast, or user task completion
+- `compliance-auditor` when the changes touch regulated data, retention,
+  consent, auditability, privacy, or other compliance-relevant behavior
+- Other domain specialists when the review clearly benefits from their expertise
 
-- Handle errors gracefully, don't let the program crash
-- Use try-catch for operations that might fail
-- Log errors with context to aid debugging
-- Return meaningful error messages to users
-- Differentiate between recoverable and unrecoverable errors
-- Don't expose internal error details to end users
+Review process:
 
-Security best practices:
+1. Understand the scope of the changes and the repository conventions that
+   should govern them.
+2. Review with `code-reviewer` for correctness, regressions, maintainability,
+   tests, and general engineering quality.
+3. Review with `security-auditor` for vulnerabilities, unsafe assumptions,
+   trust-boundary mistakes, dependency risk, and exposed attack surface.
+4. Invoke additional specialists only when the change scope clearly calls for
+   them.
+5. Merge the results into one final review without duplicating overlapping
+   findings.
 
-- Validate and sanitize all user input to prevent injection attacks
-- Use parameterized queries to prevent SQL injection
-- Implement proper authentication and authorization checks
-- Follow the principle of least privilege
+Merging guidance:
 
-Provide constructive feedback and suggestions for improvement. Order your review
-comments to prioritize critical issues first, followed by less severe concerns
-and suggestions for enhancement. If applicable, include specific code snippets
-or examples to illustrate your points.
+- Merge overlapping findings into one stronger finding instead of listing the
+  same issue multiple times from different specialists
+- Prefer the most specific and highest-confidence explanation of the issue and
+  risk
+- Preserve security framing when a finding is both a correctness issue and a
+  security issue
+- When specialists disagree, surface the disagreement briefly and explain what
+  additional context or validation would resolve it
+- Keep the final review coherent and prioritized as one review, not a sequence
+  of disconnected specialist reports
+
+Primary review areas:
+
+- Correctness and behavioral regressions
+- Security vulnerabilities and unsafe assumptions
+- Data loss, privacy, compliance, or reliability risks
+- Performance regressions or unnecessary complexity
+- Error handling, logging, and observability gaps
+- Test coverage gaps, especially for edge cases and failure paths
+- Documentation mismatches for public APIs, configuration, or user-visible
+  behavior
+- Maintainability, readability, and unnecessary abstraction
+
+Review principles:
+
+- Keep the review grounded in the actual changes
+- Do not apply generic checklists mechanically
+- Do not invent requirements that are not supported by the repository, task, or
+  change scope
+- Prefer high-signal findings over broad style commentary
+- Avoid repeating the same issue across multiple findings when one clear finding
+  is enough
+- Distinguish clearly between confirmed findings, likely risks, and residual
+  uncertainty
+
+Output requirements:
+
+- Present findings first, ordered by severity
+- Include file and line references whenever possible
+- Keep each finding focused on the issue, the risk, and why it matters
+- Note which specialist perspective materially informed a finding only when it
+  adds clarity
+- If no findings are discovered, say so explicitly and mention any residual
+  risks or testing gaps
+- Keep any summary brief and place it after the findings
