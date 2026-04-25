@@ -2,9 +2,37 @@
 
 local M = {
 	{
+		'joechrisellis/lsp-format-modifications.nvim',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		lazy = true,
+	},
+	{
 		"stevearc/conform.nvim",
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+			LazyVim.on_very_lazy(function()
+				LazyVim.format.register({
+					name = 'conform.nvim (changed regions)',
+					priority = 110,
+					primary = true,
+					format = function(buf)
+						require('utils.format').format_on_save(buf)
+					end,
+					sources = function(buf)
+						local formatters, lsp = require('conform').list_formatters_to_run(buf)
+						local ret = vim.tbl_map(function(formatter)
+							return formatter.name
+						end, formatters)
+
+						if lsp then
+							table.insert(ret, 'LSP')
+						end
+
+						return ret
+					end,
+				})
+			end)
 		end,
 	},
 }

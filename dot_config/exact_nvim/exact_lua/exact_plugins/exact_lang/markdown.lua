@@ -41,7 +41,7 @@ local M = {
 		'stevearc/conform.nvim',
 		opts = {
 			formatters_by_ft = {
-				['markdown.pandoc'] = { 'prettier', 'markdownlint-cli2', 'markdown-toc' },
+				['markdown.pandoc'] = { 'prettier' },
 			},
 		},
 	},
