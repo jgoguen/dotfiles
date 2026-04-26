@@ -1,0 +1,157 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+# Usage:
+#	 ./makem4b output-prefix chapter1.mp3 chapter2.mp3 ...
+#
+# Produces:
+#	 output-prefix.m4b
+
+if (( ! ${+commands[ffmpeg]} )); then
+	printf 'Error: ffmpeg is not installed or not in PATH.\n' >&2
+	exit 1
+fi
+if (( ! ${+commands[ffprobe]} )); then
+	printf 'Error: ffprobe is not installed or not in PATH.\n' >&2
+	exit 1
+fi
+
+MYNAME=$(basename -- "$0")
+
+typeset -g COVER_IMAGE=""
+typeset -g OUTPUT_FILE="audiobook.m4b"
+
+function usage() {
+	cat <<-EOF
+Usage: ${MYNAME} -p OUTPUT_PREFIX [-c COVER_IMAGE] [-o OUTPUT_FILE] INPUT_FILES...
+  -c COVER_IMAGE: Optional cover image file (e.g. cover.jpg)
+  -o OUTPUT_FILE: Optional output file name (default: audiobook.m4b)
+Chapter titles are derived from the input file names. Input files are
+assumed to be given in correct chapter order.
+	EOF
+}
+
+while getopts ":c:o:h" opt; do
+	case $opt in
+		c) COVER_IMAGE="${OPTARG}" ;;
+		o) OUTPUT_FILE="${OPTARG}" ;;
+		h)
+			usage
+			exit 0
+			;;
+		:)
+			printf 'Error: Option -%s requires an argument.\n' "${OPTARG}" >&2
+			usage
+			exit 1
+			;;
+		*)
+			printf 'Error: Invalid option -%s\n' "${OPTARG}" >&2
+			usage
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND - 1))
+
+CONCAT_FILE="$(mktemp)"
+METADATA_FILE="$(mktemp)"
+
+cleanup() {
+	[ -f "${CONCAT_FILE}" ] && rm -f "${CONCAT_FILE}"
+	[ -f "${METADATA_FILE}" ] && rm -f "${METADATA_FILE}"
+}
+trap cleanup INT TERM EXIT
+
+# Escape text for ffmetadata values.
+escape_ffmetadata() {
+	local s="${1}"
+	s=${s//\\/\\\\}
+	s=${s//=/\\=}
+	s=${s//;/\\;}
+	s=${s//#/\\#}
+	printf '%s' "${s}"
+}
+
+# Quote path for ffconcat using single quotes, escaping embedded single quotes.
+quote_ffconcat_path() {
+	local s="${1}"
+	s=${s//\'/\'\\\'\'}
+	printf "'%s'" "${s}"
+}
+
+# Return duration in milliseconds as an integer.
+duration_ms() {
+	local file="${1}"
+	ffprobe -v error \
+		-show_entries format=duration \
+		-of default=noprint_wrappers=1:nokey=1 \
+		-- "${file}" \
+	| awk '{ printf "%d\n", ($1 * 1000) + 0.5 }'
+}
+
+: >"${CONCAT_FILE}"
+: >"${METADATA_FILE}"
+
+printf 'ffconcat version 1.0\n' >>"${CONCAT_FILE}"
+printf ';FFMETADATA1\n' >>"${METADATA_FILE}"
+
+typeset -i START_MS=0
+typeset -i CHAPTER_NUM=1
+
+for file in "$@"; do
+	dur_ms=$(duration_ms "${file}")
+	end_ms=$((START_MS + dur_ms))
+
+	# Use filename without extension as chapter title.
+	base="$(basename -- "${file}")"
+	title="${base%.*}"
+	esc_title="$(escape_ffmetadata "${title}")"
+
+	printf 'file %s\n' "$(quote_ffconcat_path "$(pwd)/${file}")" >>"${CONCAT_FILE}"
+	printf 'duration %.3f\n' "$(awk "BEGIN { print $dur_ms / 1000 }")" >>"${CONCAT_FILE}"
+
+	cat >>"${METADATA_FILE}" <<EOF
+
+[CHAPTER]
+TIMEBASE=1/1000
+START=${START_MS}
+END=${end_ms}
+title=${esc_title}
+EOF
+
+	START_MS=${end_ms}
+	CHAPTER_NUM=$((CHAPTER_NUM + 1))
+done
+
+typeset -a FFMPEG_OPTS=(
+	"-f" "concat"
+	"-safe" "0"
+	"-i" "${CONCAT_FILE}"
+	"-i" "${METADATA_FILE}"
+)
+
+if [ -n "${COVER_IMAGE}" ]; then
+	FFMPEG_OPTS+=("-i" "${COVER_IMAGE}")
+fi
+
+FFMPEG_OPTS+=(
+	"-map" "0:a"
+	"-map_metadata" "1"
+	"-map_chapters" "1"
+)
+
+if [ -n "${COVER_IMAGE}" ]; then
+	FFMPEG_OPTS+=(
+		"-map" "2:v"
+		"-disposition:v:0" "attached_pic"
+		"-vcodec" "copy"
+	)
+fi
+
+FFMPEG_OPTS+=(
+	"-acodec" "aac"
+	"-b:a" "128k"
+)
+
+ffmpeg "${FFMPEG_OPTS[@]}" -y -- "${OUTPUT_FILE}"
