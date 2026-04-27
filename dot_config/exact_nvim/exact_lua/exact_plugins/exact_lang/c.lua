@@ -92,6 +92,15 @@ local M = {
 			},
 		},
 	},
+	{
+		'mfussenegger/nvim-lint',
+		opts = {
+			linters_by_ft = {
+				c = { 'cppcheck', 'clangtidy' },
+				cpp = { 'cppcheck', 'clangtidy' },
+			},
+		},
+	},
 }
 
 return M
