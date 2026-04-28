@@ -10,6 +10,15 @@ zmodload zsh/zutil
 autoload -U add-zsh-hook
 autoload -Uz colors
 
+{{ if eq .chezmoi.os "darwin" -}}
+if (( ${+commands[brew]} )); then
+	BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
+	export BREW_PREFIX
+else
+	export BREW_PREFIX=""
+fi
+{{- end }}
+
 # Only do this if not running in Neovim or the Neovim socket is not available
 if [ -z "${NVIM}" ] || [ -S "${NVIM}" ]; then
 	for d in "site-functions" "completion"; do
@@ -25,8 +34,8 @@ if [ -z "${NVIM}" ] || [ -S "${NVIM}" ]; then
 		fi
 	done
 	{{- if eq .chezmoi.os "darwin" }}
-	if (( ${+commands[brew]} )); then
-		fpath=($(brew --prefix)/share/zsh/site-functions ${fpath})
+	if [ -n "${BREW_PREFIX}" ]; then
+		fpath=(${BREW_PREFIX}/share/zsh/site-functions ${fpath})
 	fi
 	{{- end }}
 
@@ -36,4 +45,9 @@ if [ -z "${NVIM}" ] || [ -S "${NVIM}" ]; then
 fi
 
 autoload -Uz compinit
-compinit -d "${USER_ZSH}/zcompdump"
+# Full rebuild only if zcompdump is older than 24 hours
+if [[ -n "${USER_ZSH}/zcompdump"(#qN.mh+24) ]]; then
+	compinit -d "${USER_ZSH}/zcompdump"
+else
+	compinit -C -d "${USER_ZSH}/zcompdump"
+fi

@@ -3,13 +3,25 @@
 
 if (( $+commands[starship] )); then
 	source <(starship init zsh)
-	source <(starship completions zsh)
+	local _starship_cache="${XDG_CACHE_HOME}/zsh/starship-completion.zsh"
+	if [[ ! -f "${_starship_cache}" || "${commands[starship]}" -nt "${_starship_cache}" ]]; then
+		starship completions zsh >| "${_starship_cache}"
+	fi
+	source "${_starship_cache}"
 fi
 
 if (( $+commands[op] )); then
-	source <(op completion zsh)
+	local _op_cache="${XDG_CACHE_HOME}/zsh/op-completion.zsh"
+	if [[ ! -f "${_op_cache}" || "${commands[op]}" -nt "${_op_cache}" ]]; then
+		op completion zsh >| "${_op_cache}"
+	fi
+	source "${_op_cache}"
 fi
 
 if (( $+commands[opencode] )); then
-	source <(opencode completion)
+	local _oc_cache="${XDG_CACHE_HOME}/zsh/opencode-completion.zsh"
+	if [[ ! -f "${_oc_cache}" || "${commands[opencode]}" -nt "${_oc_cache}" ]]; then
+		opencode completion zsh >| "${_oc_cache}"
+	fi
+	source "${_oc_cache}"
 fi

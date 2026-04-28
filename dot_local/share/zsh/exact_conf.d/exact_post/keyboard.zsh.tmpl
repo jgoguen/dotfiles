@@ -44,8 +44,7 @@ bindkey '^b' backward-word
 
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 {{ if eq .chezmoi.os "darwin" -}}
-if (( ${+commands[brew]} )); then
-	BREW_PREFIX="$(brew --prefix)"
+if [ -n "${BREW_PREFIX}" ]; then
 	if [ -f "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
 		. "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 	fi
@@ -69,7 +68,11 @@ done
 {{- end }}
 
 if (( ${+commands[fzf]} )); then
-	source <(fzf --zsh)
+	local _fzf_cache="${XDG_CACHE_HOME}/zsh/fzf-completion.zsh"
+	if [[ ! -f "${_fzf_cache}" || "${commands[fzf]}" -nt "${_fzf_cache}" ]]; then
+		fzf --zsh >| "${_fzf_cache}"
+	fi
+	source "${_fzf_cache}"
 fi
 
 if zle -l autosuggest-accept ; then
