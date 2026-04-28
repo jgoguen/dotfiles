@@ -16,10 +16,16 @@ local M = {
 						local ts = vim.bo[ctx.buf].tabstop or 4
 						local indent = expand and ts or 0
 
-						return { '-i', tostring(indent), '-ci', '-bn', '-kp', '-ln', 'bash' }
+						return { '-i', tostring(indent), '-ci', '-bn', '-kp' }
 					end,
 				},
 			},
+		},
+	},
+	{
+		'mason.org/mason.nvim',
+		opts = {
+			ensure_installed = { 'bash-language-server', 'shfmt' },
 		},
 	},
 }
