@@ -121,7 +121,7 @@ log "Writing battery menu settings" "INFO"
 /usr/bin/defaults write com.apple.menuextra.battery ShowPercent -string YES
 
 log "Writing clock menu settings" "INFO"
-/usr/bin/defaults write com.apple.menuextra.clock DateFormat -string 'EEE MMM d h:mm:ss'
+/usr/bin/defaults write com.apple.menuextra.clock DateFormat -string 'EEE MMM d h:mm:ss a'
 /usr/bin/defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
 /usr/bin/defaults write com.apple.menuextra.clock IsAnalog -bool false
 
@@ -160,7 +160,7 @@ log "Writing iterm2 settings" "INFO"
 
 # Set date format strings
 log "Writing date format string settings" "INFO"
-/usr/bin/defaults write NSGlobalDomain AppleICUDateFormatStrings -dict 1 "y-MM-dd" 2 "d MMM y" 3 "d MMMM y" 4 "EEEE, d MMMM y"
+/usr/bin/defaults write NSGlobalDomain AppleICUDateFormatStrings -dict 1 "y-MM-dd" 2 "MMM d, y" 3 "MMMM d, y" 4 "EEEE, MMMM d, y"
 
 # Enable snap-to-grid for icons on the desktop and in other icon views
 log "Setting finder settings via PlistBuddy" "INFO"
