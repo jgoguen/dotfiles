@@ -187,6 +187,7 @@
       "gcloud projects delete *": "deny",
       "gcloud projects list*": "allow",
 
+      "gh pr view *": "allow",
       "git add": "deny",
       "git add *": "deny",
       "git branch": "allow",
