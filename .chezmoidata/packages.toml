@@ -112,7 +112,6 @@ pacman = [
 	"ffmpeg",
 	"ffmpegthumbnailer",
 	"ffmpegthumbs",
-	"firefox",
 	"firewalld",
 	"flatpak",
 	"flatpak-xdg-utils",
@@ -150,7 +149,6 @@ pacman = [
 	"lazygit",
 	"less",
 	"libappindicator-gtk3",
-	"libreoffice-fresh",
 	"libxml2",
 	"lsd",
 	"lua51",
@@ -190,7 +188,6 @@ pacman = [
 	"signal-desktop",
 	"starship",
 	"thermald",
-	"thunderbird",
 	"ttf-dejavu",
 	"ttf-hannom",
 	"ttf-khmer",
@@ -254,11 +251,35 @@ name = "it.mijorus.gearlever"
 remote = "flathub"
 
 [[packages.arch.flatpak]]
+name = "net.cozic.joplin_desktop"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
 name = "org.kde.gwenview"
 remote = "flathub"
 
 [[packages.arch.flatpak]]
 name = "org.kde.krita"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.kde.kwrite"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.kde.okular"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.libreoffice.LibreOffice"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.mozilla.firefox"
+remote = "flathub"
+
+[[packages.arch.flatpak]]
+name = "org.mozilla.Thunderbird"
 remote = "flathub"
 
 [packages.debian]
