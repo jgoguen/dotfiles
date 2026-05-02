@@ -7,7 +7,7 @@ if [ -z "${SUDO}" ]; then
 fi
 
 {{ if eq .chezmoi.osRelease.id "fedora" -}}
-{{ range .packages.fedora.copr -}}
+{{ range or (.packages.fedora.copr (list)) -}}
 ${SUDO} dnf copr enable -y {{ . | quote }}
 {{ end }}
 
@@ -22,21 +22,38 @@ if ! rpm -qi rpmfusion-nonfree-release-tainted-{{ .chezmoi.osRelease.versionID }
 fi
 ${SUDO} dnf install -y rpmfusion-free-appstream-data rpmfusion-nonfree-appstream-data
 
-${SUDO} dnf remove -y {{ .packages.fedora.removal | join " " }}
-${SUDO} dnf install -y {{ .packages.fedora.dnf | join " " }}
+{{ with dig "packages" "fedora" "removal" (list) . -}}
+${SUDO} dnf remove -y {{ . | join " " }}
+{{- end }}
+{{ with dig "packages" "fedora" "dnf" (list) . -}}
+${SUDO} dnf install -y {{ . | join " " }}
+{{- end }}
 {{ else if eq .chezmoi.osRelease.id "arch" -}}
-if command -v yay >/dev/null 2>&1; then
-	yay -Sy --needed --noconfirm --removemake --answerclean NotInstalled --answerdiff None --answeredit None --norebuild --noredownload {{ .packages.arch.pacman | join " " }} {{ .packages.arch.aur | join " " }}
-else
-	${SUDO} pacman -Sy --needed --noconfirm {{ .packages.arch.pacman | join " " }}
-fi
+{{- $pkgs := dig "packages" "arch" "pacman" (list) . -}}
+{{ if lookPath "yay" -}}
+	{{- $pkgs = uniq (concat $pkgs (dig "packages" "arch" "aur" (list) .)) -}}
+	{{ with $pkgs -}}
+	yay -Sy --needed --noconfirm --removemake --answerclean NotInstalled --answerdiff None --answeredit None --norebuild --noredownload {{ . | join " " }}
+	{{- end }}
+{{ else }}
+	{{ with $pkgs -}}
+	${SUDO} pacman -Sy --needed --noconfirm {{ . | join " " }}
+	{{- end }}
+{{- end }}
 {{ else if eq .chezmoi.osRelease.id "debian" -}}
-${SUDO} apt-get install -y {{ .packages.debian.apt | join " " }}
+{{ with dig "packages" "debian" "removal" (list) . -}}
+${SUDO} apt-get remove -y {{ . | join " " }}
+{{- end }}
+{{ with dig "packages" "debian" "apt" (list) . -}}
+${SUDO} apt-get install -y {{ . | join " " }}
+{{- end }}
 {{ end }}
 
-if command -v flatpak >/dev/null 2>&1; then
-	printf 'Installing Flatpak packages\n'
-	{{ range or (index .packages .chezmoi.osRelease.id "flatpak") (list) }}
-	flatpak install -y {{ .remote }} {{ .name }}
-	{{ end -}}
-fi
+{{ if lookPath "flatpak" }}
+{{ range uniq (concat
+	(or (index .packages .chezmoi.osRelease.id "flatpak") (list))
+	(or .packages.common.flatpak (list))
+) -}}
+flatpak install -y {{ .remote }} {{ .name }}
+{{ end -}}
+{{ end }}

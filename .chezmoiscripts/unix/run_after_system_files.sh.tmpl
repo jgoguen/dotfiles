@@ -14,7 +14,7 @@ log "Elevating privileges using ${SUDO}" "DEBUG"
 
 set -e
 
-{{ range (index .system_files .chezmoi.os) }}
+{{ range (dig "system_files" .chezmoi.os (list) .) }}
 SYS_FILE="{{ or .location .file }}"
 SRC_FILE="{{ $.chezmoi.sourceDir }}/.system-files{{ .file }}"
 
@@ -35,7 +35,7 @@ fi
 			fi
 		fi
 		${SUDO} install -D -o {{ or .owner "root" }} -g "${GROUP_NAME}" -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
-		{{ range (or .commands (list)) }}
+		{{ with .commands }}
 		{{ . }}
 		{{ end }}
 	fi

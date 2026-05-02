@@ -71,16 +71,6 @@ cask = ["calibre"]
 name = "OneDrive"
 id = 823766827
 
-[packages.darwin.work]
-brew = []
-cask = []
-mas = []
-
-[packages.darwin.headless]
-brew = []
-cask = []
-mas = []
-
 [packages.arch]
 pacman = [
 	"base",
@@ -104,7 +94,6 @@ pacman = [
 	"curl",
 	"dhclient",
 	"direnv",
-	"discord",
 	"dolphin",
 	"dolphin-plugins",
 	"efivar",
@@ -232,55 +221,10 @@ aur = [
 	"fortune-mod-starwars",
 	"fortune-mod-vimtips",
 	"networkmanager-dispatcher-chrony",
-	"orca-slicer-bin",
 	"otf-exljbris",
 	"ttf-ancient-fonts",
 	"ttf-qurancomplex-fonts",
 ]
-
-[[packages.arch.flatpak]]
-name = "com.github.k4zmu2a.spacecadetpinball"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "com.github.tchx84.Flatseal"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "it.mijorus.gearlever"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "net.cozic.joplin_desktop"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.kde.gwenview"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.kde.krita"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.kde.kwrite"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.kde.okular"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.libreoffice.LibreOffice"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.mozilla.firefox"
-remote = "flathub"
-
-[[packages.arch.flatpak]]
-name = "org.mozilla.Thunderbird"
-remote = "flathub"
 
 [packages.debian]
 apt = [
@@ -316,7 +260,6 @@ apt = [
 	"zsh-autosuggestions",
 	"zsh-syntax-highlighting",
 ]
-flatpak = []
 
 [packages.fedora]
 copr = ["atim/bottom", "atim/lazygit", "atim/starship"]
@@ -328,7 +271,6 @@ dnf = [
 	"compat-lua-devel",
 	"fd-find",
 	"ffmpeg",
-	"firefox",
 	"fortune-mod",
 	"fzf",
 	"git",
@@ -351,21 +293,12 @@ dnf = [
 	"rust",
 	"rust-src",
 	"starship",
-	"thunderbird",
 	"yq",
 	"zsh",
 	"zsh-autosuggestions",
 	"zsh-syntax-highlighting",
 ]
 removal = ["libswscale-free"]
-
-[[packages.fedora.flatpak]]
-name = "com.discordapp.Discord"
-remote = "flathub"
-
-[[packages.fedora.flatpak]]
-name = "net.cozic.joplin_desktop"
-remote = "flathub"
 
 [packages.windows]
 powershell = [
@@ -413,3 +346,56 @@ packages = [
 	"vcredist2022",
 	"wezterm",
 ]
+
+[[packages.common.flatpak]]
+name = "com.discordapp.Discord"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "com.github.k4zmu2a.spacecadetpinball"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "com.github.tchx84.Flatseal"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "com.orcaslicer.OrcaSlicer"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "io.github.hkdb.Aerion"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "it.mijorus.gearlever"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "net.cozic.joplin_desktop"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.kde.gwenview"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.kde.krita"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.kde.kwrite"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.kde.okular"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.libreoffice.LibreOffice"
+remote = "flathub"
+
+[[packages.common.flatpak]]
+name = "org.mozilla.firefox"
+remote = "flathub"
+

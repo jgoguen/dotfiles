@@ -5,22 +5,22 @@ trap {
 # Save all output, just in case! Thanks to @vexx32
 $PSDefaultParameterValues['Out-Default:OutVariable'] = '__'
 
-{{ range .packages.windows.powershell -}}
+{{ range dig "packages" "windows" "powershell" (list) . -}}
 Install-Module {{ . | quote }} -Scope CurrentUser
 {{ end -}}
 
-{{ range .packages.windows.winget -}}
-winget install --source winget --accept-package-agreements --uninstall-previous {{ . | quote }}
+{{ with dig "packages" "windows" "winget" (list) . -}}
+winget install --source winget --accept-package-agreements --uninstall-previous{{ range . }} {{ . | quote }}{{ end }}
 {{ end -}}
 
-{{ range .packages.windows.msstore -}}
-winget install --source msstore --accept-package-agreements --uninstall-previous {{ . | quote }}
+{{ with dig "packages" "windows" "msstore" (list) . -}}
+winget install --source msstore --accept-package-agreements --uninstall-previous{{ range . }} {{ . | quote }}{{ end }}
 {{ end -}}
 
-{{ range .packages.windows.scoop.buckets -}}
+{{ range dig "packages" "windows" "scoop" "buckets" (list) . -}}
 scoop bucket add {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.windows.scoop.packages -}}
-scoop install {{ .  | quote }}
+{{ with dig "packages" "windows" "scoop" "packages" (list) . -}}
+scoop install {{ range . }} {{ . | quote }}{{ end }}
 {{ end -}}

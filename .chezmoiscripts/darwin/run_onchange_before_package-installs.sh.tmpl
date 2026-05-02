@@ -2,10 +2,10 @@
 # vim: set filetype=sh:
 
 brew bundle --file=/dev/stdin <<EOF
-{{ range .packages.darwin.brew -}}
+{{ range or (.packages.darwin.brew (list)) -}}
 brew {{ . | quote }}
 {{ end }}
-{{ range (index .packages.darwin .environment "brew") -}}
+{{ range (dig "packages" "darwin" .environment "brew" (list) .) -}}
 brew {{ . | quote }}
 {{ end }}
 {{ range .packages.darwin.cask -}}
