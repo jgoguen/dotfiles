@@ -112,7 +112,7 @@ load_persisted_merge_targets() {
 		spec="${target#*:}"
 
 		case "${kind}" in
-			branch|stack|mapped)
+			branch | stack | mapped)
 				add_merge_target "${kind}" "${spec}"
 				loaded_any="yes"
 				;;
@@ -120,27 +120,27 @@ load_persisted_merge_targets() {
 				warn "Ignoring invalid persisted merge target: ${target}"
 				;;
 		esac
-	done < "${MERGE_TARGETS_FILE}"
+	done <"${MERGE_TARGETS_FILE}"
 
 	if [ "${loaded_any}" = "yes" ]; then
 		log "Loaded persisted merge targets from ${MERGE_TARGETS_FILE}"
 	else
 		log "Persisted merge target file is empty"
 	fi
-	}
+}
 
 save_merge_targets() {
 	local target tmp_file
 
 	tmp_file="${MERGE_TARGETS_FILE}.tmp.$$"
-	: > "${tmp_file}"
+	: >"${tmp_file}"
 
 	for target in "${MERGE_TARGETS[@]}"; do
-		printf '%s\n' "${target}" >> "${tmp_file}"
+		printf '%s\n' "${target}" >>"${tmp_file}"
 	done
 
 	mv "${tmp_file}" "${MERGE_TARGETS_FILE}"
-	}
+}
 
 prune_missing_persisted_merge_targets() {
 	local target kind spec remote_ref pruned_any="no"
@@ -151,7 +151,7 @@ prune_missing_persisted_merge_targets() {
 		spec="${target#*:}"
 
 		case "${kind}" in
-			branch|stack)
+			branch | stack)
 				if git rev-parse --verify --quiet "${spec}" >/dev/null; then
 					kept_targets+=("${target}")
 				else
@@ -196,11 +196,11 @@ die() {
 cleanup_on_error() {
 	local exit_code=$?
 
-	warn "A command failed. Attempting to abort any in-progress Git operation."
-
-	git rebase --abort >/dev/null 2>&1 || true
-	git merge --abort >/dev/null 2>&1 || true
-	git cherry-pick --abort >/dev/null 2>&1 || true
+	# warn "A command failed. Attempting to abort any in-progress Git operation."
+	#
+	# git rebase --abort >/dev/null 2>&1 || true
+	# git merge --abort >/dev/null 2>&1 || true
+	# git cherry-pick --abort >/dev/null 2>&1 || true
 
 	warn "Repository may need manual review."
 	exit "${exit_code}"
@@ -320,7 +320,21 @@ rebuild_staging_branch() {
 		fi
 
 		printf '  merging %s (%s)\n' "${merge_ref}" "${kind}"
-		git merge --no-ff --no-edit "${merge_ref}"
+		if ! git merge --no-ff --no-edit --rerere-autoupdate "${merge_ref}"; then
+			if git ls-files -u | grep -q .; then
+				printf 'Unresolved merge conflicts remain after merging %s\n' "${merge_ref}"
+				git status --short
+				exit 1
+			fi
+
+			if git rev-parse -q --verify MERGE_HEAD >/dev/null; then
+				printf 'Conflict was auto-resolved by rerere; completing merge commit\n'
+				git commit --no-edit
+			else
+				printf 'Merge failed but no merge is in progress\n'
+				exit 1
+			fi
+		fi
 	done
 }
 
@@ -345,7 +359,7 @@ show_plan() {
 		index=$((index + 1))
 	fi
 	printf '    %d. fetch all remotes and prune stale refs\n' "${index}"
-		index=$((index + 1))
+	index=$((index + 1))
 
 	for target in "${MERGE_TARGETS[@]}"; do
 		kind="${target%%:*}"
@@ -390,7 +404,7 @@ validate_merge_targets() {
 		spec="${merge_target#*:}"
 
 		case "${kind}" in
-			branch|stack)
+			branch | stack)
 				require_branch_exists "${spec}"
 				;;
 			mapped)
