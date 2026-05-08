@@ -112,6 +112,7 @@
       "brew upgrade *": "deny",
 
       "clang-format *": "allow",
+
       "dnf erase *": "deny",
       "dnf install *": "deny",
       "dnf remove *": "deny",
@@ -208,6 +209,7 @@
       "git fetch *": "allow",
       "git log": "allow",
       "git log *": "allow",
+      "git ls-files": "allow",
       "git merge": "deny",
       "git merge *": "deny",
       "git mv *": "deny",
@@ -237,6 +239,8 @@
       "go test": "allow",
       "go test *": "allow",
       "go vet *": "allow",
+
+      "gofmt *": "allow",
 
       "grep *": "allow",
 
