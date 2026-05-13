@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": {
+      "./venv/bin/pytest *": "allow",
+      "./venv/bin/python3 -m py_compile *": "allow",
+      "CWA_* ./venv/bin/pytest *": "allow",
+    }
+  }
+}
