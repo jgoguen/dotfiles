@@ -54,7 +54,7 @@ local settings = {
 		-- 1: Break a line before a one-letter word instead of after
 		-- j: Remove a comment leader when joining lines if it makes sense
 		-- l: Do not format lines longer before inserting
-		formatoptions = 'tcqnmM1jl',
+		formatoptions = 'cqnmM1jl',
 
 		grepformat = '%f:%l:%c:%m',
 		grepprg = 'rg --vimgrep --no-heading --smart-case --hidden --no-ignore',
@@ -126,8 +126,8 @@ local settings = {
 		-- Follow ignorecase and smartcase when searching tags files
 		tagcase = 'followscs',
 
-		-- Maximum width of text 80 columns default
-		textwidth = 80,
+		-- Maximum width of text 120 columns default
+		textwidth = 120,
 
 		-- Milliseconds until CursorHold is triggered
 		updatetime = 100,
