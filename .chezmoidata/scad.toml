@@ -42,3 +42,10 @@ type = "archive"
 strip = 1
 include = ["*/*.scad", "*/src/**"]
 url = "https://github.com/kennetek/gridfinity-rebuilt-openscad/archive/refs/heads/main.tar.gz"
+
+[[scad.libraries]]
+name = "escad"
+type = "archive"
+strip = 1
+include = ["*/*.scad", "**/*.scad"]
+url = "https://codeberg.org/jgoguen/escad/archive/main.tar.gz"

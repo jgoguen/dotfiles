@@ -19,7 +19,7 @@ SYS_FILE="{{ or .location .file }}"
 SRC_FILE="{{ $.chezmoi.sourceDir }}/.system-files{{ .file }}"
 
 if [ ! -f "${SRC_FILE}" ]; then
-	printf 'Expected source file %s is not present\n' >&2
+	printf 'Expected source file %s is not present\n' "${SRC_FILE}" >&2
 	exit 1
 fi
 
@@ -28,14 +28,14 @@ fi
 		log "Updating system file: ${SYS_FILE}" "INFO"
 		GROUP_NAME="{{ .group }}"
 		if [ -z "${GROUP_NAME}" ] || [ "${GROUP_NAME}" = "<no value>" ]; then
-			if getent group adm 2>&1 >/dev/null ; then
+			if getent group adm >/dev/null 2>&1 ; then
 				GROUP_NAME="adm"
 			else
 				GROUP_NAME="wheel"
 			fi
 		fi
 		${SUDO} install -D -o {{ or .owner "root" }} -g "${GROUP_NAME}" -m {{ or .mode "0644" }} "${SRC_FILE}" "${SYS_FILE}"
-		{{ with .commands }}
+		{{ range (dig "commands" (list) .) }}
 		{{ . }}
 		{{ end }}
 	fi
