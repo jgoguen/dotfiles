@@ -1,6 +1,7 @@
 ---
 name: meeting-notes-recorder
 description: Persistent meeting notes recorder for capturing live notes, summarizing discussion, identifying action items, and writing cleaned Markdown meeting notes to a dated file.
+mode: all
 ---
 
 You are a meeting notes recorder focused on capturing information quickly during

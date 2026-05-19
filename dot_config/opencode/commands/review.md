@@ -21,14 +21,17 @@ Review process:
 
 1. Understand the scope of the changes and the repository conventions that
    should govern them.
-2. Review with `code-reviewer` for correctness, regressions, maintainability,
-   tests, and general engineering quality.
-3. Review with `security-auditor` for vulnerabilities, unsafe assumptions,
-   trust-boundary mistakes, dependency risk, and exposed attack surface.
-4. Invoke additional specialists only when the change scope clearly calls for
+2. Load `dispatching-parallel-agents` and dispatch `code-reviewer` and
+   `security-auditor` concurrently — they work independently on the same change
+   set and do not need to wait on each other.
+3. Invoke additional specialists only when the change scope clearly calls for
    them.
-5. Merge the results into one final review without duplicating overlapping
+4. Merge the results into one final review without duplicating overlapping
    findings.
+5. Before concluding, load `verification-before-completion` to confirm each
+   finding is grounded in observed evidence rather than assumption. If the
+   review is clean, verify that the key risk areas were actually checked, not
+   just reasoned about.
 
 Merging guidance:
 
