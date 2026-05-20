@@ -26,7 +26,7 @@ BASE_URL = "https://code.calibre-ebook.com/plugins/"
 PLUGIN_INDEX = f"{BASE_URL}/plugins.json.bz2"
 PLUGIN_KEYS = {
     "Barnes & Noble",
-    "DeACSM",
+    "ACSM Input",
     "EpubMerge",
     "EpubSplit",
     "FanFicFare",
@@ -77,9 +77,10 @@ def main() -> int:
 
         print(f"Installing plugin: {plugin}")
         try:
-            with urlopen(plugin_remote_file, context=ctx) as resp:
+            with urlopen(plugin_remote_file) as resp:
                 with NamedTemporaryFile() as tmp_file:
                     shutil.copyfileobj(resp, tmp_file)
+                    tmp_file.flush()
                     proc = subprocess.run(
                         [calibre_customize_bin, "-a", tmp_file.name],
                         capture_output=True,
