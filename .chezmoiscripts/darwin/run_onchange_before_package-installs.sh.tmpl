@@ -2,7 +2,7 @@
 # vim: set filetype=sh:
 
 brew bundle --file=/dev/stdin <<EOF
-{{ range or (.packages.darwin.brew (list)) -}}
+{{ range (dig "packages" "darwin" "brew" (list) .) -}}
 brew {{ . | quote }}
 {{ end }}
 {{ range (dig "packages" "darwin" .environment "brew" (list) .) -}}
@@ -11,13 +11,13 @@ brew {{ . | quote }}
 {{ range .packages.darwin.cask -}}
 cask {{ . | quote }}
 {{ end }}
-{{ range (index .packages.darwin .environment "cask") -}}
+{{ range (dig "packages" "darwin" .environment "cask" (list) .) -}}
 cask {{ . | quote }}
 {{ end }}
 {{ range .packages.darwin.mas -}}
 mas {{ .name | quote }}, id: {{ .id }}
 {{ end }}
-{{ range (index .packages.darwin .environment "mas") -}}
+{{ range (dig "packages" "darwin" .environment "mas" (list) .) -}}
 brew {{ .name | quote }}, id: {{ .id }}
 {{ end }}
 EOF
