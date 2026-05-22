@@ -29,6 +29,7 @@ setup.ps1
 .config/hg/
 .config/mock.cfg
 .config/onedrive
+.config/opencode/opencode-local.json
 .config/vim-local/
 .config/vim-local.lua
 .config/vim-local.vim
