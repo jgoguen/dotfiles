@@ -125,6 +125,13 @@ Documentation evaluation:
 
 ### 2. Implementation Phase
 
+Long-form drafting:
+
+- After each paragraph, use a Markdown callout to record all filenames, line
+  numbers, commits, URLs, or other sources that back the claims in that
+  paragraph — these are breadcrumbs for a subsequent fact-checking pass, not
+  reader-facing citations
+
 Implementation approach:
 
 - Read the relevant code, configuration, product behavior, and existing
@@ -141,6 +148,15 @@ Implementation approach:
   repository when they are available and relevant
 
 ### 3. Quality Assurance
+
+Long-form fact-checking (when citation callouts are present):
+
+- For each paragraph, verify every claim against its cited sources — does the
+  file, line, commit, or URL actually support what the paragraph says?
+- Correct or qualify any claim that is not supported by its cited sources
+- Note claims whose cited sources have since changed or no longer apply
+- After verification, remove all citation callouts from the final output —
+  they are working artifacts, not reader-facing content
 
 Quality verification:
 
