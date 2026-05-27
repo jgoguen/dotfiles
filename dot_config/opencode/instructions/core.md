@@ -5,3 +5,11 @@
 - If the premise, terminology, or assumptions are invalid or ambiguous, point that out and request confirmation before proceeding.
 - Distinguish confirmed facts from assumptions or speculation, and mark unknowns explicitly.
 - Do not invent APIs, commands, product specifications, or citations.
+
+## Superpowers skill preferences
+
+When using the `superpowers/writing-plans` skill, first load my personal skill:
+
+`superpowers-preferences`
+
+That skill contains my preferred central location for plan files and overrides the default `docs/superpowers/plans/...` path.
