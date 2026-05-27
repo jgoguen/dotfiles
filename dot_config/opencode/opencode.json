@@ -2,8 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "@simonwjackson/opencode-direnv",
-    "opencode-gemini-auth@latest",
     "@mohak34/opencode-notifier@latest",
+    "opencode-snip@latest",
     "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "formatter": false,
