@@ -1,10 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "@simonwjackson/opencode-direnv",
     "@mohak34/opencode-notifier@latest",
-    "opencode-snip@latest",
-    "superpowers@git+https://github.com/obra/superpowers.git"
+    "opentmux",
+    "@simonwjackson/opencode-direnv",
+    "@slkiser/opencode-quota",
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "@tarquinen/opencode-dcp@latest"
   ],
   "formatter": false,
   "permission": {
