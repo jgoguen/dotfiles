@@ -7,9 +7,6 @@
     "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "formatter": false,
-  "instructions": [
-    "~/.config/opencode/instructions/core.md"
-  ],
   "permission": {
     "bash": {
       "*": "ask",
