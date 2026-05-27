@@ -80,6 +80,59 @@ quote_ffconcat_path() {
 	printf "'%s'" "${s}"
 }
 
+# Return an absolute path for ffconcat without corrupting already-absolute input.
+absolute_input_path() {
+	local s="${1}"
+	case "${s}" in
+		/*) printf '%s' "${s}" ;;
+		*) printf '%s/%s' "$(pwd)" "${s}" ;;
+	esac
+}
+
+# Unescape string values emitted by ffprobe's flat output format.
+unescape_ffprobe_flat_value() {
+	local s="${1}"
+	local out=""
+	local i=1
+	local len=${#s}
+	local ch next
+
+	while (( i <= len )); do
+		ch="${s[${i}]}"
+		if [[ "${ch}" == "\\" ]] && (( i < len )); then
+			(( i++ ))
+			next="${s[${i}]}"
+			case "${next}" in
+				\\) out+="\\" ;;
+				\") out+="\"" ;;
+				n) out+=$'\n' ;;
+				r) out+=$'\r' ;;
+				t) out+=$'\t' ;;
+				b) out+=$'\b' ;;
+				f) out+=$'\f' ;;
+				*) out+="\\${next}" ;;
+			esac
+		else
+			out+="${ch}"
+		fi
+		(( i++ ))
+	done
+
+	printf '%s' "${out}"
+}
+
+# Return success when every input file has an .m4b extension.
+all_inputs_are_m4b() {
+	local file
+	for file in "$@"; do
+		case "${file:l}" in
+			*.m4b) ;;
+			*) return 1 ;;
+		esac
+	done
+	return 0
+}
+
 # Return duration in milliseconds as an integer.
 duration_ms() {
 	local file="${1}"
@@ -90,6 +143,83 @@ duration_ms() {
 	| awk '{ printf "%d\n", ($1 * 1000) + 0.5 }'
 }
 
+# Write one chapter entry to the ffmetadata file.
+write_chapter() {
+	local start_ms="${1}"
+	local end_ms="${2}"
+	local title="${3}"
+	local esc_title
+	esc_title="$(escape_ffmetadata "${title}")"
+
+	cat >>"${METADATA_FILE}" <<EOF
+
+[CHAPTER]
+TIMEBASE=1/1000
+START=${start_ms}
+END=${end_ms}
+title=${esc_title}
+EOF
+}
+
+# Import chapters from an m4b file, offsetting them into the combined timeline.
+write_m4b_chapters() {
+	local file="${1}"
+	local offset_ms="${2}"
+	local fallback_end_ms="${3}"
+	local chapter_data chapter_count
+	local line key value start end title
+	local title_seen=0
+
+	chapter_data="$(ffprobe -v error -print_format flat -show_chapters -- "${file}" 2>/dev/null || true)"
+	chapter_count="$(printf '%s\n' "${chapter_data}" | awk -F= '/^chapters\.chapter\.[0-9]+\.start_time=/{ count++ } END { print count + 0 }')"
+
+	if (( chapter_count == 0 )); then
+		local base="$(basename -- "${file}")"
+		write_chapter "${offset_ms}" "${fallback_end_ms}" "${base%.*}"
+		return
+	fi
+
+	start=""
+	end=""
+	title=""
+	title_seen=0
+	while IFS='=' read -r key value; do
+		value="${value%\"}"
+		value="${value#\"}"
+		case "${key}" in
+			chapters.chapter.*.start_time)
+				start="$(awk -v v="${value}" -v o="${offset_ms}" 'BEGIN { printf "%d", (v * 1000) + o + 0.5 }')"
+				;;
+			chapters.chapter.*.end_time)
+				end="$(awk -v v="${value}" -v o="${offset_ms}" 'BEGIN { printf "%d", (v * 1000) + o + 0.5 }')"
+				;;
+			chapters.chapter.*.tags.title)
+				title="$(unescape_ffprobe_flat_value "${value}")"
+				title_seen=1
+				;;
+		esac
+
+		if [ -n "${start}" ] && [ -n "${end}" ] && (( title_seen )); then
+			write_chapter "${start}" "${end}" "${title}"
+			start=""
+			end=""
+			title=""
+			title_seen=0
+		fi
+	done <<<"${chapter_data}"
+}
+
+# Print the stream index for the first attached picture stream.
+attached_pic_stream_index() {
+	local file="${1}"
+	ffprobe -v error \
+		-select_streams v \
+		-show_entries stream=index:stream_disposition=attached_pic \
+		-of csv=p=0 \
+		-- "${file}" \
+	| awk -F, '$2 == 1 { print $1; found = 1; exit } END { exit(found ? 0 : 1) }'
+}
+
 : >"${CONCAT_FILE}"
 : >"${METADATA_FILE}"
 
@@ -98,27 +228,37 @@ printf ';FFMETADATA1\n' >>"${METADATA_FILE}"
 
 typeset -i START_MS=0
 typeset -i CHAPTER_NUM=1
+# Later metadata generation branches on this for all-m4b chapter preservation.
+typeset -i MERGE_M4B=0
+if (( $# > 0 )) && all_inputs_are_m4b "$@"; then
+	MERGE_M4B=1
+fi
+
+typeset -g AUTO_COVER_FILE=""
+typeset -g AUTO_COVER_STREAM_INDEX=""
+if (( MERGE_M4B )) && [ -z "${COVER_IMAGE}" ]; then
+	if AUTO_COVER_STREAM_INDEX="$(attached_pic_stream_index "${1}")"; then
+		AUTO_COVER_FILE="${1}"
+	else
+		AUTO_COVER_STREAM_INDEX=""
+	fi
+fi
 
 for file in "$@"; do
 	dur_ms=$(duration_ms "${file}")
 	end_ms=$((START_MS + dur_ms))
 
-	# Use filename without extension as chapter title.
-	base="$(basename -- "${file}")"
-	title="${base%.*}"
-	esc_title="$(escape_ffmetadata "${title}")"
-
-	printf 'file %s\n' "$(quote_ffconcat_path "$(pwd)/${file}")" >>"${CONCAT_FILE}"
+	printf 'file %s\n' "$(quote_ffconcat_path "$(absolute_input_path "${file}")")" >>"${CONCAT_FILE}"
 	printf 'duration %.3f\n' "$(awk "BEGIN { print $dur_ms / 1000 }")" >>"${CONCAT_FILE}"
 
-	cat >>"${METADATA_FILE}" <<EOF
-
-[CHAPTER]
-TIMEBASE=1/1000
-START=${START_MS}
-END=${end_ms}
-title=${esc_title}
-EOF
+	if (( MERGE_M4B )); then
+		write_m4b_chapters "${file}" "${START_MS}" "${end_ms}"
+	else
+		# Use filename without extension as chapter title.
+		base="$(basename -- "${file}")"
+		title="${base%.*}"
+		write_chapter "${START_MS}" "${end_ms}" "${title}"
+	fi
 
 	START_MS=${end_ms}
 	CHAPTER_NUM=$((CHAPTER_NUM + 1))
@@ -133,6 +273,8 @@ typeset -a FFMPEG_OPTS=(
 
 if [ -n "${COVER_IMAGE}" ]; then
 	FFMPEG_OPTS+=("-i" "${COVER_IMAGE}")
+elif [ -n "${AUTO_COVER_FILE}" ]; then
+	FFMPEG_OPTS+=("-i" "${AUTO_COVER_FILE}")
 fi
 
 FFMPEG_OPTS+=(
@@ -144,6 +286,12 @@ FFMPEG_OPTS+=(
 if [ -n "${COVER_IMAGE}" ]; then
 	FFMPEG_OPTS+=(
 		"-map" "2:v"
+		"-disposition:v:0" "attached_pic"
+		"-vcodec" "copy"
+	)
+elif [ -n "${AUTO_COVER_FILE}" ]; then
+	FFMPEG_OPTS+=(
+		"-map" "2:${AUTO_COVER_STREAM_INDEX}"
 		"-disposition:v:0" "attached_pic"
 		"-vcodec" "copy"
 	)
