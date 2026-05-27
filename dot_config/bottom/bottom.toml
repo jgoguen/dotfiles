@@ -1,6 +1,11 @@
 [flags]
 battery = true
+# current_usage = true
+enable_cache_memory = true
+get_threads = true
+network_use_binary_prefix = true
 show_table_scroll_position = true
+unnormalized_cpu = true
 
 [colors]
 table_header_color = "#f5e0dc"
