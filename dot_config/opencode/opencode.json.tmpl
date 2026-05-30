@@ -9,6 +9,24 @@
     "@tarquinen/opencode-dcp@latest"
   ],
   "formatter": false,
+	"lsp": {
+		"pyright": {
+			"disabled": true
+		},
+		"basedpyright": {
+			"command": ["{{ .chezmoi.homeDir }}/.local/share/nvim/mason/bin/basedpyright-langserver", "--stdio"],
+			"extensions": [".py", ".pyi"],
+			"initialization": {
+				"basedpyright": {
+					"analysis": {
+						"autoImportCompletions": true,
+						"autoSearchPaths": true,
+						"diagnosticMode": "openFilesOnly"
+					}
+				}
+			}
+		}
+	},
   "permission": {
     "bash": {
       "*": "ask",
