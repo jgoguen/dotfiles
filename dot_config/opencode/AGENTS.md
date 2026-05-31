@@ -11,12 +11,29 @@
 
 ## Superpowers skill preferences
 
-When using the `superpowers/writing-plans` or `superpowers/brainstorming` skills, first load my personal skill:
+When using the `superpowers/writing-plans` or `superpowers/brainstorming` skills,
+first load my personal skill:
 
 `superpowers-preferences`
 
-That skill contains my preferred central location for plan and spec files and overrides
-the default `docs/superpowers/plans/...` or `docs/superpowers/specs/...` paths.
+That skill contains my preferred central location for plan and spec files and
+overrides the default `docs/superpowers/plans/...` or
+`docs/superpowers/specs/...` paths.
+
+## Python virtual environment resolution
+
+When a Python repo is detected, resolve the venv in this order:
+
+1. Parse `pyproject.toml` for `[tool.pyright]` section — check `venvPath`
+   (relative to project root, defaults to `.` if absent) then `venv` for the
+   venv directory name, constructing `<venvPath>/<venv>/bin/python` for the
+   interpreter path.
+2. Fall back to `./venv/` or `./.venv/` (check existence of `<dir>/bin/python`).
+3. If no venv is found, use system Python/pip directly.
+
+Use the resolved venv's `python`, `pytest`, `ruff`, and `pip` for all Python
+operations (installing deps, running scripts, running lints/tests). Re-resolve
+per session.
 
 ## Tool usage
 
