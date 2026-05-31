@@ -7,6 +7,10 @@ description: MUST load before using superpowers writing-plans; defines the user'
 
 When using `superpowers/writing-plans`, save all plans to:
 
-`{{ .chezmoi.homeDir }}/Documents/dev-plans/superpowers/<repo-name>/YYYY-MM-DD-<name>-<feature-name>.md`
+`{{ .chezmoi.homeDir }}/Documents/dev-plans/<repo-name>/plans/YYYY-MM-DD-<feature-name>.md`
 
 This overrides the default project-local plan path.
+
+When using `superpowers/brainstorming`, save all design docs to:
+
+`{{ .chezmoi.homeDir }}/Documents/dev-plans/<repo-name>/specs/YYYY-MM-DD-<feature-name>.md`

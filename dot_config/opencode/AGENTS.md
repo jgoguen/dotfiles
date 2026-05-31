@@ -11,12 +11,12 @@
 
 ## Superpowers skill preferences
 
-When using the `superpowers/writing-plans` skill, first load my personal skill:
+When using the `superpowers/writing-plans` or `superpowers/brainstorming` skills, first load my personal skill:
 
 `superpowers-preferences`
 
-That skill contains my preferred central location for plan files and overrides
-the default `docs/superpowers/plans/...` path.
+That skill contains my preferred central location for plan and spec files and overrides
+the default `docs/superpowers/plans/...` or `docs/superpowers/specs/...` paths.
 
 ## Tool usage
 
