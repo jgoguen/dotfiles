@@ -115,10 +115,16 @@
       "az vm start *": "deny",
       "az vm stop *": "deny",
 
-      "bazel build *": "allow",
+      "bazel build *": "allow"
+			"bazel gazelle": "allow",
+			"bazel gazelle 2>&1": "allow",
+			"bazel gen": "allow",
+			"bazel gen 2>&1": "allow",
+			"bazel query *": "allow",
       "bazel run //:gazelle": "allow",
       "bazel run //:gazelle 2>&1": "allow",
       "bazel run //buld/proto:*": "allow",
+      "bazel run //internal/proto*": "allow",
       "bazel run //tools:format": "allow",
       "bazel run //tools:format 2>&1": "allow",
       "bazel test *": "allow",
