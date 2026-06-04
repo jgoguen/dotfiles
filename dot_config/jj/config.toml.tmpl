@@ -1,0 +1,63 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[aliases]
+branches = ["bookmark", "list"]
+push = ["git", "push"]
+
+[remotes.origin]
+auto-track-bookmarks = "*"
+
+[revsets]
+bookmark-advance-from = 'heads(::to & bookmarks())'
+bookmark-advance-to = '@'
+
+[signing]
+backend = "ssh"
+behavior = "own"
+key = "/Users/joel.goguen/.ssh/git-rsa.pub"
+sign-all = true
+
+[signing.backends.ssh]
+allowed-signers = "/Users/joel.goguen/.config/git/allowed_signers"
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[templates]
+draft_commit_description = '''
+concat(
+  if(
+    description,
+    concat(
+      description,
+      "\n"
+    ),
+    "\nJJ: 50-character title. # 50 characters is here    #\n\n\n"
+  ),
+  "\nJJ: Commit types for the title:\n",
+  "JJ: feat: A new user-facing feature\n",
+  "JJ: fix: A user-facing bug fix\n",
+  "JJ: docs: Documentation changes\n",
+  "JJ: style: Code/doc styling/formatting, net-zero change\n",
+  "JJ: refactor: code refactoring, net-zero change\n",
+  "JJ: test: Any changes to tests, no user-facing changes\n",
+  "JJ: revert: Reverting a previous commit\n",
+  "JJ: chore: Other grunt tasks with no user-facing changes\n",
+  "JJ:n",
+  "JJ: To denote a breaking change, add '!' after the type/scope\n",
+  "JJ: fix(api)!: Change the whole API because I can\n",
+  surround(
+    "\nJJ: This commit contains the following changes:\n",
+    "",
+    indent("JJ: ", diff.stat(72)),
+  ),
+)
+'''
+git_push_bookmark = '"jgoguen-mdb/push-" ++ change_id.short()'
+
+[ui]
+conflict-marker-style = "git"
+default-command = "log"
+editor = "nvim"
+
+[user]
+email = "joel.goguen@mongodb.com"
+name = "Joel Goguen"

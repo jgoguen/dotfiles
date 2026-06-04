@@ -48,7 +48,7 @@ format = " in [$path]($style)[$read_only]($read_only_style) "
 symbol = " "
 
 [custom.jj_branch]
-command = "sh ~/.local/bin/jj-branch"
+command = "sh ~/.local/bin/jj-starship-branch"
 detect_folders = [".git", ".jj"]
 description = "Current jj bookmark or change-id"
 format = "on [$symbol$output]($style) "
@@ -56,7 +56,7 @@ symbol = " "
 style = "bold purple"
 
 [custom.jj_status]
-command = "sh ~/.local/bin/jj-status"
+command = "sh ~/.local/bin/jj-starship-status"
 detect_folders = [".git", ".jj"]
 description = "jj ahead/behind + stash + conflict status"
 format = "[$output]($style) "
