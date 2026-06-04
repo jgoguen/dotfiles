@@ -3,6 +3,7 @@
 return {
 	{ import = 'lazyvim.plugins.extras.lang.dotnet' },
 	{ import = 'lazyvim.plugins.extras.lang.php' },
+	{ import = 'lazyvim.plugins.extras.lang.rust' },
 	{ import = 'lazyvim.plugins.extras.lang.tex' },
 	{ import = 'lazyvim.plugins.extras.lang.typescript' },
 }
