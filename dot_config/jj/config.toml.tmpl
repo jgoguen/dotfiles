@@ -5,7 +5,8 @@ branches = ["bookmark", "list"]
 push = ["git", "push"]
 
 [remotes.origin]
-auto-track-bookmarks = "*"
+auto-track-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
+auto-track-created-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
 
 [revsets]
 bookmark-advance-from = 'heads(::to & bookmarks())'
@@ -51,7 +52,7 @@ concat(
   ),
 )
 '''
-git_push_bookmark = '"jgoguen-mdb/push-" ++ change_id.short()'
+git_push_bookmark = '"jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-" ++ change_id.short()'
 
 [ui]
 conflict-marker-style = "git"
@@ -59,5 +60,5 @@ default-command = "log"
 editor = "nvim"
 
 [user]
-email = "joel.goguen@mongodb.com"
+email = "{{ .github.email }}"
 name = "Joel Goguen"
