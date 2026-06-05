@@ -7,9 +7,9 @@ $command_duration\
 $username\
 $hostname\
 $directory\
-$git_branch\
+${custom.jj_branch}\
 $git_state\
-$git_status\
+${custom.jj_status}\
 $c\
 $dotnet\
 $golang\
