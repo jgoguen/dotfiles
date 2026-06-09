@@ -2,7 +2,6 @@
 
 [aliases]
 branches = ["bookmark", "list"]
-push = ["git", "push"]
 
 [remotes.origin]
 auto-track-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"

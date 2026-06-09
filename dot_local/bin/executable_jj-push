@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -eu
+
+# Have args? Pass them through.
+if [ $# -gt 0 ]; then
+	exec jj git push "$@"
+fi
+
+# Check for remote bookmarks, push if we have one
+if jj log --no-graph -r 'remote_bookmarks() & @' -T 'change_id' 2>/dev/null | grep -q .; then
+	exec jj git push
+fi
+
+# Check for local bookmarks. If we have one we need to push with that ref.
+bookmark="$(jj log --no-graph -r 'bookmarks() & @' -T 'bookmarks' 2>/dev/null || true)"
+case $(printf '%s' "${bookmark}" | wc -w | tr -d ' ') in
+	0)
+		exec jj git push -c @
+		;;
+	1)
+		exec jj git push --bookmark "${bookmark}"
+		;;
+	*)
+		printf 'jj-push: multiple local bookmarks found on @:\n%s\n' "${bookmark}"
+		exit 1
+		;;
+esac
