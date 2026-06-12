@@ -148,9 +148,6 @@
 
       "grep *": "allow",
 
-      "head": "allow",
-      "head *": "allow",
-
       "luac -p *": "allow",
 
       "nl *": "allow",
@@ -187,8 +184,6 @@
       "systemctl stop *": "deny",
       "systemctl unmask *": "deny",
 
-      "tail": "allow",
-      "tail *": "allow",
       "true": "allow",
 
       "uname": "allow",
@@ -203,21 +198,12 @@
     "read": {
       "*": "allow",
 
-      ".chef/**": "deny",
-
-      "~/.aws/**": "deny",
-      "~/.azure/**": "deny",
-      "~/.chef/**": "deny",
       "~/.config/age-chezmoi.txt": "deny",
-      "~/.config/gcloud/**": "deny",
       "~/.config/git/credentials": "deny",
-      "~/.docker/**": "deny",
       "~/.envrc": "deny",
       "~/.git-credentials": "deny",
       "~/.gnupg/**": "deny",
-      "~/.kanopy/**": "deny",
       "~/.kde/share/apps/kwallet/**": "deny",
-      "~/.kube/**": "deny",
       "~/.local/share/keyrings/**": "deny",
       "~/.local/share/kwalletd/**": "deny",
       "~/.ssh/**": "deny",
@@ -228,9 +214,6 @@
       "**/.env": "deny",
       "**/.env.*": "deny",
       "**/.envrc": "deny",
-      "**/.terraform/**": "deny",
-      "**/*.tfstate": "deny",
-      "**/*.tfvars": "deny",
       "**/*.crt": "deny",
       "**/*.jks": "deny",
       "**/*.key": "deny",
@@ -240,29 +223,18 @@
       "**/*.pfx": "deny",
       "**/*.pkey": "deny",
       "**/credentials.json": "deny",
-      "**/terraform.tfvars.json": "deny"
     },
     "edit": {
       "*": "allow",
 
-      ".chef/**": "deny",
-
-      "~/.aws/**": "deny",
-      "~/.azure/**": "deny",
-      "~/.bash_profile": "deny",
-      "~/.bashrc": "deny",
-      "~/.chef/**": "deny",
+      "~/.bash*": "deny",
       "~/.config/age-chezmoi.txt": "deny",
-      "~/.config/gcloud/**": "deny",
       "~/.config/git/**": "deny",
-      "~/.docker/**": "deny",
       "~/.envrc": "deny",
       "~/.git-credentials": "deny",
       "~/.gitconfig": "deny",
       "~/.gnupg/**": "deny",
-      "~/.kanopy/**": "deny",
       "~/.kde/share/apps/kwallet/**": "deny",
-      "~/.kube/**": "deny",
       "~/.local/bin/**": "deny",
       "~/.local/share/keyrings/**": "deny",
       "~/.local/share/kwalletd/**": "deny",
@@ -282,9 +254,6 @@
       "**/.env": "deny",
       "**/.env.*": "deny",
       "**/.envrc": "deny",
-      "**/.terraform/**": "deny",
-      "**/*.tfstate": "deny",
-      "**/*.tfvars": "deny",
       "**/*.crt": "deny",
       "**/*.jks": "deny",
       "**/*.key": "deny",
@@ -294,7 +263,6 @@
       "**/*.pfx": "deny",
       "**/*.pkey": "deny",
       "**/credentials.json": "deny",
-      "**/terraform.tfvars.json": "deny",
 
       "/bin/*": "deny",
       "/boot/*": "deny",
