@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -eu
+
+# Have args? Pass them through.
+if [ $# -gt 0 ]; then
+	exec jj git fetch "$@"
+fi
+
+exec jj git fetch --tracked
