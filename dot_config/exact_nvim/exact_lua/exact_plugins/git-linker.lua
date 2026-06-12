@@ -9,7 +9,8 @@ local M = {
 			return false
 		end
 
-		return vim.fs.find('.git', { path = cwd, upward = true })[1] ~= nil
+		return vim.fs.find('.git', { path = cwd, upward = true })[1] ~= nil or
+				vim.fs.find('.jj', { path = cwd, upward = true })[1] ~= nil
 	end,
 }
 
