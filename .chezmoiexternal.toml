@@ -46,7 +46,7 @@ stripComponents = {{ .strip }}
 include = {{ .include | toToml }}
 # {{- end }}
 exact = true
-refreshPeriod = "672h"
+refreshPeriod = "12h"
 # {{- end }}
 # {{- end }}
 
