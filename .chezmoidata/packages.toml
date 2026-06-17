@@ -1,6 +1,7 @@
 [packages]
 [packages.darwin]
 brew = [
+	"ast-grep",
   "bat",
   "bottom",
   "chezmoi",
@@ -209,6 +210,7 @@ pacman = [
 aur = [
   "1password",
   "1password-cli",
+	"ast-grep",
   "fortune-mod-calvin",
   "fortune-mod-canada-nctr",
   "fortune-mod-cybersuntzu",

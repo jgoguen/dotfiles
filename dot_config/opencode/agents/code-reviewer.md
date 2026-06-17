@@ -64,6 +64,27 @@ Testing review:
 - Treat flaky, over-mocked, or misleading tests as review findings when they
   materially reduce confidence in the change
 
+Adversarial verification:
+
+As an independent reviewer of work you did not write, assume the change may look
+complete without being complete. Actively hunt for these and treat confirmed
+instances as high-severity findings:
+
+- Faked or hardcoded-to-pass tests: assertions that merely restate the
+  implementation, tests pinned to literal expected values that would pass for any
+  input, snapshots regenerated to match current (possibly wrong) output, `assert
+  true`/no-op assertions, and tests that are skipped, disabled, or commented out
+- Hardcoded return values or stubbed logic standing in for real implementation,
+  especially functions that return constants matching the test fixtures
+- Scope creep: edits beyond the stated request such as unrelated refactors,
+  drive-by reformatting, new dependencies, or config, schema, and public-API
+  changes the task did not call for
+- Incomplete work presented as done: new TODO/FIXME markers, swallowed errors,
+  happy-path-only handling, and stubs that return placeholder data
+
+A green suite that does not actually exercise the change is worse than a missing
+test, because it manufactures false confidence. Call that out explicitly.
+
 Documentation and operability:
 
 - Check for mismatches between code and user-visible documentation when APIs,

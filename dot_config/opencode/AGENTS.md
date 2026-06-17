@@ -35,6 +35,46 @@
   safety, or execution issues; do not relitigate subjective choices after
   I decide.
 
+## Making code changes
+
+- Every changed line must trace to the request. Do not fold opportunistic
+  refactors, renames, or reformatting into a feature or bugfix change.
+- Match the surrounding style, conventions, and abstractions of the file you are
+  editing rather than imposing your own preferences.
+- When you spot an off-task problem, flag it; do not fix it inline. Surface it so
+  I can decide whether to scope it in.
+- Keep refactors and behavior changes in separate commits.
+- Deletion earns verification. Before removing code, search for callers and check
+  for dynamic use (serialization, reflection, config-driven dispatch, generated
+  code) so you do not delete something that is still reachable.
+- Pull complexity downward: prefer a slightly harder implementation that gives
+  callers a simpler interface over a simple implementation that pushes edge cases
+  onto every caller.
+
+## Test discipline
+
+- Tests must be hermetic. They must not depend on machine state, network access,
+  wall-clock time, or execution order unless that is explicitly what they test.
+- Use dynamic or unique identifiers so parallel runs and reruns do not collide on
+  shared fixtures.
+- Mock home directories and config paths. Never read or modify my real
+  user config, global state, or files outside the test's sandbox.
+
+## Writing style
+
+These rules govern all prose I read (explanations, docs, comments, commit
+messages, PR text). Two guardrails always apply:
+
+- No em-dashes. Use a spaced double hyphen ( -- ) or a spaced en-dash instead.
+- Avoid AI tells: no antithetical reframes ("not just X -- it's Y"), no
+  "From X to Y" sweeps, no importance puffery, no lists of exactly three, no
+  hedge clusters, and minimize buzzwords (delve, leverage, robust, seamless...).
+
+For substantial prose (docs, READMEs, design notes, PRs, long writeups), load the
+`writing-style` skill for the full Strunk & White economy rules, the cut-list of
+needless constructions, the complete vocabulary blocklist, and the topic-swap
+test.
+
 ## Superpowers skill preferences
 
 When using the `superpowers/writing-plans` or `superpowers/brainstorming` skills,
@@ -46,28 +86,16 @@ That skill contains my preferred central location for plan and spec files and
 overrides the default `docs/superpowers/plans/...` or
 `docs/superpowers/specs/...` paths.
 
-## Python virtual environment resolution
+## On-demand skills
 
-When a Python repo is detected, resolve the venv in this order:
+Some situational rules live in skills rather than here, so this file stays
+focused on always-on behavior. Load the matching skill when the situation arises:
 
-1. Parse `pyproject.toml` for `[tool.pyright]` section — check `venvPath`
-   (relative to project root, defaults to `.` if absent) then `venv` for the
-   venv directory name, constructing `<venvPath>/<venv>/bin/python` for the
-   interpreter path.
-2. Fall back to `./venv/` or `./.venv/` (check existence of `<dir>/bin/python`).
-3. If no venv is found, use system Python/pip directly.
-
-**Enforcement (applies to all agents, including subagents):**
-
-- All Python test/run/lint commands in plan files, task descriptions, and
-  subagent prompts MUST use full paths to the resolved venv binaries (e.g.
-  `./venv/bin/pytest`, `./venv/bin/python`) — never bare `pytest` or `python`.
-- When writing plan files (`superpowers:writing-plans`), every command step
-  MUST use the venv-resolved path prefix, not the bare tool name.
-- When dispatching subagents, include the resolved venv path in the scene-setting
-  context so the subagent uses it for all commands.
-- The resolved venv path is available at the session level via the venv
-  resolution logic; if uncertain, default to `./venv/`.
+- `python-venv` -- resolving the project virtualenv and requiring
+  `./venv/bin/<tool>` paths. Load it in any Python repo before running python,
+  pip, pytest, or other Python tooling.
+- `dependency-decisions` -- whether to add or keep a third-party dependency.
+- `writing-style` -- the full prose-quality ruleset (see Writing style above).
 
 ## Tool usage
 
