@@ -48,8 +48,8 @@ Security focus areas:
 - Dependency risk, supply-chain exposure, and dangerous configuration changes
 - SSRF, XXE, CSRF, XSS, command execution, path traversal, unsafe file handling,
   and similar attack classes when relevant to the stack
-- Concurrency, race, or state-management issues when they can create security
-  impact
+- Concurrency, race, TOCTOU, or state-management issues when they can create
+  security impact
 - Denial-of-service, resource exhaustion, rate-limiting, or abuse-resistance
   concerns when relevant
 
