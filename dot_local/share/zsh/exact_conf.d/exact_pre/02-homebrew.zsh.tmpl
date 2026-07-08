@@ -5,5 +5,9 @@
 export HOMEBREW_BUNDLE_NO_LOCK=1
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
+{{ if eq .environment "work" -}}
+export HOMEBREW_GITHUB_API_TOKEN={{ (onepasswordItemFields "j5e23ykjn5icohle6zjr2yeyxy" "" "E5AGJEPSGFHTBL5KF7CYQQOHMU").Homebrew.value | quote }}
+{{- else -}}
 export HOMEBREW_GITHUB_API_TOKEN={{ (onepasswordItemFields "g363lzpne2wne6q2auted2r6we" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").homebrew.value | quote }}
+{{- end }}
 {{ end }}
