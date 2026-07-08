@@ -55,7 +55,11 @@ local M = {
 				separator = require('lualine').get_config().options.component_separators,
 				cond = function()
 					local HasCodeowners, Codeowners = pcall(require, 'codeowners')
-					return HasCodeowners and Codeowners.get_buf_owner() ~= ''
+					if not HasCodeowners then
+						return false
+					end
+					HasOwner, _ = pcall(Codeowners.get_buf_owner)
+					return HasOwner
 				end,
 			})
 
