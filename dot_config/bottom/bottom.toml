@@ -1,10 +1,16 @@
 [flags]
 battery = true
 # current_usage = true
-enable_cache_memory = true
 get_threads = true
-network_use_binary_prefix = true
 show_table_scroll_position = true
+
+[memory_graph]
+cache_memory = true
+
+[network]
+use_binary_prefix = true
+
+[processes]
 unnormalized_cpu = true
 
 [colors]
@@ -12,12 +18,12 @@ table_header_color = "#f5e0dc"
 all_cpu_color = "#f5e0dc"
 avg_cpu_color = "#eba0ac"
 cpu_core_colors = [
-	"#f38ba8",
-	"#fab387",
-	"#f9e2af",
-	"#a6e3a1",
-	"#74c7ec",
-	"#cba6f7",
+  "#f38ba8",
+  "#fab387",
+  "#f9e2af",
+  "#a6e3a1",
+  "#74c7ec",
+  "#cba6f7",
 ]
 ram_color = "#a6e3a1"
 swap_color = "#fab387"
@@ -35,11 +41,11 @@ high_battery_color = "#a6e3a1"
 medium_battery_color = "#f9e2af"
 low_battery_color = "#f38ba8"
 gpu_core_colors = [
-	"#74c7ec",
-	"#cba6f7",
-	"#f38ba8",
-	"#fab387",
-	"#f9e2af",
-	"#a6e3a1",
+  "#74c7ec",
+  "#cba6f7",
+  "#f38ba8",
+  "#fab387",
+  "#f9e2af",
+  "#a6e3a1",
 ]
 arc_color = "#89dceb"
