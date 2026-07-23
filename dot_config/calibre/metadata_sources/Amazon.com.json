@@ -1,0 +1,7 @@
+{
+  "domain": "com",
+  "ignore_fields": [],
+  "prefer_kindle_edition": true,
+  "server": "amazon",
+  "use_mobi_asin": true
+}
