@@ -6,8 +6,33 @@
   "permission": {
     "bash": {
       "venv/bin/pytest *": "allow",
+      "./venv/bin/pytest *": "allow",
+      ".venv/bin/pytest *": "allow",
+      "./.venv/bin/pytest *": "allow",
+      "venv/bin/python3 -m pytest *": "allow",
+      "./venv/bin/python3 -m pytest *": "allow",
+      ".venv/bin/python3 -m pytest *": "allow",
+      "./.venv/bin/python3 -m pytest *": "allow",
+      "uv run pytest *": "allow",
+      "uv run python3 -m pytest *": "allow",
+
       "venv/bin/python3 -m py_compile *": "allow",
-      "venv/bin/python3 -m pytest *": "allow"
+      "./venv/bin/python3 -m py_compile *": "allow",
+      ".venv/bin/python3 -m py_compile *": "allow",
+      "./.venv/bin/python3 -m py_compile *": "allow",
+      "uv run python3 -m py_compile *": "allow",
+
+      "venv/bin/ruff *": "allow",
+      "./venv/bin/ruff *": "allow",
+      ".venv/bin/ruff *": "allow",
+      "./.venv/bin/ruff *": "allow",
+      "uv run ruff *": "allow",
+
+      "venv/bin/basedpyright *": "allow",
+      "./venv/bin/basedpyright *": "allow",
+      ".venv/bin/basedpyright *": "allow",
+      "./.venv/bin/basedpyright *": "allow",
+      "uv run basedpyright": "allow"
     }
   }
 }
