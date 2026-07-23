@@ -56,3 +56,17 @@ group = "root"
 file = "/etc/pacman.d/hooks/95-systemd-boot.hook"
 group = "root"
 only_if = "-f /boot/EFI/systemd/systemd-bootx64.efi"
+
+[[system_files.linux]]
+file = "/usr/local/libexec/docker-wait-for-network"
+group = "root"
+mode = "0755"
+only_if = "\"$(chezmoi execute-template '{{ .environment }}')\" = 'headless' && command -v docker >/dev/null 2>&1"
+
+[[system_files.linux]]
+file = "/etc/systemd/system/docker.service.d/override.conf"
+group = "root"
+only_if = "\"$(chezmoi execute-template '{{ .environment }}')\" = 'headless' && command -v docker >/dev/null 2>&1"
+commands = [
+	"${SUDO} systemctl daemon-reload",
+]

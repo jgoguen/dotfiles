@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+# Wait up to 30 seconds for networking to be fully configured.
+for i in $(seq 300); do
+	# Must have an IPv4 address on a non-loopback interface.
+	if ! ip -4 addr show up scope global | grep -q 'inet '; then
+		sleep 0.1
+		continue
+	fi
+
+	# Must have a default route.
+	if ! ip route show default | grep -q '^default '; then
+		sleep 0.1
+		continue
+	fi
+
+	# Kernel must know how it would route to the public Internet.
+	if ! ip route get 1.1.1.1 >/dev/null 2>&1; then
+		sleep 0.1
+		continue
+	fi
+
+	exit 0
+done
+
+echo "Timed out waiting for network configuration." >&2
+exit 1
