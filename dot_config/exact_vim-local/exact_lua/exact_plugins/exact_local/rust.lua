@@ -25,11 +25,11 @@ local M = {
 				default_settings = {
 					['rust-analyzer'] = {
 						cargo = {
-							allFeatures = true,
+							buildScripts = {
+								enable = true,
+							},
 						},
-						checkOnSave = {
-							command = 'clippy',
-						},
+						checkOnSave = true,
 					},
 				},
 			},
