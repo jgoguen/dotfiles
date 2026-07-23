@@ -9,7 +9,6 @@ $hostname\
 $directory\
 ${custom.jj_branch}\
 $git_state\
-${custom.jj_status}\
 $c\
 $dotnet\
 $golang\
