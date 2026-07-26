@@ -84,7 +84,8 @@ first load my personal skill:
 
 That skill contains my preferred central location for plan and spec files and
 overrides the default `docs/superpowers/plans/...` or
-`docs/superpowers/specs/...` paths.
+`docs/superpowers/specs/...` paths. You also need to load it when asked to read
+a plan or spec.
 
 ## On-demand skills
 
