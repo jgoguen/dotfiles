@@ -3,6 +3,9 @@
 [aliases]
 branches = ["bookmark", "list"]
 
+[git]
+sign-on-push = true
+
 [remotes.origin]
 auto-track-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
 auto-track-created-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
@@ -13,9 +16,8 @@ bookmark-advance-to = '@'
 
 [signing]
 backend = "ssh"
-behavior = "own"
+behavior = "drop"
 key = "{{ .github.gpgkey }}"
-sign-all = true
 
 [signing.backends.ssh]
 allowed-signers = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
