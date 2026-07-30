@@ -75,17 +75,32 @@ For substantial prose (docs, READMEs, design notes, PRs, long writeups), load th
 needless constructions, the complete vocabulary blocklist, and the topic-swap
 test.
 
-## Superpowers skill preferences
+## Superpowers Skill Ordering
 
-When using the `superpowers/writing-plans` or `superpowers/brainstorming` skills,
-first load my personal skill:
+This is a mandatory sequencing rule.
 
-`superpowers-preferences`
+Before using either `brainstorming` or `writing-plans`, or before creating or
+reading any spec or plan:
 
-That skill contains my preferred central location for plan and spec files and
-overrides the default `docs/superpowers/plans/...` or
-`docs/superpowers/specs/...` paths. You also need to load it when asked to read
-a plan or spec.
+1. Call the `skill` tool with `name: superpowers-preferences`.
+2. Wait for the skill call to complete successfully.
+3. Only then call `brainstorming` or `writing-plans`.
+4. Confirm the returned instructions before choosing a file path.
+
+This order is required even when the task appears simple or exploratory. Do not
+call `brainstorming` or `writing-plans` first. A preference skill call made
+later does not satisfy this requirement.
+
+If `superpowers-preferences` cannot be loaded, stop and ask for guidance. Do not
+use the default `docs/...` paths without explicit approval after explaining why
+`superpowers-preferences` can't be loaded or why the locations given in
+`superpowers-preferences` are not suitable.
+
+This rule applies independently to every OpenCode session, including sessions
+created through `task` or another subagent. Never assume that a parent session's
+loaded skills or instructions are available in a child session. Every child that
+uses `brainstorming`, `writing-plans`, or creates or reads a spec or plan must
+load `superpowers-preferences` itself.
 
 ## On-demand skills
 
