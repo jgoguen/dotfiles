@@ -37,6 +37,7 @@ local lazy_specs = {
 	{ import = 'lazyvim.plugins.extras.lang.python' },
 	{ import = 'lazyvim.plugins.extras.lang.toml' },
 	{ import = 'lazyvim.plugins.extras.lang.yaml' },
+	{ import = 'lazyvim.plugins.extras.lsp.neoconf' },
 	{ import = 'lazyvim.plugins.extras.test.core' },
 	{ import = 'lazyvim.plugins.extras.ui.treesitter-context' },
 	{ import = 'lazyvim.plugins.extras.util.chezmoi' },
