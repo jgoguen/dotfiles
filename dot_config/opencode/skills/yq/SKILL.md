@@ -15,6 +15,8 @@ yq '.field' file.yml
 Assumes `mikefarah/yq` (Go-based). The Python `kislyuk/yq` fork has different
 syntax -- if jq-style queries don't work, check which `yq` is on PATH.
 
+DO NOT use other tools for parsing YAML unless `yq` cannot do what you need.
+
 Three things easy to forget:
 
 - `-r` -- raw string output

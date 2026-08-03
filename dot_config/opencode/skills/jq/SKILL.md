@@ -12,6 +12,8 @@ reading the whole file.
 jq -r '.field' file.json
 ```
 
+DO NOT use other tools for parsing JSON unless `jq` cannot do what you need.
+
 Three details easy to forget:
 
 - `-r` -- raw string output (no surrounding quotes)
