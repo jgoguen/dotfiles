@@ -11,6 +11,5 @@ referer = ";auto"
 # Follow HTTP redirects
 location
 
-fail-with-body
 silent
 show-error
