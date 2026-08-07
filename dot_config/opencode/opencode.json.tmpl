@@ -95,7 +95,8 @@
       "gh pr diff *": "allow",
       "gh pr view *": "allow",
       "git add": "deny",
-      "git add *": "deny",
+			"git add *": "deny",
+			"git blame *": "allow",
       "git branch": "allow",
       "git branch -d *": "deny",
       "git branch -D *": "deny",
@@ -157,6 +158,7 @@
 
       "jj commit *": "deny",
       "jj diff *": "allow",
+			"jj file annotate *": "allow",
       "jj file list *": "allow",
       "jj file search *": "allow",
       "jj file show *": "allow",
