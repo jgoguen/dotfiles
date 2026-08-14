@@ -29,6 +29,9 @@
     {{- end }},
     }
   },
+  "experimental": {
+    "disable_paste_summary": true
+  },
   "permission": {
     "bash": {
       "*": "ask",
@@ -95,8 +98,8 @@
       "gh pr diff *": "allow",
       "gh pr view *": "allow",
       "git add": "deny",
-			"git add *": "deny",
-			"git blame *": "allow",
+      "git add *": "deny",
+      "git blame *": "allow",
       "git branch": "allow",
       "git branch -d *": "deny",
       "git branch -D *": "deny",
@@ -145,6 +148,7 @@
 
       "go build": "allow",
       "go build *": "allow",
+      "go doc": "allow",
       "go env": "allow",
       "go env *": "allow",
       "go list *": "allow",
@@ -156,12 +160,15 @@
 
       "grep *": "allow",
 
+      "jj bookmark list": "allow",
+      "jj bookmark list *": "allow",
       "jj commit *": "deny",
       "jj diff *": "allow",
-			"jj file annotate *": "allow",
+      "jj file annotate *": "allow",
       "jj file list *": "allow",
       "jj file search *": "allow",
       "jj file show *": "allow",
+      "jj help *": "allow",
       "jj log *": "allow",
       "jj op diff *": "allow",
       "jj op log": "allow",
@@ -307,6 +314,7 @@
     },
     "external_directory": {
       "~/Documents/dev-plans/**": "allow",
+      "~/go/**": "allow",
       {{- if eq .chezmoi.os "darwin" }}
       "~/Library/Application Support/go/**": "allow"
       {{- else }}
