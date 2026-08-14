@@ -1,0 +1,16 @@
+# This is an example of how to do pre-repo .envrc files when using the common
+# top-level one from one directory up.
+
+# This file is sourced from a top-level .envrc that gets copied to all
+# repositories. This file holds repo-specific details while the top-level file
+# holds anything common to all repositories. Shellcheck needs to be told it can
+# source the top-level file to get at variable definitions, but if we source it
+# for real we end up failing because this path won't exist. So wrap this up in
+# a never-true conditional so Shellcheck can get at it but real-world usage
+# never will.
+if false; then
+	source  ../envrc
+fi
+
+# We need to reload whenever foo changes, because baz is at the bar
+watch_file foo

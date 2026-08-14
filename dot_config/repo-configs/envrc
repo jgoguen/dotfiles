@@ -1,0 +1,68 @@
+_git_dir="$(jj git root 2>/dev/null || git rev-parse --path-format=absolute --git-dir 2>/dev/null)"
+
+if [ -n "${_git_dir}" ]; then
+	_repo_dir="$(jj workspace root 2>/dev/null || git rev-parse --show-toplevel 2>/dev/null)"
+
+	_basedir_cache="${_git_dir}/basedir_cache"
+	_base_path="$(cat "${_basedir_cache}" 2>/dev/null)"
+	if [ -z "${_base_path}" ]; then
+		for _candidate in "${XDG_CONFIG_HOME:-${HOME}/.config}/repo-configs" "${XDG_DATA_HOME:-${HOME}/.local/share}/repo-configs"; do
+			if [ -d "${_candidate}" ]; then
+				_base_path="${_candidate}"
+				printf '%s' "${_base_path}" >"${_basedir_cache}"
+				break
+			fi
+		done
+	fi
+
+	# If it's still empty, skip importing configs
+	if [ -n "${_base_path}" ]; then
+		_repo_name="$(cd "${_git_dir}/.." && pwd)"
+		_repo_name="${_repo_name##*/}"
+		_global_envrc="${_base_path}/envrc"
+		_local_envrc="${_repo_dir}/.envrc"
+
+		if [ -f "${_global_envrc}" ]; then
+			if ! cmp -s "${_global_envrc}" "${_local_envrc}"; then
+				# shellcheck disable=SC2016
+				printf 'direnv: importing new %s, you will need to run `direnv allow`\n' "${_local_envrc}"
+				cp -f "${_global_envrc}" "${_local_envrc}"
+			fi
+		fi
+
+		for f in "${_base_path}/${_repo_name}/conf"/*; do
+			_repo_file="${_repo_dir}/.$(basename "${f}")"
+			if [ -f "${_repo_file}" ]; then
+				if ! cmp -s "${f}" "${_repo_file}"; then
+					printf 'direnv: updating %s from repo config storage\n' "${_repo_file}"
+					cp -f "${f}" "${_repo_file}"
+				fi
+			else
+				printf 'direnv: importing %s from repo config storage\n' "${_repo_file}"
+				cp -f "${f}" "${_repo_file}"
+			fi
+		done
+
+		# NOTE: This is only applicable for the git root, not for worktrees in a `jj` context. But hooks can be overridden
+		# anyway, and users may not always install them. CI is the right place for anything that needs enforcing, so not
+		# a big problem.
+		_repo_hook_dir="${_repo_dir}/.git/hooks"
+		if [ -d "${_repo_dir}/.git" ] && [ ! -d "${_repo_hook_dir}" ]; then
+			mkdir -p "${_repo_hook_dir}"
+		fi
+		if [ -d "${_repo_hook_dir}" ]; then
+			for f in "${_base_path}/repos/${_repo_name}/hooks"/*; do
+				_repo_hook_file="${_repo_hook_dir}/$(basename "${f}")"
+				if [ -f "${f}" ]; then
+					if ! cmp -s "${f}" "${_repo_hook_file}"; then
+						mv "${_repo_hook_file}" "${_repo_hook_file}.bak" 2>/dev/null || true
+						printf 'direnv: importing hook %s from repo config storage\n' "${_repo_hook_file}"
+						cp -f "${f}" "${_repo_hook_file}"
+					fi
+				fi
+			done
+		fi
+
+		source_env_if_exists "${_base_path}/${_repo_name}/envrc"
+	fi
+fi
