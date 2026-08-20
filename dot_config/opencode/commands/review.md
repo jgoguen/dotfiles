@@ -1,82 +1,27 @@
 ---
-description: Review the current code changes
+description: Review current code changes; use `thermo` for a strict maintainability audit
 ---
 
-Review the current code changes.
+Invoke the `review` skill for the current repository.
 
-Use `code-reviewer` as the primary reviewer and always include
-`security-auditor` in the review. If the scope of the change warrants it,
-delegate to additional specialists and combine the results into one review:
+The complete command input is `$ARGUMENTS`.
 
-- `technical-writer` for documentation-heavy changes or when documentation
-  accuracy, clarity, or completeness is part of the review scope
-- `accessibility-tester` when front-end or web UI changes materially affect
-  semantics, keyboard interaction, focus behavior, screen reader support,
-  visual contrast, or user task completion
-- `compliance-auditor` when the changes touch regulated data, retention,
-  consent, auditability, privacy, or other compliance-relevant behavior
-- Other domain specialists when the review clearly benefits from their expertise
+Parse only the first whitespace-delimited token as a mode selector:
 
-Review process:
+- If the input starts with the exact token `thermo` followed by whitespace or
+  end-of-input, also load
+  `thermo-nuclear-code-quality-review`. Treat the remaining input after that
+  token as user-provided review context.
+- Otherwise, run the standard review and treat the complete input as
+  user-provided review context.
+- If there is no input, use the standard review scope and repository defaults.
 
-1. Understand the scope of the changes and the repository conventions that
-   should govern them.
-2. Load `dispatching-parallel-agents` and dispatch `code-reviewer` and
-   `security-auditor` concurrently — they work independently on the same change
-   set and do not need to wait on each other.
-3. Invoke additional specialists only when the change scope clearly calls for
-   them.
-4. Merge the results into one final review without duplicating overlapping
-   findings.
-5. Before concluding, load `verification-before-completion` to confirm each
-   finding is grounded in observed evidence rather than assumption. If the
-   review is clean, verify that the key risk areas were actually checked, not
-   just reasoned about.
+Pass the resulting context to the `review` skill. Do not discard context about
+VCS conventions, requested scope, specific risk areas, or review questions.
 
-Merging guidance:
+Examples:
 
-- Merge overlapping findings into one stronger finding instead of listing the
-  same issue multiple times from different specialists
-- Prefer the most specific and highest-confidence explanation of the issue and
-  risk
-- Preserve security framing when a finding is both a correctness issue and a
-  security issue
-- When specialists disagree, surface the disagreement briefly and explain what
-  additional context or validation would resolve it
-- Keep the final review coherent and prioritized as one review, not a sequence
-  of disconnected specialist reports
-
-Primary review areas:
-
-- Correctness and behavioral regressions
-- Security vulnerabilities and unsafe assumptions
-- Data loss, privacy, compliance, or reliability risks
-- Performance regressions or unnecessary complexity
-- Error handling, logging, and observability gaps
-- Test coverage gaps, especially for edge cases and failure paths
-- Documentation mismatches for public APIs, configuration, or user-visible
-  behavior
-- Maintainability, readability, and unnecessary abstraction
-
-Review principles:
-
-- Keep the review grounded in the actual changes
-- Do not apply generic checklists mechanically
-- Do not invent requirements that are not supported by the repository, task, or
-  change scope
-- Prefer high-signal findings over broad style commentary
-- Avoid repeating the same issue across multiple findings when one clear finding
-  is enough
-- Distinguish clearly between confirmed findings, likely risks, and residual
-  uncertainty
-
-Output requirements:
-
-- Present findings first, ordered by severity
-- Include file and line references whenever possible
-- Keep each finding focused on the issue, the risk, and why it matters
-- Note which specialist perspective materially informed a finding only when it
-  adds clarity
-- If no findings are discovered, say so explicitly and mention any residual
-  risks or testing gaps
-- Keep any summary brief and place it after the findings
+- `/review This repo uses "jj" for VCS`
+- `/review Focus on the overall library rather than a specific change`
+- `/review thermo This repo uses "jj" for VCS`
+- `/review thermo Focus on the overall library rather than a specific change`
