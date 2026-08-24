@@ -1,5 +1,6 @@
+# {{- $fontBasedir := (index .fonts.basedirs .chezmoi.os) }}
 # {{- range $f := .fonts.nerdfonts }}
-["{{ (index $.fonts.basedirs $.chezmoi.os) }}/{{ $f }}"]
+["{{ $fontBasedir }}/{{ $f }}"]
 url = '{{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" (printf "%s.zip" $f) }}'
 type = "archive"
 exclude = [
@@ -21,7 +22,7 @@ refreshPeriod = "672h"
 # {{- end }}
 
 # {{- range .fonts.download }}
-["{{ (index $.fonts.basedirs $.chezmoi.os) }}/{{ .name }}"]
+["{{ $fontBasedir }}/{{ .name }}"]
 type = "{{ .type }}"
 url = "{{ .url }}"
 exclude = ["ReadMe.txt", ".uuid"]
