@@ -52,7 +52,7 @@ local M = {
 				},
 			},
 			log = {
-				close_on_edit = false,
+				close_on_edit = true,
 			},
 		},
 		keys = function(_, keys)
