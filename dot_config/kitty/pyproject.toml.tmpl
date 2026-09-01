@@ -1,0 +1,15 @@
+[project]
+name = "kitty"
+requires-python = ">=3.14"
+
+[tool.basedpyright]
+extraPaths = ["/Users/joel.goguen/Code/kitty"]
+
+# json.loads() is inherently untyped
+reportAny = false
+reportUnknownArgumentType = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+
+# We use input() to pause and show messages before exiting
+reportUnusedCallResult = false

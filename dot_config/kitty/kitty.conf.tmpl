@@ -72,6 +72,10 @@ map kitty_mod+b show_scrollback
 #: Browse output of the last shell command in pager
 map kitty_mod+g show_last_command_output
 
+map kitty_mod+o kitten op_inject.py
+map ctrl+shift+alt+o kitten op_inject.py --debug
+map ctrl+shift+alt+l kitten op_inject.py --debug --live
+
 # Right-click to select command output
 mouse_map right press ungrabbed mouse_select_command_output
 
