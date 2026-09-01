@@ -66,12 +66,14 @@ local M = {
 
 			local HasPicker, Picker = pcall(require, 'jj.picker')
 			if HasPicker then
-				add_key('<Leader>gj', function()
-					Picker.status()
-				end, 'Open JJ status picker')
-				add_key('<Leader>jgs', function()
-					Picker.conflict_sections()
-				end, 'Open JJ conflict sections picker')
+				add_key('<Leader>gj', Picker.status, 'Open JJ status picker')
+				add_key('<Leader>jgs', Picker.conflict_sections, 'Open JJ conflict sections picker')
+			end
+
+			local HasCmd, Cmd = pcall(require, 'jj.cmd')
+			if HasCmd then
+				add_key('<Leader>jl', Cmd.log, 'Open JJ log')
+				add_key('<Leader>jL', function() Cmd.log({ revisions = "'all()'" }) end, 'Open JJ log for all revisions')
 			end
 		end,
 	},
