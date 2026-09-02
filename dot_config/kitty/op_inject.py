@@ -51,43 +51,45 @@ class OpItem:
             vault = item.get("vault", {})
             if not isinstance(vault, dict):
                 raise TypeError(f"unexpected vault format: {vault}")
-            items.append(OpItem(
-                id=item.get("id", ""),
-                title=item.get("title", ""),
-                favorite=item.get("favorite", False),
-                version=item.get("version", 0),
-                vault=OpVault(**vault),
-                category=item.get("category", ""),
-                last_edited_by=item.get("last_edited_by", ""),
-                created_at=item.get("created_at", ""),
-                updated_at=item.get("updated_at", ""),
-                additional_information=item.get("additional_information", ""),
-            ))
+            items.append(
+                OpItem(
+                    id=item.get("id", ""),
+                    title=item.get("title", ""),
+                    favorite=item.get("favorite", False),
+                    version=item.get("version", 0),
+                    vault=OpVault(**vault),
+                    category=item.get("category", ""),
+                    last_edited_by=item.get("last_edited_by", ""),
+                    created_at=item.get("created_at", ""),
+                    updated_at=item.get("updated_at", ""),
+                    additional_information=item.get("additional_information", ""),
+                )
+            )
 
         return items
 
 
-@dataclass(slots=True, kw_only=True)
-class KittyProcessInfo:
-    at_prompt: bool
-    cmdline: list[str]
-    cwd: str
-    foreground_processes: list[KittyProcessInfo]
-    pid: int
+def cmdlines_from_ls_json(data: str) -> list[list[str]]:
+    """Parses the output of Kitty's `ls` kitten to extract window foreground process
+    command line arrays. This assumes the full output of Kitty's `ls` kitten is
+    used, and probably will not be useful without including the
+    `--match state:overlay_parent` option to limit the output to the current overlay
+    parent window.
+    """
+    obj = json.loads(data)
+    items: list[list[str]] = []
+    if not isinstance(obj, list):
+        raise TypeError(f"unexpected process info format: {obj}")
 
-    @staticmethod
-    def from_json(data: str) -> KittyProcessInfo:
-        obj = json.loads(data)
-        return KittyProcessInfo(
-            at_prompt=obj.get("at_prompt", False),
-            cmdline=obj.get("cmdline", []),
-            cwd=obj.get("cwd", ""),
-            foreground_processes=[
-                KittyProcessInfo.from_json(json.dumps(fp))
-                for fp in obj.get("foreground_processes", [])
-            ],
-            pid=obj.get("pid", 0),
-        )
+    for item in obj:
+        for tab in item.get("tabs", []):
+            for window in tab.get("windows", []):
+                items += [
+                    fp.get("cmdline", [])
+                    for fp in window.get("foreground_processes", [])
+                ]
+
+    return list(filter(lambda x: len(x) > 0, items))
 
 
 def list_server_items() -> list[OpItem]:
@@ -181,6 +183,26 @@ def main(args: list[str]) -> str:
     op_server_items = list_server_items()
     if len(op_server_items) == 1:
         item_id = op_server_items[0].id
+
+        if debug:
+            kitty_proc_info = main.remote_control(
+                ["ls", "--match", "state:overlay_parent"],
+                capture_output=True,
+            )
+            if kitty_proc_info.returncode == 0:
+                try:
+                    window_cmdlines = cmdlines_from_ls_json(
+                        kitty_proc_info.stdout
+                        if isinstance(kitty_proc_info.stdout, str)
+                        else kitty_proc_info.stdout.decode()
+                    )
+                    print(f"[debug] proc info: {window_cmdlines}")
+                    input("\n[debug] Press Enter to close (nothing will be pasted)...")
+                    return ""
+                except json.JSONDecodeError as e:
+                    print(f"[error] failed to parse process info: {e}")
+                    input("\n[error] Press Enter to close (nothing will be pasted)...")
+                    return ""
     elif len(op_server_items) > 1:
         # First let's see if we're running SSH and can match by hostname
         kitty_proc_info = main.remote_control(
@@ -189,19 +211,19 @@ def main(args: list[str]) -> str:
         )
         if kitty_proc_info.returncode == 0:
             try:
-                proc_info = KittyProcessInfo.from_json(
+                window_cmdlines = cmdlines_from_ls_json(
                     kitty_proc_info.stdout
                     if isinstance(kitty_proc_info.stdout, str)
                     else kitty_proc_info.stdout.decode()
                 )
-                if len(proc_info.foreground_processes) > 0:
-                    for proc in proc_info.foreground_processes:
-                        if not proc.cmdline or proc.cmdline[0] != "ssh":
+                if len(window_cmdlines) > 0:
+                    for cmdline in window_cmdlines:
+                        if cmdline[0] != "ssh":
                             continue
 
                         # Typically the SSH target, could be the hostname, user@hostname,
                         # or a Host entry from ssh_config.
-                        ssh_target = proc_info.cmdline[1].split("@")[-1]
+                        ssh_target = cmdline[-1].split("@")[-1]
                         for it in op_server_items:
                             if it.title.lower() == ssh_target.lower():
                                 item_id = it.id
