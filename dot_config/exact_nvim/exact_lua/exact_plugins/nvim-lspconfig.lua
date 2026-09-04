@@ -17,6 +17,11 @@ local M = {
 				},
 			}
 			opts.servers['*'].capabilities = vim.tbl_deep_extend('force', opts.servers['*'].capabilities or {}, capabilities)
+
+			opts.servers.jsonls = opts.servers.jsonls or {}
+			opts.servers.jsonls.settings = opts.servers.jsonls.settings or {}
+			opts.servers.jsonls.settings.json = opts.servers.jsonls.settings.json or {}
+			opts.servers.jsonls.settings.json.validate = { enable = true }
 		end,
 	},
 }

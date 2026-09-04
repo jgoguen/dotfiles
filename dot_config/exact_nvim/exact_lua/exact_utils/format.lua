@@ -83,7 +83,7 @@ local function conform_range_client(bufnr, formatters)
 		config = {
 			filetypes = { vim.bo[bufnr].filetype },
 		},
-		supports_method = function(_, method)
+		supports_method = function(method, _)
 			return method == 'textDocument/rangeFormatting'
 		end,
 	}
