@@ -33,6 +33,9 @@
       ".venv/bin/basedpyright *": "allow",
       "./.venv/bin/basedpyright *": "allow",
       "uv run basedpyright": "allow"
+    },
+    "external_directory": {
+      "~/Nextcloud/Documents/dev-plans/**": "allow"
     }
   }
 }
