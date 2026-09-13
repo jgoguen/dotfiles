@@ -63,6 +63,12 @@ end
 ---@return fun(opts: conform.FormatOpts)
 local function conform_range_format(formatters)
 	return function(opts)
+		if opts.range then
+			local range = opts.range
+			if range["end"] and range["end"][2] < 0 then
+				range["end"][2] = 0
+			end
+		end
 		conform_format(vim.tbl_extend('force', {
 			formatters = formatters,
 			lsp_format = 'never',
