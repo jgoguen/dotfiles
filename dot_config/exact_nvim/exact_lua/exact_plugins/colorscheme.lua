@@ -44,7 +44,7 @@ local M = {
 				treesitter_context = true,
 				which_key = true,
 			},
-			transparent_background = true,
+			transparent_background = false,
 			background = {
 				light = 'latte',
 				dark = 'mocha',
