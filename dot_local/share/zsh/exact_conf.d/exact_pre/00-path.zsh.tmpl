@@ -58,6 +58,17 @@ while read -d ':' pathname || [ -n "${pathname}" ]; do
 	path=(${pathname}/bin ${path})
 done < <(printf '%s' "${GOPATH}")
 
+# Add system paths if present
+for f in /etc/paths.d/*(N); do
+	if [ -r "${f}" ]; then
+		while read -r pathname; do
+			if [ -n "${pathname}" ] && [ -d "${pathname}" ] && [ -r "${pathname}" ] && [ -x "${pathname}" ]; then
+				path=(${path} "${pathname}")
+			fi
+		done < "${f}"
+	fi
+done
+
 export PATH
 
 if (( ${+commands[clang]} )); then
