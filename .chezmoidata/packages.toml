@@ -174,8 +174,7 @@ pacman = [
   "rsync",
   "rustup",
   "sd",
-  "sddm",
-  "sddm-kcm",
+  "plasma-login-manager",
   "seahorse",
   "signal-desktop",
   "starship",
@@ -227,7 +226,6 @@ aur = [
   "networkmanager-dispatcher-chrony",
   "otf-exljbris",
   "ttf-ancient-fonts",
-  "ttf-qurancomplex-fonts",
 ]
 
 [packages.debian]

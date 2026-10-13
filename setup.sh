@@ -108,7 +108,7 @@ elif [ -f /etc/os-release ]; then
 		${SUDO_CMD} pacman -S --noconfirm --needed $(awk '/^pacman = \[$/{flag=1; next} /^\]$/{flag=0; next} flag{split($0, a, "\""); if (a[2] != "") {print a[2]}}' "${MYDIR}/.chezmoidata/packages.toml" | tr '\n' ' ')
 
 		SERVICES="\
-			sddm \
+			plasmalogin \
 			wpa_supplicant \
 			NetworkManager \
 			avahi-daemon \
@@ -126,7 +126,7 @@ elif [ -f /etc/os-release ]; then
 		done
 
 		if ! command -v yay >/dev/null 2>&1; then
-			curl -o "${TMPDIR}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
+			curl -o "${TMPDIR:=/tmp}/yay.tar.gz" https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
 			tar zxf "${TMPDIR}/yay.tar.gz" -C "${TMPDIR}"
 			cd "${TMPDIR}/yay"
 			makepkg -sCci
