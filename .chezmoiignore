@@ -23,7 +23,6 @@ setup.ps1
 {{- if eq .environment "work" }}
 .chezmoiscripts/collect_files.py
 .chezmoiscripts/install_calibre_plugins.py
-.config/1Password
 .config/calibre/
 .config/git/config.local
 .config/hg/
