@@ -73,7 +73,7 @@ cask = ["calibre"]
 name = "OneDrive"
 id = 823766827
 
-[packages.arch]
+[packages.arch.common]
 pacman = [
   "base",
   "base-devel",
@@ -103,7 +103,6 @@ pacman = [
   "ffmpeg",
   "ffmpegthumbnailer",
   "ffmpegthumbs",
-  "firewalld",
   "flatpak",
   "flatpak-xdg-utils",
   "foomatic-db",
@@ -149,16 +148,15 @@ pacman = [
   "man-pages",
   "neovim",
   "networkmanager",
-  "nextcloud-client",
   "nftables",
   "noto-fonts",
   "npm",
   "nss-mdns",
   "phonon-qt6",
   "phonon-qt6-vlc",
+  "plasma-login-manager",
   "plasma-meta",
   "plasma-nm",
-  "platformio-core-udev",
   "plocate",
   "polkit",
   "polkit-kde-agent",
@@ -172,11 +170,7 @@ pacman = [
   "qt6-imageformats",
   "ripgrep",
   "rsync",
-  "rustup",
   "sd",
-  "plasma-login-manager",
-  "seahorse",
-  "signal-desktop",
   "starship",
   "thermald",
   "ttf-dejavu",
@@ -189,6 +183,7 @@ pacman = [
   "unrar",
   "unzip",
   "usbutils",
+	"uv",
   "webp-pixbuf-loader",
   "wget",
   "wpa_supplicant",
@@ -227,6 +222,16 @@ aur = [
   "otf-exljbris",
   "ttf-ancient-fonts",
 ]
+
+[packages.arch.personal]
+pacman = [
+  "nextcloud-client",
+  "platformio-core-udev",
+  "rustup",
+  "signal-desktop",
+]
+
+aur = []
 
 [packages.debian]
 apt = [
@@ -351,31 +356,11 @@ packages = [
 ]
 
 [[packages.common.flatpak]]
-name = "com.discordapp.Discord"
-remote = "flathub"
-
-[[packages.common.flatpak]]
-name = "com.github.k4zmu2a.spacecadetpinball"
-remote = "flathub"
-
-[[packages.common.flatpak]]
 name = "com.github.tchx84.Flatseal"
 remote = "flathub"
 
 [[packages.common.flatpak]]
-name = "com.orcaslicer.OrcaSlicer"
-remote = "flathub"
-
-[[packages.common.flatpak]]
-name = "io.github.hkdb.Aerion"
-remote = "flathub"
-
-[[packages.common.flatpak]]
 name = "it.mijorus.gearlever"
-remote = "flathub"
-
-[[packages.common.flatpak]]
-name = "net.cozic.joplin_desktop"
 remote = "flathub"
 
 [[packages.common.flatpak]]
@@ -400,4 +385,24 @@ remote = "flathub"
 
 [[packages.common.flatpak]]
 name = "org.mozilla.firefox"
+remote = "flathub"
+
+[[packages.personal.flatpak]]
+name = "com.discordapp.Discord"
+remote = "flathub"
+
+[[packages.personal.flatpak]]
+name = "com.github.k4zmu2a.spacecadetpinball"
+remote = "flathub"
+
+[[packages.personal.flatpak]]
+name = "com.orcaslicer.OrcaSlicer"
+remote = "flathub"
+
+[[packages.personal.flatpak]]
+name = "net.cozic.joplin_desktop"
+remote = "flathub"
+
+[[packages.work.flatpak]]
+name = "com.google.Chrome"
 remote = "flathub"

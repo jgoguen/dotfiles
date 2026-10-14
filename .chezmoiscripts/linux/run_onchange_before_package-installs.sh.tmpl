@@ -29,9 +29,16 @@ ${SUDO} dnf remove -y {{ . | join " " }}
 ${SUDO} dnf install -y {{ . | join " " }}
 {{- end }}
 {{ else if eq .chezmoi.osRelease.id "arch" -}}
-{{- $pkgs := dig "packages" "arch" "pacman" (list) . -}}
+{{- $pkgs := uniq (concat
+	(dig "packages" "arch" "common" "pacman" (list) .)
+	(dig "packages" "arch" .environment "pacman" (list) .)
+) -}}
 {{ if lookPath "yay" -}}
-	{{- $pkgs = uniq (concat $pkgs (dig "packages" "arch" "aur" (list) .)) -}}
+	{{- $pkgs = uniq (concat
+				$pkgs
+				(dig "packages" "arch" "common" "aur" (list) .)
+				(dig "packages" "arch" .environment "aur" (list) .)
+	) -}}
 	{{ with $pkgs -}}
 	yay -Sy --needed --noconfirm --removemake --answerclean NotInstalled --answerdiff None --answeredit None --norebuild --noredownload {{ . | join " " }}
 	{{- end }}
@@ -51,8 +58,8 @@ ${SUDO} apt-get install -y {{ . | join " " }}
 
 {{ if lookPath "flatpak" }}
 {{ range uniq (concat
-	(or (index .packages .chezmoi.osRelease.id "flatpak") (list))
-	(or .packages.common.flatpak (list))
+		(dig "packages" "common" "flatpak" (list) .)
+		(dig "packages" .environment "flatpak" (list) .)
 ) -}}
 flatpak install -y {{ .remote }} {{ .name }}
 {{ end -}}
