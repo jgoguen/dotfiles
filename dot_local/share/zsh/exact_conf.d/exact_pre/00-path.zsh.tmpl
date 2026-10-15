@@ -55,6 +55,7 @@ while read -d ':' pathname || [ -n "${pathname}" ]; do
 	if [ ! -d "${pathname}" ]; then
 		/usr/bin/install -d -m 0700 "${pathname}/bin"
 	fi
+	pathname="$(realpath "${pathname}")"
 	path=(${pathname}/bin ${path})
 done < <(printf '%s' "${GOPATH}")
 
@@ -63,6 +64,7 @@ for f in /etc/paths.d/*(N); do
 	if [ -r "${f}" ]; then
 		while read -r pathname; do
 			if [ -n "${pathname}" ] && [ -d "${pathname}" ] && [ -r "${pathname}" ] && [ -x "${pathname}" ]; then
+				pathname="$(realpath "${pathname}")"
 				path=(${path} "${pathname}")
 			fi
 		done < "${f}"
