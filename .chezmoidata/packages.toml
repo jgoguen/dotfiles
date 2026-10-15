@@ -1,7 +1,7 @@
 [packages]
 [packages.darwin]
 brew = [
-	"ast-grep",
+  "ast-grep",
   "bat",
   "bottom",
   "chezmoi",
@@ -170,6 +170,7 @@ pacman = [
   "qt6-imageformats",
   "ripgrep",
   "rsync",
+  "rustup",
   "sd",
   "starship",
   "thermald",
@@ -183,7 +184,7 @@ pacman = [
   "unrar",
   "unzip",
   "usbutils",
-	"uv",
+  "uv",
   "webp-pixbuf-loader",
   "wget",
   "wpa_supplicant",
@@ -204,7 +205,7 @@ pacman = [
 aur = [
   "1password",
   "1password-cli",
-	"ast-grep",
+  "ast-grep",
   "fortune-mod-calvin",
   "fortune-mod-canada-nctr",
   "fortune-mod-cybersuntzu",
@@ -227,11 +228,11 @@ aur = [
 pacman = [
   "nextcloud-client",
   "platformio-core-udev",
-  "rustup",
   "signal-desktop",
 ]
 
-aur = []
+[packages.arch.work]
+pacman = ["google-chrome"]
 
 [packages.debian]
 apt = [
@@ -401,8 +402,4 @@ remote = "flathub"
 
 [[packages.personal.flatpak]]
 name = "net.cozic.joplin_desktop"
-remote = "flathub"
-
-[[packages.work.flatpak]]
-name = "com.google.Chrome"
 remote = "flathub"
