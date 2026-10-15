@@ -1,0 +1,13 @@
+{{ if lookPath "nvim" -}}
+EDITOR="nvim"
+VISUAL="nvim"
+{{- else if lookPath "vim" -}}
+EDITOR="vim"
+VISUAL="vim"
+{{- else if lookPath "vi" -}}
+EDITOR="vi"
+VISUAL="vi"
+{{- else if lookPath "nano" -}}
+EDITOR="nano"
+VISUAL="nano"
+{{- end }}
