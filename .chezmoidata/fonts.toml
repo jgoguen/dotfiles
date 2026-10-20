@@ -1,10 +1,11 @@
 [fonts]
 nerdfonts = [
-	"FiraCode",
-	"Hack",
-	"JetBrainsMono",
-	"NerdFontsSymbolsOnly",
-	"SourceCodePro",
+  "FiraCode",
+  "Hack",
+  "JetBrainsMono",
+  "NerdFontsSymbolsOnly",
+  "Noto",
+  "SourceCodePro",
 ]
 
 [fonts.basedirs]
