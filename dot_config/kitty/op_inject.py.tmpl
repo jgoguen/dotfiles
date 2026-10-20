@@ -151,6 +151,11 @@ def main(args: list[str]) -> str:
             new_path[p] = None
     os.environ["PATH"] = os.pathsep.join(new_path.keys())
 
+    os.environ["OP_ACCOUNT"] = os.environ.get(
+        "OP_ACCOUNT",
+        '{{ if eq .environment "work" }}E5AGJEPSGFHTBL5KF7CYQQOHMU{{ else }}S5JCIBMKLZDDLDQGA76BYGOZGA{{ end }}',
+    )
+
     get_text_ctrl = main.remote_control(
         ["get-text", "--match", "state:overlay_parent", "--extent", "screen"],
         capture_output=True,
