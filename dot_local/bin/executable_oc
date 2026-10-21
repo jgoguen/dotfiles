@@ -13,11 +13,11 @@
 required_version="1.17.20"
 
 version_ge() {
-	local  major minor patch
-	local  required_major required_minor required_patch
+	local major minor patch
+	local required_major required_minor required_patch
 
-	IFS=.  read -r major minor patch <<<"$1"
-	IFS=.  read -r required_major required_minor required_patch <<<"$required_version"
+	IFS=. read -r major minor patch <<<"$1"
+	IFS=. read -r required_major required_minor required_patch <<<"$required_version"
 
 	((major > required_major || (\
 	major == required_major && minor > required_minor) || (\
@@ -25,29 +25,29 @@ version_ge() {
 }
 
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-	cat  <<'EOF'
+	cat <<'EOF'
 Usage: oc [--use-wt=<worktree>] [opencode options...]
 
   --use-wt=<worktree>  Use the OpenCode DB from another worktree. Initializes the DB there if it doesn't exist
   --help, -h           Show this help.
 EOF
-	exit  0
+	exit 0
 fi
 
-version="$(opencode --version 2>/dev/null | head -n1)"
+version="$(opencode --version 2>/dev/null | head -n1 | awk -F v '{print $2}')"
 
 if [[ -z "$version" ]]; then
-	echo  "oc: could not determine OpenCode version; falling back to standard behavior" >&2
-	exec  opencode "$@"
+	echo "oc: could not determine OpenCode version; falling back to standard behavior" >&2
+	exec opencode "$@"
 fi
 
 if ! version_ge "$version"; then
-	echo  "oc: OpenCode $version does not support arbitrary database locations (requires >= $required_version); falling back to standard behavior" >&2
-	exec  opencode "$@"
+	echo "oc: OpenCode $version does not support arbitrary database locations (requires >= $required_version); falling back to standard behavior" >&2
+	exec opencode "$@"
 fi
 
 current_worktree="$(jj workspace root 2>/dev/null || git rev-parse --show-toplevel 2>/dev/null)" || {
-	exec  opencode "$@"
+	exec opencode "$@"
 }
 
 worktree="$current_worktree"
@@ -57,7 +57,7 @@ if [[ "$1" == --use-wt=* ]]; then
 
 	candidate="$(
 		{ jj workspace list --template '"worktree " ++ self.root() ++ "\nHEAD " ++ self.target().commit_id() ++ "\ndetached\n\n"' || git worktree list --porcelain; } \
-			|      awk -v name="$name" '
+			|    awk -v name="$name" '
                 /^worktree / {
                     path = substr($0, 10)
                     next
@@ -73,9 +73,9 @@ if [[ "$1" == --use-wt=* ]]; then
             '
 	)"
 
-	if  [[ -z "$candidate" ]]; then
-		echo     "oc: no worktree named '$name'" >&2
-		exit     1
+	if [[ -z "$candidate" ]]; then
+		echo   "oc: no worktree named '$name'" >&2
+		exit   1
 	fi
 
 	worktree="$candidate"
@@ -88,4 +88,4 @@ mkdir -p "$(dirname "${DB_PATH}")"
 
 exec env \
 	OPENCODE_DB="${DB_PATH}" \
-	opencode  "$@"
+	opencode "$@"
