@@ -1,9 +1,5 @@
 [system_files]
 
-[[system_files.darwin]]
-file = "/etc/pam.d/sudo_local"
-mode = "0444"
-
 [[system_files.linux]]
 file = "/etc/firefox/policies/policies.json"
 group = "root"
@@ -41,6 +37,13 @@ commands = [
   "${SUDO} systemctl daemon-reload",
   "${SUDO} udevadm control --reload",
   "${SUDO} udevadm trigger -c add -s net",
+]
+
+[[system_files.linux]]
+file = "/etc/systemd/system/fprintd-sleep.service"
+commands = [
+  "${SUDO} systemctl daemon-reload",
+  "${SUDO} systemctl enable fprintd-sleep.service",
 ]
 
 [[system_files.linux]]
