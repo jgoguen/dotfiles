@@ -152,6 +152,7 @@ pacman = [
   "noto-fonts",
   "npm",
   "nss-mdns",
+  "opencode",
   "phonon-qt6",
   "phonon-qt6-vlc",
   "plasma-login-manager",
@@ -206,6 +207,8 @@ aur = [
   "1password",
   "1password-cli",
   "ast-grep",
+	"espanso-gui",
+	"espanso-wayland",
   "fortune-mod-calvin",
   "fortune-mod-canada-nctr",
   "fortune-mod-cybersuntzu",
@@ -219,20 +222,19 @@ aur = [
   "fortune-mod-question-answer-jokes",
   "fortune-mod-starwars",
   "fortune-mod-vimtips",
+	"kdotool",
   "networkmanager-dispatcher-chrony",
   "otf-exljbris",
   "ttf-ancient-fonts",
 ]
 
 [packages.arch.personal]
-pacman = [
-  "nextcloud-client",
-  "platformio-core-udev",
-  "signal-desktop",
-]
+pacman = ["nextcloud-client", "platformio-core-udev", "signal-desktop"]
 
 [packages.arch.work]
-pacman = ["google-chrome"]
+pacman = []
+
+aur = ["zoom"]
 
 [packages.debian]
 apt = [
@@ -402,4 +404,12 @@ remote = "flathub"
 
 [[packages.personal.flatpak]]
 name = "net.cozic.joplin_desktop"
+remote = "flathub"
+
+[[packages.work.flatpak]]
+name = "com.google.Chrome"
+remote = "flathub"
+
+[[packages.work.flatpak]]
+name = "com.slack.Slack"
 remote = "flathub"
