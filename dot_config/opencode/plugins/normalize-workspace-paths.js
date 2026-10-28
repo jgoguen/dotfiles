@@ -1,3 +1,4 @@
+import { Plugin } from "@opencode/plugin";
 import path from "node:path";
 
 const PATH_ARGUMENTS = {
@@ -10,25 +11,6 @@ const PATH_ARGUMENTS = {
 };
 
 const DEBUG_ENVIRONMENT_VARIABLE = "OPENCODE_NORMALIZE_WORKSPACE_PATHS_DEBUG";
-
-async function writeDebugLog(client, message, extra) {
-	if (!client?.app?.log) {
-		return;
-	}
-
-	try {
-		await client.app.log({
-			body: {
-				service: "normalize-workspace-paths",
-				level: "debug",
-				message,
-				extra,
-			},
-		});
-	} catch (error) {
-		console.error("[normalize-workspace-paths] failed to write debug log", error);
-	}
-}
 
 function normalizeWorkspacePath(directory, value) {
 	if (typeof value !== "string" || !path.isAbsolute(value)) {
@@ -46,46 +28,41 @@ function normalizeWorkspacePath(directory, value) {
 	return relative || ".";
 }
 
-export default async function normalizeWorkspacePaths({ client, directory }) {
-	const debug = process.env[DEBUG_ENVIRONMENT_VARIABLE] === "1";
+export default Plugin.define({
+	id: "normalize-workspace-paths",
+	async setup(ctx) {
+		const debug = process.env[DEBUG_ENVIRONMENT_VARIABLE] === "1";
+		const directory = ctx.location.directory;
 
-	return {
-		"tool.execute.before": async ({ tool }, output) => {
-			const argument = PATH_ARGUMENTS[tool];
-			if (!argument || !output.args || typeof output.args !== "object") {
+		await ctx.tool.hook("execute.before", async (event) => {
+			const argument = PATH_ARGUMENTS[event.tool];
+			if (!argument || !event.input || typeof event.input !== "object") {
 				if (debug) {
-					await writeDebugLog(client, "ignored tool invocation", {
-						tool,
-						reason: !argument ? "unsupported tool" : "missing args",
-					});
+					console.log("[normalize-workspace-paths] ignored", { tool: event.tool, reason: !argument ? "unsupported" : "missing args" });
 				}
 				return;
 			}
 
-			if (!Object.hasOwn(output.args, argument)) {
+			if (!Object.hasOwn(event.input, argument)) {
 				if (debug) {
-					await writeDebugLog(client, "ignored tool invocation", {
-						tool,
-						argument,
-						reason: "missing path argument",
-					});
+					console.log("[normalize-workspace-paths] ignored", { tool: event.tool, argument, reason: "missing path argument" });
 				}
 				return;
 			}
 
-			const original = output.args[argument];
+			const original = event.input[argument];
 			const result = normalizeWorkspacePath(directory, original);
-			output.args[argument] = result;
+			event.input[argument] = result;
 
 			if (debug) {
-				await writeDebugLog(client, "normalized tool path", {
-					tool,
+				console.log("[normalize-workspace-paths] normalized", {
+					tool: event.tool,
 					argument,
 					original,
 					result,
 					changed: original !== result,
 				});
 			}
-		},
-	};
-}
+		});
+	},
+});
