@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import os
+import select
+import subprocess
+import sys
+import time
+
+LOG = logging.getLogger("espanso-keyboard-watch")
+
+
+def is_keyboard_event(block: bytes | bytearray) -> bool:
+    """Return whether a udev event describes a keyboard being added or removed."""
+    properties: dict[str, str] = {}
+
+    for raw_line in block.decode("utf-8", errors="replace").splitlines():
+        key, separator, value = raw_line.partition("=")
+        if separator:
+            properties[key] = value
+
+    is_permitted = (
+        "DEVPATH" in properties
+        and properties["DEVPATH"].strip() != ""
+        and not properties["DEVPATH"].strip().startswith("/devices/virtual/input/")
+    )
+
+    return (
+        properties.get("SUBSYSTEM") == "input"
+        and properties.get("ID_INPUT_KEYBOARD") == "1"
+        and properties.get("ACTION") in {"add", "remove"}
+        and is_permitted
+    )
+
+
+def restart_espanso() -> None:
+    LOG.info("Restarting espanso.service after keyboard change")
+
+    try:
+        subprocess.run(  # pyright: ignore[reportUnusedCallResult]
+            ["systemctl", "--user", "restart", "espanso.service"],
+            check=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        LOG.error(f"Failed to restart espanso.service: {exc}")
+    else:
+        LOG.info("espanso.service restarted")
+
+
+def monitor(debounce_seconds: float) -> int:
+    command = [
+        "udevadm",
+        "monitor",
+        "--udev",
+        "--subsystem-match=input",
+        "--property",
+    ]
+
+    LOG.info("Starting udev monitor; debounce is %.3f seconds", debounce_seconds)
+
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        bufsize=0,
+    )
+
+    assert process.stdout is not None
+    fd = process.stdout.fileno()
+
+    buffer = bytearray()
+    deadline = None
+
+    try:
+        while True:
+            timeout = None
+            if deadline is not None:
+                timeout = max(0.0, deadline - time.monotonic())
+
+            readable, _, _ = select.select([fd], [], [], timeout)
+
+            if not readable:
+                # No event arrived before the debounce deadline.
+                if deadline is not None:
+                    deadline = None
+                    buffer.clear()
+                    restart_espanso()
+                continue
+
+            chunk = os.read(fd, 65536)
+
+            if not chunk:
+                LOG.error("udevadm monitor exited unexpectedly")
+                return 1
+
+            buffer.extend(chunk)
+
+            # udevadm separates event records with blank lines.
+            while b"\n\n" in buffer:
+                block, _, remainder = buffer.partition(b"\n\n")
+                buffer = bytearray(remainder)
+
+                if is_keyboard_event(block):
+                    buffer.clear()
+                    deadline = time.monotonic() + debounce_seconds
+
+    except KeyboardInterrupt:
+        LOG.info("Stopping listener")
+        return 0
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=2)  # pyright: ignore[reportUnusedCallResult]
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()  # pyright: ignore[reportUnusedCallResult]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Restart Espanso after keyboard attach/detach events."
+    )
+    parser.add_argument(  # pyright: ignore[reportUnusedCallResult]
+        "--debounce",
+        type=float,
+        default=1.0,
+        metavar="SECONDS",
+        help="seconds to wait after the last keyboard event (default: 1.0)",
+    )
+    args = parser.parse_args()
+
+    if args.debounce < 0:
+        parser.error("--debounce must be non-negative")
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        stream=sys.stderr,
+    )
+
+    return monitor(args.debounce)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

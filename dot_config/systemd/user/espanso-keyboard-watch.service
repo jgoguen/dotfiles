@@ -1,0 +1,37 @@
+[Unit]
+Description=Restart Espanso when keyboards are attached or detached
+Requires=graphical-session.target espanso.service
+After=espanso.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/espanso-keyboard-watch --debounce 1.0
+Restart=on-failure
+RestartSec=3
+
+PrivateUsers=yes
+PrivateTmp=yes
+
+ProtectSystem=strict
+ProtectHome=tmpfs
+
+BindPaths=%t/bus %t/systemd/private
+BindReadOnlyPaths=%h/.config/systemd/user %h/.local/bin
+
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+
+UMask=0077
+LimitCORE=0
+
+[Install]
+WantedBy=graphical-session.target
