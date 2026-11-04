@@ -8,7 +8,7 @@ autoload zkbd
 
 ZKBD_DIR="${XDG_STATE_HOME}/zsh/zkbd"
 TERM_FILE="${ZKBD_DIR}/${TERM}"
-if [ ! -d "#{ZKBD_DIR}" ]; then
+if [ ! -d "${ZKBD_DIR}" ]; then
 	/usr/bin/install -d -m 0700 "${ZKBD_DIR}"
 fi
 
@@ -20,7 +20,7 @@ if [ ! -f "${TERM_FILE}" ]; then
 fi
 
 # shellcheck source={{ .chezmoi.homeDir }}/.local/share/zsh/zkbd/xterm-256color
-. "${ZKBD_DIR}"
+[ -f "${TERM_FILE}" ] && . "${TERM_FILE}"
 
 [ -n "${key[Backspace]}" ] && bindkey "${key[Backspace]}" backward-delete-char
 [ -n "${key[Insert]}" ] && bindkey "${key[Insert]}" overwrite-mode

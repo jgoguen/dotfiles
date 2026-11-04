@@ -10,6 +10,8 @@ zmodload zsh/zutil
 autoload -U add-zsh-hook
 autoload -Uz colors
 
+colors
+
 {{ if eq .chezmoi.os "darwin" -}}
 if (( ${+commands[brew]} )); then
 	BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"

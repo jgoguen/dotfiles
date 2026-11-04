@@ -42,7 +42,7 @@ zstyle ':completion:*:complete:dpkg:option--status-1:*' packageset avail
 zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}completing %B%d%b%{\e[0m%}'
 zstyle ':completion:*:sudo::' environ PATH="/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin:$PATH" HOME="${HOME}"
 # format in bold red error messages
-zstyle ':completion:*:warnings' format "%B$fg[red]%}---- no match for: $fg[white]%d%b"
+zstyle ':completion:*:warnings' format "%B%{$fg[red]%}---- no match for: %{$fg[white]%}%d%b"
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
