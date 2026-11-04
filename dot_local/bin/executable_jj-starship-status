@@ -4,32 +4,32 @@ set -eu
 
 # Allow this to work in a pure git repository
 if [ ! -d .jj ] && [ -d .git ]; then
-       printf '%s\n' "$(starship module git_status)"
-       exit 0
+	printf     '%s\n' "$(starship module git_status)"
+	exit     0
 fi
 
 FIFO_DIR="$(mktemp -d)"
 cleanup() {
-       rm -rf "$FIFO_DIR"
+	rm     -rf "$FIFO_DIR"
 }
 trap cleanup EXIT HUP INT TERM
 
 for f in ahead stash; do
-       mkfifo "${FIFO_DIR}/${f}"
+	mkfifo     "${FIFO_DIR}/${f}"
 done
 
 # commits ahead of any remote bookmark
-(
-       ahead=$(jj log -r 'remote_bookmarks()..@' --no-pager -T ' ' 2>/dev/null | wc -l | tr -d ' ')
-       printf '%s\n' "${ahead:-0}" >"${FIFO_DIR}/ahead"
+(      
+	ahead=$(    jj --ignore-working-copy log -r 'remote_bookmarks()..@' --no-pager -T ' ' 2>/dev/null | wc -l | tr -d ' ')
+	printf     '%s\n' "${ahead:-0}" >"${FIFO_DIR}/ahead"
 ) &
 
 # stash: use git stash list if we're in a git work tree
-(
-       if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-               stash=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
-       fi
-       printf '%s\n' "${stash:-0}" >"${FIFO_DIR}/stash"
+(      
+	if     git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		stash=$(           git stash list 2>/dev/null | wc -l | tr -d ' ')
+	fi
+	printf     '%s\n' "${stash:-0}" >"${FIFO_DIR}/stash"
 ) &
 
 # These block until the background processes write to the FIFOs
@@ -42,12 +42,12 @@ wait
 out=""
 
 if [ "${ahead}" -gt 0 ]; then
-       out="⇡"
+	out="⇡"
 fi
 
 # add stash indicator (≡) if any stash entries
 if [ "${stash:-0}" -gt 0 ]; then
-       out="${out}≡"
+	out="${out}≡"
 fi
 
 printf "%s" "$out"
