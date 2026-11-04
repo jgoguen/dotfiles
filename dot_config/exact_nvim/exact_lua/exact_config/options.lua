@@ -202,6 +202,11 @@ if vim.fn.has('win32') == 1 then
 	settings['opt']['shell'] = Utils.has_tool('pwsh.exe') and 'pwsh.exe' or 'powershell.exe'
 end
 
+local HasLocalSettings, LocalSettings = pcall(require, 'local.config.options')
+if HasLocalSettings then
+	settings = vim.tbl_deep_extend('force', settings, LocalSettings)
+end
+
 for scope, opts in pairs(settings) do
 	for setting, value in pairs(opts) do
 		vim[scope][setting] = value
