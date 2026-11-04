@@ -86,7 +86,6 @@ pacman = [
   "chezmoi",
   "chrony",
   "colord",
-  "colord-kde",
   "cpio",
   "cups",
   "cups-browsed",
