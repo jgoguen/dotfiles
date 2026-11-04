@@ -1,13 +1,17 @@
 # ~/.config/kitty/op_inject.py
+import importlib.util
 import json
 import os
 import subprocess
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 from kittens.tui.handler import kitten_ui
 from kitty.boss import Boss
 
 CONTEXT_LINES = 10
+LOCAL_MODULE_PATH = Path.home() / ".local/share/kitty/op_inject_local.py"
 PATH_CANDIDATES = [
     "/opt/homebrew/bin",
     "/usr/local/sbin",
@@ -67,6 +71,86 @@ class OpItem:
             )
 
         return items
+
+
+@dataclass(frozen=True, slots=True)
+class LocalRequest:
+    title: str
+    field: str
+
+
+def load_local_request(screen_text: str, module_path: Path|str = LOCAL_MODULE_PATH, *, debug: bool = False) -> LocalRequest|None:
+    """Load the optional work-only prompt resolver and ask it to classify the screen.
+
+    The module must provide ``resolve_prompt(lines)`` and return either ``None`` or a
+    ``(item_title, field)`` tuple. Work modules are loaded from a fixed local path,
+    outside the Chezmoi-managed Kitty config directory.
+    """
+    path = Path(module_path)
+    if not path.is_file():
+        if debug:
+            print(f"[debug] no local module found at {path}")
+        return None
+
+    spec = importlib.util.spec_from_file_location("kitty_op_inject_local", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"unable to load local module from {path}")
+
+    local_module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = local_module
+    try:
+        spec.loader.exec_module(local_module)
+    except Exception:
+        sys.modules.pop(spec.name, None)
+        raise
+    resolver = getattr(local_module, "resolve_prompt", None)
+    if not callable(resolver):
+        raise TypeError("local module must define resolve_prompt(lines)")
+
+    result = resolver(screen_text.splitlines()[-CONTEXT_LINES:])
+    if result is None:
+        return None
+    if not isinstance(result, tuple) or len(result) != 2:
+        raise TypeError("resolve_prompt must return None or an (item_title, field) tuple")
+
+    item_title, field = result
+    if not isinstance(item_title, str) or not item_title.strip():
+        raise ValueError("local module returned an empty or invalid item title")
+    if field not in ("username", "password"):
+        raise ValueError(f"unsupported field from work module: {field!r}")
+
+    return LocalRequest(item_title=item_title.strip(), field=field)
+
+
+def find_server_item(items: list[OpItem], title: str) -> OpItem | None:
+    normalized_title = title.strip().casefold()
+    matches = [
+        item
+        for item in items
+        if item.title.strip().casefold() == normalized_title
+    ]
+    return matches[0] if len(matches) == 1 else None
+
+
+def select_server_item(items: list[OpItem], choice: str) -> OpItem | None:
+    try:
+        index = int(choice)
+    except ValueError:
+        return None
+    if index < 0 or index >= len(items):
+        return None
+    return items[index]
+
+
+def item_get_command(item_id: str, field: str) -> list[str]:
+    cmd = ["op", "item", "get", item_id]
+    if field == "o":
+        return [*cmd, "--otp"]
+
+    field_name = "password" if field == "p" else field
+    if field_name not in ("password", "username"):
+        raise ValueError(f"unsupported item field: {field!r}")
+    return [*cmd, "--fields", field_name, "--reveal"]
 
 
 def cmdlines_from_ls_json(data: str) -> list[list[str]]:
@@ -172,21 +256,39 @@ def main(args: list[str]) -> str:
         else get_text_ctrl.stdout.decode()
     )
 
+    try:
+        local_request = load_local_request(screen_text, debug=debug)
+    except Exception as e:
+        print(f"[error] work module failed: {e}")
+        input("\n[error] Press Enter to close (nothing will be pasted)...")
+        return ""
+
     # Try to determine what kind of field we need
     field = ""
-    for line in screen_text.splitlines()[-CONTEXT_LINES:]:
-        line = line.strip().lower()
+    if local_request is None:
+        for line in screen_text.splitlines()[-CONTEXT_LINES:]:
+            line = line.strip().lower()
 
-        if line.endswith(" verification code:"):
-            field = "o"
-            break
-        if "password:" in line or line.startswith("[sudo] password for "):
-            field = "p"
-            break
+            if line.endswith(" verification code:"):
+                field = "o"
+                break
+            if "password:" in line or line.startswith("[sudo] password for "):
+                field = "p"
+                break
 
     item_id = ""
     op_server_items = list_server_items()
-    if len(op_server_items) == 1:
+    if local_request is not None:
+        item = find_server_item(op_server_items, local_request.title)
+        if item is None:
+            print(
+                f"[error] local item {local_request.title!r} was not found or is ambiguous among Server items"
+            )
+            input("\n[error] Press Enter to close (nothing will be pasted)...")
+            return ""
+        item_id = item.id
+        field = local_request.field
+    elif len(op_server_items) == 1:
         item_id = op_server_items[0].id
 
         if debug:
@@ -243,12 +345,12 @@ def main(args: list[str]) -> str:
             for i, it in enumerate(op_server_items):
                 print(f"[{i}] {it.title}")
             choice = input("Select item to use: ").strip()
-            try:
-                item_id = op_server_items[int(choice) - 1].id
-            except ValueError, IndexError:
+            item = select_server_item(op_server_items, choice)
+            if item is None:
                 print("[error] invalid selection")
                 input("\n[error] Press Enter to close (nothing will be pasted)...")
                 return ""
+            item_id = item.id
     if not item_id:
         print("[error] no items found in 1Password vault")
         input("\n[error] Press Enter to close (nothing will be pasted)...")
@@ -256,12 +358,11 @@ def main(args: list[str]) -> str:
 
     if not field:
         field = input("Field ([p]assword / [o]tp): ").strip().lower()
-    if field not in ("p", "o"):
+    if field not in ("p", "o", "username", "password"):
         print("[error] invalid field choice")
         input("\n[error] Press Enter to close (nothing will be pasted)...")
         return ""
-    cmd = ["op", "item", "get", item_id]
-    cmd += ["--otp"] if field == "o" else ["--fields", "password", "--reveal"]
+    cmd = item_get_command(item_id, field)
 
     if debug and not live:
         print(f"[debug] would run: {' '.join(cmd)}")
