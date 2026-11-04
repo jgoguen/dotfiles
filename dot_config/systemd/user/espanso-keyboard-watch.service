@@ -9,6 +9,7 @@ ExecStart=%h/.local/bin/espanso-keyboard-watch --debounce 1.0
 Restart=on-failure
 RestartSec=3
 
+NoNewPrivileges=yes
 PrivateUsers=yes
 PrivateTmp=yes
 

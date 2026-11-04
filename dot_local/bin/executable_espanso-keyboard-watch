@@ -20,6 +20,9 @@ def is_keyboard_event(block: bytes | bytearray) -> bool:
         if separator:
             properties[key] = value
 
+    # This can be extended with "or" clauses to allow specific virtual keyboards to trigger a restart. The first two
+    # DEVPATH checks should be required for any case, any future conditions would be added as "or" clauses grouped with
+    # the "/devices/virtual/input/" check.
     is_permitted = (
         "DEVPATH" in properties
         and properties["DEVPATH"].strip() != ""
