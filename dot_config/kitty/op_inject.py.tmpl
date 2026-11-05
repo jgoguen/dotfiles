@@ -83,7 +83,7 @@ def load_local_request(screen_text: str, module_path: Path|str = LOCAL_MODULE_PA
     """Load the optional work-only prompt resolver and ask it to classify the screen.
 
     The module must provide ``resolve_prompt(lines)`` and return either ``None`` or a
-    ``(item_title, field)`` tuple. Work modules are loaded from a fixed local path,
+    ``(title, field)`` tuple. Work modules are loaded from a fixed local path,
     outside the Chezmoi-managed Kitty config directory.
     """
     path = Path(module_path)
@@ -111,15 +111,15 @@ def load_local_request(screen_text: str, module_path: Path|str = LOCAL_MODULE_PA
     if result is None:
         return None
     if not isinstance(result, tuple) or len(result) != 2:
-        raise TypeError("resolve_prompt must return None or an (item_title, field) tuple")
+        raise TypeError("resolve_prompt must return None or an (title, field) tuple")
 
-    item_title, field = result
-    if not isinstance(item_title, str) or not item_title.strip():
+    title, field = result
+    if not isinstance(title, str) or not title.strip():
         raise ValueError("local module returned an empty or invalid item title")
     if field not in ("username", "password"):
         raise ValueError(f"unsupported field from work module: {field!r}")
 
-    return LocalRequest(item_title=item_title.strip(), field=field)
+    return LocalRequest(title=title.strip(), field=field)
 
 
 def find_server_item(items: list[OpItem], title: str) -> OpItem | None:
@@ -184,7 +184,7 @@ def list_server_items() -> list[OpItem]:
             text=True,
             check=True,
         )
-        return OpItem.from_json(proc.stdout)
+        return sorted(OpItem.from_json(proc.stdout), key=lambda x: x.title.casefold())
     except TypeError as te:
         print(f"[error] failed to parse items: {te}")
         return []
