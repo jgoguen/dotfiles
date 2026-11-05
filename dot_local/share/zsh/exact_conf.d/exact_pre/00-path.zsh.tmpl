@@ -86,7 +86,15 @@ else
 fi
 export VISUAL="${EDITOR:-vi}"
 
-if (( ${+commands[manpath]} )) && [ -z "${MANPATH}" ]; then
-	MANPATH="${XDG_DATA_HOME}/man:/opt/local/share/man:$(manpath 2>/dev/null)"
-	export MANPATH
+typeset -U manpath
+manpath=(
+	"${XDG_DATA_HOME}/man"
+	"/opt/local/share/man"
+	"/usr/local/share/man"
+	"/usr/share/man"
+)
+if (( ${+commands[manpath]} )); then
+	MANPATH='' manpath | read -d ':' -A base_manpath
+	manpath=(${base_manpath} ${manpath})
 fi
+export MANPATH

@@ -19,7 +19,7 @@ for dname in "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${XDG_
 	fi
 done
 
-if [ -n "${KITTY_WINDOW_ID:=""}" ]; then
+if [ -n "${KITTY_WINDOW_ID:-}" ]; then
 	export TERM=vte-256color
 fi
 
@@ -71,7 +71,8 @@ if [ ! -d "${TEXMFCONFIG}" ]; then
 	/usr/bin/install -d -m 0700 "${TEXMFCONFIG}"
 fi
 
-NODE_PATH="${HOME}/.local/lib/node_modules:${NODE_PATH}"
+typeset -U node_path
+node_path+=("${HOME}/.local/lib/node_modules")
 export NODE_PATH
 
 export LC_ALL="en_US.UTF-8"

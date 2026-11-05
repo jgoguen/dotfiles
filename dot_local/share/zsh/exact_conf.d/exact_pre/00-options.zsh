@@ -8,3 +8,5 @@ setopt hist_no_store hist_reduce_blanks hist_save_no_dups hist_verify
 setopt inc_append_history no_beep no_bg_nice no_flow_control no_hist_beep
 setopt nomatch notify prompt_subst pushd_ignore_dups pushd_silent
 setopt transient_rprompt
+
+typeset -T NODE_PATH node_path

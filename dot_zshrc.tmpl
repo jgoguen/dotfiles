@@ -36,6 +36,32 @@ if (( $+commands[direnv] )); then
 	source <(direnv hook zsh)
 fi
 
+# Keep this as the last block that actually makes any changes!
+typeset -U path
+typeset -aU unique_path
+typeset -U manpath
+typeset -aU unique_manpath
+typeset -U node_path
+typeset -aU unique_node_path
+
+for dir in "${path[@]}"; do
+	unique_path+=("${dir:A}")
+done
+for dir in "${manpath[@]}"; do
+	unique_manpath+=("${dir:A}")
+done
+for dir in "${node_path[@]}"; do
+	unique_node_path+=("${dir:A}")
+done
+
+path=("${unique_path[@]}")
+manpath=("${unique_manpath[@]}")
+node_path=("${unique_node_path[@]}")
+
+export PATH
+export MANPATH
+export NODE_PATH
+
 # if (( $+commands[fortune] )); then
 # 	fortune -s
 # fi

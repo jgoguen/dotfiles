@@ -14,12 +14,14 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignore-parents parent pwd directory
 zstyle ':completion:*' insert-unambiguous false
 zstyle ':completion:*' keep-prefix false
+# Colourize file names in completions
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt %SAt %l: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' list-suffixes true
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
 zstyle ':completion:*' max-errors 1
-zstyle ':completion:*' menu select
+# Do not use zsh completion, delegate to fzf-tab entirely
+zstyle ':completion:*' menu no
 zstyle ':completion:*' original true
 zstyle ':completion:*' preserve-prefix '//[^/]##/'
 zstyle ':completion:*' prompt 'Corrections (%e errors)'
@@ -29,6 +31,13 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' special-dirs ..
 zstyle ':completion:*' substitute 1
 zstyle ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+
+# Group support by setting descriptions. Do not use escape sequences here,
+# fzf-tab ignores them
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# Do not sort `git checkout` completions
+zstyle ':completion:*:git-checkout:*' sort false
 
 # Don't complete the same twice
 zstyle ':completion:*:complete:-command-::*' ignore-line yes
@@ -54,3 +63,31 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}"
 
 zstyle :compinstall filename "${USER_ZSH}/zcompdump"
+
+# Accept the suggestion and run in one keystroke
+zstyle ':fzf-tab:*' accept-line enter
+# Set some fzf-tab bindings
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+# FZF_DEFAULT_OPTS includes --border so increase padding
+zstyle ':fzf-tab:*' fzf-pad 4
+# Switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+# Use FZF_DEFAULT_OPTS. This can cause problems with some options, use
+# `zstyle ':fzf-tab:*' fzf-flags <flags>` to specify flags if this breaks
+# things.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
+# Preview the value of an environment variable
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
+# Preview systemd unit status
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Preview Homebrew package info
+zstyle ':fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest' fzf-preview 'brew info $word'
+{{- end }}
+
+if ((${+commands[lsd]})); then
+	# Enable directory preview when completing `cd`
+	zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
+fi
