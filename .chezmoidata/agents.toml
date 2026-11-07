@@ -1,0 +1,20 @@
+[agents]
+[[agents.opencodeskills]]
+group = "code-quality"
+skill = "clean-code"
+
+[[agents.opencodeskills]]
+group = "code-quality"
+skill = "code-review"
+
+[[agents.opencodeskills]]
+group = "workflow"
+skill = "spec-driven-development"
+
+[[agents.opencodeskills]]
+group = "workflow"
+skill = "systematic-debugging"
+
+[[agents.opencodeskills]]
+group = "workflow"
+skill = "tdd-workflow"

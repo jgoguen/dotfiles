@@ -1,0 +1,35 @@
+---
+# MD003/heading-style/header-style
+MD003:
+  style: "atx"
+
+# MD004/ul-style
+MD004:
+  style: "sublist"
+
+# MD010/no-hard-tabs
+MD010:
+  # Include code blocks
+  code_blocks: false
+
+# MD013/line-length
+MD013:
+  code_block_line_length: 120
+  heading_line_length: 120
+  line_length: 120
+  tables: false
+
+# MD024/no-duplicate-heading/no-duplicate-header - Multiple headings with the same content
+MD024:
+  siblings_only: true
+
+# MD025/single-title/single-h1 - Multiple top-level headings in the same document
+MD025: false
+
+# MD046/code-block-style - Code block style
+MD046:
+  style: "fenced"
+
+# MD048/code-fence-style - Code fence style
+MD048:
+  style: "backtick"

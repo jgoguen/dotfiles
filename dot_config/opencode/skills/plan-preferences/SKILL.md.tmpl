@@ -1,0 +1,17 @@
+---
+name: superpowers-preferences
+description: MUST load before using spec-driven-development or creating or reading any spec or plan; defines the user's required central location for all plan files.
+---
+
+# Plan Preferences
+
+When using `spec-driven-development`, save all plans to:
+
+`{{ .chezmoi.homeDir }}/Documents/dev-plans/<repo-name>/specs/YYYY-MM-DD-<feature-name>.md`
+
+Save all plans and their task checklists to:
+
+`{{ .chezmoi.homeDir }}/Documents/dev-plans/<repo-name>/plans/YYYY-MM-DD-<feature-name>.md`
+
+Write the plan and its task checklist into the single plan file. Do not create repo-local `specs/` or `docs/plans/`
+directories unless the user explicitly asks for them. These paths override the defaults in `spec-driven-development`.

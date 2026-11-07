@@ -25,8 +25,8 @@ Debug process:
 3. Complete root cause investigation before proposing any fix.
 4. Analyze patterns against working examples. Identify what differs.
 5. Form one specific hypothesis, test it with the smallest possible change.
-6. After confirming root cause: write a failing test that captures the behavior,
-   then implement the fix.
+6. After confirming root cause: load `tdd-workflow`, write a failing test that
+   captures the behavior, then implement the fix.
 7. Verify the fix resolves the issue without breaking other tests.
 8. If three or more fix attempts fail, stop and question the architecture before
    attempting another patch.

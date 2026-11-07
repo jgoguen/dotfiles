@@ -96,6 +96,14 @@ filter.args = ["-d", "\r"]
 # {{- end }}
 refreshPeriod = "672h"
 
+# {{- range .agents.opencodeskills }}
+[".config/opencode/skills/{{ .skill }}"]
+type = "archive"
+url = "https://opencodeskills.dev/downloads/{{ .group }}/{{ .skill }}.zip"
+stripComponents = 1
+refreshPeriod = "168h"
+# {{- end }}
+
 # {{- if ne .chezmoi.os "windows" }}
 [".config/tmux/plugins/tpm"]
 type = "archive"

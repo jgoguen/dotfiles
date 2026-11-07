@@ -53,6 +53,8 @@
 
 ## Test discipline
 
+- Load `tdd-workflow` before writing implementation code for features, bug fixes,
+  refactors, and behavior changes.
 - Tests must be hermetic. They must not depend on machine state, network access,
   wall-clock time, or execution order unless that is explicitly what they test.
 - Use dynamic or unique identifiers so parallel runs and reruns do not collide on
@@ -75,32 +77,32 @@ For substantial prose (docs, READMEs, design notes, PRs, long writeups), load th
 needless constructions, the complete vocabulary blocklist, and the topic-swap
 test.
 
-## Superpowers Skill Ordering
+## Plan Preferences Ordering
 
 This is a mandatory sequencing rule.
 
-Before using either `brainstorming` or `writing-plans`, or before creating or
-reading any spec or plan:
+Before using `spec-driven-development`, or before creating or reading any spec or
+plan:
 
-1. Call the `skill` tool with `name: superpowers-preferences`.
+1. Call the `skill` tool with `name: plan-preferences`.
 2. Wait for the skill call to complete successfully.
-3. Only then call `brainstorming` or `writing-plans`.
+3. Only then call `spec-driven-development`.
 4. Confirm the returned instructions before choosing a file path.
 
 This order is required even when the task appears simple or exploratory. Do not
-call `brainstorming` or `writing-plans` first. A preference skill call made
-later does not satisfy this requirement.
+call `spec-driven-development` first. A preference skill call made later does not
+satisfy this requirement.
 
-If `superpowers-preferences` cannot be loaded, stop and ask for guidance. Do not
-use the default `docs/...` paths without explicit approval after explaining why
-`superpowers-preferences` can't be loaded or why the locations given in
-`superpowers-preferences` are not suitable.
+If `plan-preferences` cannot be loaded, stop and ask for guidance. Do not use the
+default repo-local `specs/` paths without explicit approval after explaining why
+`plan-preferences` can't be loaded or why the locations given in
+`plan-preferences` are not suitable.
 
 This rule applies independently to every OpenCode session, including sessions
 created through `task` or another subagent. Never assume that a parent session's
 loaded skills or instructions are available in a child session. Every child that
-uses `brainstorming`, `writing-plans`, or creates or reads a spec or plan must
-load `superpowers-preferences` itself.
+uses `spec-driven-development` or creates or reads a spec or plan must load
+`plan-preferences` itself.
 
 ## On-demand skills
 
@@ -111,6 +113,7 @@ focused on always-on behavior. Load the matching skill when the situation arises
   `./venv/bin/<tool>` paths. Load it in any Python repo before running python,
   pip, pytest, or other Python tooling.
 - `dependency-decisions` -- whether to add or keep a third-party dependency.
+- `review-feedback` -- evaluating review comments before implementing them.
 - `writing-style` -- the full prose-quality ruleset (see Writing style above).
 
 ## Tool usage

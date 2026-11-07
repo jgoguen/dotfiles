@@ -14,6 +14,7 @@ setup.ps1
 .config/opencode/node_modules
 .config/opencode/bun.lock
 .config/opencode/package.json
+.markdownlint.yaml
 {{ $fontBasedir }}/*/.uuid
 
 {{- if not (findExecutable "calibre-debug" (list ".local/bin")) }}
