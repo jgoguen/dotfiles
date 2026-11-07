@@ -13,8 +13,6 @@ import re
 import shlex
 import subprocess
 import sys
-
-from typing import cast
 from urllib.request import urlopen
 
 try:
@@ -25,13 +23,13 @@ except ImportError:
 
 
 class Args(argparse.Namespace):
-    debug = False
-    prefix = os.path.dirname(
+    debug: bool = False
+    prefix: str = os.path.dirname(
         os.environ.get("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
     )
-    share_dir = os.path.basename(os.environ.get("XDG_DATA_HOME", "share"))
-    bin_dir = "bin"
-    no_update_lib = False
+    share_dir: str = os.path.basename(os.environ.get("XDG_DATA_HOME", "share"))
+    bin_dir: str = "bin"
+    no_update_lib: bool = False
     version: str | None = None
 
 
@@ -80,12 +78,14 @@ logging.basicConfig(
     level=logging.DEBUG if opts.debug else logging.INFO,
 )
 
+LOG = logging.getLogger(__name__)
+
 PREFIX_DIR = os.path.abspath(opts.prefix)
 SHARE_DIR = os.path.join(PREFIX_DIR, opts.share_dir, "calibre")
 BIN_DIR = os.path.join(PREFIX_DIR, opts.bin_dir)
 
-logging.debug(f"Calibre shared data directory: {SHARE_DIR}")
-logging.debug(f"Calibre bin directory: {BIN_DIR}")
+LOG.debug(f"Calibre shared data directory: {SHARE_DIR}")
+LOG.debug(f"Calibre bin directory: {BIN_DIR}")
 
 LIB_ARCH = "64" if platform.architecture()[0] == "64bit" else ""
 USER_PYTHON_DIR = os.path.expanduser(
@@ -95,7 +95,7 @@ USER_PYTHON_DIR = os.path.expanduser(
 
 for d in (SHARE_DIR, BIN_DIR):
     if not os.path.isdir(d):
-        logging.info(f"Creating calibre directory {d}")
+        LOG.info(f"Creating calibre directory {d}")
         os.makedirs(d, 0o0700)
 
 if USER_PYTHON_DIR not in sys.path:
@@ -114,7 +114,7 @@ if not opts.no_update_lib:
     else:
         lib_hash = ""
 
-    lib_data: bytes = urlopen(
+    lib_data: bytes = urlopen(  # pyright: ignore[reportAny]
         "https://raw.githubusercontent.com/kovidgoyal/calibre/master/"
         + "setup/linux-installer.py"
     ).read()
@@ -130,48 +130,48 @@ calibre_bin = os.path.join(SHARE_DIR, "calibre")
 
 if os.path.exists(calibre_bin):
     if latest_version is None:
-        proc = subprocess.run(
+        proc = subprocess.run(  # noqa: PLW1510
             [calibre_bin, "--version"],
             stdout=subprocess.PIPE,
         )
-        logging.debug(f"{calibre_bin} --version: {proc.stdout.strip()}")
+        LOG.debug(f"{calibre_bin} --version: {proc.stdout.strip()}")
         local_match = re.search(
             r"^.+\(.+ ([\d\.]+)\)$",
             proc.stdout.strip().decode("UTF-8"),
         )
         if local_match:
             calibre_version = version.parse(local_match.group(1))
-            logging.debug(f"calibre_version={calibre_version}")
+            LOG.debug(f"calibre_version={calibre_version}")
             resp = urlopen(
                 "https://github.com/kovidgoyal/calibre/releases/latest",
             )
-            logging.debug(f"URL: {resp.geturl()}")
+            LOG.debug(f"URL: {resp.geturl()}")
             remote_match = re.search(
                 r"^.+\/releases\/tag\/v([\d\.]+)$",
                 resp.geturl(),
             )
             if remote_match:
                 latest_version = version.parse(remote_match.group(1))
-                logging.debug("latest_version={0}".format(latest_version))
+                LOG.debug("latest_version={0}".format(latest_version))
                 if calibre_version >= latest_version:
-                    logging.info(
+                    LOG.info(
                         f"calibre {calibre_version} is already installed",
                     )
                     sys.exit(0)
             else:
-                logging.warning(
+                LOG.warning(
                     f"Remote version '{resp.geturl()}' did not match regexp",
                 )
         else:
-            logging.warning(
+            LOG.warning(
                 f"Local version '{proc.stdout.strip()}' did not match regexp",
             )
 else:
-    logging.warning(
+    LOG.warning(
         f"'{calibre_bin}' does not exist, assuming not installed",
     )
 
-logging.info("Installing calibre {latest_version}")
+LOG.info("Installing calibre {latest_version}")
 
 from calibre import installer  # noqa: E402
 
@@ -199,12 +199,12 @@ if BIN_DIR.startswith(os.path.expanduser("~")):
     for desktop_file in glob.glob(
         os.path.join(PREFIX_DIR, "share", "applications", "calibre*.desktop")
     ):
-        logging.info(f"Updating desktop file {desktop_file}")
-        lines = []
+        LOG.info(f"Updating desktop file {desktop_file}")
+        lines: list[str] = []
         with open(desktop_file, "r") as f:
             for line in f:
                 line = line.strip()
-                if line.startswith("TryExec=") or line.startswith("Exec="):
+                if line.startswith(("TryExec=", "Exec=")):
                     key, value = line.split("=", 2)
                     elements = shlex.split(value)
                     calibre_bin = os.path.join(BIN_DIR, os.path.basename(elements[0]))
@@ -214,4 +214,4 @@ if BIN_DIR.startswith(os.path.expanduser("~")):
                 else:
                     lines.append(line)
         with open(desktop_file, "w") as f:
-            f.write("\n".join(lines))
+            _ = f.write("\n".join(lines))
