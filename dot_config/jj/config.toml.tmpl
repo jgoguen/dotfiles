@@ -3,9 +3,6 @@
 [aliases]
 branches = ["bookmark", "list"]
 
-[git]
-sign-on-push = true
-
 [remotes.origin]
 auto-track-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
 auto-track-created-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .environment "work" }}-mdb{{ end }}/push-*"
@@ -13,6 +10,7 @@ auto-track-created-bookmarks = "glob:main|glob:master|glob:jgoguen{{ if eq .envi
 [revsets]
 bookmark-advance-from = 'heads(::to & bookmarks())'
 bookmark-advance-to = '@'
+git-sign-on-push = "~signed() & mine()"
 
 [signing]
 backend = "ssh"
