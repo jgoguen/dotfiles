@@ -1,11 +1,31 @@
 [agents]
 [[agents.opencodeskills]]
+group = "architecture"
+skill = "resilience-patterns"
+
+[[agents.opencodeskills]]
 group = "code-quality"
 skill = "clean-code"
 
 [[agents.opencodeskills]]
 group = "code-quality"
 skill = "code-review"
+
+[[agents.opencodeskills]]
+group = "code-quality"
+skill = "go-idioms"
+
+[[agents.opencodeskills]]
+group = "code-quality"
+skill = "refactoring"
+
+[[agents.opencodeskills]]
+group = "security"
+skill = "audit-logging"
+
+[[agents.opencodeskills]]
+group = "workflow"
+skill = "epic-planning"
 
 [[agents.opencodeskills]]
 group = "workflow"
@@ -18,3 +38,7 @@ skill = "systematic-debugging"
 [[agents.opencodeskills]]
 group = "workflow"
 skill = "tdd-workflow"
+
+[[agents.opencodeskills]]
+group = "writing"
+skill = "postmortems"
