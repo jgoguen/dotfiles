@@ -1,6 +1,6 @@
 [Unit]
 Description=Restart Espanso when keyboards are attached or detached
-Requires=graphical-session.target espanso.service
+Requires=graphical-session.target
 After=espanso.service
 
 [Service]
