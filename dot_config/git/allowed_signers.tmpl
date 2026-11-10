@@ -1,0 +1,3 @@
+jgoguen@jgoguen.ca ssh-ed25519 {{ (onepasswordDetailsFields "k23qbzw5aaur4xhccict2kd6uq" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").public_key.value }}
+jgoguen@jgoguen.ca ssh-ed25519 {{ (onepasswordDetailsFields "iasvzaqvii5rzkm7byrflhrr3m" "" "S5JCIBMKLZDDLDQGA76BYGOZGA").public_key.value }}
+{{ if eq .environment "work" -}}{{ (onepasswordDetailsFields "j5e23ykjn5icohle6zjr2yeyxy" "" "E5AGJEPSGFHTBL5KF7CYQQOHMU").username.value }} {{ (onepasswordDetailsFields "kxcp5qwtbrhnnycatucmuwnybq" "" "E5AGJEPSGFHTBL5KF7CYQQOHMU").public_key.value }}{{- end }}
