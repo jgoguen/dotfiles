@@ -8,5 +8,15 @@
   ],
 	"prompt": {
 		"paste": "full"
-	}
+  },
+  "keybinds": {
+    "input.newline": [
+      "return",
+      "shift+return"
+    ],
+    "input.submit": [
+      "ctrl+return",
+      "super+return"
+    ]
+  }
 }
